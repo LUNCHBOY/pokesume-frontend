@@ -118,21 +118,18 @@ const TournamentReplayViewer = ({
   setGameState,
   GAME_CONFIG,
   MOVES,
-  TYPE_COLORS,
   ICONS
 }) => {
   const battleResults = selectedReplay.battle_results ? JSON.parse(selectedReplay.battle_results) : null;
   
-  // Initialize hooks at component top level
-  const [replayTick, setReplayTick] = useState(0);
-  const [replaySpeed, setReplaySpeed] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [replayTick, setReplayTick] = React.useState(0);
+  const [replaySpeed, setReplaySpeed] = React.useState(1);
+  const [isPlaying, setIsPlaying] = React.useState(true);
   
   const battleLog = battleResults?.battleLog || [];
   const maxTicks = battleLog.length;
   
-  // Auto-advance replay
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isPlaying || replayTick >= maxTicks - 1) return;
     
     const timer = setTimeout(() => {
@@ -161,7 +158,6 @@ const TournamentReplayViewer = ({
     );
   }
   
-  // Reconstruct current battle state from log
   const currentState = battleLog[replayTick] || battleLog[0];
   
   return (
@@ -180,9 +176,7 @@ const TournamentReplayViewer = ({
           </button>
         </div>
 
-        {/* Battle Display */}
         <div className="grid grid-cols-2 gap-8 mb-6">
-          {/* Player 1 */}
           <div className="bg-blue-50 rounded-lg p-4">
             <h3 className="font-bold text-lg mb-2">{currentState.player1?.name || 'Player 1'}</h3>
             <div className="space-y-2">
@@ -202,7 +196,6 @@ const TournamentReplayViewer = ({
             </div>
           </div>
 
-          {/* Player 2 */}
           <div className="bg-red-50 rounded-lg p-4">
             <h3 className="font-bold text-lg mb-2">{currentState.player2?.name || 'Player 2'}</h3>
             <div className="space-y-2">
@@ -223,7 +216,6 @@ const TournamentReplayViewer = ({
           </div>
         </div>
 
-        {/* Battle Log */}
         <div className="bg-gray-50 rounded-lg p-4 mb-4 h-40 overflow-y-auto">
           <div className="text-sm space-y-1">
             {currentState.message && (
@@ -232,7 +224,6 @@ const TournamentReplayViewer = ({
           </div>
         </div>
 
-        {/* Playback Controls */}
         <div className="bg-gray-100 rounded-lg p-4">
           <div className="flex items-center justify-center gap-4 mb-4">
             <button
@@ -265,7 +256,6 @@ const TournamentReplayViewer = ({
             </select>
           </div>
 
-          {/* Progress Bar */}
           <div className="mt-4">
             <div className="flex justify-between text-xs text-gray-600 mb-1">
               <span>Tick {replayTick + 1}/{maxTicks}</span>
@@ -292,8 +282,8 @@ const TournamentReplayViewer = ({
  * 
  * CHANGELOG v3.03:
  * - Fixed React Hooks rules violations: extracted TournamentReplayViewer to separate component
- * - Fixed undefined variable error: changed 'moveName' to 'a' in sort function
- * - Resolved hooks being called conditionally by moving them to component top level
+ * - Resolved hooks being called conditionally
+ * - Removed undefined TYPE_COLORS reference
  * 
  * CHANGELOG v3.02:
  * - Fixed syntax error: Escaped unicode \u2192 changed to actual → character
@@ -10784,7 +10774,6 @@ export default function PokemonCareerGame() {
         setGameState={setGameState}
         GAME_CONFIG={GAME_CONFIG}
         MOVES={MOVES}
-        TYPE_COLORS={TYPE_COLORS}
         ICONS={ICONS}
       />
     );
