@@ -277,10 +277,16 @@ const TournamentReplayViewer = ({
 };
 
 /* ============================================================================
- * POKEMON CAREER BATTLE GAME - v3.03
+ * POKEMON CAREER BATTLE GAME - v3.04
  * ============================================================================
  * 
- * CHANGELOG v3.03:
+ * CHANGELOG v3.04:
+ * - Added tournament roster_id validation before submission
+ * - Enhanced error logging for roster selection
+ * - Log backend roster structure to debug missing roster_id field
+ * - Validate all 3 roster IDs are present before API call
+ * 
+ * CHANGELOG v3.04:
  * - Fixed React Hooks rules violations: extracted TournamentReplayViewer to separate component
  * - Resolved hooks being called conditionally
  * - Removed undefined TYPE_COLORS reference
@@ -6790,6 +6796,7 @@ export default function PokemonCareerGame() {
   const [selectedTeam, setSelectedTeam] = useState([null, null, null]); // 3 Pokemon roster IDs
   const [tournamentDetails, setTournamentDetails] = useState(null);
   const [selectedReplay, setSelectedReplay] = useState(null); // For watching tournament battles
+  const [userRosters, setUserRosters] = useState([]); // Rosters loaded from backend
   
   // ===== EXISTING STATE =====
   const [gameState, setGameState] = useState('menu');
@@ -9541,7 +9548,7 @@ export default function PokemonCareerGame() {
             
             {/* Version number in bottom-right corner */}
             <div className="fixed bottom-4 right-4 text-white text-xs font-semibold bg-black bg-opacity-30 px-3 py-1 rounded-lg">
-              v3.03
+              v3.04
             </div>
           </div>
         </>
@@ -9688,7 +9695,7 @@ export default function PokemonCareerGame() {
         
         {/* Version number in bottom-right corner */}
         <div className="fixed bottom-4 right-4 text-white text-xs font-semibold bg-black bg-opacity-30 px-3 py-1 rounded-lg">
-          v3.03
+          v3.04
         </div>
       </div>
       </>
@@ -10334,7 +10341,21 @@ export default function PokemonCareerGame() {
 
   // Tournament Details & Entry Screen
   if (gameState === 'tournamentDetails') {
-    const userHasRosters = trainedPokemon.length >= 3;
+    // Load user rosters from backend
+    useEffect(() => {
+      if (user && authToken) {
+        apiGetRosters(100, 0).then(rosters => {
+          console.log('[Tournament] Loaded rosters:', rosters);
+          console.log('[Tournament] First roster sample:', rosters[0]);
+          if (rosters.length > 0 && !rosters[0].roster_id) {
+            console.error('[Tournament] ERROR: Rosters missing roster_id field!', rosters[0]);
+          }
+          setUserRosters(rosters || []);
+        });
+      }
+    }, [user, authToken]);
+
+    const userHasRosters = userRosters.length >= 3;
     const canEnter = user && userHasRosters && 
                      (selectedTournament?.status === 'registration' || selectedTournament?.status === 'upcoming');
     const userEntry = tournamentDetails?.entries?.find(e => e.user_id === user?.id);
@@ -10352,12 +10373,34 @@ export default function PokemonCareerGame() {
         return;
       }
 
+      // Validate roster IDs exist
+      const roster1 = selectedTeam[0].roster_id;
+      const roster2 = selectedTeam[1].roster_id;
+      const roster3 = selectedTeam[2].roster_id;
+      
+      if (!roster1 || !roster2 || !roster3) {
+        console.error('[Tournament Entry] Missing roster IDs:', {
+          team: selectedTeam,
+          ids: { roster1, roster2, roster3 }
+        });
+        alert('Error: Invalid Pokemon selection. Please reselect your team.');
+        return;
+      }
+
+      // Debug logging
+      console.log('[Tournament Entry] Selected Team:', selectedTeam);
+      console.log('[Tournament Entry] Roster IDs being sent:', {
+        pokemon1: roster1,
+        pokemon2: roster2,
+        pokemon3: roster3
+      });
+
       try {
         await apiEnterTournament(
           selectedTournament.id,
-          selectedTeam[0].id,
-          selectedTeam[1].id,
-          selectedTeam[2].id
+          roster1,
+          roster2,
+          roster3
         );
         alert('Successfully entered tournament!');
         setSelectedTeam([null, null, null]);
@@ -10475,13 +10518,14 @@ export default function PokemonCareerGame() {
                 </div>
 
                 {/* Available Pokemon List */}
-                <h4 className="font-bold mb-3">Available Trained Pokemon</h4>
+                <h4 className="font-bold mb-3">Available Trained Pokemon ({userRosters.length} rosters)</h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
-                  {trainedPokemon.map((trained, idx) => {
-                    const alreadySelected = selectedTeam.some(t => t && t.id === trained.id);
+                  {userRosters.map((roster, idx) => {
+                    const alreadySelected = selectedTeam.some(t => t && t.roster_id === roster.roster_id);
+                    const pokemonData = roster.pokemon_data ? JSON.parse(roster.pokemon_data) : {};
                     return (
                       <div
-                        key={trained.id || idx}
+                        key={roster.roster_id || idx}
                         className={`bg-gradient-to-b from-gray-50 to-gray-100 rounded-lg p-3 cursor-pointer transition ${
                           alreadySelected ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg hover:scale-105'
                         }`}
@@ -10489,21 +10533,30 @@ export default function PokemonCareerGame() {
                           if (!alreadySelected) {
                             const emptySlot = selectedTeam.findIndex(t => t === null);
                             if (emptySlot !== -1) {
-                              handleTeamSelect(emptySlot, { ...trained, id: idx });
+                              console.log('[Tournament] Selecting roster:', {
+                                roster_id: roster.roster_id,
+                                full_roster: roster
+                              });
+                              handleTeamSelect(emptySlot, {
+                                roster_id: roster.roster_id,
+                                name: pokemonData.name || 'Unknown',
+                                type: pokemonData.primaryType || pokemonData.type || 'Normal',
+                                grade: pokemonData.grade || 'E'
+                              });
                             }
                           }
                         }}
                       >
                         <div className="flex justify-center mb-2">
-                          {generatePokemonSprite(trained.type, trained.name)}
+                          {generatePokemonSprite(pokemonData.primaryType || pokemonData.type, pokemonData.name)}
                         </div>
-                        <h5 className="text-center font-bold text-sm">{trained.name}</h5>
-                        <p className="text-center text-xs" style={{ color: getTypeColor(trained.type) }}>
-                          {trained.type}
+                        <h5 className="text-center font-bold text-sm">{pokemonData.name || 'Unknown'}</h5>
+                        <p className="text-center text-xs" style={{ color: getTypeColor(pokemonData.primaryType || pokemonData.type) }}>
+                          {pokemonData.primaryType || pokemonData.type || 'Normal'}
                         </p>
                         <div className="text-center mt-1">
-                          <span className="px-2 py-0.5 rounded text-xs font-bold text-white" style={{ backgroundColor: getGradeColor(trained.grade) }}>
-                            {trained.grade}
+                          <span className="px-2 py-0.5 rounded text-xs font-bold text-white" style={{ backgroundColor: getGradeColor(pokemonData.grade) }}>
+                            {pokemonData.grade || 'E'}
                           </span>
                         </div>
                       </div>
