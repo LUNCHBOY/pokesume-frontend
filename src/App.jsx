@@ -6964,6 +6964,20 @@ export default function PokemonCareerGame() {
     }
   }, [supportInventory]);
 
+  // Load user rosters when entering tournament details screen
+  useEffect(() => {
+    if (gameState === 'tournamentDetails' && user && authToken) {
+      apiGetRosters(100, 0).then(rosters => {
+        console.log('[Tournament] Loaded rosters:', rosters);
+        console.log('[Tournament] First roster sample:', rosters[0]);
+        if (rosters.length > 0 && !rosters[0].roster_id) {
+          console.error('[Tournament] ERROR: Rosters missing roster_id field!', rosters[0]);
+        }
+        setUserRosters(rosters || []);
+      });
+    }
+  }, [gameState, user, authToken]);
+
   const handleResetData = () => {
     console.log('=== handleResetData FUNCTION CALLED ===');
     console.log('Current state - pokemonInventory:', pokemonInventory.length);
@@ -10338,20 +10352,6 @@ export default function PokemonCareerGame() {
       </div>
     );
   }
-
-  // Load user rosters when in tournament details screen
-  useEffect(() => {
-    if (gameState === 'tournamentDetails' && user && authToken) {
-      apiGetRosters(100, 0).then(rosters => {
-        console.log('[Tournament] Loaded rosters:', rosters);
-        console.log('[Tournament] First roster sample:', rosters[0]);
-        if (rosters.length > 0 && !rosters[0].roster_id) {
-          console.error('[Tournament] ERROR: Rosters missing roster_id field!', rosters[0]);
-        }
-        setUserRosters(rosters || []);
-      });
-    }
-  }, [gameState, user, authToken]);
 
   // Tournament Details & Entry Screen
   if (gameState === 'tournamentDetails') {
