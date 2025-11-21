@@ -289,8 +289,12 @@ const TournamentReplayViewer = ({
 };
 
 /* ============================================================================
- * POKEMON CAREER BATTLE GAME - v3.15
+ * POKEMON CAREER BATTLE GAME - v3.16
  * ============================================================================
+ * 
+ * CHANGELOG v3.16:
+ * - Fixed extra closing brace in useEffect (line 6750)
+ * - All syntax errors resolved
  * 
  * CHANGELOG v3.15:
  * - Fixed all broken UTF-8 characters in flavor texts
@@ -6747,8 +6751,6 @@ export default function PokemonCareerGame() {
       // REMOVED: Duplicate inspiration check - already handled in performTraining/performBattle
       // Inspirations are now applied only once in the action paths, not twice
       
-      }
-      
       // Check if we've already processed this turn (but allow reprocessing if we just came back from battle)
       // We detect this by checking if battleState was recently null (meaning we just exited a battle)
       const justExitedBattle = !battleState && lastProcessedTurnRef.current === careerData.turn;
@@ -7311,7 +7313,7 @@ export default function PokemonCareerGame() {
             
             {/* Version number in bottom-right corner */}
             <div className="fixed bottom-4 right-4 text-white text-xs font-semibold bg-black bg-opacity-30 px-3 py-1 rounded-lg">
-              v3.15
+              v3.16
             </div>
           </div>
         </>
