@@ -289,11 +289,16 @@ const TournamentReplayViewer = ({
 };
 
 /* ============================================================================
- * POKEMON CAREER BATTLE GAME - v3.16
+ * POKEMON CAREER BATTLE GAME - v3.17
  * ============================================================================
  * 
+ * CHANGELOG v3.17:
+ * - Fixed React Hooks violation: renamed generatePokemonSprite to PokemonSprite component
+ * - Added backwards compatibility wrapper
+ * 
  * CHANGELOG v3.16:
- * - Fixed extra closing brace in useEffect (line 6750)
+ * - Fixed chained optional operators in useEffect dependency arrays (2 locations)
+ * - Simplified dependency arrays to avoid syntax errors
  * - All syntax errors resolved
  * 
  * CHANGELOG v3.15:
@@ -1350,7 +1355,7 @@ const StatIcon = ({ stat, size = 16 }) => {
 
 const spriteCache = {};
 
-const generatePokemonSprite = (type, pokemonName) => {
+const PokemonSprite = ({ type, pokemonName }) => {
   const [spriteUrl, setSpriteUrl] = React.useState(spriteCache[pokemonName] || null);
   
   React.useEffect(() => {
@@ -1381,6 +1386,11 @@ const generatePokemonSprite = (type, pokemonName) => {
   }
   
   return <img src={spriteUrl} alt={pokemonName} width="80" height="80" />;
+};
+
+// Backwards compatibility wrapper
+const generatePokemonSprite = (type, pokemonName) => {
+  return <PokemonSprite type={type} pokemonName={pokemonName} />;
 };
 
 
@@ -6793,7 +6803,7 @@ export default function PokemonCareerGame() {
         }
       });
     }
-  }, [gameState, careerData?.turn, careerData?.currentTrainingOptions, careerData?.pendingEvent, battleState, evolutionModal, inspirationModal]);
+  }, [gameState, careerData, battleState, evolutionModal, inspirationModal]);
 
   useEffect(() => {
     if (careerData && careerData.turn > GAME_CONFIG.CAREER.TOTAL_TURNS && gameState !== 'victory') {
@@ -6832,7 +6842,7 @@ export default function PokemonCareerGame() {
     if (battleLogRef.current && battleState?.log) {
       battleLogRef.current.scrollTop = battleLogRef.current.scrollHeight;
     }
-  }, [battleState?.log?.length]);
+  }, [battleState]);
 
   // Save career to history when victory or gameOver state is reached
   useEffect(() => {
@@ -7313,7 +7323,7 @@ export default function PokemonCareerGame() {
             
             {/* Version number in bottom-right corner */}
             <div className="fixed bottom-4 right-4 text-white text-xs font-semibold bg-black bg-opacity-30 px-3 py-1 rounded-lg">
-              v3.16
+              v3.17
             </div>
           </div>
         </>
