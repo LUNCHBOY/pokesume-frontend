@@ -5,7 +5,7 @@
  * Provides user, token, login, logout, and registration functionality.
  */
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { apiLogin, apiRegister, apiLogout } from '../services/apiService';
 
 const AuthContext = createContext(null);

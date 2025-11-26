@@ -172,6 +172,7 @@ export const CareerProvider = ({ children }) => {
       setCareerData(null);
       setHasActiveCareer(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken, user]);
 
   const value = {

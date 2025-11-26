@@ -216,6 +216,7 @@ export const InventoryProvider = ({ children }) => {
       setTrainedPokemon([]);
       setPrimos(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken, user]);
 
   const value = {

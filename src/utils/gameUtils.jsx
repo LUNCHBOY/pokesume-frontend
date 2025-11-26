@@ -117,7 +117,7 @@ export const getPokemonRarity = (pokemonName) => {
 
   if (!evolutionData) return 'Common'; // No evolution chain = common
 
-  const [baseName, chainData] = evolutionData;
+  const [, chainData] = evolutionData;
 
   // If it's a fully evolved Pokemon from a 2-stage chain
   if (chainData.stages === 2 && chainData.stage2 === pokemonName) return 'Rare';

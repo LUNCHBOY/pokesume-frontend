@@ -423,16 +423,6 @@ const POKEMON = {
     defaultAbilities: ['VineWhip', 'Tackle'],
     learnableAbilities: ['RazorLeaf', 'SolarBeam', 'BodySlam']
   },
-  Zapdos: {
-    name: 'Zapdos',
-    primaryType: 'Electric',
-    baseStats: calculateBaseStats({ HP: 76, Attack: 61, Defense: 56, Instinct: 91, Speed: 96 }, 0),
-    typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'B', Yellow: 'A', Orange: 'C' },
-    strategy: 'Nuker',
-    strategyGrade: 'A',
-    defaultAbilities: ['ThunderShock', 'Tackle'],
-    learnableAbilities: ['Thunderbolt', 'Thunder', 'BodySlam']
-  },
   Raichu: {
     name: 'Raichu',
     primaryType: 'Electric',
@@ -876,16 +866,6 @@ const POKEMON = {
     strategyGrade: 'B',
     defaultAbilities: ['Ember', 'Tackle'],
     learnableAbilities: ['Flamethrower', 'PsyBeam', 'BodySlam']
-  },
-  Torchic: {
-    name: 'Torchic',
-    primaryType: 'Fire',
-    baseStats: { HP: 81, Attack: 76, Defense: 61, Instinct: 79, Speed: 83 },
-    typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
-    strategy: 'Nuker',
-    strategyGrade: 'B',
-    defaultAbilities: ['Ember', 'Tackle'],
-    learnableAbilities: ['Flamethrower', 'BodySlam']
   },
   Chinchou: {
     name: 'Chinchou',
@@ -1679,16 +1659,6 @@ const POKEMON = {
     strategyGrade: 'S',
     defaultAbilities: ['WaterGun', 'Tackle'],
     learnableAbilities: ['Surf', 'HydroPump', 'BodySlam', 'HyperBeam']
-  },
-  Zapdos: {
-    name: 'Zapdos',
-    primaryType: 'Electric',
-    baseStats: { HP: 98, Attack: 83, Defense: 68, Instinct: 98, Speed: 88 },
-    typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'S', Orange: 'C' },
-    strategy: 'Nuker',
-    strategyGrade: 'S',
-    defaultAbilities: ['ThunderShock', 'Tackle'],
-    learnableAbilities: ['Thunderbolt', 'Thunder', 'BodySlam', 'HyperBeam']
   }
 };
 

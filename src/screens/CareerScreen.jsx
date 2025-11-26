@@ -198,9 +198,7 @@ const CareerScreen = () => {
     careerData,
     setCareerData: setCareerDataLocal,
     updateCareer,
-    processBattle,
-    hasActiveCareer,
-    careerLoading
+    processBattle
   } = useCareer();
 
   // Wrapper function that updates both local state and backend
@@ -219,7 +217,7 @@ const CareerScreen = () => {
   const [showHelp, setShowHelp] = useState(false);
   const [evolutionModal, setEvolutionModal] = useState(null);
   const [inspirationModal, setInspirationModal] = useState(null);
-  const [pokeclockModal, setPokeclockModal] = useState(null);
+  const [pokeclockModal] = useState(null);
   const lastProcessedTurnRef = useRef(null);
 
   // ============================================================================
@@ -886,6 +884,7 @@ const CareerScreen = () => {
         }));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [careerData?.turn, careerData?.currentTrainingOptions, careerData?.pendingEvent, evolutionModal, inspirationModal, battleState]);
 
   // Null check AFTER all hooks

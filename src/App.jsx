@@ -9,12 +9,8 @@
 
 import React from 'react';
 import { AppProviders } from './contexts/AppProviders';
-import { useAuth } from './contexts/AuthContext';
 import { useGame } from './contexts/GameContext';
 import AuthWrapper from './components/AuthWrapper';
-
-// Import game data
-import { ICONS } from './shared/gameData';
 
 // Import screens
 import MenuScreen from './screens/MenuScreen';

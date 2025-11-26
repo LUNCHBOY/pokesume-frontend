@@ -8,7 +8,7 @@
  * - Roll Gacha
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Sparkles, Trophy } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useGame } from '../contexts/GameContext';
