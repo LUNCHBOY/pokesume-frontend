@@ -1,0 +1,751 @@
+/**
+ * API Service
+ *
+ * Centralized API communication layer for all backend requests.
+ * Handles authentication, career, inventory, tournaments, and PVP endpoints.
+ */
+
+// API Configuration
+const API_URL = typeof window !== 'undefined'
+  ? (process.env.NEXT_PUBLIC_API_URL ||
+     process.env.REACT_APP_API_URL ||
+     'https://pokesume-backend-production.up.railway.app/api')
+  : 'https://pokesume-backend-production.up.railway.app/api';
+
+console.log('[API] Using API_URL:', API_URL);
+
+// ============================================================================
+// AUTHENTICATION API
+// ============================================================================
+
+export const apiRegister = async (username, email, password) => {
+  try {
+    console.log('apiRegister called:', { username, email });
+
+    const url = `${API_URL}/auth/register`;
+    console.log('Fetching:', url);
+
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+
+    console.log('Response status:', response.status);
+    const data = await response.json();
+    console.log('Response data:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Registration failed');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('apiRegister error:', error);
+    throw error;
+  }
+};
+
+export const apiLogin = async (username, password) => {
+  try {
+    console.log('apiLogin called:', { username });
+
+    const url = `${API_URL}/auth/login`;
+    console.log('Fetching:', url);
+
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    console.log('Response status:', response.status);
+    const data = await response.json();
+    console.log('Response data:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Login failed');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('apiLogin error:', error);
+    throw error;
+  }
+};
+
+export const apiLogout = () => {
+  localStorage.removeItem('pokesume_token');
+  localStorage.removeItem('pokesume_user');
+};
+
+// ============================================================================
+// POKEMON/ROSTER API
+// ============================================================================
+
+export const apiSaveRoster = async (pokemonData, turnNumber, authToken) => {
+  if (!authToken) {
+    console.log('[apiSaveRoster] No auth token, cannot save');
+    return null;
+  }
+
+  console.log('[apiSaveRoster] Saving roster:', {
+    pokemon: pokemonData.name,
+    turn: turnNumber,
+    hasAuthToken: !!authToken
+  });
+
+  try {
+    const response = await fetch(`${API_URL}/pokemon/roster`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ pokemonData, turnNumber })
+    });
+
+    console.log('[apiSaveRoster] Response status:', response.status);
+    const data = await response.json();
+    console.log('[apiSaveRoster] Response data:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to save roster');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Save roster error:', error);
+    return null;
+  }
+};
+
+export const apiGetRosters = async (limit = 10, offset = 0, authToken) => {
+  if (!authToken) {
+    console.log('[apiGetRosters] No auth token, returning empty array');
+    return [];
+  }
+
+  try {
+    console.log('[apiGetRosters] Fetching from:', `${API_URL}/pokemon/rosters?limit=${limit}&offset=${offset}`);
+    const response = await fetch(`${API_URL}/pokemon/rosters?limit=${limit}&offset=${offset}`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    console.log('[apiGetRosters] Response status:', response.status);
+    const data = await response.json();
+    console.log('[apiGetRosters] Response data:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch rosters');
+    }
+
+    console.log('[apiGetRosters] Returning rosters:', data.rosters);
+    return data.rosters || [];
+  } catch (error) {
+    console.error('[apiGetRosters] Error:', error);
+    return [];
+  }
+};
+
+// ============================================================================
+// PVP API
+// ============================================================================
+
+export const apiGetOpponents = async (limit = 20, ratingRange = 200, authToken) => {
+  if (!authToken) return [];
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/opponents?limit=${limit}&ratingRange=${ratingRange}`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch opponents');
+    }
+
+    return data.opponents;
+  } catch (error) {
+    console.error('Fetch opponents error:', error);
+    return [];
+  }
+};
+
+export const apiSubmitBattle = async (opponentRosterId, winnerId, battleData, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/battle`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ opponentRosterId, winnerId, battleData })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to submit battle');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Submit battle error:', error);
+    return null;
+  }
+};
+
+// ============================================================================
+// LEADERBOARD API
+// ============================================================================
+
+export const apiGetLeaderboard = async (limit = 100) => {
+  try {
+    const response = await fetch(`${API_URL}/leaderboard?limit=${limit}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch leaderboard');
+    }
+
+    return data.leaderboard;
+  } catch (error) {
+    console.error('Fetch leaderboard error:', error);
+    return [];
+  }
+};
+
+export const apiGetUserRank = async (authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/leaderboard/rank`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch rank');
+    }
+
+    return data.userRank;
+  } catch (error) {
+    console.error('Fetch rank error:', error);
+    return null;
+  }
+};
+
+// ============================================================================
+// TOURNAMENT API
+// ============================================================================
+
+export const apiGetTournaments = async () => {
+  try {
+    const response = await fetch(`${API_URL}/tournaments`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch tournaments');
+    }
+
+    return data.tournaments;
+  } catch (error) {
+    console.error('Fetch tournaments error:', error);
+    return [];
+  }
+};
+
+export const apiGetTournamentDetails = async (tournamentId) => {
+  try {
+    console.log('[apiGetTournamentDetails] Fetching tournament:', tournamentId);
+    const response = await fetch(`${API_URL}/tournaments/${tournamentId}`);
+
+    console.log('[apiGetTournamentDetails] Response status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (jsonError) {
+      console.error('[apiGetTournamentDetails] Failed to parse JSON:', jsonError);
+      const text = await response.text();
+      console.error('[apiGetTournamentDetails] Response text:', text);
+      throw new Error('Server returned invalid JSON');
+    }
+
+    console.log('[apiGetTournamentDetails] Response data:', data);
+
+    if (!response.ok) {
+      console.error('[apiGetTournamentDetails] Error response:', data);
+      throw new Error(data.error || `Server error: ${response.status}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('[apiGetTournamentDetails] Error:', error);
+    return null;
+  }
+};
+
+export const apiEnterTournament = async (tournamentId, pokemon1RosterId, pokemon2RosterId, pokemon3RosterId, authToken) => {
+  if (!authToken) {
+    console.error('[apiEnterTournament] No auth token');
+    return null;
+  }
+
+  const payload = { pokemon1RosterId, pokemon2RosterId, pokemon3RosterId };
+  console.log('[apiEnterTournament] Submitting entry:', {
+    tournamentId,
+    payload
+  });
+
+  try {
+    const response = await fetch(`${API_URL}/tournaments/${tournamentId}/enter`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    console.log('[apiEnterTournament] Response status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (jsonError) {
+      console.error('[apiEnterTournament] Failed to parse JSON:', jsonError);
+      const text = await response.text();
+      console.error('[apiEnterTournament] Response text:', text);
+      throw new Error('Server returned invalid JSON');
+    }
+
+    console.log('[apiEnterTournament] Response data:', data);
+
+    if (!response.ok) {
+      console.error('[apiEnterTournament] Server error:', {
+        status: response.status,
+        error: data.error,
+        fullResponse: data
+      });
+      throw new Error(data.error || `Server error: ${response.status} - ${JSON.stringify(data)}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('[apiEnterTournament] Error:', error);
+    throw error;
+  }
+};
+
+export const apiGetTournamentBracket = async (tournamentId) => {
+  try {
+    const response = await fetch(`${API_URL}/tournaments/${tournamentId}/bracket`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch bracket');
+    }
+
+    return data.bracket;
+  } catch (error) {
+    console.error('Fetch bracket error:', error);
+    return [];
+  }
+};
+
+export const apiWithdrawTournament = async (tournamentId, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/tournaments/${tournamentId}/withdraw`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to withdraw');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Withdraw error:', error);
+    throw error;
+  }
+};
+
+// ============================================================================
+// INVENTORY API (NEW - Server Authoritative)
+// ============================================================================
+
+export const apiGetPokemonInventory = async (limit = 100, offset = 0, authToken) => {
+  if (!authToken) return { pokemon: [], total: 0 };
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/pokemon?limit=${limit}&offset=${offset}`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch Pokemon inventory');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get Pokemon inventory error:', error);
+    return { pokemon: [], total: 0 };
+  }
+};
+
+export const apiAddPokemonToInventory = async (pokemonName, pokemonData, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/pokemon`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ pokemonName, pokemonData })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to add Pokemon');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Add Pokemon error:', error);
+    return null;
+  }
+};
+
+export const apiDeletePokemonFromInventory = async (pokemonId, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/pokemon/${pokemonId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to delete Pokemon');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Delete Pokemon error:', error);
+    return null;
+  }
+};
+
+export const apiGetSupportInventory = async (limit = 100, offset = 0, authToken) => {
+  if (!authToken) return { supports: [], total: 0 };
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/supports?limit=${limit}&offset=${offset}`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch Support inventory');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get Support inventory error:', error);
+    return { supports: [], total: 0 };
+  }
+};
+
+export const apiAddSupportToInventory = async (supportName, supportData, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/supports`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ supportName, supportData })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to add Support');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Add Support error:', error);
+    return null;
+  }
+};
+
+export const apiDeleteSupportFromInventory = async (supportId, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/supports/${supportId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to delete Support');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Delete Support error:', error);
+    return null;
+  }
+};
+
+export const apiGetTrainedPokemon = async (limit = 100, offset = 0, authToken) => {
+  if (!authToken) return { trainedPokemon: [], total: 0 };
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/trained?limit=${limit}&offset=${offset}`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch trained Pokemon');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get trained Pokemon error:', error);
+    return { trainedPokemon: [], total: 0 };
+  }
+};
+
+export const apiGetPrimos = async (authToken) => {
+  if (!authToken) return { primos: 0 };
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/primos`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch Primos');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get Primos error:', error);
+    return { primos: 0 };
+  }
+};
+
+export const apiUpdatePrimos = async (amount, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/primos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ amount })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to update Primos');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Update Primos error:', error);
+    return null;
+  }
+};
+
+// ============================================================================
+// CAREER API (NEW - Server Authoritative)
+// ============================================================================
+
+export const apiGetActiveCareer = async (authToken) => {
+  if (!authToken) return { hasActiveCareer: false };
+
+  try {
+    const response = await fetch(`${API_URL}/career/active`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to get active career');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get active career error:', error);
+    return { hasActiveCareer: false };
+  }
+};
+
+export const apiStartCareer = async (pokemon, selectedSupports, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/career/start`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ pokemon, selectedSupports })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to start career');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Start career error:', error);
+    return null;
+  }
+};
+
+export const apiUpdateCareer = async (careerState, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/career/update`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ careerState })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to update career');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Update career error:', error);
+    return null;
+  }
+};
+
+export const apiProcessBattle = async (opponent, isGymLeader, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/career/battle`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ opponent, isGymLeader })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to process battle');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Process battle error:', error);
+    return null;
+  }
+};
+
+export const apiCompleteCareer = async (careerState, completionType, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/career/complete`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ careerState, completionType })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to complete career');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Complete career error:', error);
+    return null;
+  }
+};
+
+export const apiAbandonCareer = async (authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/career/abandon`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to abandon career');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Abandon career error:', error);
+    return null;
+  }
+};
