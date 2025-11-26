@@ -464,7 +464,7 @@ const CareerScreen = () => {
       const support = getSupportCardAttributes(supportName);
       if (!support) return;
 
-      const friendship = careerData.supportFriendships[supportName];
+      const friendship = careerData.supportFriendships[supportName] || 0;
       const isMaxFriendship = friendship >= 100;
       const supportType = support.type || support.supportType;
 
@@ -489,7 +489,8 @@ const CareerScreen = () => {
 
     const newFriendships = { ...careerData.supportFriendships };
     Object.keys(friendshipGains).forEach(support => {
-      newFriendships[support] = Math.min(100, newFriendships[support] + friendshipGains[support]);
+      const currentFriendship = newFriendships[support] || 0;
+      newFriendships[support] = Math.min(100, currentFriendship + friendshipGains[support]);
     });
 
     const logEntry = {
@@ -633,8 +634,8 @@ const CareerScreen = () => {
       });
     }
 
-    if (eventResult.energy) energyChange = eventResult.energy;
-    if (eventResult.skillPoints) skillPointsChange = eventResult.skillPoints;
+    if (eventResult.energy !== undefined) energyChange = eventResult.energy;
+    if (eventResult.skillPoints !== undefined) skillPointsChange = eventResult.skillPoints;
     if (eventResult.friendship && careerData.pendingEvent?.supportName) {
       friendshipChanges[careerData.pendingEvent.supportName] = eventResult.friendship;
     }
@@ -653,7 +654,8 @@ const CareerScreen = () => {
 
     const newFriendships = { ...careerData.supportFriendships };
     Object.keys(friendshipChanges).forEach(support => {
-      newFriendships[support] = Math.min(100, newFriendships[support] + friendshipChanges[support]);
+      const currentFriendship = newFriendships[support] || 0;
+      newFriendships[support] = Math.min(100, currentFriendship + friendshipChanges[support]);
     });
 
     const completedHangouts = (careerData.pendingEvent?.type === 'hangout' && careerData.pendingEvent?.supportName)
@@ -761,7 +763,7 @@ const CareerScreen = () => {
 
     // Check for available hangout events
     const availableHangouts = selectedSupports.filter(supportName => {
-      const friendship = careerData.supportFriendships[supportName];
+      const friendship = careerData.supportFriendships[supportName] || 0;
       return friendship >= 80 && !careerData.completedHangouts.includes(supportName);
     });
 
@@ -794,6 +796,12 @@ const CareerScreen = () => {
 
     const randomKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
     const event = RANDOM_EVENTS[randomKey];
+
+    // Safety check: ensure event exists and has required properties
+    if (!event || !event.type || !event.name) {
+      console.error('Invalid event generated:', randomKey, event);
+      return null;
+    }
 
     return { ...event, key: randomKey };
   };
@@ -1937,7 +1945,7 @@ const CareerScreen = () => {
                       const support = getSupportCardAttributes(supportName);
                       if (!support) return;
 
-                      const friendship = careerData.supportFriendships[supportName];
+                      const friendship = careerData.supportFriendships[supportName] || 0;
                       const isMaxFriendship = friendship >= 100;
                       const supportType = support.type || support.supportType;
 
@@ -1970,7 +1978,7 @@ const CareerScreen = () => {
                         {option.supports.length > 0 && (
                           <div className="space-y-0.5">
                             {option.supports.map(supportName => {
-                              const friendship = careerData.supportFriendships[supportName];
+                              const friendship = careerData.supportFriendships[supportName] || 0;
                               return (
                                 <div key={supportName} className="bg-blue-100 text-blue-800 text-[8px] sm:text-xs px-0.5 sm:px-1 py-0.5 rounded">
                                   <div className="font-bold truncate">{supportName.split(' ')[0]}</div>
