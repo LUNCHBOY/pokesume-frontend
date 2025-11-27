@@ -1822,6 +1822,15 @@ const CareerScreen = () => {
                     // Get training progress
                     const trainingProgress = careerData.trainingProgress?.[stat] || 0;
 
+                    // Get training level color based on level (like rarity colors)
+                    const getLevelColor = (level) => {
+                      if (level === 0) return '#9ca3af'; // Gray
+                      if (level <= 2) return '#22c55e'; // Green (Common)
+                      if (level <= 4) return '#3b82f6'; // Blue (Uncommon)
+                      if (level <= 6) return '#a855f7'; // Purple (Rare)
+                      return '#eab308'; // Gold (Legendary)
+                    };
+
                     const currentStatValue = careerData.currentStats[stat];
 
                     return (
@@ -1837,11 +1846,12 @@ const CareerScreen = () => {
                       >
                         <div className="flex items-center justify-between mb-0.5 sm:mb-1">
                           <div className="font-bold text-[10px] sm:text-sm">{stat}</div>
-                          {trainingLevel > 0 && (
-                            <div className="bg-purple-600 text-white text-[8px] sm:text-xs px-1 py-0.5 rounded font-bold">
-                              Lv.{trainingLevel}
-                            </div>
-                          )}
+                          <div
+                            className="text-white text-[8px] sm:text-xs px-1 py-0.5 rounded font-bold"
+                            style={{ backgroundColor: getLevelColor(trainingLevel) }}
+                          >
+                            Lv.{trainingLevel}
+                          </div>
                         </div>
                         <div className="text-[9px] sm:text-xs mb-0.5 sm:mb-1">
                           <span className="text-gray-600">{currentStatValue}</span>
@@ -1861,8 +1871,11 @@ const CareerScreen = () => {
                           </div>
                           <div className="w-full bg-gray-200 rounded h-1">
                             <div
-                              className="bg-purple-600 h-1 rounded transition-all"
-                              style={{ width: `${(trainingProgress / 4) * 100}%` }}
+                              className="h-1 rounded transition-all"
+                              style={{
+                                width: `${(trainingProgress / 4) * 100}%`,
+                                backgroundColor: getLevelColor(trainingLevel)
+                              }}
                             />
                           </div>
                         </div>
@@ -1877,12 +1890,19 @@ const CareerScreen = () => {
                               return (
                                 <div key={supportName} className="bg-blue-100 text-blue-800 text-[8px] sm:text-xs px-0.5 sm:px-1 py-0.5 rounded flex items-center gap-1">
                                   {trainerImage && (
-                                    <img
-                                      src={trainerImage}
-                                      alt={supportName}
-                                      className="w-6 h-6 sm:w-8 sm:h-8 object-contain rounded border border-blue-300"
-                                      style={{ imageRendering: 'pixelated' }}
-                                    />
+                                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded border border-blue-300 overflow-hidden flex-shrink-0">
+                                      <img
+                                        src={trainerImage}
+                                        alt={supportName}
+                                        className="w-full h-auto object-cover"
+                                        style={{
+                                          imageRendering: 'pixelated',
+                                          transform: 'scale(2.5)',
+                                          transformOrigin: 'top center',
+                                          marginTop: '4px'
+                                        }}
+                                      />
+                                    </div>
                                   )}
                                   <div className="flex-1 min-w-0">
                                     <div className="font-bold truncate">{supportName.split(' ')[0]}</div>

@@ -207,6 +207,20 @@ const MySupportScreen = () => {
                     <div className="flex justify-between"><span>Appearance:</span><span className="text-gray-700 font-bold">{Math.round(support.appearanceChance * 100)}%</span></div>
                   </div>
 
+                  {/* Move Hints */}
+                  {support.moveHints && support.moveHints.length > 0 && (
+                    <div className="text-xs space-y-1 bg-blue-50 border border-blue-200 rounded p-2 mt-2">
+                      <p className="font-bold text-blue-700">Move Hints:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {support.moveHints.map((move, idx) => (
+                          <span key={idx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-semibold">
+                            {move}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Effect-specific bonuses */}
                   {support.effect.type === 'training_boost' && (
                     <div className="text-xs space-y-1 bg-white rounded p-2 mt-2">

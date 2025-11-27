@@ -3105,7 +3105,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 50, Defense: 0, Instinct: 30, Speed: 0 },
       description: 'The Sinnoh Champion grants overwhelming power'
-    }
+    },
+    moveHints: ['Earthquake', 'Dragon Claw', 'Outrage', 'Stone Edge']
   },
   RedCharizard: {
     name: 'Red & Charizard',
@@ -3117,7 +3118,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 55, Defense: 0, Instinct: 35, Speed: 0 },
       description: 'The legendary trainer boosts overwhelming power'
-    }
+    },
+    moveHints: ['Flare Blitz', 'Dragon Dance', 'Air Slash', 'Heat Wave', 'Blast Burn']
   },
   StevenMetagross: {
     name: 'Steven & Metagross',
@@ -3129,7 +3131,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 60, Instinct: 30, Speed: 0 },
       description: 'The Hoenn Champion fortifies iron defenses'
-    }
+    },
+    moveHints: ['Meteor Mash', 'Zen Headbutt', 'Bullet Punch', 'Iron Defense']
   },
   LanceDragonite: {
     name: 'Lance & Dragonite',
@@ -3141,7 +3144,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 25, Defense: 0, Instinct: 40, Speed: 0 },
       description: 'The Dragon Master enhances draconic power'
-    }
+    },
+    moveHints: ['Dragon Dance', 'Outrage', 'Extreme Speed', 'Dragon Rush']
   },
   MistyStarmie: {
     name: 'Misty & Starmie',
@@ -3154,7 +3158,8 @@ const SUPPORT_CARDS = {
       trainingMultiplier: 1.15,
       energyCostReduction: 5,
       description: 'The Cerulean Gym Leader improves training efficiency'
-    }
+    },
+    moveHints: ['Hydro Pump', 'Psychic', 'Rapid Spin', 'Ice Beam']
   },
   BrockOnix: {
     name: 'Brock & Onix',
@@ -3166,7 +3171,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 20, Attack: 0, Defense: 40, Instinct: 0, Speed: 0 },
       description: 'The Pewter Gym Leader hardens defenses'
-    }
+    },
+    moveHints: ['Rock Slide', 'Iron Tail', 'Stealth Rock', 'Sandstorm']
   },
   ErikaTangela: {
     name: 'Erika & Tangela',
@@ -3178,7 +3184,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 40, Attack: 0, Defense: 20, Instinct: 0, Speed: 0 },
       description: 'The Celadon Gym Leader nurtures vitality'
-    }
+    },
+    moveHints: ['Giga Drain', 'Sleep Powder', 'Synthesis', 'Power Whip']
   },
   SabrinaAlakazam: {
     name: 'Sabrina & Alakazam',
@@ -3190,7 +3197,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 0, Instinct: 45, Speed: 20 },
       description: 'The Saffron Gym Leader sharpens the mind'
-    }
+    },
+    moveHints: ['Psychic', 'Future Sight', 'Focus Blast', 'Calm Mind', 'Shadow Ball']
   },
   BlaineMagmar: {
     name: 'Blaine & Magmar',
@@ -3202,7 +3210,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 35, Defense: 0, Instinct: 20, Speed: 0 },
       description: 'The Cinnabar Gym Leader ignites fiery passion'
-    }
+    },
+    moveHints: ['Fire Blast', 'Flamethrower', 'Fire Punch', 'Lava Plume']
   },
   KogaWeezing: {
     name: 'Koga & Weezing',
@@ -3214,7 +3223,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 0, Instinct: 30, Speed: 15 },
       description: 'The Fuchsia Gym Leader masters poison tactics'
-    }
+    },
+    moveHints: ['Sludge Bomb', 'Toxic', 'Will-O-Wisp', 'Explosion']
   },
   WhitneyMiltank: {
     name: 'Whitney & Miltank',
@@ -3226,7 +3236,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 20, Attack: 0, Defense: 15, Instinct: 0, Speed: 0 },
       description: 'The Goldenrod Gym Leader boosts endurance'
-    }
+    },
+    moveHints: ['Rollout', 'Body Slam', 'Milk Drink', 'Attract']
   },
   MortyGengar: {
     name: 'Morty & Gengar',
@@ -3238,7 +3249,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 0, Instinct: 30, Speed: 20 },
       description: 'The Ecruteak Gym Leader channels ghostly power'
-    }
+    },
+    moveHints: ['Shadow Ball', 'Sludge Bomb', 'Hypnosis', 'Dream Eater', 'Hex']
   },
   ChuckPoliwrath: {
     name: 'Chuck & Poliwrath',
@@ -3250,7 +3262,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 15, Attack: 20, Defense: 0, Instinct: 0, Speed: 0 },
       description: 'The Cianwood Gym Leader builds strength'
-    }
+    },
+    moveHints: ['Dynamic Punch', 'Waterfall', 'Submission', 'Bulk Up']
   },
   JasminSteelix: {
     name: 'Jasmine & Steelix',
@@ -3262,7 +3275,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 20, Attack: 0, Defense: 30, Instinct: 0, Speed: 0 },
       description: 'The Olivine Gym Leader provides iron defense'
-    }
+    },
+    moveHints: ['Iron Tail', 'Earthquake', 'Screech', 'Iron Defense']
   },
   PryceDelibird: {
     name: 'Pryce & Delibird',
@@ -3275,7 +3289,8 @@ const SUPPORT_CARDS = {
       energyBonus: 15,
       restBonus: 10,
       description: 'The Mahogany Gym Leader aids recovery'
-    }
+    },
+    moveHints: ['Present', 'Ice Beam', 'Ice Punch', 'Blizzard']
   },
   WallaceMillotic: {
     name: 'Wallace & Milotic',
@@ -3287,7 +3302,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 25, Attack: 0, Defense: 30, Instinct: 0, Speed: 0 },
       description: 'The Hoenn Champion exudes elegance'
-    }
+    },
+    moveHints: ['Surf', 'Ice Beam', 'Recover', 'Dragon Tail', 'Aqua Ring']
   },
   WinonaSkarmory: {
     name: 'Winona & Skarmory',
@@ -3299,7 +3315,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 25, Instinct: 0, Speed: 25 },
       description: 'The Fortree Gym Leader soars with grace'
-    }
+    },
+    moveHints: ['Steel Wing', 'Brave Bird', 'Spikes', 'Roost']
   },
   WattsonMagneton: {
     name: 'Wattson & Magneton',
@@ -3311,7 +3328,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 0, Instinct: 20, Speed: 12 },
       description: 'The Mauville Gym Leader electrifies training'
-    }
+    },
+    moveHints: ['Thunderbolt', 'Thunder Wave', 'Flash Cannon', 'Volt Switch']
   },
   FlanneryCamerupt: {
     name: 'Flannery & Camerupt',
@@ -3323,7 +3341,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 15, Attack: 20, Defense: 0, Instinct: 0, Speed: 0 },
       description: 'The Lavaridge Gym Leader unleashes volcanic fury'
-    }
+    },
+    moveHints: ['Eruption', 'Earth Power', 'Lava Plume', 'Earthquake']
   },
   CynthiaLucario: {
     name: 'Cynthia & Lucario',
@@ -3336,7 +3355,8 @@ const SUPPORT_CARDS = {
       trainingMultiplier: 1.25,
       failureReduction: 0.15,
       description: 'The Champion refines battle technique'
-    }
+    },
+    moveHints: ['Aura Sphere', 'Close Combat', 'Extreme Speed', 'Bullet Punch', 'Swords Dance']
   },
   NReshiram: {
     name: 'N & Reshiram',
@@ -3348,7 +3368,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 45, Defense: 0, Instinct: 35, Speed: 0 },
       description: 'The King of Team Plasma wields truth'
-    }
+    },
+    moveHints: ['Blue Flare', 'Fusion Flare', 'Dragon Pulse', 'Draco Meteor']
   },
   IrisHaxorus: {
     name: 'Iris & Haxorus',
@@ -3360,7 +3381,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 40, Defense: 0, Instinct: 0, Speed: 25 },
       description: 'The Unova Champion commands dragons'
-    }
+    },
+    moveHints: ['Dragon Dance', 'Outrage', 'Earthquake', 'Dragon Claw', 'Swords Dance']
   },
   ElitesFourKaren: {
     name: 'Karen & Umbreon',
@@ -3372,7 +3394,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 30, Instinct: 25, Speed: 0 },
       description: 'The Elite Four member embraces darkness'
-    }
+    },
+    moveHints: ['Foul Play', 'Moonlight', 'Toxic', 'Curse']
   },
   AgathaGengar: {
     name: 'Agatha & Gengar',
@@ -3384,7 +3407,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 0, Defense: 0, Instinct: 30, Speed: 20 },
       description: 'The Elite Four member masters ghosts'
-    }
+    },
+    moveHints: ['Shadow Ball', 'Sludge Wave', 'Destiny Bond', 'Hypnosis']
   },
   BluePidgeot: {
     name: 'Blue & Pidgeot',
@@ -3396,7 +3420,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 25, Defense: 0, Instinct: 0, Speed: 30 },
       description: 'The rival trainer pushes limits'
-    }
+    },
+    moveHints: ['Hurricane', 'Brave Bird', 'Air Slash', 'Roost', 'U-turn']
   },
   GiovanniPersian: {
     name: 'Giovanni & Persian',
@@ -3408,7 +3433,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 0, Attack: 35, Defense: 0, Instinct: 25, Speed: 0 },
       description: 'The Rocket Boss commands ruthlessly'
-    }
+    },
+    moveHints: ['Slash', 'Power Gem', 'Feint Attack', 'Nasty Plot']
   },
   ProfessorOakMew: {
     name: 'Professor Oak & Mew',
@@ -3421,7 +3447,8 @@ const SUPPORT_CARDS = {
       skillPointMultiplier: 1.5,
       friendshipBonus: 20,
       description: 'The Professor grants knowledge and wisdom'
-    }
+    },
+    moveHints: ['Psychic', 'Aura Sphere', 'Transform', 'Metronome', 'Ancient Power']
   },
   DianthaDiancie: {
     name: 'Diantha & Diancie',
@@ -3433,7 +3460,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 30, Attack: 0, Defense: 50, Instinct: 0, Speed: 0 },
       description: 'The Kalos Champion radiates brilliance'
-    }
+    },
+    moveHints: ['Diamond Storm', 'Moonblast', 'Dazzling Gleam', 'Rock Polish']
   },
   MaxieGroudon: {
     name: 'Maxie & Groudon',
@@ -3445,7 +3473,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 25, Attack: 35, Defense: 0, Instinct: 0, Speed: 0 },
       description: 'The Magma Leader harnesses earth power'
-    }
+    },
+    moveHints: ['Earthquake', 'Precipice Blades', 'Fire Punch', 'Bulk Up', 'Lava Plume']
   },
   ArchieKyogre: {
     name: 'Archie & Kyogre',
@@ -3457,7 +3486,8 @@ const SUPPORT_CARDS = {
       type: 'stat_boost',
       stats: { HP: 35, Attack: 0, Defense: 25, Instinct: 0, Speed: 0 },
       description: 'The Aqua Leader commands the seas'
-    }
+    },
+    moveHints: ['Origin Pulse', 'Hydro Pump', 'Ice Beam', 'Thunder', 'Aqua Ring']
   }
 };
 

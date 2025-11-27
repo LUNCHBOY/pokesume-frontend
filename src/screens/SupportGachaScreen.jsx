@@ -129,7 +129,21 @@ const SupportGachaScreen = () => {
                 <p className="text-sm text-gray-600 mb-2">
                   <span className="font-bold">{SUPPORT_CARDS[rollResult.support].trainer}</span> & <span className="font-bold">{SUPPORT_CARDS[rollResult.support].pokemon}</span>
                 </p>
-                <p className="text-xs text-gray-700 italic">{SUPPORT_CARDS[rollResult.support].effect.description}</p>
+                <p className="text-xs text-gray-700 italic mb-3">{SUPPORT_CARDS[rollResult.support].effect.description}</p>
+
+                {/* Move Hints Display */}
+                {SUPPORT_CARDS[rollResult.support].moveHints && SUPPORT_CARDS[rollResult.support].moveHints.length > 0 && (
+                  <div className="bg-blue-50 border border-blue-200 rounded p-2 text-xs mt-2">
+                    <p className="font-bold text-blue-700 mb-1">Move Hints:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {SUPPORT_CARDS[rollResult.support].moveHints.map((move, idx) => (
+                        <span key={idx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-semibold">
+                          {move}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             {rollResult.isDuplicate && (

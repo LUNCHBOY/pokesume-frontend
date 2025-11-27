@@ -258,6 +258,19 @@ const SupportSelectionScreen = () => {
                     )}
                   </div>
 
+                  {support.moveHints && support.moveHints.length > 0 && (
+                    <div className="bg-blue-50 border border-blue-200 rounded p-2 mb-2 text-xs">
+                      <div className="font-bold text-blue-700 mb-1">Move Hints:</div>
+                      <div className="text-blue-600 flex flex-wrap gap-1">
+                        {support.moveHints.map((move, idx) => (
+                          <span key={idx} className="bg-blue-100 px-1.5 py-0.5 rounded">
+                            {move}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex justify-between text-xs text-gray-500">
                     <span>Appears: {Math.round(support.appearanceChance * 100)}%</span>
                     <span>Start Friend: {support.initialFriendship}</span>
