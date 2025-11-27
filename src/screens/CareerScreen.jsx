@@ -536,12 +536,35 @@ const CareerScreen = () => {
       strategyGrade: careerData.pokemon.strategyGrade
     };
 
-    // Normalize opponent data - all data sources use baseStats, normalize to stats for display
-    // Handle: wild battles (direct stats), gym leaders (baseStats), Elite Four (pokemon.baseStats)
+    // Normalize opponent data - use server's scaled stats from battle log
+    // The server scales gym leader/Elite Four stats before battle, so we must use those values
     const pokemonData = opponent.pokemon || opponent; // Elite Four has nested pokemon object
-    const opponentStats = pokemonData.stats || pokemonData.baseStats;
     const opponentName = pokemonData.name || opponent.name;
     const opponentType = pokemonData.primaryType || opponent.primaryType;
+
+    // Get the actual stats from the first battle log entry - these are the SERVER's scaled stats
+    const battleLog = battleResult.battleLog || [];
+    const initialLogEntry = battleLog[0];
+
+    // Use server's maxHp from battle log for opponent stats (these are properly scaled)
+    // Fall back to baseStats only if no battle log exists
+    const serverOpponentMaxHp = initialLogEntry?.player2?.maxHp;
+    const baseOpponentStats = pokemonData.stats || pokemonData.baseStats;
+
+    // If server provided scaled HP, calculate the scale factor and apply to all stats
+    let opponentStats;
+    if (serverOpponentMaxHp && baseOpponentStats && baseOpponentStats.HP) {
+      const scaleFactor = serverOpponentMaxHp / baseOpponentStats.HP;
+      opponentStats = {
+        HP: serverOpponentMaxHp,
+        Attack: Math.floor(baseOpponentStats.Attack * scaleFactor),
+        Defense: Math.floor(baseOpponentStats.Defense * scaleFactor),
+        Instinct: Math.floor(baseOpponentStats.Instinct * scaleFactor),
+        Speed: Math.floor(baseOpponentStats.Speed * scaleFactor)
+      };
+    } else {
+      opponentStats = baseOpponentStats;
+    }
 
     // Set battle state with server's battle log for replay
     setBattleState({
@@ -558,7 +581,7 @@ const CareerScreen = () => {
         name: opponentName,
         primaryType: opponentType,
         stats: opponentStats,
-        currentHP: opponentStats.HP,
+        currentHP: opponentStats?.HP || 100,
         currentStamina: GAME_CONFIG.BATTLE.MAX_STAMINA,
         moveStates: {},
         isResting: false,
@@ -1486,15 +1509,28 @@ const CareerScreen = () => {
 
                 <button
                   onClick={async () => {
-                    setCareerData(prev => ({
-                      ...prev,
-                      eventResult: null
-                    }));
-                    await requestNewTrainingOptions();
+                    if (isProcessingEvent) return;
+                    setIsProcessingEvent(true);
+                    try {
+                      // Generate training first, then clear eventResult
+                      // This prevents the useEffect from racing and potentially triggering another event
+                      await generateTraining();
+                      setCareerData(prev => ({
+                        ...prev,
+                        eventResult: null
+                      }));
+                    } finally {
+                      setIsProcessingEvent(false);
+                    }
                   }}
-                  className="w-full mt-4 bg-purple-600 text-white py-2 sm:py-3 rounded-lg font-bold hover:bg-purple-700 transition"
+                  disabled={isProcessingEvent}
+                  className={`w-full mt-4 py-2 sm:py-3 rounded-lg font-bold transition ${
+                    isProcessingEvent
+                      ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                      : 'bg-purple-600 text-white hover:bg-purple-700'
+                  }`}
                 >
-                  Continue
+                  {isProcessingEvent ? 'Processing...' : 'Continue'}
                 </button>
               </div>
             </div>
