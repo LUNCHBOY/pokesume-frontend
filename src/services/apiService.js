@@ -677,9 +677,13 @@ export const apiUpdateCareer = async (careerState, authToken) => {
 };
 
 export const apiProcessBattle = async (opponent, isGymLeader, authToken) => {
-  if (!authToken) return null;
+  if (!authToken) {
+    console.error('[apiProcessBattle] No auth token');
+    return null;
+  }
 
   try {
+    console.log('[apiProcessBattle] Sending request to server:', { opponent, isGymLeader });
     const response = await fetch(`${API_URL}/career/battle`, {
       method: 'POST',
       headers: {
@@ -690,6 +694,7 @@ export const apiProcessBattle = async (opponent, isGymLeader, authToken) => {
     });
 
     const data = await response.json();
+    console.log('[apiProcessBattle] Server response:', { status: response.status, data });
 
     if (!response.ok) {
       throw new Error(data.error || 'Failed to process battle');
@@ -697,7 +702,7 @@ export const apiProcessBattle = async (opponent, isGymLeader, authToken) => {
 
     return data;
   } catch (error) {
-    console.error('Process battle error:', error);
+    console.error('[apiProcessBattle] Process battle error:', error);
     return null;
   }
 };
