@@ -202,7 +202,7 @@ const TrainedPokemonScreen = () => {
               <div className="flex items-center justify-center gap-2 text-[10px] text-pocket-text-light mb-2">
                 <div className="flex items-center gap-1">
                   <Shield size={10} className="text-amber-500" />
-                  <span className="font-semibold">{trained.gymsDefeated || 0}/8</span>
+                  <span className="font-semibold">{trained.gymsDefeated || 0}/7</span>
                 </div>
                 <span>•</span>
                 <span>{new Date(trained.completedAt).toLocaleDateString()}</span>
