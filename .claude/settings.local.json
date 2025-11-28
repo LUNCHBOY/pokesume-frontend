@@ -14,7 +14,9 @@
       "Bash(cmd /c \"dir %USERPROFILE%\\.claude\\ 2>nul || echo Directory not found\")",
       "Bash(cmd /c \"if exist %USERPROFILE%\\.claude (echo Directory exists) else (mkdir %USERPROFILE%\\.claude && echo Created directory)\")",
       "Bash(cmd /c \"type c:\\pokesume\\pokesume frontend\\pokesume-frontend\\.mcp.json\")",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(dir \"c:\\pokesume\\pokesume backend\\pokesume-backend\\.env\")",
+      "Bash(cmd /c \"type \"\"c:\\pokesume\\pokesume backend\\pokesume-backend\\.env\"\"\")"
     ],
     "deny": [],
     "ask": []
