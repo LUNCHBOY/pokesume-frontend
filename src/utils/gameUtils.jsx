@@ -401,63 +401,41 @@ export const getSupportCardAttributes = (supportKey, SUPPORT_CARDS) => {
   const card = SUPPORT_CARDS[supportKey];
   if (!card) return null;
 
-  // Get rarity-based defaults (fallback if card doesn't have explicit appearanceChance)
-  // Higher rarity = higher appearance chance (rarer cards are more powerful and appear more)
-  const rarityDefaults = {
-    'Legendary': {
-      initialFriendship: 40,
-      typeBonusTraining: 12,
-      generalBonusTraining: 4,
-      friendshipBonusTraining: 20,
-      appearanceChance: 0.55,
-      typeAppearancePriority: 4.0
-    },
-    'Rare': {
-      initialFriendship: 30,
-      typeBonusTraining: 10,
-      generalBonusTraining: 3,
-      friendshipBonusTraining: 16,
-      appearanceChance: 0.50,
-      typeAppearancePriority: 3.5
-    },
-    'Uncommon': {
-      initialFriendship: 20,
-      typeBonusTraining: 8,
-      generalBonusTraining: 2,
-      friendshipBonusTraining: 12,
-      appearanceChance: 0.45,
-      typeAppearancePriority: 3.0
-    },
-    'Common': {
-      initialFriendship: 15,
-      typeBonusTraining: 5,
-      generalBonusTraining: 1,
-      friendshipBonusTraining: 8,
-      appearanceChance: 0.40,
-      typeAppearancePriority: 2.5
-    }
-  };
+  // New structure uses:
+  // - baseStats: { HP, Attack, Defense, Instinct, Speed }
+  // - trainingBonus: { typeMatch, otherStats, maxFriendshipTypeMatch }
+  // - appearanceRate (0.25-0.65)
+  // - typeMatchPreference (0.50-0.90)
+  // - specialEffect: { statGainMultiplier, failRateReduction, maxEnergyBonus, restBonus, etc. } or null
+  // - moveHints: []
+  // - description
 
-  const defaults = rarityDefaults[card.rarity] || rarityDefaults['Common'];
-
-  // Extract baseStatIncrease from effect.stats if available
-  let baseStatIncrease = { HP: 0, Attack: 0, Defense: 0, Instinct: 0, Speed: 0 };
-  if (card.effect && card.effect.type === 'stat_boost' && card.effect.stats) {
-    baseStatIncrease = card.effect.stats;
-  }
-
-  // Return complete attributes
+  // Return complete attributes with backwards-compatible field names
   return {
     ...card,
-    baseStatIncrease: card.baseStatIncrease || baseStatIncrease,
-    initialFriendship: card.initialFriendship || defaults.initialFriendship,
-    typeBonusTraining: card.typeBonusTraining || defaults.typeBonusTraining,
-    generalBonusTraining: card.generalBonusTraining || defaults.generalBonusTraining,
-    friendshipBonusTraining: card.friendshipBonusTraining || defaults.friendshipBonusTraining,
+    // Base stat bonuses (direct stat additions when support is equipped)
+    baseStatIncrease: card.baseStats || { HP: 0, Attack: 0, Defense: 0, Instinct: 0, Speed: 0 },
+    // Training bonuses
+    typeBonusTraining: card.trainingBonus?.typeMatch || 4,
+    generalBonusTraining: card.trainingBonus?.otherStats || 2,
+    friendshipBonusTraining: card.trainingBonus?.maxFriendshipTypeMatch || 8,
+    // Friendship
+    initialFriendship: card.initialFriendship ?? 30,
+    // Appearance
+    appearanceChance: card.appearanceRate || 0.40,
+    typeAppearancePriority: card.typeMatchPreference || 0.65,
+    // Move hints
     moveHints: card.moveHints || ['BodySlam', 'HyperBeam'],
-    appearanceChance: card.appearanceChance || defaults.appearanceChance,
-    typeAppearancePriority: card.typeAppearancePriority || defaults.typeAppearancePriority,
-    type: card.supportType || 'HP' // For compatibility
+    // Effect - convert new specialEffect to old effect format for compatibility
+    effect: card.specialEffect ? {
+      type: card.specialEffect.statGainMultiplier ? 'training_boost' :
+            card.specialEffect.maxEnergyBonus ? 'energy_boost' :
+            card.specialEffect.skillPointMultiplier ? 'experience_boost' : 'special',
+      description: card.description || '',
+      ...card.specialEffect
+    } : { type: 'none', description: card.description || '' },
+    // Type compatibility
+    type: card.supportType || 'HP'
   };
 };
 

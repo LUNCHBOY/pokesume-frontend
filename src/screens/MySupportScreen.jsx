@@ -219,7 +219,7 @@ const MySupportScreen = () => {
                 )}
 
                 {/* Effect Description */}
-                <p className="text-xs text-pocket-text-light italic mb-3">{support.effect.description}</p>
+                <p className="text-xs text-pocket-text-light italic mb-3">{support.description || support.effect?.description}</p>
 
                 {/* Base Stats */}
                 {support.baseStatIncrease && Object.values(support.baseStatIncrease).some(v => v > 0) && (
@@ -261,11 +261,17 @@ const MySupportScreen = () => {
                   </div>
                 </div>
 
-                {/* Appearance Rate */}
+                {/* Appearance Rate & Type Match Preference */}
                 <div className="bg-pocket-bg rounded-lg p-2 mb-2">
-                  <div className="flex justify-between text-[10px]">
-                    <span className="text-pocket-text-light">Appearance</span>
-                    <span className="text-pocket-text font-bold">{Math.round(support.appearanceChance * 100)}%</span>
+                  <div className="grid grid-cols-2 gap-1 text-[10px]">
+                    <div className="flex justify-between">
+                      <span className="text-pocket-text-light">Appearance</span>
+                      <span className="text-pocket-text font-bold">{Math.round(support.appearanceChance * 100)}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-pocket-text-light">Type Pref</span>
+                      <span className="text-pocket-text font-bold">{Math.round(support.typeAppearancePriority * 100)}%</span>
+                    </div>
                   </div>
                 </div>
 
@@ -283,65 +289,51 @@ const MySupportScreen = () => {
                   </div>
                 )}
 
-                {/* Effect-specific bonuses */}
-                {support.effect.type === 'training_boost' && (
-                  <div className="bg-pocket-bg rounded-lg p-2 mt-2">
-                    <p className="font-bold text-type-psychic text-[10px] mb-1">Special Effects</p>
+                {/* Special Effects - using new specialEffect format */}
+                {support.specialEffect && (
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-2 mt-2">
+                    <p className="font-bold text-purple-700 text-[10px] mb-1">Special Effects</p>
                     <div className="space-y-0.5 text-[10px]">
-                      {support.effect.trainingMultiplier && (
+                      {support.specialEffect.statGainMultiplier && (
                         <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Gain Mult</span>
-                          <span className="text-pocket-green font-bold">{support.effect.trainingMultiplier}x</span>
+                          <span className="text-pocket-text-light">Stat Gain</span>
+                          <span className="text-pocket-green font-bold">{support.specialEffect.statGainMultiplier}x</span>
                         </div>
                       )}
-                      {support.effect.energyCostReduction && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Energy Cost</span>
-                          <span className="text-pocket-green font-bold">-{support.effect.energyCostReduction}</span>
-                        </div>
-                      )}
-                      {support.effect.failureReduction && (
+                      {support.specialEffect.failRateReduction && (
                         <div className="flex justify-between">
                           <span className="text-pocket-text-light">Fail Rate</span>
-                          <span className="text-pocket-green font-bold">-{(support.effect.failureReduction * 100).toFixed(0)}%</span>
+                          <span className="text-pocket-green font-bold">-{(support.specialEffect.failRateReduction * 100).toFixed(0)}%</span>
                         </div>
                       )}
-                    </div>
-                  </div>
-                )}
-                {support.effect.type === 'energy_boost' && (
-                  <div className="bg-pocket-bg rounded-lg p-2 mt-2">
-                    <p className="font-bold text-type-psychic text-[10px] mb-1">Energy Benefits</p>
-                    <div className="space-y-0.5 text-[10px]">
-                      {support.effect.energyBonus && (
+                      {support.specialEffect.maxEnergyBonus && (
                         <div className="flex justify-between">
                           <span className="text-pocket-text-light">Max Energy</span>
-                          <span className="text-pocket-green font-bold">+{support.effect.energyBonus}</span>
+                          <span className="text-pocket-green font-bold">+{support.specialEffect.maxEnergyBonus}</span>
                         </div>
                       )}
-                      {support.effect.restBonus && (
+                      {support.specialEffect.restBonus && (
                         <div className="flex justify-between">
                           <span className="text-pocket-text-light">Rest Bonus</span>
-                          <span className="text-pocket-green font-bold">+{support.effect.restBonus}</span>
+                          <span className="text-pocket-green font-bold">+{support.specialEffect.restBonus}</span>
                         </div>
                       )}
-                    </div>
-                  </div>
-                )}
-                {support.effect.type === 'experience_boost' && (
-                  <div className="bg-pocket-bg rounded-lg p-2 mt-2">
-                    <p className="font-bold text-type-psychic text-[10px] mb-1">XP Benefits</p>
-                    <div className="space-y-0.5 text-[10px]">
-                      {support.effect.skillPointMultiplier && (
+                      {support.specialEffect.skillPointMultiplier && (
                         <div className="flex justify-between">
                           <span className="text-pocket-text-light">SP Mult</span>
-                          <span className="text-pocket-green font-bold">{support.effect.skillPointMultiplier}x</span>
+                          <span className="text-pocket-green font-bold">{support.specialEffect.skillPointMultiplier}x</span>
                         </div>
                       )}
-                      {support.effect.friendshipBonus && (
+                      {support.specialEffect.friendshipGainBonus && (
                         <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Friendship</span>
-                          <span className="text-pocket-green font-bold">+{support.effect.friendshipBonus}</span>
+                          <span className="text-pocket-text-light">Friend Gain</span>
+                          <span className="text-pocket-green font-bold">+{support.specialEffect.friendshipGainBonus}</span>
+                        </div>
+                      )}
+                      {support.specialEffect.energyCostReduction && (
+                        <div className="flex justify-between">
+                          <span className="text-pocket-text-light">Energy Cost</span>
+                          <span className="text-pocket-green font-bold">-{support.specialEffect.energyCostReduction}</span>
                         </div>
                       )}
                     </div>

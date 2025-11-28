@@ -38,7 +38,8 @@ const PvPTeamSelectScreen = () => {
     if (authToken) {
       loadTrainedPokemon(100, 0);
     }
-  }, [authToken, loadTrainedPokemon]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authToken]);
 
   const handleSelectPokemon = (pokemon) => {
     // Check if already selected
