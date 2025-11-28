@@ -134,15 +134,11 @@ const PvPScreen = () => {
             <p className="text-pocket-text-light">Loading PvP data...</p>
           </motion.div>
         ) : (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="space-y-4"
-          >
+          <div className="space-y-4">
             {/* Rating Card */}
             <motion.div
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
               className="bg-white rounded-2xl shadow-card p-6"
             >
               <div className="flex items-center justify-between mb-4">
@@ -181,7 +177,11 @@ const PvPScreen = () => {
             </motion.div>
 
             {/* Find Match Button */}
-            <motion.div variants={itemVariants}>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
               <button
                 onClick={() => setGameState('pvpTeamSelect')}
                 disabled={!user}
@@ -200,7 +200,9 @@ const PvPScreen = () => {
 
             {/* Recent Matches */}
             <motion.div
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
               className="bg-white rounded-2xl shadow-card p-6"
             >
               <h3 className="font-bold text-pocket-text mb-4">Recent Matches</h3>
@@ -273,7 +275,7 @@ const PvPScreen = () => {
                 </div>
               )}
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </div>
     </div>

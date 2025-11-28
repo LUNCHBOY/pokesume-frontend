@@ -2130,11 +2130,20 @@ const ELITE_FOUR = [
 // ============================================================================
 // SUPPORT CARDS
 // ============================================================================
+// Each support card has:
+// - name, trainer, pokemon, rarity, supportType: Basic identification
+// - baseStats: { HP, Attack, Defense, Instinct, Speed } - Direct stat bonuses
+// - trainingBonus: { typeMatch, otherStats, maxFriendshipTypeMatch } - Training bonuses
+// - initialFriendship: Starting friendship value (0-100)
+// - appearanceRate: How often they appear during training (0.25-0.70)
+// - typeMatchPreference: % chance to appear on their training type if they appear (0.50-0.90)
+// - specialEffect: Optional special effects (statGainMultiplier, failRateReduction, etc.)
+// - moveHints: Array of 3-5 moves they can hint at
+// ============================================================================
 
 const SUPPORT_CARDS = {
   // ============================================================================
-  // LEGENDARY TIER - Highly varied attributes, balanced overall power
-  // High appearance = weaker other stats. Min appearance 25%.
+  // LEGENDARY TIER
   // ============================================================================
   CynthiaGarchomp: {
     name: 'Cynthia',
@@ -2142,16 +2151,14 @@ const SUPPORT_CARDS = {
     pokemon: 'Garchomp',
     rarity: 'Legendary',
     supportType: 'Attack',
-    appearanceChance: 0.25,  // Low appearance - champion is busy
-    initialFriendship: 15,   // Hard to impress
-    maxFriendship: 100,      // Full potential once earned
-    typeMatchBonus: 1.50,    // Exceptional type synergy
-    effect: {
-      type: 'stat_boost',
-      stats: { HP: 0, Attack: 55, Defense: 0, Instinct: 15, Speed: 20 },
-      description: 'The Sinnoh Champion grants overwhelming power'
-    },
-    moveHints: ['Earthquake', 'DragonClaw', 'Outrage', 'StoneEdge']
+    baseStats: { HP: 0, Attack: 12, Defense: 0, Instinct: 4, Speed: 4 },
+    trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 14 },
+    initialFriendship: 15,
+    appearanceRate: 0.28,
+    typeMatchPreference: 0.85,
+    specialEffect: { statGainMultiplier: 1.15 },
+    moveHints: ['Earthquake', 'DragonClaw', 'Outrage', 'StoneEdge', 'SwordsDance'],
+    description: 'The Sinnoh Champion grants overwhelming power'
   },
   RedCharizard: {
     name: 'Red',
@@ -2159,16 +2166,14 @@ const SUPPORT_CARDS = {
     pokemon: 'Charizard',
     rarity: 'Legendary',
     supportType: 'Attack',
-    appearanceChance: 0.28,  // Slightly more available
-    initialFriendship: 5,    // Silent, very hard to befriend
-    maxFriendship: 100,
-    typeMatchBonus: 1.60,    // Best type bonus in game
-    effect: {
-      type: 'stat_boost',
-      stats: { HP: 0, Attack: 65, Defense: 0, Instinct: 10, Speed: 10 },
-      description: 'The legendary trainer boosts overwhelming power'
-    },
-    moveHints: ['FlareBlitz', 'DragonDance', 'AirSlash', 'HeatWave', 'BlastBurn']
+    baseStats: { HP: 0, Attack: 14, Defense: 0, Instinct: 3, Speed: 3 },
+    trainingBonus: { typeMatch: 10, otherStats: 2, maxFriendshipTypeMatch: 18 },
+    initialFriendship: 5,
+    appearanceRate: 0.25,
+    typeMatchPreference: 0.90,
+    specialEffect: null,
+    moveHints: ['FlareBlitz', 'DragonDance', 'AirSlash', 'HeatWave', 'BlastBurn'],
+    description: 'The legendary trainer pushes limits to the extreme'
   },
   StevenMetagross: {
     name: 'Steven',
@@ -2176,16 +2181,14 @@ const SUPPORT_CARDS = {
     pokemon: 'Metagross',
     rarity: 'Legendary',
     supportType: 'Defense',
-    appearanceChance: 0.45,  // Reliable mentor, often available
-    initialFriendship: 50,   // Friendly and approachable
-    maxFriendship: 100,
-    typeMatchBonus: 1.12,    // Lower bonus - balanced approach
-    effect: {
-      type: 'stat_boost',
-      stats: { HP: 20, Attack: 0, Defense: 40, Instinct: 10, Speed: 0 },
-      description: 'The Hoenn Champion fortifies iron defenses'
-    },
-    moveHints: ['MeteorMash', 'ZenHeadbutt', 'BulletPunch', 'IronDefense']
+    baseStats: { HP: 5, Attack: 0, Defense: 10, Instinct: 3, Speed: 0 },
+    trainingBonus: { typeMatch: 7, otherStats: 4, maxFriendshipTypeMatch: 12 },
+    initialFriendship: 50,
+    appearanceRate: 0.45,
+    typeMatchPreference: 0.70,
+    specialEffect: { failRateReduction: 0.10 },
+    moveHints: ['MeteorMash', 'ZenHeadbutt', 'BulletPunch', 'IronDefense', 'Earthquake'],
+    description: 'The Hoenn Champion fortifies iron defenses'
   },
   NReshiram: {
     name: 'N',
@@ -2193,16 +2196,14 @@ const SUPPORT_CARDS = {
     pokemon: 'Reshiram',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    appearanceChance: 0.50,  // Seeks Pokemon connection constantly
-    initialFriendship: 70,   // Bonds instantly with Pokemon
-    maxFriendship: 100,
-    typeMatchBonus: 1.05,    // Not focused on combat bonuses
-    effect: {
-      type: 'stat_boost',
-      stats: { HP: 0, Attack: 15, Defense: 0, Instinct: 40, Speed: 10 },
-      description: 'The King of Team Plasma wields truth'
-    },
-    moveHints: ['BlueFlare', 'FusionFlare', 'DragonPulse', 'DracoMeteor']
+    baseStats: { HP: 0, Attack: 4, Defense: 0, Instinct: 10, Speed: 3 },
+    trainingBonus: { typeMatch: 5, otherStats: 5, maxFriendshipTypeMatch: 10 },
+    initialFriendship: 70,
+    appearanceRate: 0.50,
+    typeMatchPreference: 0.60,
+    specialEffect: { friendshipGainBonus: 5 },
+    moveHints: ['BlueFlare', 'FusionFlare', 'DragonPulse', 'DracoMeteor', 'Psychic'],
+    description: 'The King of Team Plasma bonds through truth'
   },
   ProfessorOakMew: {
     name: 'Professor Oak',
@@ -2210,17 +2211,14 @@ const SUPPORT_CARDS = {
     pokemon: 'Mew',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    appearanceChance: 0.55,  // Always eager to research
-    initialFriendship: 60,   // Warm mentor
-    maxFriendship: 100,
-    typeMatchBonus: 1.00,    // No combat focus
-    effect: {
-      type: 'experience_boost',
-      skillPointMultiplier: 1.5,
-      friendshipBonus: 20,
-      description: 'The Professor grants knowledge and wisdom'
-    },
-    moveHints: ['Psychic', 'AuraSphere', 'Transform', 'Metronome', 'AncientPower']
+    baseStats: { HP: 3, Attack: 3, Defense: 3, Instinct: 6, Speed: 3 },
+    trainingBonus: { typeMatch: 4, otherStats: 4, maxFriendshipTypeMatch: 8 },
+    initialFriendship: 60,
+    appearanceRate: 0.55,
+    typeMatchPreference: 0.55,
+    specialEffect: { skillPointMultiplier: 1.5, friendshipGainBonus: 8 },
+    moveHints: ['Psychic', 'AuraSphere', 'Transform', 'Metronome', 'AncientPower'],
+    description: 'The Professor grants knowledge and wisdom'
   },
   DianthaDiancie: {
     name: 'Diantha',
