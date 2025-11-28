@@ -8,12 +8,13 @@
  * - Navigation to details
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowLeft, Trophy, Clock, Users, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
 import { TYPE_COLORS } from '../components/TypeIcon';
+import { apiGetTournaments } from '../services/apiService';
 
 // Gym badge data for display
 const GYM_BADGES = {
@@ -49,8 +50,25 @@ const itemVariants = {
 };
 
 const TournamentsScreen = () => {
-  const { setGameState, tournaments, tournamentsLoading, setSelectedTournament } = useGame();
+  const { setGameState, tournaments, setTournaments, tournamentsLoading, setTournamentsLoading, setSelectedTournament } = useGame();
   const { user } = useAuth();
+
+  // Fetch tournaments on mount
+  useEffect(() => {
+    const loadTournaments = async () => {
+      setTournamentsLoading(true);
+      try {
+        const data = await apiGetTournaments();
+        setTournaments(data || []);
+      } catch (error) {
+        console.error('Failed to load tournaments:', error);
+        setTournaments([]);
+      }
+      setTournamentsLoading(false);
+    };
+
+    loadTournaments();
+  }, [setTournaments, setTournamentsLoading]);
 
   const getTimeUntilStart = (startTime) => {
     const now = new Date();

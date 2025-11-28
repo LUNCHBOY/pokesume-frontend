@@ -10,6 +10,26 @@ import { motion } from 'framer-motion';
 import { X, Shield, Star, MapPin } from 'lucide-react';
 import { TYPE_COLORS } from './TypeIcon';
 
+// Badge image paths - maps badge key to image filename
+const BADGE_IMAGES = {
+  boulder: null, // No image yet - will use Shield fallback
+  cascade: '/images/badges/cascade-badge.png',
+  thunder: '/images/badges/thunder-badge.png',
+  rainbow: '/images/badges/rainbow-badge.png',
+  soul: null,
+  marsh: '/images/badges/marsh-badge.png',
+  volcano: '/images/badges/volcano-badge.png',
+  earth: '/images/badges/earth-badge.png',
+  zephyr: null,
+  hive: null,
+  plain: null,
+  fog: null,
+  storm: '/images/badges/storm-badge.png',
+  mineral: null,
+  glacier: '/images/badges/glacier-badge.png',
+  rising: null
+};
+
 const overlayVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 }
@@ -28,6 +48,7 @@ const badgeVariants = {
 // Individual badge card with full details
 const BadgeCard = ({ badge, owned, level, delay }) => {
   const typeColor = TYPE_COLORS[badge.type] || '#6b7280';
+  const badgeImage = BADGE_IMAGES[badge.key];
 
   return (
     <motion.div
@@ -38,31 +59,47 @@ const BadgeCard = ({ badge, owned, level, delay }) => {
       className={`relative rounded-2xl p-4 transition-all ${
         owned
           ? 'bg-gradient-to-br from-amber-50 via-white to-amber-50 border-2 border-amber-300 shadow-lg'
-          : 'bg-gray-50 border-2 border-gray-200'
+          : 'bg-gray-100 border-2 border-gray-300'
       }`}
     >
       {/* Badge visual */}
       <div className="flex justify-center mb-3">
-        <div
-          className={`relative w-16 h-16 rounded-full flex items-center justify-center ${
-            owned ? '' : 'opacity-25'
-          }`}
-          style={{
-            background: owned
-              ? `linear-gradient(135deg, ${typeColor}60, ${typeColor})`
-              : 'linear-gradient(135deg, #374151, #1f2937)',
-            boxShadow: owned
-              ? `0 4px 12px ${typeColor}40, inset 0 2px 4px rgba(255,255,255,0.3)`
-              : '0 2px 8px rgba(0,0,0,0.1)'
-          }}
-        >
-          <Shield
-            size={28}
-            className="text-white"
-            style={{
-              filter: owned ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' : 'none'
-            }}
-          />
+        <div className="relative w-16 h-16 flex items-center justify-center">
+          {badgeImage ? (
+            // Use actual badge image
+            <img
+              src={badgeImage}
+              alt={badge.name}
+              className="w-14 h-14 object-contain"
+              style={{
+                filter: owned
+                  ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
+                  : 'brightness(0) drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                opacity: owned ? 1 : 0.7
+              }}
+            />
+          ) : (
+            // Fallback to Shield icon for missing images
+            <div
+              className="w-14 h-14 rounded-full flex items-center justify-center"
+              style={{
+                background: owned
+                  ? `linear-gradient(135deg, ${typeColor}60, ${typeColor})`
+                  : 'linear-gradient(135deg, #1f2937, #111827)',
+                boxShadow: owned
+                  ? `0 4px 12px ${typeColor}40, inset 0 2px 4px rgba(255,255,255,0.3)`
+                  : '0 2px 8px rgba(0,0,0,0.3)'
+              }}
+            >
+              <Shield
+                size={28}
+                className={owned ? 'text-white' : 'text-gray-600'}
+                style={{
+                  filter: owned ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' : 'none'
+                }}
+              />
+            </div>
+          )}
 
           {/* Level indicator */}
           {owned && level > 1 && (
@@ -116,10 +153,10 @@ const BadgeCard = ({ badge, owned, level, delay }) => {
         </span>
       </div>
 
-      {/* Collection status */}
+      {/* Collection status - subtle indicator without obscuring the badge */}
       {!owned && (
-        <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-gray-900/5">
-          <span className="text-xs text-gray-400 font-semibold bg-white/80 px-2 py-1 rounded-lg">
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
+          <span className="text-[9px] text-gray-400 font-medium">
             Not Collected
           </span>
         </div>

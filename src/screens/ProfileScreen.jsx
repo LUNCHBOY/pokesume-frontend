@@ -27,6 +27,26 @@ import { PokemonSprite, getPokemonGrade, getGradeColor } from '../utils/gameUtil
 import { TYPE_COLORS } from '../components/TypeIcon';
 import BadgeBook from '../components/BadgeBook';
 
+// Badge image paths - maps badge key to image filename
+const BADGE_IMAGES = {
+  boulder: null,
+  cascade: '/images/badges/cascade-badge.png',
+  thunder: '/images/badges/thunder-badge.png',
+  rainbow: '/images/badges/rainbow-badge.png',
+  soul: null,
+  marsh: '/images/badges/marsh-badge.png',
+  volcano: '/images/badges/volcano-badge.png',
+  earth: '/images/badges/earth-badge.png',
+  zephyr: null,
+  hive: null,
+  plain: null,
+  fog: null,
+  storm: '/images/badges/storm-badge.png',
+  mineral: null,
+  glacier: '/images/badges/glacier-badge.png',
+  rising: null
+};
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -45,6 +65,7 @@ const BadgeDisplay = ({ badge, badgeData, onClick }) => {
   const owned = !!badgeData;
   const level = badgeData?.level || 0;
   const typeColor = TYPE_COLORS[badge.type] || '#6b7280';
+  const badgeImage = BADGE_IMAGES[badge.key];
 
   return (
     <motion.button
@@ -58,22 +79,36 @@ const BadgeDisplay = ({ badge, badgeData, onClick }) => {
       }`}
     >
       {/* Badge icon */}
-      <div
-        className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${
-          owned ? '' : 'opacity-30'
-        }`}
-        style={{
-          background: owned
-            ? `linear-gradient(135deg, ${typeColor}40, ${typeColor}80)`
-            : 'linear-gradient(135deg, #e5e7eb, #d1d5db)',
-          border: owned ? `2px solid ${typeColor}` : '2px solid #9ca3af'
-        }}
-      >
-        <Shield
-          size={20}
-          className={owned ? 'text-white' : 'text-gray-400'}
-          style={{ filter: owned ? 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' : 'none' }}
-        />
+      <div className="w-10 h-10 mx-auto flex items-center justify-center">
+        {badgeImage ? (
+          <img
+            src={badgeImage}
+            alt={badge.name}
+            className="w-9 h-9 object-contain"
+            style={{
+              filter: owned
+                ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
+                : 'brightness(0) drop-shadow(0 1px 2px rgba(0,0,0,0.2))',
+              opacity: owned ? 1 : 0.6
+            }}
+          />
+        ) : (
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center"
+            style={{
+              background: owned
+                ? `linear-gradient(135deg, ${typeColor}40, ${typeColor}80)`
+                : 'linear-gradient(135deg, #1f2937, #111827)',
+              border: owned ? `2px solid ${typeColor}` : '2px solid #374151'
+            }}
+          >
+            <Shield
+              size={18}
+              className={owned ? 'text-white' : 'text-gray-500'}
+              style={{ filter: owned ? 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' : 'none' }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Level indicator */}

@@ -125,28 +125,35 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
       {/* Type System */}
       <GuideSection title="Type System" icon={Flame} iconColor="text-orange-500">
         <SubSection title="Type Matchups">
-          <p className="mb-2">Super effective attacks deal <strong className="text-pocket-green">+20% damage</strong>.</p>
-          <div className="bg-pocket-bg rounded p-2 space-y-1">
-            <div className="flex items-center gap-1">
-              <Flame size={12} className="text-orange-500" /> → <Leaf size={12} className="text-green-500" /> → <Droplet size={12} className="text-blue-500" /> → <Flame size={12} className="text-orange-500" />
-              <span className="ml-2 text-xs">(Fire → Grass → Water → Fire)</span>
-            </div>
-            <p>Fighting → Electric, Normal</p>
-            <p>Psychic → Fighting</p>
-            <p>Psychic ↔ Psychic (neutral)</p>
+          <p className="mb-2">Super effective attacks deal <strong className="text-pocket-green">+25% damage</strong>. Resisted attacks deal <strong className="text-pocket-red">-25% damage</strong>.</p>
+          <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
+            <p><strong className="text-orange-500">Fire (Red)</strong> → strong vs Grass, weak vs Water</p>
+            <p><strong className="text-blue-500">Water (Blue)</strong> → strong vs Fire, weak vs Grass</p>
+            <p><strong className="text-green-500">Grass (Green)</strong> → strong vs Water, weak vs Fire</p>
+            <p><strong className="text-yellow-500">Electric (Yellow)</strong> → strong vs Water, weak vs Grass</p>
+            <p><strong className="text-purple-500">Psychic (Purple)</strong> → strong vs Fighting, weak vs Psychic</p>
+            <p><strong className="text-orange-600">Fighting (Orange)</strong> → strong vs Electric, weak vs Psychic</p>
           </div>
         </SubSection>
 
         <SubSection title="Type Aptitudes">
-          <p className="mb-2">Each Pokemon has aptitude grades (F to S) for each type, affecting damage when using moves of that type.</p>
-          <div className="grid grid-cols-4 gap-1 text-xs">
-            <div><span className="font-bold" style={{color: '#000'}}>F:</span> 60%</div>
-            <div><span className="font-bold" style={{color: '#9ca3af'}}>E:</span> 70%</div>
-            <div><span className="font-bold" style={{color: '#3b82f6'}}>D:</span> 80%</div>
-            <div><span className="font-bold" style={{color: '#22c55e'}}>C:</span> 90%</div>
-            <div><span className="font-bold" style={{color: '#ec4899'}}>B:</span> 100%</div>
-            <div><span className="font-bold" style={{color: '#f97316'}}>A:</span> 110%</div>
-            <div><span className="font-bold" style={{color: '#eab308'}}>S:</span> 120%</div>
+          <p className="mb-2">Each Pokemon has aptitude grades for each type color. Aptitude affects both damage dealt AND stamina cost.</p>
+          <div className="bg-pocket-bg rounded p-2">
+            <p className="text-xs font-bold mb-1">Damage Multipliers:</p>
+            <div className="grid grid-cols-4 gap-1 text-xs mb-2">
+              <div><span className="font-bold" style={{color: '#6b7280'}}>F:</span> 60%</div>
+              <div><span className="font-bold" style={{color: '#9ca3af'}}>E:</span> 70%</div>
+              <div><span className="font-bold" style={{color: '#3b82f6'}}>D:</span> 80%</div>
+              <div><span className="font-bold" style={{color: '#22c55e'}}>C:</span> 90%</div>
+              <div><span className="font-bold" style={{color: '#ec4899'}}>B:</span> 100%</div>
+              <div><span className="font-bold" style={{color: '#f97316'}}>A:</span> 110%</div>
+              <div><span className="font-bold" style={{color: '#eab308'}}>S:</span> 120%</div>
+              <div><span className="font-bold" style={{color: '#a855f7'}}>UU:</span> 125%</div>
+            </div>
+            <p className="text-xs font-bold mb-1">Stamina Cost (Strategy Grade):</p>
+            <div className="text-xs text-pocket-text-light">
+              Higher strategy grade = lower stamina costs (F: +30%, S: -20%, UU: -25%)
+            </div>
           </div>
         </SubSection>
       </GuideSection>
@@ -177,21 +184,26 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
 
         <SubSection title="Strategy Types">
           <div className="bg-pocket-bg rounded p-2 space-y-1">
-            <p><strong className="text-orange-500">Nuker:</strong> -40% warmup, +40% cooldown (burst damage)</p>
-            <p><strong className="text-blue-500">Balanced:</strong> -10% both (consistent)</p>
-            <p><strong className="text-green-500">Scaler:</strong> +40% warmup, -40% cooldown (sustained)</p>
+            <p><strong className="text-red-500">Nuker:</strong> -30% warmup, +30% cooldown (burst damage, front-loaded)</p>
+            <p><strong className="text-blue-500">Balanced:</strong> -10% both warmup and cooldown (consistent)</p>
+            <p><strong className="text-green-500">Scaler:</strong> +20% warmup, -20% cooldown (sustained DPS)</p>
+            <p><strong className="text-purple-500">Chipper:</strong> -50% warmup, -30% cooldown (rapid attacks)</p>
+            <p><strong className="text-yellow-500">Debuffer:</strong> Standard timing, prioritizes status effects</p>
+            <p><strong className="text-gray-500">MadLad:</strong> Completely random move selection</p>
           </div>
-          <p className="mt-1">Strategy grade (F-S) affects stamina costs - better grade = lower costs.</p>
+          <p className="mt-1 text-xs"><strong>Strategy Grade</strong> (F-UU) affects stamina costs - better grade = lower ability costs.</p>
         </SubSection>
 
         <SubSection title="Status Effects">
-          <div className="grid grid-cols-2 gap-2">
-            <div><strong className="text-red-500">Burn:</strong> DoT damage</div>
-            <div><strong className="text-purple-500">Poison:</strong> DoT damage</div>
-            <div><strong className="text-yellow-500">Paralyze:</strong> -25% accuracy</div>
-            <div><strong className="text-gray-500">Stun:</strong> Cannot act</div>
-            <div><strong className="text-blue-500">Sleep:</strong> Cannot act</div>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div><strong className="text-red-500">Burn:</strong> DoT damage over time</div>
+            <div><strong className="text-purple-500">Poison:</strong> DoT damage over time</div>
+            <div><strong className="text-yellow-500">Paralyze:</strong> Reduced accuracy</div>
+            <div><strong className="text-gray-500">Stun:</strong> Cannot act for duration</div>
+            <div><strong className="text-blue-500">Soak:</strong> Becomes Water type (weak to Grass)</div>
             <div><strong className="text-pink-500">Confuse:</strong> May hit self</div>
+            <div><strong className="text-orange-500">Exhaust:</strong> Cannot attack, drains stamina</div>
+            <div><strong className="text-green-500">Energize:</strong> Bonus stamina regen</div>
           </div>
         </SubSection>
       </GuideSection>
@@ -224,12 +236,23 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
 
         <SubSection title="Training">
           <div className="space-y-1">
-            <p><strong className="text-green-500">Success:</strong> +Stats, +3 Skill Points, +7 Support Friendship</p>
+            <p><strong className="text-green-500">Success:</strong> +Stats, +3 Skill Points, +10 Support Friendship</p>
             <p><strong className="text-red-500">Failure:</strong> -2 to trained stat</p>
-            <p><strong className="text-blue-500">Support Bonus:</strong> At 100 friendship = major stat boost</p>
           </div>
-          <div className="bg-pocket-bg rounded p-2 mt-2">
-            <p className="text-xs"><strong>Training Levels:</strong> Each stat has levels (shown by color). Higher levels give more stats but higher fail chance.</p>
+          <div className="bg-pocket-bg rounded p-2 mt-2 space-y-1">
+            <p className="text-xs"><strong>Training Levels:</strong> Each stat has levels 0-7 (shown by color). Higher levels = more stats but higher fail chance. Every 4 successful trainings levels up that stat.</p>
+            <p className="text-xs"><strong>Level Bonus:</strong> +10% stat gain per training level</p>
+          </div>
+        </SubSection>
+
+        <SubSection title="Support Training Bonuses">
+          <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
+            <p className="font-bold mb-1">When support appears on matching stat training:</p>
+            <p>• <strong className="text-gray-500">Common:</strong> +5 stats (normal), +8 at max friendship</p>
+            <p>• <strong className="text-green-500">Uncommon:</strong> +6 stats (normal), +10 at max friendship</p>
+            <p>• <strong className="text-blue-500">Rare:</strong> +8 stats (normal), +12 at max friendship</p>
+            <p>• <strong className="text-amber-500">Legendary:</strong> +10 stats (normal), +15 at max friendship</p>
+            <p className="mt-1">Non-matching stats: +1-2 bonus regardless of friendship</p>
           </div>
         </SubSection>
 
@@ -259,9 +282,10 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
 
         <SubSection title="Friendship System">
           <div className="space-y-1">
-            <p>• Gain <strong className="text-pocket-text">+7 friendship</strong> when training with that support</p>
+            <p>• Gain <strong className="text-pocket-text">+10 friendship</strong> per training with that support</p>
             <p>• At <strong className="text-amber-500">80+ friendship:</strong> Hangout events become available</p>
-            <p>• At <strong className="text-green-500">100 friendship:</strong> Major stat bonus on next training</p>
+            <p>• At <strong className="text-green-500">100 friendship:</strong> Major stat bonus when training their specialty stat</p>
+            <p>• Max friendship training shows a <strong className="text-amber-400">rainbow sheen</strong> effect</p>
           </div>
         </SubSection>
 
@@ -273,12 +297,21 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
           </div>
         </SubSection>
 
+        <SubSection title="Support Specialties">
+          <div className="bg-pocket-bg rounded p-2 text-xs space-y-1">
+            <p>Each support specializes in one stat type (HP, Attack, Defense, Instinct, or Speed).</p>
+            <p>• More likely to appear on trainings matching their specialty</p>
+            <p>• Give larger bonuses when training their specialty stat</p>
+            <p>• Provide move hints for abilities related to their specialty</p>
+          </div>
+        </SubSection>
+
         <SubSection title="Rarity Tiers">
-          <div className="grid grid-cols-2 gap-1">
-            <div><span className="font-bold" style={{color: '#6b7280'}}>Common:</span> 50%</div>
-            <div><span className="font-bold" style={{color: '#22c55e'}}>Uncommon:</span> 35%</div>
-            <div><span className="font-bold" style={{color: '#3b82f6'}}>Rare:</span> 13%</div>
-            <div><span className="font-bold" style={{color: '#f59e0b'}}>Legendary:</span> 2%</div>
+          <div className="grid grid-cols-2 gap-1 text-xs">
+            <div><span className="font-bold" style={{color: '#6b7280'}}>Common:</span> 50% (start 10 friendship)</div>
+            <div><span className="font-bold" style={{color: '#22c55e'}}>Uncommon:</span> 35% (start 20 friendship)</div>
+            <div><span className="font-bold" style={{color: '#3b82f6'}}>Rare:</span> 13% (start 30 friendship)</div>
+            <div><span className="font-bold" style={{color: '#f59e0b'}}>Legendary:</span> 2% (start 40 friendship)</div>
           </div>
         </SubSection>
       </GuideSection>
@@ -346,6 +379,15 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
           </div>
         </SubSection>
 
+        <SubSection title="Gym-Themed Tournaments">
+          <div className="bg-pocket-bg rounded p-2 text-xs space-y-1">
+            <p>Some tournaments feature gym leader themes that provide bonuses:</p>
+            <p>• Pokemon matching the gym's type get <strong className="text-green-500">stat bonuses</strong></p>
+            <p>• Themed tournaments encourage type-diverse rosters</p>
+            <p>• Check tournament details for active bonuses</p>
+          </div>
+        </SubSection>
+
         <SubSection title="Rewards">
           <div className="space-y-1">
             <p>• Primos based on placement</p>
@@ -377,36 +419,50 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
 
       {/* Tips & Strategies */}
       <GuideSection title="Tips & Strategies" icon={Brain} iconColor="text-teal-500">
-        <SubSection title="Early Game">
+        <SubSection title="Early Game (Turns 1-12)">
           <div className="space-y-1">
-            <p>• Focus on 2-3 key stats initially</p>
-            <p>• Don't let energy drop to 0</p>
-            <p>• Build friendship with useful supports</p>
+            <p>• Focus on 2-3 key stats initially (Attack + HP/Defense)</p>
+            <p>• Don't let energy drop below 20 - rest proactively</p>
+            <p>• Prioritize supports matching your main training stats</p>
+            <p>• Win wild battles for +5 all stats and skill points</p>
           </div>
         </SubSection>
 
-        <SubSection title="Mid Game">
+        <SubSection title="Mid Game (Turns 13-48)">
           <div className="space-y-1">
-            <p>• Learn abilities that match your type aptitudes</p>
-            <p>• Use move hints to save Skill Points</p>
-            <p>• Balance training with wild battles</p>
+            <p>• Learn abilities that match your best type aptitudes</p>
+            <p>• Use move hints to save Skill Points (up to 60% discount)</p>
+            <p>• Get supports to 100 friendship for major stat bonuses</p>
+            <p>• Collect Pokeclocks for emergency turn extensions</p>
           </div>
         </SubSection>
 
-        <SubSection title="Late Game">
+        <SubSection title="Late Game (Turns 49-63)">
           <div className="space-y-1">
-            <p>• Prepare for Elite Four gauntlet</p>
-            <p>• Ensure you have type coverage in abilities</p>
-            <p>• HP and Defense help survive longer fights</p>
+            <p>• Prepare for Elite Four gauntlet (4 consecutive battles)</p>
+            <p>• Ensure type coverage in abilities for different matchups</p>
+            <p>• HP and Defense help survive the longer Elite Four fights</p>
+            <p>• Use remaining Pokeclocks before Elite Four if needed</p>
           </div>
         </SubSection>
 
-        <SubSection title="General Tips">
-          <div className="bg-pocket-bg rounded p-2 space-y-1">
-            <p>• Higher Instinct = more crits and dodges</p>
-            <p>• Speed helps maintain stamina in long battles</p>
-            <p>• Type advantage matters - check gym leader types</p>
-            <p>• Train more Pokemon = more Inspiration bonuses</p>
+        <SubSection title="Strategy Tips">
+          <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
+            <p><strong>Nuker Pokemon:</strong> Front-load damage, great for quick wins</p>
+            <p><strong>Scaler Pokemon:</strong> Better sustained DPS, good for longer fights</p>
+            <p><strong>Chipper Pokemon:</strong> Rapid attacks, excellent stamina efficiency</p>
+            <p><strong>High Instinct:</strong> More crits (5% + Inst/800) and dodges while resting</p>
+            <p><strong>High Speed:</strong> Faster stamina regen = more ability usage</p>
+            <p><strong>Type Advantage:</strong> +25% damage when super effective</p>
+          </div>
+        </SubSection>
+
+        <SubSection title="Hall of Fame Tips">
+          <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
+            <p>• Train diverse Pokemon types for better Inspiration coverage</p>
+            <p>• Gym defeats (0-7) are tracked for each Pokemon</p>
+            <p>• Stronger Hall of Fame Pokemon = better Inspiration bonuses</p>
+            <p>• Tournament eligibility requires Hall of Fame entries</p>
           </div>
         </SubSection>
       </GuideSection>
