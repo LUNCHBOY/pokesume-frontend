@@ -1073,3 +1073,65 @@ export const apiGetPvPMatches = async (limit = 20, offset = 0, authToken) => {
     return { matches: [] };
   }
 };
+
+// ============================================================================
+// PROFILE API
+// ============================================================================
+
+export const apiGetProfile = async (authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/profile`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch profile');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get profile error:', error);
+    return null;
+  }
+};
+
+export const apiGetAllBadges = async () => {
+  try {
+    const response = await fetch(`${API_URL}/profile/badges/all`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch badges');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get all badges error:', error);
+    return { badges: [] };
+  }
+};
+
+export const apiGetUserBadges = async (authToken) => {
+  if (!authToken) return { badges: [], allBadges: [] };
+
+  try {
+    const response = await fetch(`${API_URL}/profile/badges`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch user badges');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get user badges error:', error);
+    return { badges: [], allBadges: [] };
+  }
+};

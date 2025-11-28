@@ -39,11 +39,94 @@ const SupportSelectionScreen = () => {
     setSelectedSupports,
     setGameState,
     supportSortBy,
-    setSupportSortBy
+    setSupportSortBy,
+    selectedInspirations
   } = useGame();
 
   const { supportInventory } = useInventory();
   const { startCareer, careerLoading } = useCareer();
+
+  // Color to type mapping for aptitudes
+  const colorToType = {
+    Red: 'Fire',
+    Blue: 'Water',
+    Green: 'Grass',
+    Yellow: 'Electric',
+    Purple: 'Psychic',
+    Orange: 'Fighting'
+  };
+
+  // Type to color mapping (reverse)
+  const typeToColor = {
+    Fire: 'Red',
+    Water: 'Blue',
+    Grass: 'Green',
+    Electric: 'Yellow',
+    Psychic: 'Purple',
+    Fighting: 'Orange'
+  };
+
+  // Calculate inspiration bonuses from selected inspirations
+  // Returns: { aptitudeUpgrades: { Red: 2, Blue: 1, ... }, strategyUpgrades: 1 }
+  const calculateInspirationBonuses = () => {
+    const aptitudeStars = {}; // Track stars per aptitude type (by color)
+    let strategyStars = 0;
+
+    // Sum up all stars from selected inspirations
+    selectedInspirations.forEach(insp => {
+      if (!insp.inspirations) return;
+
+      // Aptitude stars
+      if (insp.inspirations.aptitude) {
+        const color = insp.inspirations.aptitude.color;
+        if (color) {
+          aptitudeStars[color] = (aptitudeStars[color] || 0) + (insp.inspirations.aptitude.stars || 0);
+        }
+      }
+
+      // Strategy stars
+      if (insp.inspirations.strategy) {
+        strategyStars += insp.inspirations.strategy.stars || 0;
+      }
+    });
+
+    // Convert stars to grade upgrades (2 stars = 1 grade upgrade)
+    const aptitudeUpgrades = {};
+    Object.keys(aptitudeStars).forEach(color => {
+      aptitudeUpgrades[color] = Math.floor(aptitudeStars[color] / 2);
+    });
+
+    const strategyUpgrades = Math.floor(strategyStars / 2);
+
+    return { aptitudeUpgrades, strategyUpgrades };
+  };
+
+  // Apply grade upgrades to aptitudes
+  const applyGradeUpgrades = (aptitudes, upgrades) => {
+    const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    const upgraded = { ...aptitudes };
+
+    Object.keys(upgrades).forEach(color => {
+      const currentGrade = upgraded[color];
+      if (!currentGrade) return;
+
+      const currentIndex = gradeOrder.indexOf(currentGrade);
+      const newIndex = Math.min(currentIndex + upgrades[color], gradeOrder.length - 1);
+      upgraded[color] = gradeOrder[newIndex];
+    });
+
+    return upgraded;
+  };
+
+  // Apply strategy grade upgrade
+  const applyStrategyGradeUpgrade = (currentGrade, upgrades) => {
+    const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    const currentIndex = gradeOrder.indexOf(currentGrade);
+    if (currentIndex === -1) return currentGrade;
+
+    const newIndex = Math.min(currentIndex + upgrades, gradeOrder.length - 1);
+    return gradeOrder[newIndex];
+  };
 
   const [typeFilter, setTypeFilter] = useState('All');
   const supportTypes = ['All', 'HP', 'Attack', 'Defense', 'Instinct', 'Speed'];
@@ -97,10 +180,36 @@ const SupportSelectionScreen = () => {
       return;
     }
 
+    // Calculate inspiration bonuses (2 stars = 1 grade upgrade)
+    const { aptitudeUpgrades, strategyUpgrades } = calculateInspirationBonuses();
+
+    // Apply inspiration upgrades to aptitudes
+    const upgradedAptitudes = applyGradeUpgrades(
+      pokemonData.typeAptitudes || {},
+      aptitudeUpgrades
+    );
+
+    // Apply inspiration upgrades to strategy grade
+    const upgradedStrategyGrade = applyStrategyGradeUpgrade(
+      pokemonData.strategyGrade || 'C',
+      strategyUpgrades
+    );
+
     const pokemon = {
       name: selectedPokemon,
-      ...pokemonData
+      ...pokemonData,
+      typeAptitudes: upgradedAptitudes,
+      strategyGrade: upgradedStrategyGrade
     };
+
+    console.log('[SupportSelectionScreen] Starting career with inspiration bonuses:', {
+      originalAptitudes: pokemonData.typeAptitudes,
+      upgradedAptitudes,
+      aptitudeUpgrades,
+      originalStrategyGrade: pokemonData.strategyGrade,
+      upgradedStrategyGrade,
+      strategyUpgrades
+    });
 
     const careerState = await startCareer(pokemon, selectedSupports);
 

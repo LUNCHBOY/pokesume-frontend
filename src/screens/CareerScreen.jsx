@@ -155,7 +155,7 @@ const getMoveDescription = (move) => {
 /**
  * Check if current turn triggers inspiration and apply bonuses
  */
-const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, currentAptitudes) => {
+const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, currentAptitudes, currentStrategyGrade = 'C') => {
   const inspirationTurns = [11, 23, 35, 47, 59];
 
   console.log('[checkAndApplyInspiration] Turn:', turn, 'Selected:', selectedInspirations?.length);
@@ -182,17 +182,20 @@ const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, curr
   // Create copies to mutate
   const updatedStats = { ...currentStats };
   const updatedAptitudes = { ...currentAptitudes };
+  let updatedStrategyGrade = currentStrategyGrade;
 
   const inspirationResults = selectedInspirations
     .filter(insp => insp && insp.inspirations)
     .map(trainedPokemon => {
       const statInsp = trainedPokemon.inspirations.stat;
       const aptInsp = trainedPokemon.inspirations.aptitude;
+      const strategyInsp = trainedPokemon.inspirations.strategy;
 
       const result = {
         pokemonName: trainedPokemon.name,
         statBonus: null,
-        aptitudeUpgrade: null
+        aptitudeUpgrade: null,
+        strategyUpgrade: null
       };
 
       // Apply stat bonus
@@ -227,6 +230,24 @@ const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, curr
         }
       }
 
+      // Check for strategy aptitude upgrade (same % chance as attack aptitudes)
+      if (strategyInsp && strategyInsp.stars) {
+        const upgradeChance = strategyInsp.stars === 1 ? 0.03 : strategyInsp.stars === 2 ? 0.10 : 0.20;
+        if (Math.random() < upgradeChance) {
+          const currentIndex = aptitudeOrder.indexOf(updatedStrategyGrade);
+          if (currentIndex < aptitudeOrder.length - 1) { // Not already S
+            const newGrade = aptitudeOrder[currentIndex + 1];
+            result.strategyUpgrade = {
+              from: updatedStrategyGrade,
+              to: newGrade,
+              stars: strategyInsp.stars,
+              chance: upgradeChance
+            };
+            updatedStrategyGrade = newGrade;
+          }
+        }
+      }
+
       return result;
     });
 
@@ -234,7 +255,8 @@ const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, curr
     turn,
     results: inspirationResults,
     updatedStats,
-    updatedAptitudes
+    updatedAptitudes,
+    updatedStrategyGrade
   };
 
   console.log('[checkAndApplyInspiration] Result:', finalResult);
@@ -528,7 +550,8 @@ const CareerScreen = () => {
         nextTurn,
         selectedInspirations,
         result.careerState.currentStats,
-        result.careerState.pokemon.typeAptitudes
+        result.careerState.pokemon.typeAptitudes,
+        result.careerState.pokemon.strategyGrade || 'C'
       );
 
       if (inspirationResult && inspirationResult.results.length > 0) {
@@ -594,7 +617,8 @@ const CareerScreen = () => {
         nextTurn,
         selectedInspirations,
         result.careerState.currentStats,
-        result.careerState.pokemon.typeAptitudes
+        result.careerState.pokemon.typeAptitudes,
+        result.careerState.pokemon.strategyGrade || 'C'
       );
 
       if (inspirationResult && inspirationResult.results.length > 0) {
@@ -961,7 +985,7 @@ const CareerScreen = () => {
                 )}
 
                 {result.aptitudeUpgrade && (
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-2">
                     <div className="text-purple-700 font-bold mb-1 text-sm">
                       {result.aptitudeUpgrade.type} Aptitude: {result.aptitudeUpgrade.from} → {result.aptitudeUpgrade.to}
                     </div>
@@ -978,7 +1002,25 @@ const CareerScreen = () => {
                   </div>
                 )}
 
-                {!result.statBonus && !result.aptitudeUpgrade && (
+                {result.strategyUpgrade && (
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                    <div className="text-orange-700 font-bold mb-1 text-sm">
+                      Strategy Aptitude: {result.strategyUpgrade.from} → {result.strategyUpgrade.to}
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-pocket-text-light">
+                        {(result.strategyUpgrade.chance * 100).toFixed(0)}% chance
+                      </span>
+                      <div className="flex gap-0.5">
+                        {[...Array(result.strategyUpgrade.stars)].map((_, i) => (
+                          <Star key={i} size={14} className="text-amber-400 fill-amber-400" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {!result.statBonus && !result.aptitudeUpgrade && !result.strategyUpgrade && (
                   <div className="text-pocket-text-light text-sm italic">
                     No bonuses this time
                   </div>
@@ -2134,11 +2176,14 @@ const CareerScreen = () => {
                     const hasMaxFriendshipTypeMatch = option.supports.some(supportName => {
                       const support = getSupportCardAttributes(supportName);
                       if (!support) return false;
-                      const supportType = support.type || support.supportType;
-                      const initialFriendship = support?.initialFriendship || 0;
-                      const friendship = careerData.supportFriendships?.[supportName] ?? initialFriendship;
+                      const supportType = support.supportType;
+                      const friendship = careerData.supportFriendships?.[supportName] || 0;
                       const isMaxFriendship = friendship >= 100;
-                      return supportType === stat && isMaxFriendship;
+                      const matches = supportType === stat && isMaxFriendship;
+                      if (isMaxFriendship) {
+                        console.log('[RainbowSheen] Support:', supportName, 'Type:', supportType, 'Stat:', stat, 'Friendship:', friendship, 'Matches:', matches);
+                      }
+                      return matches;
                     });
 
                     return (
@@ -2149,12 +2194,15 @@ const CareerScreen = () => {
                         className={`border-2 rounded p-1 sm:p-2 text-left transition relative overflow-hidden ${
                           isProcessingAction
                             ? 'border-gray-300 bg-gray-100 cursor-not-allowed opacity-60'
-                            : 'border-purple-500 hover:bg-purple-50 cursor-pointer'
+                            : hasMaxFriendshipTypeMatch
+                              ? 'border-amber-400 cursor-pointer'
+                              : 'border-purple-500 hover:bg-purple-50 cursor-pointer'
                         }`}
                         style={hasMaxFriendshipTypeMatch ? {
-                          background: 'linear-gradient(135deg, rgba(255,200,200,0.3) 0%, rgba(255,255,200,0.3) 20%, rgba(200,255,200,0.3) 40%, rgba(200,255,255,0.3) 60%, rgba(200,200,255,0.3) 80%, rgba(255,200,255,0.3) 100%)',
+                          background: 'linear-gradient(135deg, rgba(255,180,180,0.5) 0%, rgba(255,255,180,0.5) 20%, rgba(180,255,180,0.5) 40%, rgba(180,255,255,0.5) 60%, rgba(180,180,255,0.5) 80%, rgba(255,180,255,0.5) 100%)',
                           animation: 'rainbow-sheen 3s ease infinite',
-                          backgroundSize: '200% 200%'
+                          backgroundSize: '200% 200%',
+                          boxShadow: '0 0 10px rgba(255, 200, 100, 0.5)'
                         } : {}}
                       >
                         <div className="flex items-center justify-between mb-0.5 sm:mb-1">

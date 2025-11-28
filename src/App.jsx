@@ -38,6 +38,7 @@ import PvPTeamSelectScreen from './screens/PvPTeamSelectScreen';
 import PvPQueueScreen from './screens/PvPQueueScreen';
 import PvPReplayScreen from './screens/PvPReplayScreen';
 import GameGuideScreen from './screens/GameGuideScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 /**
  * GameRouter
@@ -55,7 +56,7 @@ const GameRouter = () => {
       'supportInventory', 'trainedPokemon', 'gacha', 'supportGacha', 'career', 'battle',
       'victory', 'gameOver', 'careerEnd', 'history', 'tournaments', 'tournamentDetails',
       'tournamentBracket', 'tournamentReplay', 'pvp', 'pvpTeamSelect', 'pvpQueue', 'pvpReplay',
-      'guide'
+      'guide', 'profile'
     ];
 
     if (!validStates.includes(gameState)) {
@@ -148,6 +149,9 @@ const GameRouter = () => {
 
     case 'guide':
       return <GameGuideScreen />;
+
+    case 'profile':
+      return <ProfileScreen />;
 
     default:
       return <MenuScreen />;

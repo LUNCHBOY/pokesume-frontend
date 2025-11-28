@@ -19,6 +19,8 @@ export const GYM_LEADER_IMAGES = {
   'Bruno': '/images/trainers/gym-leaders/bruno.png',
   'Agatha': '/images/trainers/gym-leaders/agatha.png',
   'Will': '/images/trainers/gym-leaders/will.png',
+  'Lorelei': '/images/trainers/gym-leaders/lorelei.png',
+  'Lance': '/images/trainers/gym-leaders/lance.png',
 };
 
 // Support Card Trainer Images (maps trainer names from support cards)

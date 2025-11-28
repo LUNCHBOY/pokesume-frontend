@@ -19,7 +19,9 @@ import {
   CircleDot,
   Gift,
   Star,
-  HelpCircle
+  HelpCircle,
+  User,
+  Shield
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useGame } from '../contexts/GameContext';
@@ -235,13 +237,18 @@ const MenuScreen = () => {
         className="sticky top-0 z-10 bg-white shadow-card"
       >
         <div className="max-w-lg mx-auto flex items-center justify-between px-4 py-3">
-          {/* Logo / Title */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-pocket-red flex items-center justify-center">
-              <Star size={16} className="text-white" />
+          {/* Profile Button (upper left) */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setGameState('profile')}
+            className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full border border-amber-200 hover:border-amber-300 transition-colors"
+          >
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+              <Shield size={12} className="text-white" />
             </div>
-            <span className="font-bold text-pocket-text">Pokesume</span>
-          </div>
+            <span className="text-pocket-text font-semibold text-sm">Profile</span>
+          </motion.button>
 
           {/* Currency */}
           <motion.div

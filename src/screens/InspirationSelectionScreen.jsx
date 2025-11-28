@@ -41,7 +41,7 @@ const InspirationSelectionScreen = () => {
     return [...pokemon].sort((a, b) => {
       const getTotalStars = (p) => {
         if (!p.inspirations || !p.inspirations.stat || !p.inspirations.aptitude) return 0;
-        return p.inspirations.stat.stars + p.inspirations.aptitude.stars;
+        return p.inspirations.stat.stars + p.inspirations.aptitude.stars + (p.inspirations.strategy?.stars || 0);
       };
 
       // Primary sort by mode
@@ -174,7 +174,7 @@ const InspirationSelectionScreen = () => {
                   insp => insp.name === trained.name && insp.completedAt === trained.completedAt
                 );
                 const totalStars = trained.inspirations
-                  ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0)
+                  ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
                   : 0;
 
                 return (
@@ -233,6 +233,16 @@ const InspirationSelectionScreen = () => {
                             ))}
                           </div>
                         </div>
+                        {trained.inspirations.strategy && (
+                          <div className="flex justify-between items-center text-[10px]">
+                            <span className="font-semibold text-pocket-text">Strategy</span>
+                            <div className="flex gap-0.5">
+                              {[...Array(trained.inspirations.strategy.stars)].map((_, i) => (
+                                <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="text-[10px] font-bold text-pocket-red text-center mt-2">No Inspirations</div>

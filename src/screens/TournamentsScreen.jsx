@@ -9,10 +9,31 @@
  */
 
 import React from 'react';
-import { ArrowLeft, Trophy, Clock, Users } from 'lucide-react';
+import { ArrowLeft, Trophy, Clock, Users, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
+import { TYPE_COLORS } from '../components/TypeIcon';
+
+// Gym badge data for display
+const GYM_BADGES = {
+  boulder: { name: 'Boulder Badge', leader: 'Brock', type: 'Rock' },
+  cascade: { name: 'Cascade Badge', leader: 'Misty', type: 'Water' },
+  thunder: { name: 'Thunder Badge', leader: 'Lt. Surge', type: 'Electric' },
+  rainbow: { name: 'Rainbow Badge', leader: 'Erika', type: 'Grass' },
+  soul: { name: 'Soul Badge', leader: 'Koga', type: 'Poison' },
+  marsh: { name: 'Marsh Badge', leader: 'Sabrina', type: 'Psychic' },
+  volcano: { name: 'Volcano Badge', leader: 'Blaine', type: 'Fire' },
+  earth: { name: 'Earth Badge', leader: 'Giovanni', type: 'Ground' },
+  zephyr: { name: 'Zephyr Badge', leader: 'Falkner', type: 'Flying' },
+  hive: { name: 'Hive Badge', leader: 'Bugsy', type: 'Bug' },
+  plain: { name: 'Plain Badge', leader: 'Whitney', type: 'Normal' },
+  fog: { name: 'Fog Badge', leader: 'Morty', type: 'Ghost' },
+  storm: { name: 'Storm Badge', leader: 'Chuck', type: 'Fighting' },
+  mineral: { name: 'Mineral Badge', leader: 'Jasmine', type: 'Steel' },
+  glacier: { name: 'Glacier Badge', leader: 'Pryce', type: 'Ice' },
+  rising: { name: 'Rising Badge', leader: 'Clair', type: 'Dragon' }
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -134,71 +155,105 @@ const TournamentsScreen = () => {
             animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {tournaments.map((tournament) => (
-              <motion.div
-                key={tournament.id}
-                variants={itemVariants}
-                whileHover={{ y: -2 }}
-                onClick={() => {
-                  setSelectedTournament(tournament);
-                  setGameState('tournamentDetails');
-                }}
-                className="bg-white rounded-2xl shadow-card p-5 cursor-pointer transition-shadow hover:shadow-card-hover"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-pocket-text mb-2">{tournament.name}</h3>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span
-                        className="px-3 py-1 rounded-full text-white text-xs font-bold"
-                        style={{ backgroundColor: getStatusColor(tournament.status) }}
-                      >
-                        {tournament.status.replace('_', ' ').toUpperCase()}
-                      </span>
-                      {tournament.status === 'in_progress' && (
-                        <span className="px-3 py-1 rounded-full bg-type-psychic text-white text-xs font-bold">
-                          Round {tournament.current_round}/{tournament.total_rounds}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
-                    <Trophy size={24} className="text-amber-500" />
-                  </div>
-                </div>
+            {tournaments.map((tournament) => {
+              const gymBadge = tournament.gym_theme ? GYM_BADGES[tournament.gym_theme] : null;
+              const typeColor = gymBadge ? (TYPE_COLORS[gymBadge.type] || '#6b7280') : '#6b7280';
 
-                <div className="bg-pocket-bg rounded-xl p-3 space-y-2 text-sm mb-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-pocket-text-light flex items-center gap-1">
-                      <Users size={14} /> Players
-                    </span>
-                    <span className="font-bold text-pocket-text">{tournament.entries_count}/{tournament.max_players}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-pocket-text-light flex items-center gap-1">
-                      <Clock size={14} />
-                      {tournament.status === 'upcoming' || tournament.status === 'registration' ? 'Starts in' : 'Started'}
-                    </span>
-                    <span className="font-bold text-pocket-text">
-                      {tournament.status === 'upcoming' || tournament.status === 'registration'
-                        ? getTimeUntilStart(tournament.start_time)
-                        : new Date(tournament.start_time).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
+              return (
+                <motion.div
+                  key={tournament.id}
+                  variants={itemVariants}
+                  whileHover={{ y: -2 }}
+                  onClick={() => {
                     setSelectedTournament(tournament);
                     setGameState('tournamentDetails');
                   }}
-                  className="w-full pocket-btn-primary py-2"
+                  className="bg-white rounded-2xl shadow-card p-5 cursor-pointer transition-shadow hover:shadow-card-hover"
+                  style={{ borderLeft: gymBadge ? `4px solid ${typeColor}` : undefined }}
                 >
-                  View Details
-                </button>
-              </motion.div>
-            ))}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-pocket-text mb-2">{tournament.name}</h3>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span
+                          className="px-3 py-1 rounded-full text-white text-xs font-bold"
+                          style={{ backgroundColor: getStatusColor(tournament.status) }}
+                        >
+                          {tournament.status.replace('_', ' ').toUpperCase()}
+                        </span>
+                        {tournament.status === 'in_progress' && (
+                          <span className="px-3 py-1 rounded-full bg-type-psychic text-white text-xs font-bold">
+                            Round {tournament.current_round}/{tournament.total_rounds}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {/* Badge reward display */}
+                    {gymBadge ? (
+                      <div
+                        className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{
+                          background: `linear-gradient(135deg, ${typeColor}40, ${typeColor}80)`,
+                          border: `2px solid ${typeColor}`
+                        }}
+                      >
+                        <Shield size={20} className="text-white" />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
+                        <Trophy size={24} className="text-amber-500" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Badge reward info */}
+                  {gymBadge && (
+                    <div
+                      className="rounded-xl p-2 mb-3 text-xs"
+                      style={{ backgroundColor: `${typeColor}15` }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Shield size={14} style={{ color: typeColor }} />
+                        <span className="font-bold" style={{ color: typeColor }}>
+                          Prize: {gymBadge.name}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="bg-pocket-bg rounded-xl p-3 space-y-2 text-sm mb-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-pocket-text-light flex items-center gap-1">
+                        <Users size={14} /> Players
+                      </span>
+                      <span className="font-bold text-pocket-text">{tournament.entries_count}/{tournament.max_players}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-pocket-text-light flex items-center gap-1">
+                        <Clock size={14} />
+                        {tournament.status === 'upcoming' || tournament.status === 'registration' ? 'Starts in' : 'Started'}
+                      </span>
+                      <span className="font-bold text-pocket-text">
+                        {tournament.status === 'upcoming' || tournament.status === 'registration'
+                          ? getTimeUntilStart(tournament.start_time)
+                          : new Date(tournament.start_time).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedTournament(tournament);
+                      setGameState('tournamentDetails');
+                    }}
+                    className="w-full pocket-btn-primary py-2"
+                  >
+                    View Details
+                  </button>
+                </motion.div>
+              );
+            })}
           </motion.div>
         )}
       </div>

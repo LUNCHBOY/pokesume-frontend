@@ -19,9 +19,9 @@ import {
 import { TypeBadge } from '../components/TypeIcon';
 
 /**
- * Generate inspirations based on final Pokemon stats and aptitudes
+ * Generate inspirations based on final Pokemon stats, aptitudes, and strategy
  */
-const generateInspirations = (stats, aptitudes) => {
+const generateInspirations = (stats, aptitudes, strategyGrade = 'C') => {
   // Find the highest stat for stat inspiration
   const statEntries = Object.entries(stats);
   const highestStat = statEntries.reduce((best, [name, value]) => {
@@ -44,6 +44,17 @@ const generateInspirations = (stats, aptitudes) => {
   const aptitudeStars = ['S', 'A'].includes(bestAptitude.grade) ? 3 :
                         ['B', 'C'].includes(bestAptitude.grade) ? 2 : 1;
 
+  // Calculate strategy stars based on strategy grade (same distribution as aptitudes)
+  const strategyIndex = aptitudeOrder.indexOf(strategyGrade);
+  let strategyStars = 1;
+  if (strategyIndex <= 3) { // F, E, D, C
+    strategyStars = 1;
+  } else if (strategyIndex === 4) { // B
+    strategyStars = 2;
+  } else { // A, S
+    strategyStars = 3;
+  }
+
   const colorToType = {
     'Red': 'Fire',
     'Blue': 'Water',
@@ -64,6 +75,10 @@ const generateInspirations = (stats, aptitudes) => {
       color: bestAptitude.color,
       grade: bestAptitude.grade,
       stars: aptitudeStars
+    },
+    strategy: {
+      grade: strategyGrade,
+      stars: strategyStars
     }
   };
 };
@@ -91,7 +106,11 @@ const VictoryScreen = () => {
   // Fall back to generating locally if not available
   const inspirations = completedCareerData?.inspirations ||
     (completedCareerData?.currentStats && completedCareerData?.pokemon?.typeAptitudes
-      ? generateInspirations(completedCareerData.currentStats, completedCareerData.pokemon.typeAptitudes)
+      ? generateInspirations(
+          completedCareerData.currentStats,
+          completedCareerData.pokemon.typeAptitudes,
+          completedCareerData.pokemon.strategyGrade || 'C'
+        )
       : null);
 
   const handleReturn = () => {
@@ -271,11 +290,11 @@ const VictoryScreen = () => {
               <Star size={18} className="text-type-psychic" />
               <h3 className="font-bold text-pocket-text">Inspirations Earned</h3>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               {/* Stat Inspiration */}
               <div className="bg-purple-50 rounded-xl p-3 border-2 border-purple-200">
-                <div className="text-[10px] font-bold text-type-psychic mb-1">STAT INSPIRATION</div>
-                <div className="font-bold text-pocket-text mb-1">{inspirations.stat.name}</div>
+                <div className="text-[10px] font-bold text-type-psychic mb-1">STAT</div>
+                <div className="font-bold text-pocket-text mb-1 text-sm">{inspirations.stat.name}</div>
                 <div className="text-xs text-pocket-text-light mb-2">Value: {inspirations.stat.value}</div>
                 <div className="flex gap-0.5">
                   {[...Array(inspirations.stat.stars)].map((_, i) => (
@@ -286,8 +305,8 @@ const VictoryScreen = () => {
 
               {/* Aptitude Inspiration */}
               <div className="bg-purple-50 rounded-xl p-3 border-2 border-purple-200">
-                <div className="text-[10px] font-bold text-type-psychic mb-1">APTITUDE INSPIRATION</div>
-                <div className="font-bold text-pocket-text mb-1">{inspirations.aptitude.name}</div>
+                <div className="text-[10px] font-bold text-type-psychic mb-1">APTITUDE</div>
+                <div className="font-bold text-pocket-text mb-1 text-sm">{inspirations.aptitude.name}</div>
                 <div className="text-xs text-pocket-text-light mb-2">Grade: {inspirations.aptitude.grade}</div>
                 <div className="flex gap-0.5">
                   {[...Array(inspirations.aptitude.stars)].map((_, i) => (
@@ -295,6 +314,20 @@ const VictoryScreen = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Strategy Inspiration */}
+              {inspirations.strategy && (
+                <div className="bg-purple-50 rounded-xl p-3 border-2 border-purple-200">
+                  <div className="text-[10px] font-bold text-type-psychic mb-1">STRATEGY</div>
+                  <div className="font-bold text-pocket-text mb-1 text-sm">Aptitude</div>
+                  <div className="text-xs text-pocket-text-light mb-2">Grade: {inspirations.strategy.grade}</div>
+                  <div className="flex gap-0.5">
+                    {[...Array(inspirations.strategy.stars)].map((_, i) => (
+                      <Star key={i} size={14} className="text-amber-400 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

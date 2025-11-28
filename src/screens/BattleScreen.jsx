@@ -22,10 +22,11 @@ import { getGymLeaderBadge } from '../constants/badgeImages';
 import BadgeModal from '../components/BadgeModal';
 
 /**
- * Generate inspirations based on final Pokemon stats and aptitudes
+ * Generate inspirations based on final Pokemon stats, aptitudes, and strategy
  * Picks a RANDOM stat and RANDOM aptitude, then determines stars based on value/grade with % rolls
+ * Also generates strategy inspiration based on strategy aptitude grade
  */
-const generateInspirations = (stats, aptitudes, isVictory = false) => {
+const generateInspirations = (stats, aptitudes, strategyGrade = 'C', isVictory = false) => {
   if (!stats || Object.keys(stats).length === 0) return null;
 
   const colorToType = {
@@ -67,11 +68,24 @@ const generateInspirations = (stats, aptitudes, isVictory = false) => {
 
   // Pick a RANDOM aptitude (not best)
   const aptitudeKeys = Object.keys(aptitudes || {});
+  const aptitudeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+
+  // Determine strategy stars based on strategy grade (same distribution as aptitudes)
+  const strategyIndex = aptitudeOrder.indexOf(strategyGrade);
+  let strategyStars = 1;
+  if (strategyIndex <= 3) { // F, E, D, C
+    strategyStars = 1;
+  } else if (strategyIndex === 4) { // B
+    strategyStars = 2;
+  } else { // A, S
+    strategyStars = 3;
+  }
 
   if (aptitudeKeys.length === 0) {
     return {
       stat: { name: randomStat, value: statValue, stars: statStars },
-      aptitude: { name: 'Fire', color: 'Red', grade: 'D', stars: 1 }
+      aptitude: { name: 'Fire', color: 'Red', grade: 'D', stars: 1 },
+      strategy: { grade: strategyGrade, stars: strategyStars }
     };
   }
 
@@ -79,7 +93,6 @@ const generateInspirations = (stats, aptitudes, isVictory = false) => {
   const aptitudeGrade = aptitudes[randomAptitudeKey];
 
   // Determine aptitude stars based on grade
-  const aptitudeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
   const aptitudeIndex = aptitudeOrder.indexOf(aptitudeGrade);
 
   let aptitudeStars = 1;
@@ -102,6 +115,10 @@ const generateInspirations = (stats, aptitudes, isVictory = false) => {
       color: randomAptitudeKey,
       grade: aptitudeGrade,
       stars: aptitudeStars
+    },
+    strategy: {
+      grade: strategyGrade,
+      stars: strategyStars
     }
   };
 };
@@ -201,6 +218,7 @@ const BattleScreen = () => {
         const inspirations = generateInspirations(
           careerData?.currentStats,
           careerData?.pokemon?.typeAptitudes,
+          careerData?.pokemon?.strategyGrade || 'C',
           false // defeat
         );
 
@@ -248,6 +266,7 @@ const BattleScreen = () => {
       const inspirations = generateInspirations(
         careerData?.currentStats,
         careerData?.pokemon?.typeAptitudes,
+        careerData?.pokemon?.strategyGrade || 'C',
         true // victory
       );
 
