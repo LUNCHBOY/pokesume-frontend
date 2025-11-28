@@ -182,11 +182,6 @@ const SupportGachaScreen = () => {
                   <h3 className="text-xl font-bold text-pocket-text mb-2">
                     {SUPPORT_CARDS[rollResult.support].name}
                   </h3>
-                  <p className="text-sm text-pocket-text-light mb-2">
-                    <span className="font-semibold">{SUPPORT_CARDS[rollResult.support].trainer}</span>
-                    {' & '}
-                    <span className="font-semibold">{SUPPORT_CARDS[rollResult.support].pokemon}</span>
-                  </p>
                   <p className="text-xs text-pocket-text-light italic mb-3">
                     {SUPPORT_CARDS[rollResult.support].effect.description}
                   </p>

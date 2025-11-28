@@ -7,9 +7,21 @@
       "Bash(git commit:*)",
       "Bash(git push)",
       "Bash(git push:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(claude mcp add:*)",
+      "Bash(cmd /c \"if exist %USERPROFILE%\\.claude\\settings.json (type %USERPROFILE%\\.claude\\settings.json) else (echo File not found)\")",
+      "Bash(cmd /c \"type %USERPROFILE%\\.claude\\settings.json 2>nul || echo {}\")",
+      "Bash(cmd /c \"dir %USERPROFILE%\\.claude\\ 2>nul || echo Directory not found\")",
+      "Bash(cmd /c \"if exist %USERPROFILE%\\.claude (echo Directory exists) else (mkdir %USERPROFILE%\\.claude && echo Created directory)\")",
+      "Bash(cmd /c \"type c:\\pokesume\\pokesume frontend\\pokesume-frontend\\.mcp.json\")"
     ],
     "deny": [],
     "ask": []
+  },
+  "mcpServers": {
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    }
   }
 }

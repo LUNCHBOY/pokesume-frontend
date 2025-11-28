@@ -97,6 +97,13 @@ const MENU_ITEMS = [
     icon: Medal,
     color: '#7038F8',
     screen: 'tournaments'
+  },
+  {
+    key: 'pvp',
+    label: 'PvP Battle',
+    icon: Swords,
+    color: '#C03028',
+    screen: 'pvp'
   }
 ];
 

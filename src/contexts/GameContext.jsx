@@ -61,6 +61,11 @@ export const GameProvider = ({ children }) => {
   const [selectedReplay, setSelectedReplay] = useState(null);
   const [userRosters, setUserRosters] = useState([]);
 
+  // PvP Matchmaking state
+  const [pvpSelectedTeam, setPvPSelectedTeam] = useState([null, null, null]);
+  const [pvpMatchId, setPvPMatchId] = useState(null);
+  const [pvpMatchData, setPvPMatchData] = useState(null);
+
   // Career history (local - could be moved to server later)
   const [careerHistory, setCareerHistory] = useState(() => {
     try {
@@ -165,6 +170,14 @@ export const GameProvider = ({ children }) => {
     setSelectedReplay,
     userRosters,
     setUserRosters,
+
+    // PvP Matchmaking
+    pvpSelectedTeam,
+    setPvPSelectedTeam,
+    pvpMatchId,
+    setPvPMatchId,
+    pvpMatchData,
+    setPvPMatchData,
 
     // Utilities
     resetGameState

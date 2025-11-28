@@ -33,6 +33,10 @@ import TournamentsScreen from './screens/TournamentsScreen';
 import TournamentDetailsScreen from './screens/TournamentDetailsScreen';
 import TournamentBracketScreen from './screens/TournamentBracketScreen';
 import TournamentReplayScreen from './screens/TournamentReplayScreen';
+import PvPScreen from './screens/PvPScreen';
+import PvPTeamSelectScreen from './screens/PvPTeamSelectScreen';
+import PvPQueueScreen from './screens/PvPQueueScreen';
+import PvPReplayScreen from './screens/PvPReplayScreen';
 
 /**
  * GameRouter
@@ -49,7 +53,7 @@ const GameRouter = () => {
       'supportSelect', 'supportSelection', 'myPokemon', 'pokemonInventory', 'mySupports',
       'supportInventory', 'trainedPokemon', 'gacha', 'supportGacha', 'career', 'battle',
       'victory', 'gameOver', 'careerEnd', 'history', 'tournaments', 'tournamentDetails',
-      'tournamentBracket', 'tournamentReplay'
+      'tournamentBracket', 'tournamentReplay', 'pvp', 'pvpTeamSelect', 'pvpQueue', 'pvpReplay'
     ];
 
     if (!validStates.includes(gameState)) {
@@ -126,6 +130,19 @@ const GameRouter = () => {
 
     case 'tournamentReplay':
       return <TournamentReplayScreen />;
+
+    // PvP Matchmaking Screens
+    case 'pvp':
+      return <PvPScreen />;
+
+    case 'pvpTeamSelect':
+      return <PvPTeamSelectScreen />;
+
+    case 'pvpQueue':
+      return <PvPQueueScreen />;
+
+    case 'pvpReplay':
+      return <PvPReplayScreen />;
 
     default:
       return <MenuScreen />;

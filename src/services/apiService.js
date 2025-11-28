@@ -937,3 +937,139 @@ export const apiLearnAbility = async (moveName, authToken) => {
     return null;
   }
 };
+
+// ============================================================================
+// PVP MATCHMAKING API
+// ============================================================================
+
+export const apiJoinPvPQueue = async (pokemon1RosterId, pokemon2RosterId, pokemon3RosterId, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/queue`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ pokemon1RosterId, pokemon2RosterId, pokemon3RosterId })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to join queue');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Join PvP queue error:', error);
+    throw error;
+  }
+};
+
+export const apiGetPvPQueueStatus = async (authToken) => {
+  if (!authToken) return { status: 'not_in_queue' };
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/queue/status`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to get queue status');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get PvP queue status error:', error);
+    return { status: 'error' };
+  }
+};
+
+export const apiLeavePvPQueue = async (authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/queue`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to leave queue');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Leave PvP queue error:', error);
+    return null;
+  }
+};
+
+export const apiGetPvPMatch = async (matchId, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/match/${matchId}`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to get match');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get PvP match error:', error);
+    return null;
+  }
+};
+
+export const apiGetPvPStats = async (authToken) => {
+  if (!authToken) return { rating: 1000, wins: 0, losses: 0 };
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/stats`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to get PvP stats');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get PvP stats error:', error);
+    return { rating: 1000, wins: 0, losses: 0 };
+  }
+};
+
+export const apiGetPvPMatches = async (limit = 20, offset = 0, authToken) => {
+  if (!authToken) return { matches: [] };
+
+  try {
+    const response = await fetch(`${API_URL}/pvp/matches?limit=${limit}&offset=${offset}`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to get matches');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get PvP matches error:', error);
+    return { matches: [] };
+  }
+};

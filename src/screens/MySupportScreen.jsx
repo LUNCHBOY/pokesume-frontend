@@ -205,11 +205,6 @@ const MySupportScreen = () => {
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-pocket-text text-sm mb-1">{support.name}</h3>
-                    <p className="text-xs text-pocket-text-light">
-                      <span className="font-semibold">{support.trainer}</span>
-                      {' & '}
-                      <span className="font-semibold">{support.pokemon}</span>
-                    </p>
                   </div>
                 </div>
 

@@ -5,7 +5,7 @@
  * Displays support cards with rarity, effects, and stat bonuses.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowLeft, Users, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
@@ -45,12 +45,23 @@ const SupportSelectionScreen = () => {
   const { supportInventory } = useInventory();
   const { startCareer, careerLoading } = useCareer();
 
-  // Sort support inventory
-  const sortSupportInventory = () => {
+  const [typeFilter, setTypeFilter] = useState('All');
+  const supportTypes = ['All', 'HP', 'Attack', 'Defense', 'Instinct', 'Speed'];
+
+  // Filter and sort support inventory
+  const filterAndSortSupportInventory = () => {
     const rarityOrder = { 'Legendary': 0, 'Rare': 1, 'Uncommon': 2, 'Common': 3 };
     const typeOrder = { 'HP': 0, 'Attack': 1, 'Defense': 2, 'Instinct': 3, 'Speed': 4 };
 
-    return [...supportInventory].sort((a, b) => {
+    // First filter by type
+    const filtered = supportInventory.filter(supportKey => {
+      if (typeFilter === 'All') return true;
+      const support = getSupportCardAttributes(supportKey, SUPPORT_CARDS);
+      return support && support.supportType === typeFilter;
+    });
+
+    // Then sort
+    return [...filtered].sort((a, b) => {
       const supportA = getSupportCardAttributes(a, SUPPORT_CARDS);
       const supportB = getSupportCardAttributes(b, SUPPORT_CARDS);
       if (!supportA || !supportB) return 0;
@@ -72,7 +83,7 @@ const SupportSelectionScreen = () => {
     });
   };
 
-  const sortedSupportInventory = sortSupportInventory();
+  const sortedSupportInventory = filterAndSortSupportInventory();
 
   const handleBeginCareer = async () => {
     if (!selectedPokemon || selectedSupports.length === 0) {
@@ -135,6 +146,33 @@ const SupportSelectionScreen = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl shadow-card p-4 mb-4"
         >
+          {/* Type Filter */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+            <span className="text-sm font-semibold text-pocket-text-light">Filter:</span>
+            {supportTypes.map(type => (
+              <button
+                key={type}
+                onClick={() => setTypeFilter(type)}
+                className={`px-3 py-1.5 rounded-xl font-bold text-xs transition ${
+                  typeFilter === type
+                    ? 'text-white'
+                    : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
+                }`}
+                style={typeFilter === type ? {
+                  backgroundColor: type === 'All' ? '#6366f1' :
+                    type === 'HP' ? TYPE_COLORS['Grass'] :
+                    type === 'Attack' ? TYPE_COLORS['Fire'] :
+                    type === 'Defense' ? TYPE_COLORS['Water'] :
+                    type === 'Instinct' ? TYPE_COLORS['Psychic'] :
+                    TYPE_COLORS['Electric']
+                } : {}}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+
+          {/* Sort Options */}
           <div className="flex items-center justify-center gap-2">
             <span className="text-sm font-semibold text-pocket-text-light">Sort:</span>
             {['rarity', 'type'].map(sort => (
@@ -217,10 +255,6 @@ const SupportSelectionScreen = () => {
                       )}
                     </div>
 
-                    <p className="text-xs text-pocket-text-light">
-                      <span className="font-semibold">{support.trainer}</span> &{' '}
-                      <span className="font-semibold">{support.pokemon}</span>
-                    </p>
                   </div>
                 </div>
 

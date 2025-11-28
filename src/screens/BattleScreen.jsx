@@ -23,41 +23,10 @@ import BadgeModal from '../components/BadgeModal';
 
 /**
  * Generate inspirations based on final Pokemon stats and aptitudes
+ * Picks a RANDOM stat and RANDOM aptitude, then determines stars based on value/grade with % rolls
  */
 const generateInspirations = (stats, aptitudes, isVictory = false) => {
   if (!stats || Object.keys(stats).length === 0) return null;
-
-  // Find the highest stat for stat inspiration
-  const statEntries = Object.entries(stats);
-  const highestStat = statEntries.reduce((best, [name, value]) => {
-    return value > best.value ? { name, value } : best;
-  }, { name: statEntries[0][0], value: statEntries[0][1] });
-
-  // Calculate stars based on stat value - champions get slightly better thresholds
-  const statStars = isVictory
-    ? (highestStat.value >= 350 ? 3 : highestStat.value >= 200 ? 2 : 1)
-    : (highestStat.value >= 400 ? 3 : highestStat.value >= 250 ? 2 : 1);
-
-  // Find best aptitude for aptitude inspiration
-  const aptitudeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
-  const aptitudeEntries = Object.entries(aptitudes || {});
-
-  if (aptitudeEntries.length === 0) {
-    return {
-      stat: { name: highestStat.name, value: highestStat.value, stars: statStars },
-      aptitude: { name: 'Fire', color: 'Red', grade: 'D', stars: 1 }
-    };
-  }
-
-  const bestAptitude = aptitudeEntries.reduce((best, [color, grade]) => {
-    const currentIdx = aptitudeOrder.indexOf(grade);
-    const bestIdx = aptitudeOrder.indexOf(best.grade);
-    return currentIdx > bestIdx ? { color, grade } : best;
-  }, { color: aptitudeEntries[0][0], grade: aptitudeEntries[0][1] });
-
-  // Calculate stars based on aptitude grade
-  const aptitudeStars = ['S', 'A'].includes(bestAptitude.grade) ? 3 :
-                        ['B', 'C'].includes(bestAptitude.grade) ? 2 : 1;
 
   const colorToType = {
     'Red': 'Fire',
@@ -68,16 +37,70 @@ const generateInspirations = (stats, aptitudes, isVictory = false) => {
     'Orange': 'Fighting'
   };
 
+  // Pick a RANDOM stat (not highest)
+  const statNames = ['HP', 'Attack', 'Defense', 'Instinct', 'Speed'];
+  const randomStat = statNames[Math.floor(Math.random() * statNames.length)];
+  const statValue = stats[randomStat];
+
+  if (statValue === undefined) {
+    return null;
+  }
+
+  // Determine stat stars based on stat value with % rolls
+  let statStars = 1;
+  const statRoll = Math.random();
+
+  if (statValue < 300) {
+    // Low stat: 90% 1-star, 10% 2-star
+    statStars = statRoll < 0.90 ? 1 : 2;
+  } else if (statValue <= 400) {
+    // Medium stat: 50% 1-star, 45% 2-star, 5% 3-star
+    if (statRoll < 0.50) statStars = 1;
+    else if (statRoll < 0.95) statStars = 2;
+    else statStars = 3;
+  } else {
+    // High stat (>400): 20% 1-star, 70% 2-star, 10% 3-star
+    if (statRoll < 0.20) statStars = 1;
+    else if (statRoll < 0.90) statStars = 2;
+    else statStars = 3;
+  }
+
+  // Pick a RANDOM aptitude (not best)
+  const aptitudeKeys = Object.keys(aptitudes || {});
+
+  if (aptitudeKeys.length === 0) {
+    return {
+      stat: { name: randomStat, value: statValue, stars: statStars },
+      aptitude: { name: 'Fire', color: 'Red', grade: 'D', stars: 1 }
+    };
+  }
+
+  const randomAptitudeKey = aptitudeKeys[Math.floor(Math.random() * aptitudeKeys.length)];
+  const aptitudeGrade = aptitudes[randomAptitudeKey];
+
+  // Determine aptitude stars based on grade
+  const aptitudeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+  const aptitudeIndex = aptitudeOrder.indexOf(aptitudeGrade);
+
+  let aptitudeStars = 1;
+  if (aptitudeIndex <= 3) { // F, E, D, C
+    aptitudeStars = 1;
+  } else if (aptitudeIndex === 4) { // B
+    aptitudeStars = 2;
+  } else { // A, S
+    aptitudeStars = 3;
+  }
+
   return {
     stat: {
-      name: highestStat.name,
-      value: highestStat.value,
+      name: randomStat,
+      value: statValue,
       stars: statStars
     },
     aptitude: {
-      name: colorToType[bestAptitude.color] || bestAptitude.color,
-      color: bestAptitude.color,
-      grade: bestAptitude.grade,
+      name: colorToType[randomAptitudeKey] || randomAptitudeKey,
+      color: randomAptitudeKey,
+      grade: aptitudeGrade,
       stars: aptitudeStars
     }
   };
