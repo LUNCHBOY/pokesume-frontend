@@ -14,6 +14,7 @@ import { ArrowLeft, Trophy, Clock, Users, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useInventory } from '../contexts/InventoryContext';
 import {
   generatePokemonSprite,
   getGradeColor
@@ -39,14 +40,14 @@ const TournamentDetailsScreen = () => {
     setGameState,
     selectedTournament,
     tournamentDetails,
-    setTournamentDetails,
-    userRosters
+    setTournamentDetails
   } = useGame();
-  const { user } = useAuth();
+  const { user, authToken } = useAuth();
+  const { trainedPokemon } = useInventory();
 
   const [selectedTeam, setSelectedTeam] = useState([null, null, null]);
 
-  const userHasRosters = userRosters.length >= 3;
+  const userHasRosters = trainedPokemon.length >= 3;
   const canEnter = user && userHasRosters &&
                    (selectedTournament?.status === 'registration' || selectedTournament?.status === 'upcoming');
   const userEntry = tournamentDetails?.entries?.find(e => e.user_id === user?.id);
@@ -78,7 +79,8 @@ const TournamentDetailsScreen = () => {
         selectedTournament.id,
         roster1,
         roster2,
-        roster3
+        roster3,
+        authToken
       );
       alert('Successfully entered tournament!');
       setSelectedTeam([null, null, null]);
@@ -251,25 +253,16 @@ const TournamentDetailsScreen = () => {
               </div>
 
               {/* Available Pokemon List */}
-              <h4 className="font-bold text-pocket-text text-sm mb-3">Available Trained Pokemon ({userRosters.length})</h4>
-              {userRosters.length === 0 ? (
+              <h4 className="font-bold text-pocket-text text-sm mb-3">Available Trained Pokemon ({trainedPokemon.length})</h4>
+              {trainedPokemon.length === 0 ? (
                 <div className="bg-pocket-bg rounded-xl p-8 text-center">
                   <p className="text-pocket-text-light mb-2">No trained Pokemon found</p>
                   <p className="text-xs text-pocket-text-light">Complete careers to train Pokemon!</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 max-h-64 overflow-y-auto bg-pocket-bg rounded-xl p-3">
-                  {userRosters.map((roster, idx) => {
-                    let pokemonData = {};
-                    try {
-                      pokemonData = typeof roster.pokemon_data === 'string'
-                        ? JSON.parse(roster.pokemon_data)
-                        : (roster.pokemon_data || {});
-                    } catch (e) {
-                      console.error('[Tournament] Failed to parse pokemon_data:', e);
-                    }
-
-                    const rosterId = roster.roster_id || roster.id;
+                  {trainedPokemon.map((pokemon, idx) => {
+                    const rosterId = pokemon.id;
                     const alreadySelected = selectedTeam.some(t => t && t.roster_id === rosterId);
 
                     return (
@@ -286,24 +279,24 @@ const TournamentDetailsScreen = () => {
                             if (emptySlot !== -1) {
                               handleTeamSelect(emptySlot, {
                                 roster_id: rosterId,
-                                name: pokemonData.name || 'Unknown',
-                                type: pokemonData.primaryType || pokemonData.type || 'Normal',
-                                grade: pokemonData.grade || 'E'
+                                name: pokemon.name || 'Unknown',
+                                type: pokemon.primaryType || pokemon.type || 'Normal',
+                                grade: pokemon.grade || 'E'
                               });
                             }
                           }
                         }}
                       >
                         <div className="flex justify-center mb-1">
-                          {generatePokemonSprite(pokemonData.primaryType || pokemonData.type, pokemonData.name)}
+                          {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                         </div>
-                        <h5 className="text-center font-bold text-[10px] text-pocket-text truncate">{pokemonData.name || 'Unknown'}</h5>
+                        <h5 className="text-center font-bold text-[10px] text-pocket-text truncate">{pokemon.name || 'Unknown'}</h5>
                         <div className="flex justify-center mt-1">
                           <span
                             className="px-1.5 py-0.5 rounded-full text-[8px] font-bold text-white"
-                            style={{ backgroundColor: getGradeColor(pokemonData.grade) }}
+                            style={{ backgroundColor: getGradeColor(pokemon.grade) }}
                           >
-                            {pokemonData.grade || 'E'}
+                            {pokemon.grade || 'E'}
                           </span>
                         </div>
                       </motion.div>
@@ -331,7 +324,7 @@ const TournamentDetailsScreen = () => {
             ) : !userHasRosters ? (
               <div className="text-center">
                 <p className="text-pocket-text font-bold mb-2">Need 3 Trained Pokemon</p>
-                <p className="text-sm text-pocket-text-light mb-2">You have {userRosters.length} trained Pokemon</p>
+                <p className="text-sm text-pocket-text-light mb-2">You have {trainedPokemon.length} trained Pokemon</p>
                 <p className="text-xs text-pocket-text-light">Complete Career Mode with 3 Pokemon to unlock tournament entry!</p>
               </div>
             ) : isFull ? (
