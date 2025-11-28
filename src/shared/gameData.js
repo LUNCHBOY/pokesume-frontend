@@ -147,7 +147,7 @@ const GAME_CONFIG = {
     MAX_ENERGY: 100
   },
   TRAINING: {
-    ENERGY_COSTS: { HP: 25, Attack: 30, Defense: 20, Instinct: 25, Speed: -5 },
+    ENERGY_COSTS: { HP: 20, Attack: 25, Defense: 15, Instinct: 20, Speed: -5 },
     FAILURE_CHANCE_AT_ZERO_ENERGY: 0.99,
     BASE_STAT_GAINS: { HP: 8, Attack: 5, Defense: 5, Instinct: 4, Speed: 3 },
     SKILL_POINTS_ON_SUCCESS: 3,
@@ -2133,534 +2133,537 @@ const ELITE_FOUR = [
 
 const SUPPORT_CARDS = {
   // ============================================================================
-  // LEGENDARY TIER - ~20% stronger than Rare
-  // Base power ~90, appearance 25-35%, initialFriendship 40-60, maxFriendship 100
+  // LEGENDARY TIER - Highly varied attributes, balanced overall power
+  // Each card has a distinct playstyle and tradeoffs
   // ============================================================================
   CynthiaGarchomp: {
-    name: 'Cynthia & Garchomp',
+    name: 'Cynthia',
     trainer: 'Cynthia',
     pokemon: 'Garchomp',
     rarity: 'Legendary',
     supportType: 'Attack',
-    appearanceChance: 0.28,
-    initialFriendship: 45,
+    appearanceChance: 0.20,  // Rare appearances but huge impact
+    initialFriendship: 25,   // Slow to warm up - the champion tests you
     maxFriendship: 100,
-    typeMatchBonus: 1.25,
+    typeMatchBonus: 1.40,    // Massive type bonus
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 50, Defense: 0, Instinct: 30, Speed: 10 },
+      stats: { HP: 0, Attack: 70, Defense: 0, Instinct: 20, Speed: 15 },
       description: 'The Sinnoh Champion grants overwhelming power'
     },
     moveHints: ['Earthquake', 'DragonClaw', 'Outrage', 'StoneEdge']
   },
   RedCharizard: {
-    name: 'Red & Charizard',
+    name: 'Red',
     trainer: 'Red',
     pokemon: 'Charizard',
     rarity: 'Legendary',
     supportType: 'Attack',
-    appearanceChance: 0.25,
-    initialFriendship: 40,
+    appearanceChance: 0.15,  // Very rare - Red is elusive
+    initialFriendship: 10,   // Silent protagonist, hard to befriend
     maxFriendship: 100,
-    typeMatchBonus: 1.30,
+    typeMatchBonus: 1.50,    // Best type bonus in game
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 55, Defense: 0, Instinct: 35, Speed: 0 },
+      stats: { HP: 0, Attack: 80, Defense: 0, Instinct: 25, Speed: 0 },
       description: 'The legendary trainer boosts overwhelming power'
     },
     moveHints: ['FlareBlitz', 'DragonDance', 'AirSlash', 'HeatWave', 'BlastBurn']
   },
   StevenMetagross: {
-    name: 'Steven & Metagross',
+    name: 'Steven',
     trainer: 'Steven',
     pokemon: 'Metagross',
     rarity: 'Legendary',
     supportType: 'Defense',
-    appearanceChance: 0.30,
-    initialFriendship: 50,
+    appearanceChance: 0.35,  // Reliable mentor figure
+    initialFriendship: 55,   // Friendly and supportive
     maxFriendship: 100,
-    typeMatchBonus: 1.20,
+    typeMatchBonus: 1.15,    // Lower bonus but consistent
     effect: {
       type: 'stat_boost',
-      stats: { HP: 15, Attack: 0, Defense: 55, Instinct: 20, Speed: 0 },
+      stats: { HP: 25, Attack: 0, Defense: 50, Instinct: 20, Speed: 0 },
       description: 'The Hoenn Champion fortifies iron defenses'
     },
     moveHints: ['MeteorMash', 'ZenHeadbutt', 'BulletPunch', 'IronDefense']
   },
   NReshiram: {
-    name: 'N & Reshiram',
+    name: 'N',
     trainer: 'N',
     pokemon: 'Reshiram',
     rarity: 'Legendary',
-    supportType: 'Attack',
-    appearanceChance: 0.32,
-    initialFriendship: 55,
+    supportType: 'Instinct',
+    appearanceChance: 0.40,  // N seeks connection with Pokemon
+    initialFriendship: 70,   // Immediately bonds with Pokemon
     maxFriendship: 100,
-    typeMatchBonus: 1.15,
+    typeMatchBonus: 1.10,    // Balanced approach
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 45, Defense: 0, Instinct: 35, Speed: 10 },
+      stats: { HP: 0, Attack: 30, Defense: 0, Instinct: 50, Speed: 15 },
       description: 'The King of Team Plasma wields truth'
     },
     moveHints: ['BlueFlare', 'FusionFlare', 'DragonPulse', 'DracoMeteor']
   },
   ProfessorOakMew: {
-    name: 'Professor Oak & Mew',
+    name: 'Professor Oak',
     trainer: 'Professor Oak',
     pokemon: 'Mew',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    appearanceChance: 0.35,
-    initialFriendship: 60,
+    appearanceChance: 0.45,  // Always eager to research
+    initialFriendship: 65,   // Warm and encouraging
     maxFriendship: 100,
-    typeMatchBonus: 1.10,
+    typeMatchBonus: 1.05,    // Not focused on battle bonuses
     effect: {
       type: 'experience_boost',
-      skillPointMultiplier: 1.5,
-      friendshipBonus: 25,
+      skillPointMultiplier: 1.8,  // Best skill point gain
+      friendshipBonus: 35,        // Best friendship gain
       description: 'The Professor grants knowledge and wisdom'
     },
     moveHints: ['Psychic', 'AuraSphere', 'Transform', 'Metronome', 'AncientPower']
   },
   DianthaDiancie: {
-    name: 'Diantha & Diancie',
+    name: 'Diantha',
     trainer: 'Diantha',
     pokemon: 'Diancie',
     rarity: 'Legendary',
     supportType: 'Defense',
-    appearanceChance: 0.27,
-    initialFriendship: 48,
+    appearanceChance: 0.28,  // Graceful, selective appearances
+    initialFriendship: 40,   // Elegant but approachable
     maxFriendship: 100,
-    typeMatchBonus: 1.22,
+    typeMatchBonus: 1.25,
     effect: {
-      type: 'stat_boost',
-      stats: { HP: 25, Attack: 0, Defense: 50, Instinct: 15, Speed: 0 },
+      type: 'training_boost',
+      trainingMultiplier: 1.35,   // Strong training boost
+      failureReduction: 0.25,     // Significantly reduces failure chance
       description: 'The Kalos Champion radiates brilliance'
     },
     moveHints: ['DiamondStorm', 'Moonblast', 'DazzlingGleam', 'RockPolish']
   },
 
   // ============================================================================
-  // RARE TIER - ~20% stronger than Uncommon
-  // Base power ~75, appearance 32-45%, initialFriendship 30-50, maxFriendship 90
+  // RARE TIER - Varied attributes with distinct niches
+  // Each card offers different strategic value
   // ============================================================================
   LanceDragonite: {
-    name: 'Lance & Dragonite',
+    name: 'Lance',
     trainer: 'Lance',
     pokemon: 'Dragonite',
     rarity: 'Rare',
-    supportType: 'Instinct',
-    appearanceChance: 0.38,
-    initialFriendship: 40,
+    supportType: 'Attack',
+    appearanceChance: 0.25,  // Elite Four member - selective
+    initialFriendship: 20,   // Demands respect first
     maxFriendship: 90,
-    typeMatchBonus: 1.18,
+    typeMatchBonus: 1.35,    // Dragon Master excels at type matching
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 25, Defense: 0, Instinct: 40, Speed: 10 },
+      stats: { HP: 0, Attack: 45, Defense: 0, Instinct: 20, Speed: 15 },
       description: 'The Dragon Master enhances draconic power'
     },
     moveHints: ['DragonDance', 'Outrage', 'ExtremeSpeed', 'DragonRush']
   },
   SabrinaAlakazam: {
-    name: 'Sabrina & Alakazam',
+    name: 'Sabrina',
     trainer: 'Sabrina',
     pokemon: 'Alakazam',
     rarity: 'Rare',
     supportType: 'Instinct',
-    appearanceChance: 0.35,
-    initialFriendship: 35,
+    appearanceChance: 0.30,  // Psychic foresight brings her when needed
+    initialFriendship: 15,   // Cold and calculating initially
     maxFriendship: 90,
-    typeMatchBonus: 1.20,
+    typeMatchBonus: 1.30,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 0, Defense: 0, Instinct: 45, Speed: 20 },
+      stats: { HP: 0, Attack: 0, Defense: 0, Instinct: 60, Speed: 10 },
       description: 'The Saffron Gym Leader sharpens the mind'
     },
     moveHints: ['Psychic', 'FutureSight', 'FocusBlast', 'CalmMind', 'ShadowBall']
   },
   MortyGengar: {
-    name: 'Morty & Gengar',
+    name: 'Morty',
     trainer: 'Morty',
     pokemon: 'Gengar',
     rarity: 'Rare',
-    supportType: 'Instinct',
-    appearanceChance: 0.42,
-    initialFriendship: 45,
+    supportType: 'Speed',
+    appearanceChance: 0.50,  // Ghosts appear frequently
+    initialFriendship: 55,   // Friendly mystic
     maxFriendship: 90,
-    typeMatchBonus: 1.12,
+    typeMatchBonus: 1.08,    // Lower bonus but very reliable
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 10, Defense: 0, Instinct: 35, Speed: 20 },
+      stats: { HP: 0, Attack: 15, Defense: 0, Instinct: 20, Speed: 35 },
       description: 'The Ecruteak Gym Leader channels ghostly power'
     },
     moveHints: ['ShadowBall', 'SludgeBomb', 'Hypnosis', 'DreamEater', 'Hex']
   },
   WallaceMillotic: {
-    name: 'Wallace & Milotic',
+    name: 'Wallace',
     trainer: 'Wallace',
     pokemon: 'Milotic',
     rarity: 'Rare',
-    supportType: 'Defense',
-    appearanceChance: 0.40,
-    initialFriendship: 50,
+    supportType: 'HP',
+    appearanceChance: 0.35,  // Graceful, measured appearances
+    initialFriendship: 60,   // Elegant and warm
     maxFriendship: 90,
-    typeMatchBonus: 1.15,
+    typeMatchBonus: 1.12,
     effect: {
-      type: 'stat_boost',
-      stats: { HP: 30, Attack: 0, Defense: 30, Instinct: 0, Speed: 5 },
+      type: 'energy_boost',
+      energyBonus: 20,       // Excellent energy restoration
+      restBonus: 15,
       description: 'The Hoenn Champion exudes elegance'
     },
     moveHints: ['Surf', 'IceBeam', 'Recover', 'DragonTail', 'AquaRing']
   },
   CynthiaLucario: {
-    name: 'Cynthia & Lucario',
+    name: 'Cynthia',
     trainer: 'Cynthia',
     pokemon: 'Lucario',
     rarity: 'Rare',
     supportType: 'Attack',
-    appearanceChance: 0.32,
-    initialFriendship: 30,
+    appearanceChance: 0.28,  // Focused training sessions
+    initialFriendship: 35,   // Respects dedication
     maxFriendship: 90,
-    typeMatchBonus: 1.25,
+    typeMatchBonus: 1.22,
     effect: {
       type: 'training_boost',
-      trainingMultiplier: 1.25,
-      failureReduction: 0.15,
+      trainingMultiplier: 1.30,   // Strong training boost
+      failureReduction: 0.20,     // Good failure reduction
       description: 'The Champion refines battle technique'
     },
     moveHints: ['AuraSphere', 'CloseCombat', 'ExtremeSpeed', 'BulletPunch', 'SwordsDance']
   },
   IrisHaxorus: {
-    name: 'Iris & Haxorus',
+    name: 'Iris',
     trainer: 'Iris',
     pokemon: 'Haxorus',
     rarity: 'Rare',
     supportType: 'Attack',
-    appearanceChance: 0.36,
-    initialFriendship: 38,
+    appearanceChance: 0.45,  // Energetic, always ready to help
+    initialFriendship: 50,   // Young and enthusiastic
     maxFriendship: 90,
-    typeMatchBonus: 1.18,
+    typeMatchBonus: 1.15,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 40, Defense: 0, Instinct: 10, Speed: 15 },
+      stats: { HP: 0, Attack: 50, Defense: 0, Instinct: 5, Speed: 10 },
       description: 'The Unova Champion commands dragons'
     },
     moveHints: ['DragonDance', 'Outrage', 'Earthquake', 'DragonClaw', 'SwordsDance']
   },
   BluePidgeot: {
-    name: 'Blue & Pidgeot',
+    name: 'Blue',
     trainer: 'Blue',
     pokemon: 'Pidgeot',
     rarity: 'Rare',
     supportType: 'Speed',
-    appearanceChance: 0.44,
-    initialFriendship: 42,
+    appearanceChance: 0.55,  // Competitive rival always around
+    initialFriendship: 30,   // Rivals take time to respect
     maxFriendship: 90,
-    typeMatchBonus: 1.10,
+    typeMatchBonus: 1.05,    // Generalist approach
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 20, Defense: 0, Instinct: 10, Speed: 35 },
+      stats: { HP: 0, Attack: 15, Defense: 0, Instinct: 15, Speed: 40 },
       description: 'The rival trainer pushes limits'
     },
     moveHints: ['Hurricane', 'BraveBird', 'AirSlash', 'Roost', 'UTurn']
   },
   GiovanniPersian: {
-    name: 'Giovanni & Persian',
+    name: 'Giovanni',
     trainer: 'Giovanni',
     pokemon: 'Persian',
     rarity: 'Rare',
-    supportType: 'Attack',
-    appearanceChance: 0.38,
-    initialFriendship: 32,
+    supportType: 'Instinct',
+    appearanceChance: 0.22,  // Secretive boss - rare appearances
+    initialFriendship: 10,   // Doesn't trust easily
     maxFriendship: 90,
-    typeMatchBonus: 1.22,
+    typeMatchBonus: 1.40,    // Ruthless efficiency when type matches
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 35, Defense: 0, Instinct: 20, Speed: 10 },
+      stats: { HP: 0, Attack: 30, Defense: 0, Instinct: 35, Speed: 5 },
       description: 'The Rocket Boss commands ruthlessly'
     },
     moveHints: ['Slash', 'PowerGem', 'FeintAttack', 'NastyPlot']
   },
   MaxieGroudon: {
-    name: 'Maxie & Groudon',
+    name: 'Maxie',
     trainer: 'Maxie',
     pokemon: 'Groudon',
     rarity: 'Rare',
-    supportType: 'Attack',
-    appearanceChance: 0.34,
-    initialFriendship: 35,
+    supportType: 'Defense',
+    appearanceChance: 0.32,  // Calculated appearances
+    initialFriendship: 25,   // Focused on his goals
     maxFriendship: 90,
-    typeMatchBonus: 1.20,
+    typeMatchBonus: 1.25,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 20, Attack: 35, Defense: 10, Instinct: 0, Speed: 0 },
+      stats: { HP: 30, Attack: 20, Defense: 25, Instinct: 0, Speed: 0 },
       description: 'The Magma Leader harnesses earth power'
     },
     moveHints: ['Earthquake', 'PrecipiceBlades', 'FirePunch', 'BulkUp', 'LavaPlume']
   },
   ArchieKyogre: {
-    name: 'Archie & Kyogre',
+    name: 'Archie',
     trainer: 'Archie',
     pokemon: 'Kyogre',
     rarity: 'Rare',
     supportType: 'HP',
-    appearanceChance: 0.36,
-    initialFriendship: 38,
+    appearanceChance: 0.40,  // Boisterous and present
+    initialFriendship: 45,   // Friendly pirate personality
     maxFriendship: 90,
     typeMatchBonus: 1.18,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 40, Attack: 0, Defense: 20, Instinct: 5, Speed: 0 },
+      stats: { HP: 50, Attack: 0, Defense: 15, Instinct: 5, Speed: 0 },
       description: 'The Aqua Leader commands the seas'
     },
     moveHints: ['OriginPulse', 'HydroPump', 'IceBeam', 'Thunder', 'AquaRing']
   },
 
   // ============================================================================
-  // UNCOMMON TIER - ~20% stronger than Common
-  // Base power ~60, appearance 40-52%, initialFriendship 25-40, maxFriendship 80
+  // UNCOMMON TIER - Varied mid-tier options with clear specializations
   // ============================================================================
   MistyStarmie: {
-    name: 'Misty & Starmie',
+    name: 'Misty',
     trainer: 'Misty',
     pokemon: 'Starmie',
     rarity: 'Uncommon',
     supportType: 'Instinct',
-    appearanceChance: 0.45,
-    initialFriendship: 35,
+    appearanceChance: 0.55,  // Eager to prove herself
+    initialFriendship: 45,   // Friendly and outgoing
     maxFriendship: 80,
-    typeMatchBonus: 1.12,
+    typeMatchBonus: 1.05,    // Generalist
     effect: {
       type: 'training_boost',
-      trainingMultiplier: 1.15,
-      energyCostReduction: 5,
+      trainingMultiplier: 1.20,
+      energyCostReduction: 8,  // Good energy efficiency
       description: 'The Cerulean Gym Leader improves training efficiency'
     },
     moveHints: ['HydroPump', 'Psychic', 'RapidSpin', 'IceBeam']
   },
   BrockOnix: {
-    name: 'Brock & Onix',
+    name: 'Brock',
     trainer: 'Brock',
     pokemon: 'Onix',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    appearanceChance: 0.48,
-    initialFriendship: 40,
+    appearanceChance: 0.60,  // Reliable, always there when needed
+    initialFriendship: 55,   // Big brother energy
     maxFriendship: 80,
-    typeMatchBonus: 1.08,
+    typeMatchBonus: 1.02,    // Low bonus but very consistent
     effect: {
       type: 'stat_boost',
-      stats: { HP: 15, Attack: 0, Defense: 35, Instinct: 0, Speed: 0 },
+      stats: { HP: 20, Attack: 0, Defense: 30, Instinct: 0, Speed: 0 },
       description: 'The Pewter Gym Leader hardens defenses'
     },
     moveHints: ['RockSlide', 'IronTail', 'StealthRock', 'Sandstorm']
   },
   ErikaTangela: {
-    name: 'Erika & Tangela',
+    name: 'Erika',
     trainer: 'Erika',
     pokemon: 'Tangela',
     rarity: 'Uncommon',
     supportType: 'HP',
-    appearanceChance: 0.50,
-    initialFriendship: 38,
+    appearanceChance: 0.42,  // Serene, unhurried
+    initialFriendship: 50,   // Gentle nature
     maxFriendship: 80,
-    typeMatchBonus: 1.10,
+    typeMatchBonus: 1.12,
     effect: {
-      type: 'stat_boost',
-      stats: { HP: 35, Attack: 0, Defense: 15, Instinct: 0, Speed: 0 },
+      type: 'energy_boost',
+      energyBonus: 15,       // Good energy restoration
+      restBonus: 12,
       description: 'The Celadon Gym Leader nurtures vitality'
     },
     moveHints: ['GigaDrain', 'SleepPowder', 'Synthesis', 'PowerWhip']
   },
   BlaineMagmar: {
-    name: 'Blaine & Magmar',
+    name: 'Blaine',
     trainer: 'Blaine',
     pokemon: 'Magmar',
     rarity: 'Uncommon',
     supportType: 'Attack',
-    appearanceChance: 0.46,
-    initialFriendship: 32,
+    appearanceChance: 0.35,  // Intense, focused sessions
+    initialFriendship: 20,   // Demands dedication
     maxFriendship: 80,
-    typeMatchBonus: 1.15,
+    typeMatchBonus: 1.28,    // Strong type focus
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 30, Defense: 0, Instinct: 15, Speed: 5 },
+      stats: { HP: 0, Attack: 40, Defense: 0, Instinct: 10, Speed: 0 },
       description: 'The Cinnabar Gym Leader ignites fiery passion'
     },
     moveHints: ['FireBlast', 'Flamethrower', 'FirePunch', 'LavaPlume']
   },
   KogaWeezing: {
-    name: 'Koga & Weezing',
+    name: 'Koga',
     trainer: 'Koga',
     pokemon: 'Weezing',
     rarity: 'Uncommon',
     supportType: 'Instinct',
-    appearanceChance: 0.52,
-    initialFriendship: 30,
+    appearanceChance: 0.38,  // Ninja - appears strategically
+    initialFriendship: 15,   // Tests students harshly
     maxFriendship: 80,
-    typeMatchBonus: 1.08,
+    typeMatchBonus: 1.25,
     effect: {
-      type: 'stat_boost',
-      stats: { HP: 10, Attack: 0, Defense: 10, Instinct: 25, Speed: 5 },
+      type: 'training_boost',
+      trainingMultiplier: 1.15,
+      failureReduction: 0.18,  // Good at preventing mistakes
       description: 'The Fuchsia Gym Leader masters poison tactics'
     },
     moveHints: ['SludgeBomb', 'Toxic', 'WillOWisp', 'Explosion']
   },
   JasminSteelix: {
-    name: 'Jasmine & Steelix',
+    name: 'Jasmine',
     trainer: 'Jasmine',
     pokemon: 'Steelix',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    appearanceChance: 0.44,
-    initialFriendship: 35,
+    appearanceChance: 0.45,  // Shy but supportive
+    initialFriendship: 40,   // Kind-hearted
     maxFriendship: 80,
-    typeMatchBonus: 1.12,
+    typeMatchBonus: 1.15,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 20, Attack: 0, Defense: 30, Instinct: 0, Speed: 0 },
+      stats: { HP: 25, Attack: 0, Defense: 25, Instinct: 0, Speed: 0 },
       description: 'The Olivine Gym Leader provides iron defense'
     },
     moveHints: ['IronTail', 'Earthquake', 'Screech', 'IronDefense']
   },
   WinonaSkarmory: {
-    name: 'Winona & Skarmory',
+    name: 'Winona',
     trainer: 'Winona',
     pokemon: 'Skarmory',
     rarity: 'Uncommon',
     supportType: 'Speed',
-    appearanceChance: 0.42,
-    initialFriendship: 28,
+    appearanceChance: 0.48,  // Free-spirited
+    initialFriendship: 35,   // Respects independence
     maxFriendship: 80,
-    typeMatchBonus: 1.15,
+    typeMatchBonus: 1.18,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 0, Defense: 20, Instinct: 5, Speed: 25 },
+      stats: { HP: 0, Attack: 5, Defense: 15, Instinct: 0, Speed: 30 },
       description: 'The Fortree Gym Leader soars with grace'
     },
     moveHints: ['SteelWing', 'BraveBird', 'Spikes', 'Roost']
   },
   ElitesFourKaren: {
-    name: 'Karen & Umbreon',
+    name: 'Karen',
     trainer: 'Karen',
     pokemon: 'Umbreon',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    appearanceChance: 0.40,
-    initialFriendship: 25,
+    appearanceChance: 0.30,  // Elite Four - selective
+    initialFriendship: 10,   // "Strong Pokemon, weak Pokemon..."
     maxFriendship: 80,
-    typeMatchBonus: 1.18,
+    typeMatchBonus: 1.30,    // High bonus for those who earn it
     effect: {
       type: 'stat_boost',
-      stats: { HP: 10, Attack: 0, Defense: 25, Instinct: 15, Speed: 0 },
+      stats: { HP: 15, Attack: 0, Defense: 20, Instinct: 15, Speed: 0 },
       description: 'The Elite Four member embraces darkness'
     },
     moveHints: ['FoulPlay', 'Moonlight', 'Toxic', 'Curse']
   },
   AgathaGengar: {
-    name: 'Agatha & Gengar',
+    name: 'Agatha',
     trainer: 'Agatha',
     pokemon: 'Gengar',
     rarity: 'Uncommon',
     supportType: 'Instinct',
-    appearanceChance: 0.43,
-    initialFriendship: 27,
+    appearanceChance: 0.33,  // Old and cryptic
+    initialFriendship: 25,   // Grudging respect for youth
     maxFriendship: 80,
-    typeMatchBonus: 1.14,
+    typeMatchBonus: 1.22,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 5, Defense: 0, Instinct: 30, Speed: 15 },
+      stats: { HP: 0, Attack: 10, Defense: 0, Instinct: 35, Speed: 5 },
       description: 'The Elite Four member masters ghosts'
     },
     moveHints: ['ShadowBall', 'SludgeWave', 'DestinyBond', 'Hypnosis']
   },
 
   // ============================================================================
-  // COMMON TIER - Base level
-  // Base power ~50, appearance 48-60%, initialFriendship 20-35, maxFriendship 70
+  // COMMON TIER - Accessible options with varied specializations
   // ============================================================================
   WhitneyMiltank: {
-    name: 'Whitney & Miltank',
+    name: 'Whitney',
     trainer: 'Whitney',
     pokemon: 'Miltank',
     rarity: 'Common',
     supportType: 'HP',
-    appearanceChance: 0.55,
-    initialFriendship: 35,
+    appearanceChance: 0.65,  // Very eager to help
+    initialFriendship: 50,   // Bubbly and friendly
     maxFriendship: 70,
-    typeMatchBonus: 1.05,
+    typeMatchBonus: 1.00,    // No type focus
     effect: {
       type: 'stat_boost',
-      stats: { HP: 25, Attack: 0, Defense: 10, Instinct: 0, Speed: 5 },
+      stats: { HP: 30, Attack: 0, Defense: 5, Instinct: 0, Speed: 0 },
       description: 'The Goldenrod Gym Leader boosts endurance'
     },
     moveHints: ['Rollout', 'BodySlam', 'MilkDrink', 'Attract']
   },
   ChuckPoliwrath: {
-    name: 'Chuck & Poliwrath',
+    name: 'Chuck',
     trainer: 'Chuck',
     pokemon: 'Poliwrath',
     rarity: 'Common',
     supportType: 'Attack',
-    appearanceChance: 0.52,
-    initialFriendship: 30,
+    appearanceChance: 0.45,  // Training hard, less available
+    initialFriendship: 25,   // Tough love approach
     maxFriendship: 70,
-    typeMatchBonus: 1.08,
+    typeMatchBonus: 1.18,    // Strong type focus for fighters
     effect: {
       type: 'stat_boost',
-      stats: { HP: 10, Attack: 20, Defense: 5, Instinct: 0, Speed: 0 },
+      stats: { HP: 5, Attack: 28, Defense: 0, Instinct: 0, Speed: 0 },
       description: 'The Cianwood Gym Leader builds strength'
     },
     moveHints: ['DynamicPunch', 'Waterfall', 'Submission', 'BulkUp']
   },
   PryceDelibird: {
-    name: 'Pryce & Delibird',
+    name: 'Pryce',
     trainer: 'Pryce',
     pokemon: 'Delibird',
     rarity: 'Common',
     supportType: 'HP',
-    appearanceChance: 0.60,
-    initialFriendship: 32,
+    appearanceChance: 0.70,  // Generous old man
+    initialFriendship: 45,   // Wise and patient
     maxFriendship: 70,
-    typeMatchBonus: 1.02,
+    typeMatchBonus: 1.00,
     effect: {
       type: 'energy_boost',
-      energyBonus: 12,
-      restBonus: 8,
+      energyBonus: 18,       // Best energy regen in common tier
+      restBonus: 12,
       description: 'The Mahogany Gym Leader aids recovery'
     },
     moveHints: ['Present', 'IceBeam', 'IcePunch', 'Blizzard']
   },
   WattsonMagneton: {
-    name: 'Wattson & Magneton',
+    name: 'Wattson',
     trainer: 'Wattson',
     pokemon: 'Magneton',
     rarity: 'Common',
     supportType: 'Instinct',
-    appearanceChance: 0.56,
-    initialFriendship: 28,
+    appearanceChance: 0.58,  // Jolly, often around
+    initialFriendship: 40,   // Laughs easily
     maxFriendship: 70,
-    typeMatchBonus: 1.06,
+    typeMatchBonus: 1.10,
     effect: {
       type: 'stat_boost',
-      stats: { HP: 0, Attack: 5, Defense: 5, Instinct: 18, Speed: 8 },
+      stats: { HP: 0, Attack: 0, Defense: 5, Instinct: 22, Speed: 8 },
       description: 'The Mauville Gym Leader electrifies training'
     },
     moveHints: ['Thunderbolt', 'ThunderWave', 'FlashCannon', 'VoltSwitch']
   },
   FlanneryCamerupt: {
-    name: 'Flannery & Camerupt',
+    name: 'Flannery',
     trainer: 'Flannery',
     pokemon: 'Camerupt',
     rarity: 'Common',
     supportType: 'Attack',
-    appearanceChance: 0.48,
-    initialFriendship: 20,
+    appearanceChance: 0.40,  // Hot-headed, inconsistent
+    initialFriendship: 15,   // New gym leader, nervous
     maxFriendship: 70,
-    typeMatchBonus: 1.12,
+    typeMatchBonus: 1.22,    // High bonus to compensate
     effect: {
-      type: 'stat_boost',
-      stats: { HP: 10, Attack: 22, Defense: 0, Instinct: 5, Speed: 0 },
+      type: 'training_boost',
+      trainingMultiplier: 1.12,
+      failureReduction: 0.10,
       description: 'The Lavaridge Gym Leader unleashes volcanic fury'
     },
     moveHints: ['Eruption', 'EarthPower', 'LavaPlume', 'Earthquake']

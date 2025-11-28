@@ -74,6 +74,85 @@ const getScaledStats = (baseStats, turn) => {
 };
 
 /**
+ * Generate a brief description for a move based on its properties
+ */
+const getMoveDescription = (move) => {
+  const parts = [];
+
+  // Describe warmup/cooldown characteristics
+  if (move.warmup === 0) {
+    parts.push('Quick strike');
+  } else if (move.warmup >= 6) {
+    parts.push('Slow but powerful');
+  } else if (move.warmup >= 4) {
+    parts.push('Heavy attack');
+  }
+
+  // Describe effect
+  if (move.effect) {
+    const effect = move.effect;
+    switch (effect.type) {
+      case 'burn':
+        parts.push(`burns for ${effect.damage || 3} dmg/tick`);
+        break;
+      case 'poison':
+        parts.push('poisons target');
+        break;
+      case 'paralyze':
+        parts.push('may paralyze');
+        break;
+      case 'stun':
+        parts.push('can stun');
+        break;
+      case 'confuse':
+        parts.push('confuses target');
+        break;
+      case 'freeze':
+        parts.push('may freeze');
+        break;
+      case 'sleep':
+        parts.push('induces sleep');
+        break;
+      case 'soak':
+        parts.push('soaks target');
+        break;
+      case 'energize':
+        parts.push('restores stamina');
+        break;
+      case 'drain':
+        parts.push('drains HP');
+        break;
+      case 'recoil':
+        parts.push('causes recoil');
+        break;
+      case 'exhaust':
+        parts.push('exhausts user');
+        break;
+      case 'evasion':
+        parts.push('grants evasion');
+        break;
+      default:
+        break;
+    }
+  }
+
+  // If no special characteristics, describe based on damage
+  if (parts.length === 0) {
+    if (move.damage >= 35) {
+      return 'High-power attack';
+    } else if (move.damage >= 25) {
+      return 'Solid damage dealer';
+    } else if (move.damage >= 15) {
+      return 'Balanced attack';
+    } else {
+      return 'Light attack';
+    }
+  }
+
+  return parts.join(', ');
+};
+
+/**
  * Check if current turn triggers inspiration and apply bonuses
  */
 const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, currentAptitudes) => {
@@ -1908,18 +1987,25 @@ const CareerScreen = () => {
                             <div className="font-bold text-xs sm:text-sm truncate pr-1">{moveName}</div>
                             <TypeBadge type={move.type} size={12} className="text-[10px] sm:text-xs flex-shrink-0" />
                           </div>
+                          <div className="text-[10px] sm:text-xs text-gray-500 italic mb-1">{getMoveDescription(move)}</div>
                           <div className="text-[10px] sm:text-xs text-gray-600 space-y-0.5 mb-1 sm:mb-2">
                             <div>DMG: {move.damage}</div>
                             <div>Stam: {move.stamina} | WU: {move.warmup} | CD: {move.cooldown}</div>
                             {move.effect && (
                               <div className="text-purple-600 font-bold truncate">
-                                {move.effect.type === 'burn' && `Burn ${Math.round(move.effect.chance * 100)}%`}
-                                {move.effect.type === 'poison' && `Poison ${Math.round(move.effect.chance * 100)}%`}
-                                {move.effect.type === 'paralyze' && `Paralyze ${Math.round(move.effect.chance * 100)}%`}
-                                {move.effect.type === 'stun' && `Stun ${Math.round(move.effect.chance * 100)}%`}
-                                {move.effect.type === 'soak' && `Soak ${Math.round(move.effect.chance * 100)}%`}
-                                {move.effect.type === 'energize' && `Energize ${Math.round(move.effect.chance * 100)}%`}
+                                {move.effect.type === 'burn' && `Burn ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'poison' && `Poison ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'paralyze' && `Paralyze ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'stun' && `Stun ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'confuse' && `Confuse ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'freeze' && `Freeze ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'sleep' && `Sleep ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'soak' && `Soak ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'energize' && `Energize ${Math.round((move.effect.chance || 1) * 100)}%`}
+                                {move.effect.type === 'drain' && `Drain ${Math.round((move.effect.healPercent || 0.5) * 100)}%`}
+                                {move.effect.type === 'recoil' && `Recoil ${Math.round((move.effect.damagePercent || 0.1) * 100)}%`}
                                 {move.effect.type === 'exhaust' && `Self-Exhaust`}
+                                {move.effect.type === 'evasion' && `Evasion`}
                               </div>
                             )}
                           </div>

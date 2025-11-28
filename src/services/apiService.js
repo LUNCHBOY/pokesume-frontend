@@ -624,7 +624,7 @@ export const apiGetActiveCareer = async (authToken) => {
   }
 };
 
-export const apiStartCareer = async (pokemon, selectedSupports, authToken) => {
+export const apiStartCareer = async (pokemon, selectedSupports, initialFriendships, authToken) => {
   if (!authToken) return null;
 
   try {
@@ -634,7 +634,7 @@ export const apiStartCareer = async (pokemon, selectedSupports, authToken) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
       },
-      body: JSON.stringify({ pokemon, selectedSupports })
+      body: JSON.stringify({ pokemon, selectedSupports, initialFriendships })
     });
 
     const data = await response.json();

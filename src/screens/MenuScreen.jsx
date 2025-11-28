@@ -280,7 +280,7 @@ const MenuScreen = () => {
         {/* Main Menu Grid */}
         <motion.div
           variants={containerVariants}
-          className="grid grid-cols-2 gap-3 mb-5"
+          className="grid grid-cols-3 gap-3 mb-5"
         >
           {MENU_ITEMS.map((item) => (
             <motion.div key={item.key} variants={itemVariants}>

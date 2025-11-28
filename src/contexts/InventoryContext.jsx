@@ -18,6 +18,7 @@ import {
   apiGetPrimos,
   apiUpdatePrimos
 } from '../services/apiService';
+import { getPokemonGrade } from '../utils/gameUtils';
 
 const InventoryContext = createContext(null);
 
@@ -162,7 +163,31 @@ export const InventoryProvider = ({ children }) => {
     setTrainedLoading(true);
     try {
       const data = await apiGetTrainedPokemon(limit, offset, authToken);
-      setTrainedPokemon(data.trainedPokemon || []);
+      // Normalize the data - flatten pokemon_data into the main object
+      const normalizedPokemon = (data.trainedPokemon || []).map(row => {
+        const pokemonData = row.pokemon_data || {};
+        const stats = pokemonData.stats || {};
+        // Calculate grade from stats if not saved
+        const grade = pokemonData.grade || (Object.keys(stats).length > 0 ? getPokemonGrade(stats) : null);
+        return {
+          id: row.id,
+          completedAt: row.created_at || pokemonData.completedAt,
+          turnNumber: row.turn_number || pokemonData.turnNumber,
+          // Flatten pokemon_data fields
+          name: pokemonData.name,
+          type: pokemonData.primaryType,
+          primaryType: pokemonData.primaryType,
+          stats: stats,
+          abilities: pokemonData.abilities,
+          typeAptitudes: pokemonData.typeAptitudes,
+          strategy: pokemonData.strategy,
+          strategyGrade: pokemonData.strategyGrade,
+          inspirations: pokemonData.inspirations,
+          grade: grade,
+          completionType: pokemonData.completionType
+        };
+      });
+      setTrainedPokemon(normalizedPokemon);
       setTrainedTotal(data.total || 0);
     } catch (error) {
       console.error('Failed to load trained Pokemon:', error);
