@@ -11,7 +11,7 @@ import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 
 export default function AuthWrapper({ children }) {
-  const { user, authToken, authError, authLoading, login, register, setAuthError } = useAuth();
+  const { user, authToken, authError, authLoading, login, register, googleLogin, setAuthError } = useAuth();
 
   const [authMode, setAuthMode] = useState('login');
   const [authForm, setAuthForm] = useState({ username: '', email: '', password: '' });
@@ -57,6 +57,21 @@ export default function AuthWrapper({ children }) {
     setAuthError(null);
   };
 
+  // Handle Google login
+  const handleGoogleLogin = async (credential) => {
+    try {
+      console.log('[Auth] Google login initiated');
+      const result = await googleLogin(credential);
+      console.log('[Auth] Google login successful!', result);
+      if (result) {
+        setAuthForm({ username: '', email: '', password: '' });
+      }
+    } catch (error) {
+      console.error('[Auth] Google login error:', error);
+      // Error is already set by context
+    }
+  };
+
   // If user is not authenticated, show login screen (non-closable)
   if (!user || !authToken) {
     return (
@@ -71,6 +86,7 @@ export default function AuthWrapper({ children }) {
           onSubmit={handleAuthSubmit}
           onFormChange={handleAuthFormChange}
           onModeChange={handleAuthModeChange}
+          onGoogleLogin={handleGoogleLogin}
           ICONS={{ POKEBALL: '🎯', CLOSE: '✕' }}
           isMandatory={true}
         />

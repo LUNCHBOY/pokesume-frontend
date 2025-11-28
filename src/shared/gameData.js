@@ -1234,16 +1234,6 @@ const POKEMON = {
     defaultAbilities: ['VineWhip', 'Tackle'],
     learnableAbilities: ['RazorLeaf', 'LeafBlade', 'SolarBeam']
   },
-  Torchic: {
-    name: 'Torchic',
-    primaryType: 'Fire',
-    baseStats: calculateBaseStats({ HP: 91, Attack: 71, Defense: 57, Instinct: 76, Speed: 85 }, 2),
-    typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'B', Yellow: 'B', Orange: 'C' },
-    strategy: 'Nuker',
-    strategyGrade: 'B',
-    defaultAbilities: ['Ember', 'QuickAttack'],
-    learnableAbilities: ['Flamethrower', 'FireFang', 'LavaPlume']
-  },
   Mudkip: {
     name: 'Mudkip',
     primaryType: 'Water',
@@ -1745,16 +1735,6 @@ const POKEMON = {
     strategyGrade: 'S',
     defaultAbilities: ['WaterGun', 'Tackle'],
     learnableAbilities: ['Surf', 'HydroPump', 'BodySlam', 'HyperBeam']
-  },
-  Zapdos: {
-    name: 'Zapdos',
-    primaryType: 'Electric',
-    baseStats: { HP: 98, Attack: 83, Defense: 68, Instinct: 98, Speed: 88 },
-    typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'S', Orange: 'C' },
-    strategy: 'Nuker',
-    strategyGrade: 'S',
-    defaultAbilities: ['ThunderShock', 'Tackle'],
-    learnableAbilities: ['Thunderbolt', 'Thunder', 'BodySlam', 'HyperBeam']
   }
 };
 

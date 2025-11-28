@@ -17,7 +17,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Book, Trophy, Zap, Clock, Star, HelpCircle, ArrowLeft } from 'lucide-react';
+import { Sparkles, Book, Trophy, Zap, Clock, Star, HelpCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useCareer } from '../contexts/CareerContext';
@@ -34,7 +34,6 @@ import {
   MOVES,
   POKEMON,
   SUPPORT_CARDS,
-  RANDOM_EVENTS,
   HANGOUT_EVENTS,
   EVOLUTION_CHAINS,
   EVOLUTION_CONFIG,

@@ -9,9 +9,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   HelpCircle, X, ChevronDown, ChevronUp,
-  Swords, Target, Zap, Heart, Shield, Brain, Wind,
-  Users, Gift, Trophy, Medal, Sparkles, Clock,
-  Flame, Droplet, Leaf, Star
+  Swords, Target, Heart, Shield, Brain, Wind,
+  Users, Gift, Trophy, Medal, Sparkles,
+  Flame, Star
 } from 'lucide-react';
 
 // Collapsible section component

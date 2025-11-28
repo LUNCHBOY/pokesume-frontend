@@ -87,6 +87,38 @@ export const apiLogout = () => {
   localStorage.removeItem('pokesume_user');
 };
 
+export const apiGoogleLogin = async (credential) => {
+  try {
+    console.log('apiGoogleLogin called');
+
+    const url = `${API_URL}/auth/google`;
+    console.log('Fetching:', url);
+
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ credential })
+    });
+
+    console.log('Response status:', response.status);
+    const data = await response.json();
+    console.log('Response data:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Google login failed');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('apiGoogleLogin error:', error);
+    throw error;
+  }
+};
+
 // ============================================================================
 // POKEMON/ROSTER API
 // ============================================================================

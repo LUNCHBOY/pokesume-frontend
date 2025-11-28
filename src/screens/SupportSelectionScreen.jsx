@@ -46,26 +46,6 @@ const SupportSelectionScreen = () => {
   const { supportInventory } = useInventory();
   const { startCareer, careerLoading } = useCareer();
 
-  // Color to type mapping for aptitudes
-  const colorToType = {
-    Red: 'Fire',
-    Blue: 'Water',
-    Green: 'Grass',
-    Yellow: 'Electric',
-    Purple: 'Psychic',
-    Orange: 'Fighting'
-  };
-
-  // Type to color mapping (reverse)
-  const typeToColor = {
-    Fire: 'Red',
-    Water: 'Blue',
-    Grass: 'Green',
-    Electric: 'Yellow',
-    Psychic: 'Purple',
-    Fighting: 'Orange'
-  };
-
   // Calculate inspiration bonuses from selected inspirations
   // Returns: { aptitudeUpgrades: { Red: 2, Blue: 1, ... }, strategyUpgrades: 1 }
   const calculateInspirationBonuses = () => {

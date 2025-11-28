@@ -6,7 +6,7 @@
  */
 
 import React, { createContext, useContext, useState } from 'react';
-import { apiLogin, apiRegister, apiLogout } from '../services/apiService';
+import { apiLogin, apiRegister, apiLogout, apiGoogleLogin } from '../services/apiService';
 
 const AuthContext = createContext(null);
 
@@ -89,6 +89,29 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  // Google login handler
+  const googleLogin = async (credential) => {
+    try {
+      setAuthError(null);
+      setAuthLoading(true);
+
+      const data = await apiGoogleLogin(credential);
+
+      // Save token and user
+      setAuthToken(data.token);
+      setUser(data.user);
+      localStorage.setItem('pokesume_token', data.token);
+      localStorage.setItem('pokesume_user', JSON.stringify(data.user));
+
+      return data;
+    } catch (error) {
+      setAuthError(error.message);
+      throw error;
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
   // Update user (e.g., after rating change)
   const updateUser = (updates) => {
     const updatedUser = { ...user, ...updates };
@@ -103,6 +126,7 @@ export const AuthProvider = ({ children }) => {
     authLoading,
     login,
     register,
+    googleLogin,
     logout,
     updateUser,
     setAuthError
