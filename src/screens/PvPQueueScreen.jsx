@@ -9,6 +9,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Swords, Clock, Users } from 'lucide-react';
+import { generatePokemonSprite } from '../utils/gameUtils';
+import { TypeBadge } from '../components/TypeIcon';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -221,7 +223,6 @@ const PvPQueueScreen = () => {
                 className="text-pocket-text-light"
               >
                 vs {matchData?.opponent?.username || 'Opponent'}
-                {matchData?.opponent?.isAI && ' (AI)'}
               </motion.p>
             </div>
           ) : (
@@ -300,13 +301,17 @@ const PvPQueueScreen = () => {
             className="bg-white rounded-2xl shadow-card p-4 mt-4"
           >
             <h3 className="text-sm font-bold text-pocket-text-light mb-2 text-center">Your Team</h3>
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-3">
               {pvpSelectedTeam.filter(p => p !== null).map((pokemon, index) => (
                 <div
                   key={index}
-                  className="w-12 h-12 rounded-lg bg-pocket-bg flex items-center justify-center"
+                  className="flex flex-col items-center p-2 rounded-xl bg-pocket-bg"
                 >
-                  <span className="text-xl">{pokemon.name?.[0] || '?'}</span>
+                  <div className="w-14 h-14 mb-1">
+                    {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
+                  </div>
+                  <div className="text-xs font-bold truncate max-w-[60px]">{pokemon.name}</div>
+                  <TypeBadge type={pokemon.primaryType || pokemon.type} size={10} className="text-[8px]" />
                 </div>
               ))}
             </div>

@@ -219,11 +219,14 @@ const PvPScreen = () => {
                     const isPlayer1 = match.player1_id === user?.id;
                     const won = match.winner_id === user?.id;
                     const opponentName = isPlayer1
-                      ? (match.player2_username || 'AI Trainer')
+                      ? (match.player2_username || 'Trainer')
                       : match.player1_username;
                     const ratingChange = isPlayer1
                       ? match.player1_rating_change
                       : match.player2_rating_change;
+                    // Show score from user's perspective (your wins - opponent wins)
+                    const yourBattlesWon = isPlayer1 ? (match.battles_won_p1 || 0) : (match.battles_won_p2 || 0);
+                    const opponentBattlesWon = isPlayer1 ? (match.battles_won_p2 || 0) : (match.battles_won_p1 || 0);
 
                     return (
                       <motion.div
@@ -250,12 +253,9 @@ const PvPScreen = () => {
                           <div>
                             <div className="font-bold text-sm">
                               vs {opponentName}
-                              {match.is_ai_opponent && (
-                                <span className="ml-1 text-xs text-gray-500">(AI)</span>
-                              )}
                             </div>
                             <div className="text-xs text-gray-500">
-                              {won ? 'Victory' : 'Defeat'} • {match.battles_won_p1 || 0}-{match.battles_won_p2 || 0}
+                              {won ? 'Victory' : 'Defeat'} • {yourBattlesWon}-{opponentBattlesWon}
                             </div>
                           </div>
                         </div>
