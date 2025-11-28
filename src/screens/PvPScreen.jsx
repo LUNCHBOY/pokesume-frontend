@@ -14,19 +14,6 @@ import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
 import { apiGetPvPStats, apiGetPvPMatches } from '../services/apiService';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0 }
-};
-
 const PvPScreen = () => {
   const { setGameState, setPvPMatchId } = useGame();
   const { user, authToken } = useAuth();
@@ -34,7 +21,6 @@ const PvPScreen = () => {
   const [stats, setStats] = useState({ rating: 1000, wins: 0, losses: 0 });
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {

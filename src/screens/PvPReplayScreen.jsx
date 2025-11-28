@@ -24,7 +24,7 @@ import {
 
 const PvPReplayScreen = () => {
   const { setGameState, pvpMatchId, pvpMatchData } = useGame();
-  const { authToken, user } = useAuth();
+  const { authToken } = useAuth();
 
   const [matchDetails, setMatchDetails] = useState(null);
   const [loading, setLoading] = useState(true);

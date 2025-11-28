@@ -20,14 +20,13 @@ import {
   Gift,
   Star,
   HelpCircle,
-  User,
   Shield
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import { generatePokemonSprite } from '../utils/gameUtils';
-import { TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
+import { TYPE_COLORS } from '../components/TypeIcon';
 import { POKEMON } from '../shared/gameData';
 import { MenuTile } from '../components/ui/menu-tile';
 

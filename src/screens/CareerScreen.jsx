@@ -34,7 +34,6 @@ import {
   MOVES,
   POKEMON,
   SUPPORT_CARDS,
-  HANGOUT_EVENTS,
   EVOLUTION_CHAINS,
   EVOLUTION_CONFIG,
   ELITE_FOUR
@@ -317,7 +316,6 @@ const getSupportCardAttributes = (supportKey) => {
 const CareerScreen = () => {
   const {
     setGameState,
-    selectedSupports,
     selectedInspirations,
     battleState,
     setBattleState
@@ -352,7 +350,6 @@ const CareerScreen = () => {
   const [showHelp, setShowHelp] = useState(false);
   const [evolutionModal, setEvolutionModal] = useState(null);
   const [inspirationModal, setInspirationModal] = useState(null);
-  const [pokeclockModal, setPokeclockModal] = useState(false);
   const [isProcessingEvent, setIsProcessingEvent] = useState(false);
   const [isProcessingAction, setIsProcessingAction] = useState(false);
   const lastProcessedTurnRef = useRef(null);
