@@ -214,10 +214,13 @@ const ProfileScreen = () => {
 
   const handleIconChange = (newIcon) => {
     setCurrentIcon(newIcon);
-    setProfile(prev => ({
-      ...prev,
-      user: { ...prev.user, profileIcon: newIcon }
-    }));
+    setProfile(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        user: { ...(prev.user || {}), profileIcon: newIcon }
+      };
+    });
   };
 
   // Create badge lookup map
