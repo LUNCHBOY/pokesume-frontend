@@ -48,10 +48,15 @@ const PvPScreen = () => {
           apiGetPvPMatches(10, 0, authToken)
         ]);
 
-        setStats(statsData);
-        setMatches(matchesData.matches || []);
+        if (statsData) {
+          setStats(statsData);
+        }
+        if (matchesData?.matches) {
+          setMatches(matchesData.matches);
+        }
       } catch (error) {
         console.error('Failed to load PvP data:', error);
+        // Keep default values on error
       } finally {
         setLoading(false);
       }

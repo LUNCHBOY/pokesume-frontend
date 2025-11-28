@@ -124,11 +124,7 @@ const PvPTeamSelectScreen = () => {
                 {pokemon ? (
                   <div className="text-center p-2">
                     <div className="w-12 h-12 mx-auto mb-1">
-                      <img
-                        src={generatePokemonSprite(pokemon.name, pokemon.primaryType)}
-                        alt={pokemon.name}
-                        className="w-full h-full object-contain"
-                      />
+                      {generatePokemonSprite(pokemon.primaryType, pokemon.name)}
                     </div>
                     <div className="text-xs font-bold truncate">{pokemon.name}</div>
                     <TypeBadge type={pokemon.primaryType} size={10} className="text-[8px]" />
@@ -219,11 +215,7 @@ const PvPTeamSelectScreen = () => {
                     {/* Pokemon Info */}
                     <div className="text-center">
                       <div className="w-14 h-14 mx-auto mb-2">
-                        <img
-                          src={generatePokemonSprite(pokemon.name, pokemon.primaryType || pokemon.type)}
-                          alt={pokemon.name}
-                          className="w-full h-full object-contain"
-                        />
+                        {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                       </div>
                       <div className="font-bold text-sm truncate mb-1">{pokemon.name}</div>
                       <TypeBadge type={pokemon.primaryType || pokemon.type} size={12} className="text-[10px] mb-1" />
