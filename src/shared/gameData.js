@@ -222,7 +222,13 @@ const GAME_CONFIG = {
     TOTAL_TURNS: 60,
     GYM_LEADER_INTERVAL: 12,
     STARTING_ENERGY: 100,
-    MAX_ENERGY: 100
+    MAX_ENERGY: 100,
+    ELITE_FOUR_START_TURN: 60,
+    // Number of abilities for gym leaders/elite four at each battle
+    // Gym 1 (turn 12): 3 moves, Gym 2 (turn 24): 4 moves, Gym 3 (turn 36): 4 moves, Gym 4 (turn 48): 5 moves
+    // Elite Four (turns 60-63): 6 moves each
+    GYM_ABILITY_COUNTS: [3, 4, 4, 5],
+    ELITE_FOUR_ABILITY_COUNT: 6
   },
   TRAINING: {
     ENERGY_COSTS: { HP: 20, Attack: 25, Defense: 15, Instinct: 20, Speed: -5 },

@@ -2366,27 +2366,34 @@ const CareerScreen = () => {
                             />
                           </div>
                         </div>
-                        {option.supports.length > 0 && (
+                        {option.supports && option.supports.length > 0 && (
                           <div className="space-y-0.5">
                             {option.supports.map(supportName => {
                               // Use stored friendship, or fall back to initial friendship from support card
                               const support = getSupportCardAttributes(supportName);
                               const initialFriendship = support?.initialFriendship || 0;
                               const friendship = careerData.supportFriendships?.[supportName] ?? initialFriendship;
-                              const { image: trainerImage, config: faceConfig } = getSupportImageWithConfig(supportName);
+                              const { image: trainerImage, config: faceConfig, trainerName } = getSupportImageWithConfig(supportName);
+                              // Only show image if we found a valid trainer in our image mappings
+                              const hasValidImage = trainerImage && !trainerImage.includes('default.png');
                               return (
                                 <div key={supportName} className="bg-blue-100 text-blue-800 text-[8px] sm:text-xs px-0.5 sm:px-1 py-0.5 rounded flex items-center gap-1">
-                                  {trainerImage && (
+                                  {hasValidImage ? (
                                     <div className="w-6 h-6 sm:w-8 sm:h-8 rounded border border-blue-300 overflow-hidden flex-shrink-0">
                                       <img
                                         src={trainerImage}
-                                        alt={supportName}
+                                        alt={trainerName || supportName}
                                         className="w-full h-full object-cover"
                                         style={{
                                           transform: `scale(${faceConfig.scale}) translate(${faceConfig.offsetX}%, ${faceConfig.offsetY}%)`,
                                           transformOrigin: 'top center'
                                         }}
+                                        onError={(e) => { e.target.style.display = 'none'; }}
                                       />
+                                    </div>
+                                  ) : (
+                                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded border border-blue-300 bg-blue-200 flex items-center justify-center flex-shrink-0">
+                                      <span className="text-[8px] font-bold text-blue-600">{(support?.name || supportName).charAt(0)}</span>
                                     </div>
                                   )}
                                   <div className="flex-1 min-w-0">
