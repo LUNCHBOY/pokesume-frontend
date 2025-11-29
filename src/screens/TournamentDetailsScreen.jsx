@@ -9,8 +9,8 @@
  * - Registered players list
  */
 
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Trophy, Clock, Users, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { ArrowLeft, Trophy, Clock, Users, CheckCircle, Search, Filter, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -47,6 +47,54 @@ const TournamentDetailsScreen = () => {
 
   const [selectedTeam, setSelectedTeam] = useState([null, null, null]);
   const [countdown, setCountdown] = useState('');
+
+  // Sort and filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('name'); // 'name', 'grade', 'type'
+  const [filterType, setFilterType] = useState('all'); // 'all' or specific type
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Get unique types from trained Pokemon
+  const availableTypes = useMemo(() => {
+    const types = new Set();
+    trainedPokemon.forEach(p => {
+      const type = p.primaryType || p.type;
+      if (type) types.add(type);
+    });
+    return ['all', ...Array.from(types).sort()];
+  }, [trainedPokemon]);
+
+  // Filter and sort trained Pokemon
+  const filteredAndSortedPokemon = useMemo(() => {
+    const gradeOrder = { 'S': 0, 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6 };
+    let result = [...trainedPokemon];
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(p => (p.name || '').toLowerCase().includes(query));
+    }
+
+    // Apply type filter
+    if (filterType !== 'all') {
+      result = result.filter(p => (p.primaryType || p.type) === filterType);
+    }
+
+    // Apply sorting
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case 'grade':
+          return (gradeOrder[a.grade] || 6) - (gradeOrder[b.grade] || 6);
+        case 'type':
+          return (a.primaryType || a.type || '').localeCompare(b.primaryType || b.type || '');
+        case 'name':
+        default:
+          return (a.name || '').localeCompare(b.name || '');
+      }
+    });
+
+    return result;
+  }, [trainedPokemon, searchQuery, sortBy, filterType]);
 
   // Calculate countdown to tournament start
   const getCountdown = (startTime) => {
@@ -292,44 +340,137 @@ const TournamentDetailsScreen = () => {
               </div>
 
               {/* Available Pokemon List */}
-              <h4 className="font-bold text-pocket-text text-sm mb-3">Available Trained Pokemon ({trainedPokemon.length})</h4>
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-bold text-pocket-text text-sm">
+                  Available Trained Pokemon ({filteredAndSortedPokemon.length})
+                </h4>
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`p-2 rounded-lg transition-colors ${showFilters ? 'bg-type-psychic text-white' : 'bg-pocket-bg text-pocket-text-light hover:text-pocket-text'}`}
+                >
+                  <Filter size={16} />
+                </button>
+              </div>
+
+              {/* Search and Filter Controls */}
+              {showFilters && (
+                <div className="bg-pocket-bg rounded-xl p-3 mb-3 space-y-3">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-pocket-text-light" />
+                    <input
+                      type="text"
+                      placeholder="Search by name..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-9 pr-8 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-type-psychic"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-pocket-text-light hover:text-pocket-text"
+                      >
+                        <X size={14} />
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex gap-2">
+                    {/* Sort By */}
+                    <div className="flex-1">
+                      <label className="text-[10px] text-pocket-text-light font-bold mb-1 block">Sort By</label>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs focus:outline-none focus:border-type-psychic bg-white"
+                      >
+                        <option value="name">Name</option>
+                        <option value="grade">Grade</option>
+                        <option value="type">Type</option>
+                      </select>
+                    </div>
+
+                    {/* Filter by Type */}
+                    <div className="flex-1">
+                      <label className="text-[10px] text-pocket-text-light font-bold mb-1 block">Type</label>
+                      <select
+                        value={filterType}
+                        onChange={(e) => setFilterType(e.target.value)}
+                        className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs focus:outline-none focus:border-type-psychic bg-white"
+                      >
+                        {availableTypes.map(type => (
+                          <option key={type} value={type}>
+                            {type === 'all' ? 'All Types' : type}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Duplicate species warning */}
+              <p className="text-[10px] text-pocket-text-light mb-2 italic">
+                Note: You cannot select multiple Pokemon of the same species.
+              </p>
+
               {trainedPokemon.length === 0 ? (
                 <div className="bg-pocket-bg rounded-xl p-8 text-center">
                   <p className="text-pocket-text-light mb-2">No trained Pokemon found</p>
                   <p className="text-xs text-pocket-text-light">Complete careers to train Pokemon!</p>
                 </div>
+              ) : filteredAndSortedPokemon.length === 0 ? (
+                <div className="bg-pocket-bg rounded-xl p-8 text-center">
+                  <p className="text-pocket-text-light mb-2">No Pokemon match your filters</p>
+                  <button
+                    onClick={() => { setSearchQuery(''); setFilterType('all'); }}
+                    className="text-xs text-type-psychic font-bold hover:underline"
+                  >
+                    Clear filters
+                  </button>
+                </div>
               ) : (
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 max-h-64 overflow-y-auto bg-pocket-bg rounded-xl p-3">
-                  {trainedPokemon.map((pokemon, idx) => {
+                  {filteredAndSortedPokemon.map((pokemon, idx) => {
                     const rosterId = pokemon.id;
+                    const pokemonName = pokemon.name || 'Unknown';
                     const alreadySelected = selectedTeam.some(t => t && t.roster_id === rosterId);
+                    // Check if same species is already selected (different roster but same name)
+                    const speciesAlreadySelected = selectedTeam.some(t => t && t.name === pokemonName && t.roster_id !== rosterId);
+                    const isDisabled = alreadySelected || speciesAlreadySelected;
 
                     return (
                       <motion.div
                         key={rosterId || idx}
-                        whileHover={{ scale: alreadySelected ? 1 : 1.05 }}
-                        whileTap={{ scale: alreadySelected ? 1 : 0.95 }}
-                        className={`bg-white rounded-xl p-2 cursor-pointer transition shadow-card ${
-                          alreadySelected ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-card-hover'
+                        whileHover={{ scale: isDisabled ? 1 : 1.05 }}
+                        whileTap={{ scale: isDisabled ? 1 : 0.95 }}
+                        className={`bg-white rounded-xl p-2 cursor-pointer transition shadow-card relative ${
+                          isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-card-hover'
                         }`}
                         onClick={() => {
-                          if (!alreadySelected) {
+                          if (!isDisabled) {
                             const emptySlot = selectedTeam.findIndex(t => t === null);
                             if (emptySlot !== -1) {
                               handleTeamSelect(emptySlot, {
                                 roster_id: rosterId,
-                                name: pokemon.name || 'Unknown',
+                                name: pokemonName,
                                 type: pokemon.primaryType || pokemon.type || 'Normal',
                                 grade: pokemon.grade || 'E'
                               });
                             }
                           }
                         }}
+                        title={speciesAlreadySelected ? `${pokemonName} already selected` : alreadySelected ? 'Already in team' : `Select ${pokemonName}`}
                       >
+                        {speciesAlreadySelected && !alreadySelected && (
+                          <div className="absolute top-1 right-1 bg-amber-500 text-white text-[6px] px-1 rounded font-bold">
+                            DUP
+                          </div>
+                        )}
                         <div className="flex justify-center mb-1">
                           {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                         </div>
-                        <h5 className="text-center font-bold text-[10px] text-pocket-text truncate">{pokemon.name || 'Unknown'}</h5>
+                        <h5 className="text-center font-bold text-[10px] text-pocket-text truncate">{pokemonName}</h5>
                         <div className="flex justify-center mt-1">
                           <span
                             className="px-1.5 py-0.5 rounded-full text-[8px] font-bold text-white"

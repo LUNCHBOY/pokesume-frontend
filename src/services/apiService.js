@@ -475,7 +475,7 @@ export const apiGetPokemonInventory = async (limit = 100, offset = 0, authToken)
   }
 };
 
-export const apiAddPokemonToInventory = async (pokemonName, pokemonData, authToken) => {
+export const apiAddPokemonToInventory = async (pokemonName, pokemonData, authToken, rarity = 'Common') => {
   if (!authToken) return null;
 
   try {
@@ -485,7 +485,7 @@ export const apiAddPokemonToInventory = async (pokemonName, pokemonData, authTok
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
       },
-      body: JSON.stringify({ pokemonName, pokemonData })
+      body: JSON.stringify({ pokemonName, pokemonData, rarity })
     });
 
     const data = await response.json();
@@ -544,7 +544,7 @@ export const apiGetSupportInventory = async (limit = 100, offset = 0, authToken)
   }
 };
 
-export const apiAddSupportToInventory = async (supportName, supportData, authToken) => {
+export const apiAddSupportToInventory = async (supportName, supportData, authToken, rarity = 'Common') => {
   if (!authToken) return null;
 
   try {
@@ -554,7 +554,7 @@ export const apiAddSupportToInventory = async (supportName, supportData, authTok
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
       },
-      body: JSON.stringify({ supportName, supportData })
+      body: JSON.stringify({ supportName, supportData, rarity })
     });
 
     const data = await response.json();

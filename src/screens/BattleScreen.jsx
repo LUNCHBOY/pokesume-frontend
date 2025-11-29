@@ -333,9 +333,9 @@ const BattleScreen = () => {
 
   // Get HP bar color based on percentage
   const getHpColor = (pct) => {
-    if (pct > 50) return 'bg-stat-hp';
-    if (pct > 25) return 'bg-yellow-500';
-    return 'bg-red-600';
+    if (pct > 50) return 'bg-pocket-green'; // Green when healthy
+    if (pct > 25) return 'bg-yellow-500';   // Yellow when damaged
+    return 'bg-red-600';                     // Red when critical
   };
 
   return (

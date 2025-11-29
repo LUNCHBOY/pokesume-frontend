@@ -132,6 +132,18 @@ const TournamentReplayScreen = () => {
   const player1Pct = ((currentState.player1?.currentHp || 0) / (currentState.player1?.maxHp || 1)) * 100;
   const player2Pct = ((currentState.player2?.currentHp || 0) / (currentState.player2?.maxHp || 1)) * 100;
 
+  // Dynamic HP color based on percentage
+  const getHpColor = (pct) => {
+    if (pct > 50) return 'bg-pocket-green'; // Green when healthy
+    if (pct > 25) return 'bg-yellow-500';   // Yellow when damaged
+    return 'bg-red-600';                     // Red when critical
+  };
+
+  // Get stamina value - support both energy and currentStamina properties
+  const getStamina = (player) => {
+    return player?.currentStamina ?? player?.energy ?? 0;
+  };
+
   return (
     <div className="min-h-screen bg-pocket-bg p-4">
       {/* Header */}
@@ -213,7 +225,7 @@ const TournamentReplayScreen = () => {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="bg-pocket-green h-3 rounded-full transition-all"
+                    className={`${getHpColor(player1Pct)} h-3 rounded-full transition-all`}
                     style={{ width: `${player1Pct}%` }}
                   />
                 </div>
@@ -221,12 +233,12 @@ const TournamentReplayScreen = () => {
               <div className="bg-pocket-bg rounded-xl p-3">
                 <div className="flex justify-between text-xs text-pocket-text-light mb-1">
                   <span>Stamina</span>
-                  <span>{currentState.player1?.energy || 0}/100</span>
+                  <span>{getStamina(currentState.player1)}/100</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-amber-500 h-2 rounded-full transition-all"
-                    style={{ width: `${currentState.player1?.energy || 0}%` }}
+                    style={{ width: `${getStamina(currentState.player1)}%` }}
                   />
                 </div>
               </div>
@@ -249,7 +261,7 @@ const TournamentReplayScreen = () => {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="bg-pocket-red h-3 rounded-full transition-all"
+                    className={`${getHpColor(player2Pct)} h-3 rounded-full transition-all`}
                     style={{ width: `${player2Pct}%` }}
                   />
                 </div>
@@ -257,12 +269,12 @@ const TournamentReplayScreen = () => {
               <div className="bg-pocket-bg rounded-xl p-3">
                 <div className="flex justify-between text-xs text-pocket-text-light mb-1">
                   <span>Stamina</span>
-                  <span>{currentState.player2?.energy || 0}/100</span>
+                  <span>{getStamina(currentState.player2)}/100</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-amber-500 h-2 rounded-full transition-all"
-                    style={{ width: `${currentState.player2?.energy || 0}%` }}
+                    style={{ width: `${getStamina(currentState.player2)}%` }}
                   />
                 </div>
               </div>

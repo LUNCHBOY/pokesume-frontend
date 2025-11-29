@@ -130,9 +130,9 @@ const PvPReplayScreen = () => {
 
   // Get HP bar color based on percentage
   const getHpColor = (pct) => {
-    if (pct > 50) return 'bg-stat-hp';
-    if (pct > 25) return 'bg-yellow-500';
-    return 'bg-red-600';
+    if (pct > 50) return 'bg-pocket-green'; // Green when healthy
+    if (pct > 25) return 'bg-yellow-500';   // Yellow when damaged
+    return 'bg-red-600';                     // Red when critical
   };
 
   // Build display log from battle log up to current tick
@@ -424,20 +424,18 @@ const PvPReplayScreen = () => {
                   </div>
 
                   {/* Stamina Bar */}
-                  {yourHp?.currentStamina !== undefined && (
-                    <div>
-                      <div className="flex justify-between text-xs text-pocket-text-light mb-1">
-                        <span>Stamina</span>
-                        <span>{yourHp.currentStamina}/100</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-amber-400 transition-all duration-300"
-                          style={{ width: `${yourHp.currentStamina}%` }}
-                        />
-                      </div>
+                  <div>
+                    <div className="flex justify-between text-xs text-pocket-text-light mb-1">
+                      <span>Stamina</span>
+                      <span>{yourHp?.currentStamina ?? yourHp?.energy ?? 0}/100</span>
                     </div>
-                  )}
+                    <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-amber-400 transition-all duration-300"
+                        style={{ width: `${yourHp?.currentStamina ?? yourHp?.energy ?? 0}%` }}
+                      />
+                    </div>
+                  </div>
 
                   {/* Stats Row */}
                   {yourPokemon?.stats && (
@@ -502,20 +500,18 @@ const PvPReplayScreen = () => {
                   </div>
 
                   {/* Stamina Bar */}
-                  {opponentHp?.currentStamina !== undefined && (
-                    <div>
-                      <div className="flex justify-between text-xs text-pocket-text-light mb-1">
-                        <span>Stamina</span>
-                        <span>{opponentHp.currentStamina}/100</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-amber-400 transition-all duration-300"
-                          style={{ width: `${opponentHp.currentStamina}%` }}
-                        />
-                      </div>
+                  <div>
+                    <div className="flex justify-between text-xs text-pocket-text-light mb-1">
+                      <span>Stamina</span>
+                      <span>{opponentHp?.currentStamina ?? opponentHp?.energy ?? 0}/100</span>
                     </div>
-                  )}
+                    <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-amber-400 transition-all duration-300"
+                        style={{ width: `${opponentHp?.currentStamina ?? opponentHp?.energy ?? 0}%` }}
+                      />
+                    </div>
+                  </div>
 
                   {/* Stats Row */}
                   {opponentPokemon?.stats && (

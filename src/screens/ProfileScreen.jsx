@@ -138,12 +138,14 @@ const TopPokemonCard = ({ pokemon }) => {
   // Handle both string and object pokemon_data
   const pokemonData = typeof pokemon === 'string' ? JSON.parse(pokemon) : pokemon;
 
+  // Stats are nested under pokemonData.stats
+  const rawStats = pokemonData.stats || pokemonData;
   const stats = {
-    HP: parseInt(pokemonData.HP) || 0,
-    Attack: parseInt(pokemonData.Attack) || 0,
-    Defense: parseInt(pokemonData.Defense) || 0,
-    Instinct: parseInt(pokemonData.Instinct) || 0,
-    Speed: parseInt(pokemonData.Speed) || 0
+    HP: parseInt(rawStats.HP) || 0,
+    Attack: parseInt(rawStats.Attack) || 0,
+    Defense: parseInt(rawStats.Defense) || 0,
+    Instinct: parseInt(rawStats.Instinct) || 0,
+    Speed: parseInt(rawStats.Speed) || 0
   };
   const grade = getPokemonGrade(stats);
   const totalStats = Object.values(stats).reduce((sum, val) => sum + val, 0);

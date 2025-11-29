@@ -3,7 +3,7 @@
  *
  * Allows users to roll for support cards using Primos (currency).
  * Cost: 100 Primos per roll
- * Duplicates are automatically refunded.
+ * Features Limit Break system for duplicate support cards.
  */
 
 import React, { useState } from 'react';
@@ -14,14 +14,26 @@ import { useInventory } from '../contexts/InventoryContext';
 import { getRarityColor } from '../utils/gameUtils';
 import { SUPPORT_CARDS, SUPPORT_GACHA_RARITY } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
+import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
+
+// Limit break shard rewards by rarity
+const LIMIT_BREAK_SHARD_REWARDS = {
+  Common: 1,
+  Uncommon: 3,
+  Rare: 5,
+  Legendary: 20
+};
 
 const SupportGachaScreen = () => {
   const { setGameState } = useGame();
-  const { primos, supportInventory, addSupport, updatePrimos } = useInventory();
+  const { primos, supportInventory, addSupport, updatePrimos, getSupportLimitBreak } = useInventory();
   const [rollResult, setRollResult] = useState(null);
+  const [isRolling, setIsRolling] = useState(false);
 
-  const handleSupportRoll = () => {
-    if (primos < 100) return;
+  const handleSupportRoll = async () => {
+    if (primos < 100 || isRolling) return;
+
+    setIsRolling(true);
 
     const roll = Math.random();
     let selectedRarity = 'Common';
@@ -38,17 +50,27 @@ const SupportGachaScreen = () => {
     const rarityPool = SUPPORT_GACHA_RARITY[selectedRarity].supports;
     const support = rarityPool[Math.floor(Math.random() * rarityPool.length)];
 
-    const isDuplicate = supportInventory.includes(support);
+    // Deduct primos first
+    await updatePrimos(-100);
 
-    if (!isDuplicate) {
-      const supportData = SUPPORT_CARDS[support];
-      addSupport(support, supportData);
+    // Add to inventory (backend handles limit break logic)
+    const supportData = SUPPORT_CARDS[support];
+    const result = await addSupport(support, supportData, selectedRarity);
+
+    setIsRolling(false);
+
+    if (result) {
+      setRollResult({
+        support,
+        rarity: selectedRarity,
+        isDuplicate: result.isDuplicate || false,
+        isMaxLimitBreak: result.isMaxLimitBreak || false,
+        limitBreakLevel: result.limitBreakLevel || 0,
+        shardsAwarded: result.shardsAwarded || 0
+      });
+    } else {
+      setRollResult({ support, rarity: selectedRarity, isDuplicate: false });
     }
-
-    const newPrimos = isDuplicate ? primos : primos - 100;
-    updatePrimos(newPrimos - primos); // Pass delta
-
-    setRollResult({ support, rarity: selectedRarity, isDuplicate });
   };
 
   return (
@@ -117,16 +139,28 @@ const SupportGachaScreen = () => {
                 </div>
               </div>
 
+              {/* Limit Break Info */}
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-6 border border-purple-200">
+                <h3 className="font-bold text-pocket-text mb-2 text-sm flex items-center gap-2">
+                  <LimitBreakDiamonds level={4} size={10} />
+                  Limit Break System
+                </h3>
+                <p className="text-pocket-text-light text-xs">
+                  Duplicate supports increase Limit Break level, enhancing their effects.
+                  Max level duplicates award Limit Break Shards!
+                </p>
+              </div>
+
               {/* Actions */}
               <div className="space-y-3">
                 <motion.button
-                  whileHover={{ scale: primos >= 100 ? 1.02 : 1 }}
-                  whileTap={{ scale: primos >= 100 ? 0.98 : 1 }}
+                  whileHover={{ scale: primos >= 100 && !isRolling ? 1.02 : 1 }}
+                  whileTap={{ scale: primos >= 100 && !isRolling ? 0.98 : 1 }}
                   onClick={handleSupportRoll}
-                  disabled={primos < 100}
+                  disabled={primos < 100 || isRolling}
                   className="w-full pocket-btn-purple py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {primos >= 100 ? 'Roll!' : 'Not Enough Primos'}
+                  {isRolling ? 'Rolling...' : primos >= 100 ? 'Roll!' : 'Not Enough Primos'}
                 </motion.button>
                 <button
                   onClick={() => setGameState('menu')}
@@ -186,6 +220,12 @@ const SupportGachaScreen = () => {
                   <h3 className="text-xl font-bold text-pocket-text mb-2">
                     {SUPPORT_CARDS[rollResult.support].name}
                   </h3>
+
+                  {/* Limit Break Diamonds */}
+                  <div className="flex justify-center mb-2">
+                    <LimitBreakDiamonds level={getSupportLimitBreak(rollResult.support)} size={14} />
+                  </div>
+
                   <p className="text-xs text-pocket-text-light italic mb-3">
                     {SUPPORT_CARDS[rollResult.support].description || SUPPORT_CARDS[rollResult.support].effect?.description}
                   </p>
@@ -205,31 +245,50 @@ const SupportGachaScreen = () => {
                   )}
                 </motion.div>
 
+                {/* Duplicate / Limit Break Result */}
                 {rollResult.isDuplicate && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="bg-orange-50 border border-orange-200 rounded-xl p-3 mb-4"
+                    className={`rounded-xl p-3 mb-4 ${
+                      rollResult.isMaxLimitBreak
+                        ? 'bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200'
+                        : 'bg-green-50 border border-green-200'
+                    }`}
                   >
-                    <p className="text-orange-600 font-bold">Duplicate! 100 Primos refunded.</p>
+                    {rollResult.isMaxLimitBreak ? (
+                      <div>
+                        <p className="text-purple-700 font-bold">Max Limit Break!</p>
+                        <p className="text-purple-600 text-sm">
+                          +{rollResult.shardsAwarded || LIMIT_BREAK_SHARD_REWARDS[rollResult.rarity]} Limit Break Shards
+                        </p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-green-700 font-bold">Limit Break Up!</p>
+                        <p className="text-green-600 text-sm">
+                          Support Enhanced (Level {rollResult.limitBreakLevel})
+                        </p>
+                      </div>
+                    )}
                   </motion.div>
                 )}
 
                 {/* Actions */}
                 <div className="space-y-3 mt-6">
                   <motion.button
-                    whileHover={{ scale: primos >= 100 ? 1.02 : 1 }}
-                    whileTap={{ scale: primos >= 100 ? 0.98 : 1 }}
-                    onClick={() => {
+                    whileHover={{ scale: primos >= 100 && !isRolling ? 1.02 : 1 }}
+                    whileTap={{ scale: primos >= 100 && !isRolling ? 0.98 : 1 }}
+                    onClick={async () => {
                       setRollResult(null);
                       if (primos >= 100) {
-                        handleSupportRoll();
+                        await handleSupportRoll();
                       }
                     }}
-                    disabled={primos < 100}
+                    disabled={primos < 100 || isRolling}
                     className="w-full pocket-btn-purple py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Roll Again
+                    {isRolling ? 'Rolling...' : 'Roll Again'}
                   </motion.button>
                   <button
                     onClick={() => {

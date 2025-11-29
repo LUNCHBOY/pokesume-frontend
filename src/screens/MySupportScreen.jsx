@@ -275,23 +275,9 @@ const MySupportScreen = () => {
                   </div>
                 </div>
 
-                {/* Move Hints */}
-                {support.moveHints && support.moveHints.length > 0 && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-2">
-                    <p className="font-bold text-blue-700 text-[10px] mb-1">Move Hints</p>
-                    <div className="flex flex-wrap gap-1">
-                      {support.moveHints.map((move, idx) => (
-                        <span key={idx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[10px] font-semibold">
-                          {move}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 {/* Special Effects - using new specialEffect format */}
                 {support.specialEffect && (
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-2 mt-2">
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-2 mb-2">
                     <p className="font-bold text-purple-700 text-[10px] mb-1">Special Effects</p>
                     <div className="space-y-0.5 text-[10px]">
                       {support.specialEffect.statGainMultiplier && (
@@ -318,6 +304,12 @@ const MySupportScreen = () => {
                           <span className="text-pocket-green font-bold">+{support.specialEffect.restBonus}</span>
                         </div>
                       )}
+                      {support.specialEffect.energyRegenBonus && (
+                        <div className="flex justify-between">
+                          <span className="text-pocket-text-light">Energy Regen</span>
+                          <span className="text-pocket-green font-bold">+{support.specialEffect.energyRegenBonus}</span>
+                        </div>
+                      )}
                       {support.specialEffect.skillPointMultiplier && (
                         <div className="flex justify-between">
                           <span className="text-pocket-text-light">SP Mult</span>
@@ -326,7 +318,7 @@ const MySupportScreen = () => {
                       )}
                       {support.specialEffect.friendshipGainBonus && (
                         <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Friend Gain</span>
+                          <span className="text-pocket-text-light">Friendship Gain</span>
                           <span className="text-pocket-green font-bold">+{support.specialEffect.friendshipGainBonus}</span>
                         </div>
                       )}
@@ -336,6 +328,20 @@ const MySupportScreen = () => {
                           <span className="text-pocket-green font-bold">-{support.specialEffect.energyCostReduction}</span>
                         </div>
                       )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Move Hints */}
+                {support.moveHints && support.moveHints.length > 0 && (
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-2">
+                    <p className="font-bold text-blue-700 text-[10px] mb-1">Move Hints</p>
+                    <div className="flex flex-wrap gap-1">
+                      {support.moveHints.map((move, idx) => (
+                        <span key={idx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[10px] font-semibold">
+                          {move}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 )}

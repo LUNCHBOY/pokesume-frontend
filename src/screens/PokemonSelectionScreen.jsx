@@ -186,8 +186,12 @@ const PokemonSelectionScreen = () => {
                     </div>
                     <div className="flex items-center gap-2 mb-2">
                       <TypeBadge type={pokemon.primaryType} size={12} />
-                      <span className="text-xs text-pocket-text-light">
-                        {pokemon.strategy} ({pokemon.strategyGrade})
+                      <span
+                        className="px-1.5 py-0.5 rounded-full text-[10px] font-bold text-white"
+                        style={{ backgroundColor: getGradeColor(pokemon.strategyGrade) }}
+                        title={`${pokemon.strategy} Aptitude`}
+                      >
+                        {pokemon.strategyGrade}
                       </span>
                     </div>
                     {/* Stats Row */}

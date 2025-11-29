@@ -53,21 +53,33 @@ const TournamentsScreen = () => {
   const { setGameState, tournaments, setTournaments, tournamentsLoading, setTournamentsLoading, setSelectedTournament } = useGame();
   const { user } = useAuth();
 
-  // Fetch tournaments on mount
+  // Fetch tournaments on mount - always fetch fresh data
   useEffect(() => {
+    let isMounted = true;
+
     const loadTournaments = async () => {
       setTournamentsLoading(true);
       try {
         const data = await apiGetTournaments();
-        setTournaments(data || []);
+        if (isMounted) {
+          setTournaments(data || []);
+        }
       } catch (error) {
         console.error('Failed to load tournaments:', error);
-        setTournaments([]);
+        if (isMounted) {
+          setTournaments([]);
+        }
       }
-      setTournamentsLoading(false);
+      if (isMounted) {
+        setTournamentsLoading(false);
+      }
     };
 
     loadTournaments();
+
+    return () => {
+      isMounted = false;
+    };
   }, [setTournaments, setTournamentsLoading]);
 
   const getTimeUntilStart = (startTime) => {

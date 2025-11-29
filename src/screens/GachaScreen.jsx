@@ -3,7 +3,7 @@
  *
  * Allows users to roll for new Pokemon using Primos (currency).
  * Cost: 100 Primos per roll
- * Duplicates are automatically refunded.
+ * Features Limit Break system for duplicate Pokemon.
  */
 
 import React, { useState } from 'react';
@@ -17,14 +17,26 @@ import {
 } from '../utils/gameUtils';
 import { TypeBadge } from '../components/TypeIcon';
 import { POKEMON, GACHA_RARITY } from '../shared/gameData';
+import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
+
+// Limit break shard rewards by rarity
+const LIMIT_BREAK_SHARD_REWARDS = {
+  Common: 1,
+  Uncommon: 3,
+  Rare: 5,
+  Legendary: 20
+};
 
 const GachaScreen = () => {
   const { setGameState } = useGame();
-  const { primos, pokemonInventory, addPokemon, updatePrimos } = useInventory();
+  const { primos, pokemonInventory, addPokemon, updatePrimos, getPokemonLimitBreak, limitBreakShards } = useInventory();
   const [rollResult, setRollResult] = useState(null);
+  const [isRolling, setIsRolling] = useState(false);
 
-  const rollForPokemon = () => {
-    if (primos < 100) return null;
+  const rollForPokemon = async () => {
+    if (primos < 100 || isRolling) return null;
+
+    setIsRolling(true);
 
     // Roll for rarity
     const roll = Math.random();
@@ -43,24 +55,31 @@ const GachaScreen = () => {
     const rarityPool = GACHA_RARITY[selectedRarity].pokemon;
     const pokemon = rarityPool[Math.floor(Math.random() * rarityPool.length)];
 
-    // Check if duplicate
-    const isDuplicate = pokemonInventory.includes(pokemon);
+    // Deduct primos first
+    await updatePrimos(-100);
 
-    // Add to inventory if not duplicate
-    if (!isDuplicate) {
-      const pokemonData = POKEMON[pokemon];
-      addPokemon(pokemon, pokemonData);
+    // Add to inventory (backend handles limit break logic)
+    const pokemonData = POKEMON[pokemon];
+    const result = await addPokemon(pokemon, pokemonData, selectedRarity);
+
+    setIsRolling(false);
+
+    if (result) {
+      return {
+        pokemon,
+        rarity: selectedRarity,
+        isDuplicate: result.isDuplicate || false,
+        isMaxLimitBreak: result.isMaxLimitBreak || false,
+        limitBreakLevel: result.limitBreakLevel || 0,
+        shardsAwarded: result.shardsAwarded || 0
+      };
     }
 
-    // Update primos (refund if duplicate)
-    const newPrimos = isDuplicate ? primos : primos - 100;
-    updatePrimos(newPrimos - primos); // Pass delta
-
-    return { pokemon, rarity: selectedRarity, isDuplicate };
+    return { pokemon, rarity: selectedRarity, isDuplicate: false };
   };
 
-  const handleRoll = () => {
-    const result = rollForPokemon();
+  const handleRoll = async () => {
+    const result = await rollForPokemon();
     if (result) {
       setRollResult(result);
     }
@@ -132,16 +151,28 @@ const GachaScreen = () => {
                 </div>
               </div>
 
+              {/* Limit Break Info */}
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-6 border border-purple-200">
+                <h3 className="font-bold text-pocket-text mb-2 text-sm flex items-center gap-2">
+                  <LimitBreakDiamonds level={4} size={10} />
+                  Limit Break System
+                </h3>
+                <p className="text-pocket-text-light text-xs">
+                  Duplicate Pokemon increase Limit Break level (+5% base stats per level).
+                  Max level duplicates award Limit Break Shards!
+                </p>
+              </div>
+
               {/* Actions */}
               <div className="space-y-3">
                 <motion.button
-                  whileHover={{ scale: primos >= 100 ? 1.02 : 1 }}
-                  whileTap={{ scale: primos >= 100 ? 0.98 : 1 }}
+                  whileHover={{ scale: primos >= 100 && !isRolling ? 1.02 : 1 }}
+                  whileTap={{ scale: primos >= 100 && !isRolling ? 0.98 : 1 }}
                   onClick={handleRoll}
-                  disabled={primos < 100}
+                  disabled={primos < 100 || isRolling}
                   className="w-full pocket-btn-purple py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {primos >= 100 ? 'Roll!' : 'Not Enough Primos'}
+                  {isRolling ? 'Rolling...' : primos >= 100 ? 'Roll!' : 'Not Enough Primos'}
                 </motion.button>
                 <button
                   onClick={() => setGameState('menu')}
@@ -185,37 +216,61 @@ const GachaScreen = () => {
 
                 <h3 className="text-2xl font-bold text-pocket-text mb-2">{rollResult.pokemon}</h3>
 
+                {/* Limit Break Diamonds */}
+                <div className="flex justify-center mb-2">
+                  <LimitBreakDiamonds level={getPokemonLimitBreak(rollResult.pokemon)} size={14} />
+                </div>
+
                 {POKEMON[rollResult.pokemon] && (
                   <div className="flex justify-center mb-4">
                     <TypeBadge type={POKEMON[rollResult.pokemon].primaryType} size={18} />
                   </div>
                 )}
 
+                {/* Duplicate / Limit Break Result */}
                 {rollResult.isDuplicate && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="bg-orange-50 border border-orange-200 rounded-xl p-3 mb-4"
+                    className={`rounded-xl p-3 mb-4 ${
+                      rollResult.isMaxLimitBreak
+                        ? 'bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200'
+                        : 'bg-green-50 border border-green-200'
+                    }`}
                   >
-                    <p className="text-orange-600 font-bold">Duplicate! 100 Primos refunded.</p>
+                    {rollResult.isMaxLimitBreak ? (
+                      <div>
+                        <p className="text-purple-700 font-bold">Max Limit Break!</p>
+                        <p className="text-purple-600 text-sm">
+                          +{rollResult.shardsAwarded || LIMIT_BREAK_SHARD_REWARDS[rollResult.rarity]} Limit Break Shards
+                        </p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-green-700 font-bold">Limit Break Up!</p>
+                        <p className="text-green-600 text-sm">
+                          +5% Base Stats (Level {rollResult.limitBreakLevel})
+                        </p>
+                      </div>
+                    )}
                   </motion.div>
                 )}
 
                 {/* Actions */}
                 <div className="space-y-3 mt-6">
                   <motion.button
-                    whileHover={{ scale: primos >= 100 ? 1.02 : 1 }}
-                    whileTap={{ scale: primos >= 100 ? 0.98 : 1 }}
-                    onClick={() => {
+                    whileHover={{ scale: primos >= 100 && !isRolling ? 1.02 : 1 }}
+                    whileTap={{ scale: primos >= 100 && !isRolling ? 0.98 : 1 }}
+                    onClick={async () => {
                       setRollResult(null);
                       if (primos >= 100) {
-                        handleRoll();
+                        await handleRoll();
                       }
                     }}
-                    disabled={primos < 100}
+                    disabled={primos < 100 || isRolling}
                     className="w-full pocket-btn-purple py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Roll Again
+                    {isRolling ? 'Rolling...' : 'Roll Again'}
                   </motion.button>
                   <button
                     onClick={() => {

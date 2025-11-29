@@ -20,7 +20,8 @@ import {
   Gift,
   Star,
   HelpCircle,
-  Shield
+  Shield,
+  Diamond
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useGame } from '../contexts/GameContext';
@@ -154,6 +155,7 @@ const MenuScreen = () => {
     supportInventory,
     trainedPokemon,
     primos,
+    limitBreakShards,
     loadPokemonInventory,
     addPokemon
   } = useInventory();
@@ -249,16 +251,32 @@ const MenuScreen = () => {
             <span className="text-pocket-text font-semibold text-sm">Profile</span>
           </motion.button>
 
-          {/* Currency */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200"
-          >
-            <Sparkles size={14} className="text-amber-500" />
-            <span className="text-pocket-text font-bold text-sm">
-              {primos.toLocaleString()}
-            </span>
-          </motion.div>
+          {/* Currencies */}
+          <div className="flex items-center gap-2">
+            {/* Primos */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200"
+              title="Primos"
+            >
+              <Sparkles size={12} className="text-amber-500" />
+              <span className="text-pocket-text font-bold text-xs">
+                {primos.toLocaleString()}
+              </span>
+            </motion.div>
+
+            {/* Limit Break Shards */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-1 bg-gradient-to-r from-purple-50 to-pink-50 px-2.5 py-1 rounded-full border border-purple-200"
+              title="Limit Break Shards"
+            >
+              <Diamond size={12} className="text-purple-500" />
+              <span className="text-pocket-text font-bold text-xs">
+                {(limitBreakShards || 0).toLocaleString()}
+              </span>
+            </motion.div>
+          </div>
 
           {/* User info */}
           <div className="flex items-center gap-2">

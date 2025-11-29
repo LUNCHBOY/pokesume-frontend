@@ -1,8 +1,9 @@
 /**
  * InventoryContext
  *
- * Manages server-side inventory including Pokemon, supports, trained Pokemon, and Primos.
+ * Manages server-side inventory including Pokemon, supports, trained Pokemon, Primos, and Limit Break Shards.
  * All inventory operations are server-authoritative.
+ * Supports Limit Break system for Pokemon and Support cards.
  */
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -21,6 +22,9 @@ import {
 } from '../services/apiService';
 import { getPokemonGrade } from '../utils/gameUtils';
 
+// Max limit break level
+const MAX_LIMIT_BREAK = 4;
+
 const InventoryContext = createContext(null);
 
 export const useInventory = () => {
@@ -34,13 +38,15 @@ export const useInventory = () => {
 export const InventoryProvider = ({ children }) => {
   const { authToken, user } = useAuth();
 
-  // Pokemon inventory (from gacha)
+  // Pokemon inventory (from gacha) - now includes limit break data
   const [pokemonInventory, setPokemonInventory] = useState([]);
+  const [pokemonInventoryFull, setPokemonInventoryFull] = useState([]); // Full data with limit break
   const [pokemonTotal, setPokemonTotal] = useState(0);
   const [pokemonLoading, setPokemonLoading] = useState(false);
 
-  // Support inventory (from gacha)
+  // Support inventory (from gacha) - now includes limit break data
   const [supportInventory, setSupportInventory] = useState([]);
+  const [supportInventoryFull, setSupportInventoryFull] = useState([]); // Full data with limit break
   const [supportTotal, setSupportTotal] = useState(0);
   const [supportLoading, setSupportLoading] = useState(false);
 
@@ -49,9 +55,27 @@ export const InventoryProvider = ({ children }) => {
   const [trainedTotal, setTrainedTotal] = useState(0);
   const [trainedLoading, setTrainedLoading] = useState(false);
 
-  // Primos (currency)
+  // Currencies
   const [primos, setPrimos] = useState(0);
+  const [limitBreakShards, setLimitBreakShards] = useState(0);
   const [primosLoading, setPrimosLoading] = useState(false);
+
+  // Helper to get limit break level for a Pokemon
+  const getPokemonLimitBreak = (pokemonName) => {
+    const pokemon = pokemonInventoryFull.find(p => p.pokemon_name === pokemonName);
+    return pokemon?.limit_break_level || 0;
+  };
+
+  // Helper to get limit break level for a Support
+  const getSupportLimitBreak = (supportName) => {
+    const support = supportInventoryFull.find(s => s.support_name === supportName);
+    return support?.limit_break_level || 0;
+  };
+
+  // Calculate stat bonus from limit break (5% per level for Pokemon)
+  const getLimitBreakStatBonus = (limitBreakLevel) => {
+    return 1 + (limitBreakLevel * 0.05); // 1.0, 1.05, 1.10, 1.15, 1.20
+  };
 
   // Load Pokemon inventory
   const loadPokemonInventory = async (limit = 100, offset = 0) => {
@@ -60,7 +84,9 @@ export const InventoryProvider = ({ children }) => {
     setPokemonLoading(true);
     try {
       const data = await apiGetPokemonInventory(limit, offset, authToken);
-      // Extract just the pokemon names from the inventory objects
+      // Store full inventory data with limit break levels
+      setPokemonInventoryFull(data.pokemon || []);
+      // Extract just the pokemon names for backward compatibility
       const pokemonNames = (data.pokemon || []).map(item => item.pokemon_name);
       setPokemonInventory(pokemonNames);
       setPokemonTotal(data.total || 0);
@@ -71,15 +97,19 @@ export const InventoryProvider = ({ children }) => {
     }
   };
 
-  // Add Pokemon to inventory
-  const addPokemon = async (pokemonName, pokemonData) => {
+  // Add Pokemon to inventory (handles limit break system)
+  const addPokemon = async (pokemonName, pokemonData, rarity = 'Common') => {
     if (!authToken) return null;
 
     try {
-      const result = await apiAddPokemonToInventory(pokemonName, pokemonData, authToken);
+      const result = await apiAddPokemonToInventory(pokemonName, pokemonData, authToken, rarity);
       if (result) {
-        // Refresh inventory
+        // Refresh inventory to get updated limit break levels
         await loadPokemonInventory();
+        // Update limit break shards if awarded
+        if (result.isMaxLimitBreak && result.totalShards !== undefined) {
+          setLimitBreakShards(result.totalShards);
+        }
       }
       return result;
     } catch (error) {
@@ -112,7 +142,9 @@ export const InventoryProvider = ({ children }) => {
     setSupportLoading(true);
     try {
       const data = await apiGetSupportInventory(limit, offset, authToken);
-      // Extract just the support names from the inventory objects
+      // Store full inventory data with limit break levels
+      setSupportInventoryFull(data.supports || []);
+      // Extract just the support names for backward compatibility
       const supportNames = (data.supports || []).map(item => item.support_name);
       setSupportInventory(supportNames);
       setSupportTotal(data.total || 0);
@@ -123,15 +155,19 @@ export const InventoryProvider = ({ children }) => {
     }
   };
 
-  // Add Support to inventory
-  const addSupport = async (supportName, supportData) => {
+  // Add Support to inventory (handles limit break system)
+  const addSupport = async (supportName, supportData, rarity = 'Common') => {
     if (!authToken) return null;
 
     try {
-      const result = await apiAddSupportToInventory(supportName, supportData, authToken);
+      const result = await apiAddSupportToInventory(supportName, supportData, authToken, rarity);
       if (result) {
-        // Refresh inventory
+        // Refresh inventory to get updated limit break levels
         await loadSupportInventory();
+        // Update limit break shards if awarded
+        if (result.isMaxLimitBreak && result.totalShards !== undefined) {
+          setLimitBreakShards(result.totalShards);
+        }
       }
       return result;
     } catch (error) {
@@ -215,7 +251,7 @@ export const InventoryProvider = ({ children }) => {
     }
   };
 
-  // Load Primos
+  // Load Primos and Limit Break Shards
   const loadPrimos = async () => {
     if (!authToken) return;
 
@@ -223,6 +259,7 @@ export const InventoryProvider = ({ children }) => {
     try {
       const data = await apiGetPrimos(authToken);
       setPrimos(data.primos || 0);
+      setLimitBreakShards(data.limitBreakShards || 0);
     } catch (error) {
       console.error('Failed to load Primos:', error);
     } finally {
@@ -238,6 +275,9 @@ export const InventoryProvider = ({ children }) => {
       const result = await apiUpdatePrimos(amount, authToken);
       if (result) {
         setPrimos(result.primos);
+        if (result.limitBreakShards !== undefined) {
+          setLimitBreakShards(result.limitBreakShards);
+        }
       }
       return result;
     } catch (error) {
@@ -256,9 +296,12 @@ export const InventoryProvider = ({ children }) => {
     } else {
       // Clear inventory when logged out
       setPokemonInventory([]);
+      setPokemonInventoryFull([]);
       setSupportInventory([]);
+      setSupportInventoryFull([]);
       setTrainedPokemon([]);
       setPrimos(0);
+      setLimitBreakShards(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken, user]);
@@ -266,19 +309,23 @@ export const InventoryProvider = ({ children }) => {
   const value = {
     // Pokemon inventory
     pokemonInventory,
+    pokemonInventoryFull,
     pokemonTotal,
     pokemonLoading,
     loadPokemonInventory,
     addPokemon,
     deletePokemon,
+    getPokemonLimitBreak,
 
     // Support inventory
     supportInventory,
+    supportInventoryFull,
     supportTotal,
     supportLoading,
     loadSupportInventory,
     addSupport,
     deleteSupport,
+    getSupportLimitBreak,
 
     // Trained Pokemon
     trainedPokemon,
@@ -287,11 +334,16 @@ export const InventoryProvider = ({ children }) => {
     loadTrainedPokemon,
     deleteTrainedPokemon,
 
-    // Primos
+    // Currencies
     primos,
+    limitBreakShards,
     primosLoading,
     loadPrimos,
-    updatePrimos
+    updatePrimos,
+
+    // Limit break helpers
+    getLimitBreakStatBonus,
+    MAX_LIMIT_BREAK
   };
 
   return <InventoryContext.Provider value={value}>{children}</InventoryContext.Provider>;
