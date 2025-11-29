@@ -23,7 +23,7 @@ import {
   apiResolveEvent,
   apiLearnAbility
 } from '../services/apiService';
-import { SUPPORT_CARDS } from '../shared/gameData';
+import { SUPPORT_CARDS, normalizeSupportName } from '../shared/gameData';
 
 const CareerContext = createContext(null);
 
@@ -141,7 +141,8 @@ export const CareerProvider = ({ children }) => {
       // Compute initial friendships from support card attributes
       const initialFriendships = {};
       selectedSupports.forEach(supportName => {
-        const support = SUPPORT_CARDS[supportName];
+        const normalizedName = normalizeSupportName(supportName);
+        const support = SUPPORT_CARDS[normalizedName];
         if (support) {
           initialFriendships[supportName] = support.initialFriendship || 0;
         }

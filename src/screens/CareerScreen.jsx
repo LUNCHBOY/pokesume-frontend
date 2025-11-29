@@ -36,7 +36,8 @@ import {
   SUPPORT_CARDS,
   EVOLUTION_CHAINS,
   EVOLUTION_CONFIG,
-  ELITE_FOUR
+  ELITE_FOUR,
+  normalizeSupportName
 } from '../shared/gameData';
 import { getSupportImageWithConfig, getGymLeaderImage } from '../constants/trainerImages';
 import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
@@ -270,7 +271,9 @@ const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, curr
  * Must match backend career.js getSupportCardAttributes
  */
 const getSupportCardAttributes = (supportKey) => {
-  const card = SUPPORT_CARDS[supportKey];
+  // Normalize legacy support names to new format
+  const normalizedKey = normalizeSupportName(supportKey);
+  const card = SUPPORT_CARDS[normalizedKey];
   if (!card) return null;
 
   // Extract training bonuses from card's trainingBonus object
@@ -1696,7 +1699,7 @@ const CareerScreen = () => {
                 {careerData.pendingEvent.type === 'hangout' && careerData.pendingEvent.supportName && careerData.pendingEvent.effect && (
                   <div className="space-y-3">
                     <div className="bg-blue-50 p-3 rounded border-2 border-blue-500">
-                      <div className="font-bold text-blue-700 mb-2 text-lg">Special Hangout with {SUPPORT_CARDS[careerData.pendingEvent.supportName]?.name || careerData.pendingEvent.supportName}!</div>
+                      <div className="font-bold text-blue-700 mb-2 text-lg">Special Hangout with {SUPPORT_CARDS[normalizeSupportName(careerData.pendingEvent.supportName)]?.name || careerData.pendingEvent.supportName}!</div>
                       <div className="font-semibold text-gray-700 mb-1">{careerData.pendingEvent.name}</div>
                       <div className="text-sm text-gray-600 mb-3">
                         {careerData.pendingEvent.description}
@@ -2269,7 +2272,7 @@ const CareerScreen = () => {
 
                       // Collect energy regen bonus for Speed training
                       if (stat === 'Speed') {
-                        const supportCard = SUPPORT_CARDS[supportName];
+                        const supportCard = SUPPORT_CARDS[normalizeSupportName(supportName)];
                         if (supportCard?.specialEffect?.energyRegenBonus) {
                           energyRegenBonus += supportCard.specialEffect.energyRegenBonus;
                         }

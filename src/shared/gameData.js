@@ -4117,6 +4117,87 @@ const SUPPORT_CARDS = {
 
 
 // ============================================================================
+// LEGACY SUPPORT NAME MAPPING
+// Maps old support card names (with Pokemon) to new names (trainer only)
+// This ensures backwards compatibility with existing database entries
+// ============================================================================
+const LEGACY_SUPPORT_NAME_MAP = {
+  // Legendary
+  CynthiaGarchomp: 'Cynthia',
+  RedCharizard: 'Red',
+  StevenMetagross: 'Steven',
+  NReshiram: 'N',
+  ProfessorOakMew: 'ProfessorOak',
+  DianthaDiancie: 'Diantha',
+  LeonCharizard: 'Leon',
+  SeleneLunala: 'Selene',
+  GloriaZacian: 'Gloria',
+  NemonaKoraidon: 'Nemona',
+  MustardUrshifu: 'Mustard',
+  VictorCalyrex: 'Victor',
+  ArvenMabosstiff: 'Arven',
+  PennyEevee: 'Penny',
+  SoniaYamper: 'Sonia',
+  HopZamazenta: 'Hop',
+  GeetaKingambit: 'Geeta',
+  KieranOgerpon: 'Kieran',
+  CarmineBloodmoon: 'Carmine',
+  DraytonArchaludon: 'Drayton',
+  LaceyExcadrill: 'Lacey',
+  // Rare
+  LanceDragonite: 'Lance',
+  SabrinaAlakazam: 'Sabrina',
+  MortyGengar: 'Morty',
+  WallaceMillotic: 'Wallace',
+  IrisHaxorus: 'Iris',
+  BlueBlastoise: 'Blue',
+  GiovanniPersian: 'Giovanni',
+  MaxieCamerupt: 'Maxie',
+  ArchieSharpedo: 'Archie',
+  RaihanDuraludon: 'Raihan',
+  MarnieGrimmsnarl: 'Marnie',
+  NessaDrednaw: 'Nessa',
+  BeaSirfetchd: 'Bea',
+  OpalAlcremie: 'Opal',
+  PiersObstagoon: 'Piers',
+  RikaClodsire: 'Rika',
+  PoppyTinkaton: 'Poppy',
+  // Uncommon
+  MistyStarmie: 'Misty',
+  BrockOnix: 'Brock',
+  ErikaTangela: 'Erika',
+  BlaineMagmar: 'Blaine',
+  KogaWeezing: 'Koga',
+  JasmineSteelix: 'Jasmine',
+  WinonaAltaria: 'Winona',
+  KarenUmbreon: 'Karen',
+  AgathaGengar: 'Agatha',
+  MiloEldegoss: 'Milo',
+  KabuCentiskorch: 'Kabu',
+  MelonyLapras: 'Melony',
+  GordieCoalossal: 'Gordie',
+  KlaraSlowbro: 'Klara',
+  AverySlowking: 'Avery',
+  IonoBellibolt: 'Iono',
+  GrushaAltaria: 'Grusha',
+  // Common
+  WhitneyMiltank: 'Whitney',
+  ChuckPoliwrath: 'Chuck',
+  PryceDelibird: 'Pryce',
+  WattsonMagneton: 'Wattson',
+  FlanneryCamerupt: 'Flannery'
+};
+
+/**
+ * Normalizes a support name by converting legacy names to new format
+ * @param {string} supportName - The support name (may be legacy or new format)
+ * @returns {string} - The normalized support name
+ */
+const normalizeSupportName = (supportName) => {
+  return LEGACY_SUPPORT_NAME_MAP[supportName] || supportName;
+};
+
+// ============================================================================
 // GACHA POOLS
 // ============================================================================
 
@@ -5080,5 +5161,7 @@ module.exports = {
   SUPPORT_GACHA_RARITY,
   GACHA_RARITY,
   RANDOM_EVENTS,
-  HANGOUT_EVENTS
+  HANGOUT_EVENTS,
+  LEGACY_SUPPORT_NAME_MAP,
+  normalizeSupportName
 };

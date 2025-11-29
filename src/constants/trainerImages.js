@@ -3,6 +3,8 @@
  * Maps trainer names to their sprite images
  */
 
+import { normalizeSupportName, SUPPORT_CARDS } from '../shared/gameData';
+
 // Face positioning config for support trainer icons
 // scale: zoom level (1.0 = no zoom, 2.0 = 2x zoom for face focus)
 // offsetY: vertical offset in % (negative = move up to show face, positive = move down)
@@ -189,9 +191,17 @@ export const getTrainerFaceConfig = (trainerName) => {
 // Helper function to extract trainer name from support card name or key
 // Handles both formats:
 // - Display name: "Cynthia & Garchomp"
-// - Key format: "CynthiaGarchomp"
+// - Key format: "CynthiaGarchomp" (legacy) or "Cynthia" (new)
 export const getSupportImageFromCardName = (cardName) => {
   if (!cardName) return null;
+
+  // First try normalizing the name to the new format
+  const normalizedName = normalizeSupportName(cardName);
+  const supportCard = SUPPORT_CARDS[normalizedName];
+  if (supportCard) {
+    // Use the trainer name from the support card
+    return getSupportTrainerImage(supportCard.trainer || supportCard.name);
+  }
 
   // If it contains &, it's a display name format
   if (cardName.includes('&')) {
@@ -298,7 +308,19 @@ const extractTrainerName = (cardName) => {
 // Get support image with face positioning config
 // Returns { image, config } where config has scale, offsetX, offsetY
 export const getSupportImageWithConfig = (cardName) => {
-  const trainerName = extractTrainerName(cardName);
+  // First try normalizing the name to the new format
+  const normalizedName = normalizeSupportName(cardName);
+  const supportCard = SUPPORT_CARDS[normalizedName];
+
+  let trainerName;
+  if (supportCard) {
+    // Use the trainer name from the support card
+    trainerName = supportCard.trainer || supportCard.name;
+  } else {
+    // Fall back to extracting from legacy format
+    trainerName = extractTrainerName(cardName);
+  }
+
   const image = getSupportTrainerImage(trainerName);
   const config = getTrainerFaceConfig(trainerName);
   return { image, config, trainerName };

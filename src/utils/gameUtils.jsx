@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Heart, Shield, Sparkles, Swords, Wind } from 'lucide-react';
-import { EVOLUTION_CHAINS } from '../shared/gameData';
+import { EVOLUTION_CHAINS, GACHA_RARITY, normalizeSupportName } from '../shared/gameData';
 
 // ============================================================================
 // COLOR UTILITIES
@@ -104,30 +104,31 @@ export const getPokemonGrade = (stats) => {
 };
 
 /**
- * Returns the rarity of a Pokemon based on evolution potential
+ * Returns the rarity of a Pokemon based on GACHA_RARITY
  */
 export const getPokemonRarity = (pokemonName) => {
-  // Check if it's a legendary (no evolution, special Pokemon)
-  const legendary = ['Moltres', 'Articuno', 'Celebi', 'Raikou', 'Gengar', 'Entei', 'Suicune',
-                     'Mew', 'Mewtwo', 'Snorlax', 'Lapras', 'Aerodactyl', 'Ditto'];
-  if (legendary.includes(pokemonName)) return 'Legendary';
+  // Check each rarity tier in GACHA_RARITY
+  if (GACHA_RARITY) {
+    if (GACHA_RARITY.Legendary?.pokemon?.includes(pokemonName)) return 'Legendary';
+    if (GACHA_RARITY.Rare?.pokemon?.includes(pokemonName)) return 'Rare';
+    if (GACHA_RARITY.Uncommon?.pokemon?.includes(pokemonName)) return 'Uncommon';
+    if (GACHA_RARITY.Common?.pokemon?.includes(pokemonName)) return 'Common';
+  }
 
-  // Check evolution chain
+  // Fallback: Check evolution chain for Pokemon not in gacha
   const evolutionData = Object.entries(EVOLUTION_CHAINS).find(([base, data]) => {
     return base === pokemonName || data.stage1 === pokemonName || data.stage2 === pokemonName;
   });
 
-  if (!evolutionData) return 'Common'; // No evolution chain = common
+  if (!evolutionData) return 'Common';
 
   const [, chainData] = evolutionData;
 
-  // If it's a fully evolved Pokemon from a 2-stage chain
+  // Fully evolved from 2-stage chain
   if (chainData.stages === 2 && chainData.stage2 === pokemonName) return 'Rare';
+  // Middle-stage or fully evolved from 1-stage chain
+  if (chainData.stage1 === pokemonName) return 'Uncommon';
 
-  // If it's a fully evolved Pokemon from a 1-stage chain
-  if (chainData.stages === 1 && chainData.stage1 === pokemonName) return 'Uncommon';
-
-  // Base stage or middle stage
   return 'Common';
 };
 
@@ -398,7 +399,9 @@ export const StatIcon = ({ stat, size = 16 }) => {
 // ============================================================================
 
 export const getSupportCardAttributes = (supportKey, SUPPORT_CARDS) => {
-  const card = SUPPORT_CARDS[supportKey];
+  // Normalize legacy support names to new format
+  const normalizedKey = normalizeSupportName(supportKey);
+  const card = SUPPORT_CARDS[normalizedKey];
   if (!card) return null;
 
   // New structure uses:

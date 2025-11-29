@@ -117,13 +117,13 @@ const AuthModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-start overflow-y-auto p-4 py-8 z-50">
       {/* Game Logo */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className="mb-6"
+        className="mb-6 flex-shrink-0"
       >
         <img
           src="/images/logo.png"
@@ -135,7 +135,7 @@ const AuthModal = ({
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-2xl p-6 max-w-md w-full shadow-card-lg"
+        className="bg-white rounded-2xl p-6 max-w-md w-full shadow-card-lg flex-shrink-0 mb-8"
       >
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">

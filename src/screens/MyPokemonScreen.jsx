@@ -326,7 +326,7 @@ const MyPokemonScreen = () => {
 
               {/* Pokemon info */}
               <div className="text-center mb-4">
-                <div className="mb-3">
+                <div className="mb-3 flex justify-center">
                   {generatePokemonSprite(POKEMON[selectedPokemon]?.primaryType || 'Normal', selectedPokemon)}
                 </div>
                 <h3 className="font-bold text-xl text-pocket-text mb-2">{selectedPokemon}</h3>
