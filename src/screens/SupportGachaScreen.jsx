@@ -11,7 +11,7 @@ import { Sparkles, ArrowLeft, Gift, Star, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
-import { getRarityColor } from '../utils/gameUtils';
+import { getRarityColor, getSupportCardAttributes } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, SUPPORT_GACHA_RARITY } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
@@ -500,7 +500,7 @@ const SupportGachaScreen = () => {
               </button>
 
               {(() => {
-                const support = SUPPORT_CARDS[selectedSupport];
+                const support = getSupportCardAttributes(selectedSupport, SUPPORT_CARDS);
                 const limitBreak = getSupportLimitBreak(selectedSupport);
                 const trainerImage = getSupportImageFromCardName(support.name);
 
