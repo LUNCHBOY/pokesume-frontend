@@ -26,6 +26,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
+import packageJson from '../../package.json';
 import { generatePokemonSprite } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { POKEMON } from '../shared/gameData';
@@ -221,7 +222,7 @@ const MenuScreen = () => {
             variants={itemVariants}
             className="text-center text-pocket-text-light text-xs mt-8"
           >
-            v4.0.0
+            v{packageJson.version}
           </motion.p>
         </motion.div>
       </div>
@@ -355,7 +356,7 @@ const MenuScreen = () => {
           variants={itemVariants}
           className="text-center text-pocket-text-light text-[10px] mt-2"
         >
-          v4.0.0
+          v{packageJson.version}
         </motion.p>
       </motion.main>
     </div>

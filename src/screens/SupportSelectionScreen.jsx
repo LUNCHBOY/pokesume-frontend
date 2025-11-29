@@ -18,6 +18,7 @@ import {
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, POKEMON } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
+import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,7 +44,7 @@ const SupportSelectionScreen = () => {
     selectedInspirations
   } = useGame();
 
-  const { supportInventory } = useInventory();
+  const { supportInventory, getSupportLimitBreak } = useInventory();
   const { startCareer, careerLoading } = useCareer();
 
   // Calculate inspiration bonuses from selected inspirations
@@ -374,6 +375,7 @@ const SupportSelectionScreen = () => {
                           {support.rarity}
                         </span>
                         <h3 className="text-sm font-bold text-pocket-text mt-1">{support.name}</h3>
+                        <LimitBreakDiamonds level={getSupportLimitBreak(supportKey)} size={8} className="mt-1" />
                       </div>
                       {isSelected && (
                         <div className="w-6 h-6 rounded-full bg-pocket-green flex items-center justify-center flex-shrink-0">

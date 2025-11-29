@@ -12,14 +12,13 @@ import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import {
   generatePokemonSprite,
-  getGradeColor,
-  getPokemonGrade,
   getPokemonRarity,
   getRarityColor,
   StatIcon
 } from '../utils/gameUtils';
 import { TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 import { POKEMON } from '../shared/gameData';
+import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,7 +42,7 @@ const MyPokemonScreen = () => {
     setPokemonFilterType
   } = useGame();
 
-  const { pokemonInventory } = useInventory();
+  const { pokemonInventory, getPokemonLimitBreak } = useInventory();
 
   // Sort pokemon inventory
   const sortPokemon = (inventory) => {
@@ -190,17 +189,14 @@ const MyPokemonScreen = () => {
                 <div className="mb-2">
                   {generatePokemonSprite(pokemon.primaryType, pokemonName)}
                 </div>
-                <h3 className="font-bold text-pocket-text text-sm">{pokemonName}</h3>
+                <div className="flex items-center justify-center gap-1.5 mb-1">
+                  <h3 className="font-bold text-pocket-text text-sm">{pokemonName}</h3>
+                  <LimitBreakDiamonds level={getPokemonLimitBreak(pokemonName)} size={8} />
+                </div>
                 <div className="my-2">
                   <TypeBadge type={pokemon.primaryType} size={14} />
                 </div>
                 <div className="flex items-center justify-center gap-1.5 mb-2">
-                  <span
-                    className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-                    style={{ backgroundColor: getGradeColor(getPokemonGrade(pokemon.baseStats)) }}
-                  >
-                    {getPokemonGrade(pokemon.baseStats)}
-                  </span>
                   <span
                     className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
                     style={{ backgroundColor: getRarityColor(getPokemonRarity(pokemonName)) }}

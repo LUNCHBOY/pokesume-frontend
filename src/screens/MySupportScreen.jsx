@@ -17,6 +17,7 @@ import {
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
+import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -40,7 +41,7 @@ const MySupportScreen = () => {
     setSupportFilterRarity
   } = useGame();
 
-  const { supportInventory } = useInventory();
+  const { supportInventory, getSupportLimitBreak } = useInventory();
 
   // Sort support inventory based on selected sort option
   const rarityOrder = { 'Legendary': 0, 'Rare': 1, 'Uncommon': 2, 'Common': 3 };
@@ -205,6 +206,7 @@ const MySupportScreen = () => {
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-pocket-text text-sm mb-1">{support.name}</h3>
+                    <LimitBreakDiamonds level={getSupportLimitBreak(supportKey)} size={10} />
                   </div>
                 </div>
 

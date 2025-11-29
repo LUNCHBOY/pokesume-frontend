@@ -12,13 +12,12 @@ import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import {
   generatePokemonSprite,
-  getGradeColor,
-  getPokemonGrade,
   getPokemonRarity,
   StatIcon
 } from '../utils/gameUtils';
 import { TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 import { POKEMON } from '../shared/gameData';
+import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,7 +42,7 @@ const PokemonSelectionScreen = () => {
     setPokemonFilterType
   } = useGame();
 
-  const { pokemonInventory } = useInventory();
+  const { pokemonInventory, getPokemonLimitBreak } = useInventory();
 
   // Sort pokemon inventory
   const sortPokemon = (inventory) => {
@@ -177,22 +176,10 @@ const PokemonSelectionScreen = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-bold text-pocket-text">{pokemonName}</h3>
-                      <span
-                        className="px-1.5 py-0.5 rounded-full text-[10px] font-bold text-white"
-                        style={{ backgroundColor: getGradeColor(getPokemonGrade(pokemon.baseStats)) }}
-                      >
-                        {getPokemonGrade(pokemon.baseStats)}
-                      </span>
+                      <LimitBreakDiamonds level={getPokemonLimitBreak(pokemonName)} size={10} />
                     </div>
                     <div className="flex items-center gap-2 mb-2">
                       <TypeBadge type={pokemon.primaryType} size={12} />
-                      <span
-                        className="px-1.5 py-0.5 rounded-full text-[10px] font-bold text-white"
-                        style={{ backgroundColor: getGradeColor(pokemon.strategyGrade) }}
-                        title={`${pokemon.strategy} Aptitude`}
-                      >
-                        {pokemon.strategyGrade}
-                      </span>
                     </div>
                     {/* Stats Row */}
                     <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-pocket-text-light">

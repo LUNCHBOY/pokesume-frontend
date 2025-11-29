@@ -2,12 +2,12 @@
  * GachaScreen Component
  *
  * Allows users to roll for new Pokemon using Primos (currency).
- * Cost: 100 Primos per roll
+ * Cost: 100 Primos per roll, 1000 Primos for 10-roll
  * Features Limit Break system for duplicate Pokemon.
  */
 
 import React, { useState } from 'react';
-import { Sparkles, ArrowLeft, CircleDot } from 'lucide-react';
+import { Sparkles, ArrowLeft, CircleDot, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
@@ -27,17 +27,23 @@ const LIMIT_BREAK_SHARD_REWARDS = {
   Legendary: 20
 };
 
+// Rarity border colors for multi-roll display
+const RARITY_BORDER_STYLES = {
+  Common: 'border-gray-400 bg-gray-50',
+  Uncommon: 'border-green-500 bg-green-50',
+  Rare: 'border-blue-500 bg-blue-50',
+  Legendary: 'border-amber-500 bg-gradient-to-br from-amber-50 to-yellow-100'
+};
+
 const GachaScreen = () => {
   const { setGameState } = useGame();
   const { primos, addPokemon, updatePrimos, getPokemonLimitBreak } = useInventory();
   const [rollResult, setRollResult] = useState(null);
+  const [multiRollResults, setMultiRollResults] = useState(null);
   const [isRolling, setIsRolling] = useState(false);
 
-  const rollForPokemon = async () => {
-    if (primos < 100 || isRolling) return null;
-
-    setIsRolling(true);
-
+  // Single roll function (returns result, doesn't manage isRolling state)
+  const performSingleRoll = async () => {
     // Roll for rarity
     const roll = Math.random();
     let selectedRarity = 'Common';
@@ -55,14 +61,9 @@ const GachaScreen = () => {
     const rarityPool = GACHA_RARITY[selectedRarity].pokemon;
     const pokemon = rarityPool[Math.floor(Math.random() * rarityPool.length)];
 
-    // Deduct primos first
-    await updatePrimos(-100);
-
     // Add to inventory (backend handles limit break logic)
     const pokemonData = POKEMON[pokemon];
     const result = await addPokemon(pokemon, pokemonData, selectedRarity);
-
-    setIsRolling(false);
 
     if (result) {
       return {
@@ -78,11 +79,39 @@ const GachaScreen = () => {
     return { pokemon, rarity: selectedRarity, isDuplicate: false };
   };
 
+  // Handle single roll
   const handleRoll = async () => {
-    const result = await rollForPokemon();
+    if (primos < 100 || isRolling) return;
+
+    setIsRolling(true);
+    await updatePrimos(-100);
+    const result = await performSingleRoll();
+    setIsRolling(false);
+
     if (result) {
       setRollResult(result);
+      setMultiRollResults(null);
     }
+  };
+
+  // Handle 10-roll
+  const handleMultiRoll = async () => {
+    if (primos < 1000 || isRolling) return;
+
+    setIsRolling(true);
+    await updatePrimos(-1000);
+
+    const results = [];
+    for (let i = 0; i < 10; i++) {
+      const result = await performSingleRoll();
+      if (result) {
+        results.push(result);
+      }
+    }
+
+    setIsRolling(false);
+    setMultiRollResults(results);
+    setRollResult(null);
   };
 
   return (
@@ -117,7 +146,111 @@ const GachaScreen = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl shadow-card overflow-hidden"
         >
-          {!rollResult ? (
+          {/* Multi-Roll Results Display */}
+          {multiRollResults ? (
+            <div className="p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {/* Header */}
+                <div className="text-center mb-4">
+                  <h2 className="text-xl font-bold text-pocket-text">Gacha Results!</h2>
+                  <p className="text-pocket-text-light text-sm">
+                    {multiRollResults.filter(r => r.rarity === 'Legendary').length > 0 && (
+                      <span className="text-amber-500 font-bold">
+                        {multiRollResults.filter(r => r.rarity === 'Legendary').length} Legendary!
+                      </span>
+                    )}
+                    {multiRollResults.filter(r => r.rarity === 'Rare').length > 0 && (
+                      <span className="text-blue-500 font-bold ml-2">
+                        {multiRollResults.filter(r => r.rarity === 'Rare').length} Rare
+                      </span>
+                    )}
+                  </p>
+                </div>
+
+                {/* Grid of results - 2 rows of 5 like Uma Musume */}
+                <div className="grid grid-cols-5 gap-2 mb-4">
+                  {multiRollResults.map((result, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: index * 0.05 }}
+                      className={`relative rounded-lg border-2 p-1 ${RARITY_BORDER_STYLES[result.rarity]}`}
+                    >
+                      {/* NEW badge for non-duplicates */}
+                      {!result.isDuplicate && (
+                        <div className="absolute -top-1 -right-1 z-10">
+                          <span className="bg-red-500 text-white text-[8px] font-bold px-1 rounded">NEW</span>
+                        </div>
+                      )}
+
+                      {/* Pokemon Sprite */}
+                      <div className="aspect-square flex items-center justify-center">
+                        <div className="w-full h-full flex items-center justify-center scale-75">
+                          {generatePokemonSprite(POKEMON[result.pokemon]?.primaryType || 'Normal', result.pokemon)}
+                        </div>
+                      </div>
+
+                      {/* Limit Break Diamonds */}
+                      <div className="flex justify-center -mt-1">
+                        <LimitBreakDiamonds level={getPokemonLimitBreak(result.pokemon)} size={6} />
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Summary */}
+                <div className="bg-pocket-bg rounded-xl p-3 mb-4 text-xs">
+                  <div className="flex justify-between text-pocket-text-light">
+                    <span>New Pokemon:</span>
+                    <span className="font-bold text-pocket-text">{multiRollResults.filter(r => !r.isDuplicate).length}</span>
+                  </div>
+                  <div className="flex justify-between text-pocket-text-light">
+                    <span>Limit Breaks:</span>
+                    <span className="font-bold text-green-600">{multiRollResults.filter(r => r.isDuplicate && !r.isMaxLimitBreak).length}</span>
+                  </div>
+                  {multiRollResults.some(r => r.isMaxLimitBreak) && (
+                    <div className="flex justify-between text-pocket-text-light">
+                      <span>Shards Earned:</span>
+                      <span className="font-bold text-purple-600">
+                        +{multiRollResults.filter(r => r.isMaxLimitBreak).reduce((sum, r) => sum + (r.shardsAwarded || LIMIT_BREAK_SHARD_REWARDS[r.rarity]), 0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div className="space-y-2">
+                  <motion.button
+                    whileHover={{ scale: primos >= 1000 && !isRolling ? 1.02 : 1 }}
+                    whileTap={{ scale: primos >= 1000 && !isRolling ? 0.98 : 1 }}
+                    onClick={async () => {
+                      setMultiRollResults(null);
+                      if (primos >= 1000) {
+                        await handleMultiRoll();
+                      }
+                    }}
+                    disabled={primos < 1000 || isRolling}
+                    className="w-full pocket-btn-purple py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    <Star size={16} />
+                    {isRolling ? 'Rolling...' : '10-Roll Again'}
+                  </motion.button>
+                  <button
+                    onClick={() => {
+                      setMultiRollResults(null);
+                    }}
+                    className="w-full py-2 text-pocket-text-light font-semibold hover:text-pocket-text transition-colors text-sm"
+                  >
+                    Back
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          ) : !rollResult ? (
             <div className="p-6">
               {/* Roll Info */}
               <div className="text-center mb-6">
@@ -125,7 +258,7 @@ const GachaScreen = () => {
                   <CircleDot size={32} className="text-type-poison" />
                 </div>
                 <h2 className="text-xl font-bold text-pocket-text mb-2">Roll for Pokemon</h2>
-                <p className="text-pocket-text-light">100 Primos per roll</p>
+                <p className="text-pocket-text-light">100 Primos per roll • 1,000 for 10-roll</p>
               </div>
 
               {/* Rates Card */}
@@ -165,15 +298,29 @@ const GachaScreen = () => {
 
               {/* Actions */}
               <div className="space-y-3">
+                {/* 10-Roll Button */}
+                <motion.button
+                  whileHover={{ scale: primos >= 1000 && !isRolling ? 1.02 : 1 }}
+                  whileTap={{ scale: primos >= 1000 && !isRolling ? 0.98 : 1 }}
+                  onClick={handleMultiRoll}
+                  disabled={primos < 1000 || isRolling}
+                  className="w-full pocket-btn-purple py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  <Star size={20} />
+                  {isRolling ? 'Rolling...' : primos >= 1000 ? '10-Roll! (1,000)' : 'Need 1,000 Primos'}
+                </motion.button>
+
+                {/* Single Roll Button */}
                 <motion.button
                   whileHover={{ scale: primos >= 100 && !isRolling ? 1.02 : 1 }}
                   whileTap={{ scale: primos >= 100 && !isRolling ? 0.98 : 1 }}
                   onClick={handleRoll}
                   disabled={primos < 100 || isRolling}
-                  className="w-full pocket-btn-purple py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-pocket-bg border-2 border-type-poison/30 text-type-poison font-bold rounded-xl hover:bg-type-poison/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  {isRolling ? 'Rolling...' : primos >= 100 ? 'Roll!' : 'Not Enough Primos'}
+                  {isRolling ? 'Rolling...' : primos >= 100 ? 'Single Roll (100)' : 'Not Enough Primos'}
                 </motion.button>
+
                 <button
                   onClick={() => setGameState('menu')}
                   className="w-full py-3 text-pocket-text-light font-semibold hover:text-pocket-text transition-colors"
