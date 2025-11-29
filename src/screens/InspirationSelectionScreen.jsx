@@ -27,6 +27,7 @@ const itemVariants = {
 
 const InspirationSelectionScreen = () => {
   const {
+    selectedPokemon,
     selectedInspirations,
     setSelectedInspirations,
     setGameState,
@@ -173,6 +174,9 @@ const InspirationSelectionScreen = () => {
                 const isSelected = selectedInspirations.some(
                   insp => insp.name === trained.name && insp.completedAt === trained.completedAt
                 );
+                const isSameSpecies = selectedPokemon && trained.name === selectedPokemon.name;
+                const isDisabled = isSameSpecies;
+                
                 const totalStars = trained.inspirations
                   ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
                   : 0;
@@ -181,9 +185,11 @@ const InspirationSelectionScreen = () => {
                   <motion.div
                     key={idx}
                     variants={itemVariants}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={!isDisabled ? { y: -2 } : {}}
+                    whileTap={!isDisabled ? { scale: 0.98 } : {}}
                     onClick={() => {
+                      if (isDisabled) return;
+                      
                       if (isSelected) {
                         setSelectedInspirations(
                           selectedInspirations.filter(
@@ -194,14 +200,23 @@ const InspirationSelectionScreen = () => {
                         setSelectedInspirations([...selectedInspirations, trained]);
                       }
                     }}
-                    className={`pokemon-card cursor-pointer transition ${
+                    className={`pokemon-card transition ${
                       isSelected ? 'ring-4 ring-pocket-green' : ''
+                    } ${
+                      isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
                     }`}
                   >
                     <div className="flex justify-center mb-2">
                       {generatePokemonSprite(trained.type, trained.name)}
                     </div>
                     <h3 className="text-center font-bold text-pocket-text text-sm">{trained.name}</h3>
+
+                    {/* Same Species Warning */}
+                    {isSameSpecies && (
+                      <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
+                        Can't use same species
+                      </div>
+                    )}
 
                     {/* Total Stars Display */}
                     {trained.inspirations && totalStars > 0 && (
