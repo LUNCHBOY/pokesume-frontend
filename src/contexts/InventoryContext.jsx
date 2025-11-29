@@ -23,6 +23,7 @@ import {
   apiUpdatePrimos
 } from '../services/apiService';
 import { getPokemonGrade } from '../utils/gameUtils';
+import { normalizeSupportName } from '../shared/gameData';
 
 // Max limit break level
 const MAX_LIMIT_BREAK = 4;
@@ -164,11 +165,27 @@ export const InventoryProvider = ({ children }) => {
     try {
       const data = await apiGetSupportInventory(limit, offset, authToken);
       // Store full inventory data with limit break levels
-      setSupportInventoryFull(data.supports || []);
+      // Normalize support names to handle legacy entries
+      const normalizedSupports = (data.supports || []).map(item => ({
+        ...item,
+        support_name: normalizeSupportName(item.support_name)
+      }));
+
+      // Deduplicate by normalized name, keeping the entry with highest limit break level
+      const deduplicatedMap = new Map();
+      for (const support of normalizedSupports) {
+        const existingSupport = deduplicatedMap.get(support.support_name);
+        if (!existingSupport || (support.limit_break_level || 0) > (existingSupport.limit_break_level || 0)) {
+          deduplicatedMap.set(support.support_name, support);
+        }
+      }
+      const deduplicatedSupports = Array.from(deduplicatedMap.values());
+
+      setSupportInventoryFull(deduplicatedSupports);
       // Extract just the support names for backward compatibility
-      const supportNames = (data.supports || []).map(item => item.support_name);
+      const supportNames = deduplicatedSupports.map(item => item.support_name);
       setSupportInventory(supportNames);
-      setSupportTotal(data.total || 0);
+      setSupportTotal(deduplicatedSupports.length);
     } catch (error) {
       console.error('Failed to load Support inventory:', error);
     } finally {
