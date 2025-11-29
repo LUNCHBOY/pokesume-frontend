@@ -2147,15 +2147,6 @@ const POKEMON = {
     defaultAbilities: ['Headbutt', 'IronDefense', 'Spark'],
     learnableAbilities: ['BodySlam', 'DoubleEdge', 'Thunderbolt']
   },
-  Skitty: {
-    name: 'Skitty',
-    primaryType: 'Normal',
-    baseStats: { HP: 81, Attack: 65, Defense: 63, Instinct: 83, Speed: 88 },
-    typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
-    strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
-    defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
-    learnableAbilities: ['BodySlam', 'DoubleEdge', 'PlayRough']
-  },
   Gulpin: {
     name: 'Gulpin',
     primaryType: 'Psychic',
@@ -2527,15 +2518,6 @@ const POKEMON = {
     defaultAbilities: ['Tackle'],
     learnableAbilities: ['StoneEdge', 'BodySlam']
   },
-  Skorupi: {
-    name: 'Skorupi',
-    primaryType: 'Psychic',
-    baseStats: { HP: 79, Attack: 77, Defense: 84, Instinct: 69, Speed: 71 },
-    typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
-    strategyAptitudes: { Scaler: 'B', Nuker: 'E', Debuffer: 'C', Chipper: 'D', MadLad: 'D' },
-    defaultAbilities: ['PsyBeam', 'Tackle'],
-    learnableAbilities: ['Psychic', 'BodySlam']
-  },
   Carnivine: {
     name: 'Carnivine',
     primaryType: 'Grass',
@@ -2724,15 +2706,6 @@ const POKEMON = {
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
     learnableAbilities: ['Thunderbolt', 'BodySlam']
-  },
-  Klefki: {
-    name: 'Klefki',
-    primaryType: 'Normal',
-    baseStats: { HP: 79, Attack: 71, Defense: 85, Instinct: 82, Speed: 83 },
-    typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'B', Orange: 'C' },
-    strategyAptitudes: { Scaler: 'B', Nuker: 'E', Debuffer: 'C', Chipper: 'D', MadLad: 'D' },
-    defaultAbilities: ['Tackle'],
-    learnableAbilities: ['PlayRough', 'BodySlam']
   },
   Carbink: {
     name: 'Carbink',

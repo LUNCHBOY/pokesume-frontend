@@ -19,7 +19,8 @@
       "Bash(cmd /c \"type \"\"c:\\pokesume\\pokesume backend\\pokesume-backend\\.env\"\"\")",
       "Bash(dir \"c:\\pokesume\\pokesume frontend\\pokesume-frontend\\public\\images\")",
       "Bash(dir:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
