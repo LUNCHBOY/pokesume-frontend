@@ -370,10 +370,9 @@ export const PokemonSprite = ({ type, pokemonName, size = 120 }) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
       .then(res => res.json())
       .then(data => {
-        // Use Black & White animated sprites, fallback to showdown, then static
+        // Use Black & White animated sprites, fallback to static front_default
         const bwAnimated = data.sprites?.versions?.['generation-v']?.['black-white']?.animated?.front_default;
-        const showdown = data.sprites?.other?.showdown?.front_default;
-        const url = bwAnimated || showdown || data.sprites.front_default;
+        const url = bwAnimated || data.sprites.front_default;
         spriteCache[pokemonName] = url;
         setSpriteUrl(url);
       })
@@ -391,7 +390,21 @@ export const PokemonSprite = ({ type, pokemonName, size = 120 }) => {
     return <div style={{width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px'}}>{pokemonName}</div>;
   }
 
-  return <img src={spriteUrl} alt={pokemonName} width={size} height={size} />;
+  return (
+    <div style={{width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <img
+        src={spriteUrl}
+        alt={pokemonName}
+        style={{
+          maxWidth: size,
+          maxHeight: size,
+          width: 'auto',
+          height: 'auto',
+          objectFit: 'contain'
+        }}
+      />
+    </div>
+  );
 };
 
 // Backwards compatibility wrapper
