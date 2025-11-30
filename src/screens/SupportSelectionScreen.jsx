@@ -9,7 +9,7 @@
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { ArrowLeft, Users, Check, X, Diamond, Plus, ChevronLeft, ChevronRight, Copy, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Users, Check, X, Diamond, Plus, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
@@ -17,7 +17,8 @@ import { useCareer } from '../contexts/CareerContext';
 import { useAuth } from '../contexts/AuthContext';
 import {
   getRarityColor,
-  getSupportCardAttributes
+  getSupportCardAttributes,
+  StatIcon
 } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, POKEMON } from '../shared/gameData';
@@ -61,6 +62,35 @@ const SupportSelectionScreen = () => {
   const [selectingSlotIndex, setSelectingSlotIndex] = useState(null);
   const [detailSupport, setDetailSupport] = useState(null);
   const [isLimitBreaking, setIsLimitBreaking] = useState(false);
+
+  // Long-press state for detail modal
+  const longPressTimerRef = useRef(null);
+  const longPressSupportRef = useRef(null);
+  const LONG_PRESS_DURATION = 500; // 500ms hold to trigger
+
+  const handleLongPressStart = useCallback((supportKey) => {
+    longPressSupportRef.current = supportKey;
+    longPressTimerRef.current = setTimeout(() => {
+      setDetailSupport(longPressSupportRef.current);
+    }, LONG_PRESS_DURATION);
+  }, []);
+
+  const handleLongPressEnd = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    longPressSupportRef.current = null;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+      }
+    };
+  }, []);
 
   // Filter/sort state for modal
   const [typeFilter, setTypeFilter] = useState('All');
@@ -442,6 +472,11 @@ const SupportSelectionScreen = () => {
                         />
                       )}
 
+                      {/* Stat type icon */}
+                      <div className="absolute top-1 left-1 w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
+                        <StatIcon stat={support.supportType} size={10} />
+                      </div>
+
                       {/* Limit Break indicator */}
                       {limitBreakLevel > 0 && (
                         <div className="absolute bottom-1 left-0 right-0 flex justify-center">
@@ -499,12 +534,13 @@ const SupportSelectionScreen = () => {
       </div>
 
       {/* Support Selection Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {selectingSlotIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
             className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center"
             onClick={() => setSelectingSlotIndex(null)}
           >
@@ -512,7 +548,7 @@ const SupportSelectionScreen = () => {
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 25 }}
+              transition={{ type: 'spring', damping: 30, stiffness: 400 }}
               className="bg-white rounded-t-2xl sm:rounded-2xl shadow-card-lg w-full sm:max-w-lg max-h-[85vh] overflow-hidden"
               onClick={e => e.stopPropagation()}
             >
@@ -591,12 +627,18 @@ const SupportSelectionScreen = () => {
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
                         onClick={() => handleSelectSupport(supportKey)}
-                        className={`relative aspect-[3/4] rounded-xl border-2 cursor-pointer transition-all overflow-hidden ${
+                        onMouseDown={() => handleLongPressStart(supportKey)}
+                        onMouseUp={handleLongPressEnd}
+                        onMouseLeave={handleLongPressEnd}
+                        onTouchStart={() => handleLongPressStart(supportKey)}
+                        onTouchEnd={handleLongPressEnd}
+                        className={`relative aspect-[3/4] rounded-xl border-2 cursor-pointer transition-all overflow-hidden select-none ${
                           isInDeck
                             ? 'ring-2 ring-pocket-green ring-offset-1'
                             : ''
                         }`}
                         style={{ borderColor: getRarityColor(support.rarity) }}
+                        title="Tap to select • Hold for details"
                       >
                         {/* Rarity indicator */}
                         <div
@@ -609,7 +651,7 @@ const SupportSelectionScreen = () => {
                           <img
                             src={trainerImage}
                             alt={support.trainer}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover pointer-events-none"
                           />
                         )}
 
@@ -634,16 +676,10 @@ const SupportSelectionScreen = () => {
                           </div>
                         )}
 
-                        {/* Long press for details */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setDetailSupport(supportKey);
-                          }}
-                          className="absolute top-1 left-1 w-5 h-5 bg-white/80 rounded-full flex items-center justify-center text-[10px] font-bold text-pocket-text-light hover:bg-white"
-                        >
-                          ?
-                        </button>
+                        {/* Stat type icon */}
+                        <div className="absolute top-1 left-1 w-5 h-5 bg-white/80 rounded-full flex items-center justify-center">
+                          <StatIcon stat={support.supportType} size={12} />
+                        </div>
                       </motion.div>
                     );
                   })}
