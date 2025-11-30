@@ -468,7 +468,7 @@ const MyPokemonScreen = () => {
                                 key={color}
                                 className="flex justify-between items-center px-2 py-1 rounded bg-white"
                               >
-                                <TypeIcon type={typeName} size={16} />
+                                <TypeIcon type={typeName} size={16} showLabel={true} />
                                 <span
                                   className="px-2 py-0.5 rounded text-white font-bold"
                                   style={{ backgroundColor: getAptitudeColor(grade) }}

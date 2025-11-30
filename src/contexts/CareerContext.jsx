@@ -63,8 +63,9 @@ export const CareerProvider = ({ children }) => {
     }
 
     // Get client-side learnableAbilities that aren't in server state
-    const clientLearnables = currentState.pokemon?.learnableAbilities || [];
-    const serverLearnables = serverState.pokemon?.learnableAbilities || [];
+    // Note: Server stores learnableAbilities at top level, client may have it nested under pokemon
+    const clientLearnables = currentState.pokemon?.learnableAbilities || currentState.learnableAbilities || [];
+    const serverLearnables = serverState.learnableAbilities || serverState.pokemon?.learnableAbilities || [];
     const serverKnownAbilities = serverState.knownAbilities || [];
 
     // Find moves that were added client-side but not on server yet
@@ -97,9 +98,10 @@ export const CareerProvider = ({ children }) => {
     return {
       ...serverState,
       moveHints: mergedMoveHints,
+      learnableAbilities: mergedLearnables, // Keep top-level for server format compatibility
       pokemon: {
         ...serverState.pokemon,
-        learnableAbilities: mergedLearnables
+        learnableAbilities: mergedLearnables // Also in pokemon for frontend compatibility
       }
     };
   };
@@ -454,7 +456,8 @@ export const CareerProvider = ({ children }) => {
       const result = await apiResolveEvent(choiceIndex, authToken);
       if (result && result.success) {
         updateCareerFromServer(result.careerState);
-        return result.outcome;
+        // Return the eventResult from careerState which contains moveHint, stats, etc.
+        return result.careerState?.eventResult || null;
       }
       return null;
     } catch (error) {

@@ -95,11 +95,15 @@ const getMoveDescription = (move) => {
   if (move.effect) {
     const effect = move.effect;
     switch (effect.type) {
+      // Status effects
       case 'burn':
         parts.push(`burns for ${effect.damage || 3} dmg/tick`);
         break;
       case 'poison':
         parts.push('poisons target');
+        break;
+      case 'badly_poison':
+        parts.push('badly poisons target');
         break;
       case 'paralyze':
         parts.push('may paralyze');
@@ -119,21 +123,189 @@ const getMoveDescription = (move) => {
       case 'soak':
         parts.push('soaks target');
         break;
+      case 'infatuate':
+        parts.push('may infatuate');
+        break;
+      case 'curse':
+        parts.push('curses target');
+        break;
+
+      // Healing/drain effects
       case 'energize':
         parts.push('restores stamina');
         break;
       case 'drain':
         parts.push('drains HP');
         break;
+      case 'drain_sleep':
+        parts.push('drains sleeping foe');
+        break;
+      case 'heal_self':
+        parts.push('restores HP');
+        break;
+      case 'regen':
+        parts.push('heals over time');
+        break;
+
+      // Self-penalty effects
       case 'recoil':
         parts.push('causes recoil');
         break;
       case 'exhaust':
         parts.push('exhausts user');
         break;
+      case 'self_ko':
+        parts.push('user faints');
+        break;
+      case 'confuse_self_after':
+        parts.push('confuses user after');
+        break;
+
+      // Buff effects (self)
+      case 'buff_all':
+        parts.push('boosts all stats');
+        break;
+      case 'buff_attack':
+        parts.push('boosts Attack');
+        break;
+      case 'buff_defense':
+        parts.push('boosts Defense');
+        break;
+      case 'buff_speed':
+        parts.push('boosts Speed');
+        break;
+      case 'buff_instinct':
+        parts.push('boosts Instinct');
+        break;
+      case 'buff_crit':
+        parts.push('boosts critical rate');
+        break;
+      case 'buff_attack_defense':
+        parts.push('boosts Attack & Defense');
+        break;
+      case 'buff_attack_speed':
+        parts.push('boosts Attack & Speed');
+        break;
       case 'evasion':
         parts.push('grants evasion');
         break;
+
+      // Debuff effects (opponent)
+      case 'debuff_attack':
+        parts.push('lowers foe Attack');
+        break;
+      case 'debuff_defense':
+        parts.push('lowers foe Defense');
+        break;
+      case 'debuff_speed':
+        parts.push('lowers foe Speed');
+        break;
+      case 'debuff_instinct':
+        parts.push('lowers foe Instinct');
+        break;
+      case 'debuff_accuracy':
+        parts.push('lowers foe accuracy');
+        break;
+
+      // Self-debuff effects
+      case 'debuff_instinct_self':
+        parts.push('lowers user Instinct');
+        break;
+      case 'debuff_speed_self':
+        parts.push('lowers user Speed');
+        break;
+      case 'debuff_attack_self':
+        parts.push('lowers user Attack');
+        break;
+
+      // Special damage mechanics
+      case 'high_crit':
+        parts.push('high critical rate');
+        break;
+      case 'double_if_status':
+        parts.push('double vs status');
+        break;
+      case 'double_if_status_self':
+        parts.push('double if user has status');
+        break;
+      case 'double_if_half_hp':
+        parts.push('double if foe <50% HP');
+        break;
+      case 'hp_based_damage':
+        parts.push('power scales with HP');
+        break;
+      case 'buff_boost_damage':
+        parts.push('power scales with buffs');
+        break;
+      case 'use_opponent_attack':
+        parts.push('uses foe Attack stat');
+        break;
+      case 'ohko':
+        parts.push('one-hit KO chance');
+        break;
+      case 'consecutive_boost':
+        parts.push('grows stronger on hit');
+        break;
+      case 'delayed_damage':
+        parts.push('delayed strike');
+        break;
+
+      // Field effects
+      case 'push_back':
+        parts.push('pushes foe back');
+        break;
+      case 'entry_hazard':
+        parts.push('sets entry hazard');
+        break;
+      case 'entry_hazard_rock':
+        parts.push('sets stealth rocks');
+        break;
+      case 'remove_hazards':
+        parts.push('clears hazards');
+        break;
+
+      // Weather effects
+      case 'weather_sand':
+        parts.push('summons sandstorm');
+        break;
+      case 'weather_rain':
+        parts.push('summons rain');
+        break;
+      case 'weather_sun':
+        parts.push('intensifies sunlight');
+        break;
+      case 'weather_hail':
+        parts.push('summons hail');
+        break;
+
+      // Terrain effects
+      case 'terrain_psychic':
+        parts.push('sets psychic terrain');
+        break;
+      case 'terrain_electric':
+        parts.push('sets electric terrain');
+        break;
+      case 'terrain_grassy':
+        parts.push('sets grassy terrain');
+        break;
+
+      // Unique/special effects
+      case 'destiny_bond':
+        parts.push('foe faints if user does');
+        break;
+      case 'random_move':
+        parts.push('uses random move');
+        break;
+      case 'random_damage_or_heal':
+        parts.push('random damage or heal');
+        break;
+      case 'copy_opponent':
+        parts.push('copies opponent');
+        break;
+      case 'switch_out':
+        parts.push('user switches out');
+        break;
+
       default:
         break;
     }
@@ -141,7 +313,9 @@ const getMoveDescription = (move) => {
 
   // If no special characteristics, describe based on damage
   if (parts.length === 0) {
-    if (move.damage >= 35) {
+    if (move.damage === 0) {
+      return 'Status move';
+    } else if (move.damage >= 35) {
       return 'High-power attack';
     } else if (move.damage >= 25) {
       return 'Solid damage dealer';
