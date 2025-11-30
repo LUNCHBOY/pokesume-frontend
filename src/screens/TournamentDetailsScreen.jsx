@@ -509,12 +509,6 @@ const TournamentDetailsScreen = () => {
                             DUP
                           </div>
                         )}
-                        {/* Hold hint */}
-                        {!isDisabled && (
-                          <div className="absolute top-0.5 left-0.5 text-[6px] text-pocket-text-light opacity-50">
-                            Hold
-                          </div>
-                        )}
                         <div className="flex justify-center mb-1">
                           {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                         </div>
@@ -635,7 +629,7 @@ const TournamentDetailsScreen = () => {
                   <>
                     {/* Pokemon sprite and name */}
                     <div className="text-center mb-4">
-                      <div className="mb-2">
+                      <div className="mb-2 flex justify-center">
                         {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                       </div>
                       <h3 className="font-bold text-xl text-pocket-text">{pokemon.name}</h3>

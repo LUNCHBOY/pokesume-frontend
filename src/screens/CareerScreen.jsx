@@ -17,7 +17,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Book, Trophy, Zap, Clock, Star, HelpCircle } from 'lucide-react';
+import { Sparkles, Book, Trophy, Zap, Clock, Star, HelpCircle, Home, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useCareer } from '../contexts/CareerContext';
@@ -299,6 +299,7 @@ const getSupportCardAttributes = (supportKey) => {
 const CareerScreen = () => {
   const {
     setGameState,
+    resetGameState,
     selectedInspirations,
     battleState,
     setBattleState
@@ -315,7 +316,8 @@ const CareerScreen = () => {
     triggerEvent,
     resolveEvent: resolveEventOnServer,
     learnAbility: learnAbilityOnServer,
-    changeStrategy
+    changeStrategy,
+    abandonCareer
   } = useCareer();
 
   // Wrapper function that updates both local state and backend
@@ -340,6 +342,7 @@ const CareerScreen = () => {
   const [isProcessingEvent, setIsProcessingEvent] = useState(false);
   const [isProcessingAction, setIsProcessingAction] = useState(false);
   const [forgetMoveConfirm, setForgetMoveConfirm] = useState(null);
+  const [showAbandonConfirm, setShowAbandonConfirm] = useState(false);
   const lastProcessedTurnRef = useRef(null);
   const declinedEventRef = useRef(false);
 
@@ -1514,6 +1517,20 @@ const CareerScreen = () => {
                   >
                     <span className="font-bold">?</span>
                   </button>
+                  <button
+                    onClick={() => setGameState('menu')}
+                    className="flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 bg-blue-100 hover:bg-blue-200 rounded transition cursor-pointer text-xs sm:text-sm"
+                    title="Return to Homescreen"
+                  >
+                    <Home size={12} className="sm:w-3.5 sm:h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => setShowAbandonConfirm(true)}
+                    className="flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 bg-red-100 hover:bg-red-200 rounded transition cursor-pointer text-xs sm:text-sm"
+                    title="Abandon Career"
+                  >
+                    <LogOut size={12} className="sm:w-3.5 sm:h-3.5" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -2604,6 +2621,49 @@ const CareerScreen = () => {
       <StrategySelector />
       <PokeclockModal />
       <HelpModal />
+
+      {/* Abandon Career Confirmation Modal */}
+      {showAbandonConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6"
+          >
+            <div className="text-center mb-4">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
+                <LogOut size={32} className="text-red-600" />
+              </div>
+              <h3 className="text-xl font-bold text-pocket-text mb-2">Abandon Career?</h3>
+              <p className="text-pocket-text-light text-sm">
+                This will permanently end your current career with {careerData?.pokemon?.name || 'your Pokemon'}.
+                All progress will be lost and cannot be recovered.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowAbandonConfirm(false)}
+                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl font-bold text-pocket-text transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  const success = await abandonCareer();
+                  if (success) {
+                    setShowAbandonConfirm(false);
+                    resetGameState();
+                    setGameState('menu');
+                  }
+                }}
+                className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 rounded-xl font-bold text-white transition"
+              >
+                Abandon Career
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </>
   );
 };

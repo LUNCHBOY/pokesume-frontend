@@ -415,12 +415,6 @@ const PvPTeamSelectScreen = () => {
                         </div>
                       )}
 
-                      {/* Hold hint */}
-                      {!selected && !isDisabled && (
-                        <div className="absolute top-1 left-1 text-[8px] text-pocket-text-light opacity-60">
-                          Hold for info
-                        </div>
-                      )}
 
                       {/* Pokemon Info */}
                       <div className="text-center">
@@ -492,7 +486,7 @@ const PvPTeamSelectScreen = () => {
                   <>
                     {/* Pokemon sprite and name */}
                     <div className="text-center mb-4">
-                      <div className="mb-2">
+                      <div className="mb-2 flex justify-center">
                         {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                       </div>
                       <h3 className="font-bold text-xl text-pocket-text">{pokemon.name}</h3>
