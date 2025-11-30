@@ -5,7 +5,7 @@
  * Features polished cards, smooth animations, and clean iconography.
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Sparkles,
@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useGame } from '../contexts/GameContext';
+import { useCareer } from '../contexts/CareerContext';
 import { useInventory } from '../contexts/InventoryContext';
 import packageJson from '../../package.json';
 import { generatePokemonSprite } from '../utils/gameUtils';
@@ -151,6 +152,7 @@ const StarterCard = ({ pokemon, name, onSelect }) => {
 const MenuScreen = () => {
   const { user, logout } = useAuth();
   const { setGameState, setShowResetConfirm } = useGame();
+  const { hasActiveCareer, careerLoading } = useCareer();
   const {
     pokemonInventory,
     supportInventory,
@@ -161,12 +163,34 @@ const MenuScreen = () => {
     addPokemon
   } = useInventory();
 
+  // Loading state to prevent flicker while career data loads
+  const [isLoadingCareer, setIsLoadingCareer] = useState(true);
+
+  useEffect(() => {
+    // Give CareerContext a moment to load active career
+    const timer = setTimeout(() => setIsLoadingCareer(false), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Badge counts for menu items
   const badgeCounts = {
     pokemonInventory: pokemonInventory.length,
     supportInventory: supportInventory.length,
     trainedPokemon: trainedPokemon.length
   };
+
+  // Create dynamic menu items based on career state
+  const menuItems = MENU_ITEMS.map(item => {
+    if (item.key === 'career') {
+      return {
+        ...item,
+        label: hasActiveCareer ? 'Continue Career' : 'New Career',
+        screen: hasActiveCareer ? 'career' : 'pokemonSelect',
+        color: hasActiveCareer ? '#10B981' : '#E3350D'
+      };
+    }
+    return item;
+  });
 
   // Starter selection (if user has no pokemon)
   if (pokemonInventory.length === 0) {
@@ -322,7 +346,7 @@ const MenuScreen = () => {
           variants={containerVariants}
           className="grid grid-cols-3 gap-3 mb-5"
         >
-          {MENU_ITEMS.map((item) => (
+          {menuItems.map((item) => (
             <motion.div key={item.key} variants={itemVariants}>
               <MenuTile
                 icon={item.icon}
@@ -330,7 +354,7 @@ const MenuScreen = () => {
                 label={item.label}
                 badge={item.badgeKey ? badgeCounts[item.badgeKey] : undefined}
                 onClick={() => setGameState(item.screen)}
-                disabled={item.key === 'career' && pokemonInventory.length === 0}
+                disabled={(item.key === 'career' && pokemonInventory.length === 0) || (item.key === 'career' && isLoadingCareer)}
               />
             </motion.div>
           ))}
