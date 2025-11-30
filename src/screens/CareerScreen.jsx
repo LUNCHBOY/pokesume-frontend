@@ -850,8 +850,12 @@ const CareerScreen = () => {
       // Mark this turn as processed
       lastProcessedTurnRef.current = careerData.turn;
 
+      // Inspiration turns are reserved - no random events
+      const inspirationTurns = [11, 23, 35, 47, 59];
+      const isInspirationTurn = inspirationTurns.includes(careerData.turn);
+
       // SERVER-AUTHORITATIVE: Let server decide if event should trigger
-      const shouldCheckForEvent = careerData.turn > 1 && careerData.turn !== nextGymTurn && !justExitedBattle;
+      const shouldCheckForEvent = careerData.turn > 1 && careerData.turn !== nextGymTurn && !justExitedBattle && !isInspirationTurn;
 
       if (shouldCheckForEvent) {
         // Server will decide if an event occurs (50% chance) or generate training options
@@ -1100,6 +1104,27 @@ const CareerScreen = () => {
 
           <button
             onClick={async () => {
+              // Apply the inspiration bonuses to career state before closing
+              if (inspirationModal.updatedStats || inspirationModal.updatedAptitudes || inspirationModal.updatedStrategyAptitudes) {
+                console.log('[InspirationModal] Applying inspiration bonuses:', {
+                  stats: inspirationModal.updatedStats,
+                  aptitudes: inspirationModal.updatedAptitudes,
+                  strategyAptitudes: inspirationModal.updatedStrategyAptitudes
+                });
+                const updatedCareerData = {
+                  ...careerData,
+                  currentStats: inspirationModal.updatedStats || careerData.currentStats,
+                  pokemon: {
+                    ...careerData.pokemon,
+                    typeAptitudes: inspirationModal.updatedAptitudes || careerData.pokemon.typeAptitudes,
+                    strategyAptitudes: inspirationModal.updatedStrategyAptitudes || careerData.pokemon.strategyAptitudes
+                  }
+                };
+                // Update career state (syncs to backend via updateCareer)
+                const success = await updateCareer(updatedCareerData);
+                console.log('[InspirationModal] Career update result:', success);
+              }
+
               setInspirationModal(null);
               // Generate training options after closing modal
               if (careerData && !careerData.currentTrainingOptions) {

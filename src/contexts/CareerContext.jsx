@@ -132,7 +132,7 @@ export const CareerProvider = ({ children }) => {
   };
 
   // Start new career
-  const startCareer = async (pokemon, selectedSupports) => {
+  const startCareer = async (pokemon, selectedSupports, selectedInspirations = []) => {
     if (!authToken) return null;
 
     setCareerLoading(true);
@@ -148,7 +148,7 @@ export const CareerProvider = ({ children }) => {
         }
       });
 
-      const result = await apiStartCareer(pokemon, selectedSupports, initialFriendships, authToken);
+      const result = await apiStartCareer(pokemon, selectedSupports, selectedInspirations, initialFriendships, authToken);
       if (result && result.success) {
         updateCareerFromServer(result.careerState);
         setHasActiveCareer(true);

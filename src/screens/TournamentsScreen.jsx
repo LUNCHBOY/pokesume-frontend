@@ -8,32 +8,32 @@
  * - Navigation to details
  */
 
-import React, { useEffect } from 'react';
-import { ArrowLeft, Trophy, Clock, Users, Shield } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, Trophy, Clock, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { apiGetTournaments } from '../services/apiService';
 
-// Gym badge data for display
+// Gym badge data for display - includes image path
 const GYM_BADGES = {
-  boulder: { name: 'Boulder Badge', leader: 'Brock', type: 'Rock' },
-  cascade: { name: 'Cascade Badge', leader: 'Misty', type: 'Water' },
-  thunder: { name: 'Thunder Badge', leader: 'Lt. Surge', type: 'Electric' },
-  rainbow: { name: 'Rainbow Badge', leader: 'Erika', type: 'Grass' },
-  soul: { name: 'Soul Badge', leader: 'Koga', type: 'Poison' },
-  marsh: { name: 'Marsh Badge', leader: 'Sabrina', type: 'Psychic' },
-  volcano: { name: 'Volcano Badge', leader: 'Blaine', type: 'Fire' },
-  earth: { name: 'Earth Badge', leader: 'Giovanni', type: 'Ground' },
-  zephyr: { name: 'Zephyr Badge', leader: 'Falkner', type: 'Flying' },
-  hive: { name: 'Hive Badge', leader: 'Bugsy', type: 'Bug' },
-  plain: { name: 'Plain Badge', leader: 'Whitney', type: 'Normal' },
-  fog: { name: 'Fog Badge', leader: 'Morty', type: 'Ghost' },
-  storm: { name: 'Storm Badge', leader: 'Chuck', type: 'Fighting' },
-  mineral: { name: 'Mineral Badge', leader: 'Jasmine', type: 'Steel' },
-  glacier: { name: 'Glacier Badge', leader: 'Pryce', type: 'Ice' },
-  rising: { name: 'Rising Badge', leader: 'Clair', type: 'Dragon' }
+  boulder: { name: 'Boulder Badge', leader: 'Brock', type: 'Rock', image: '/images/badges/boulder-badge.png' },
+  cascade: { name: 'Cascade Badge', leader: 'Misty', type: 'Water', image: '/images/badges/cascade-badge.png' },
+  thunder: { name: 'Thunder Badge', leader: 'Lt. Surge', type: 'Electric', image: '/images/badges/thunder-badge.png' },
+  rainbow: { name: 'Rainbow Badge', leader: 'Erika', type: 'Grass', image: '/images/badges/rainbow-badge.png' },
+  soul: { name: 'Soul Badge', leader: 'Koga', type: 'Poison', image: '/images/badges/soul-badge.png' },
+  marsh: { name: 'Marsh Badge', leader: 'Sabrina', type: 'Psychic', image: '/images/badges/marsh-badge.png' },
+  volcano: { name: 'Volcano Badge', leader: 'Blaine', type: 'Fire', image: '/images/badges/volcano-badge.png' },
+  earth: { name: 'Earth Badge', leader: 'Giovanni', type: 'Ground', image: '/images/badges/earth-badge.png' },
+  zephyr: { name: 'Zephyr Badge', leader: 'Falkner', type: 'Flying', image: '/images/badges/zephyr-badge.png' },
+  hive: { name: 'Hive Badge', leader: 'Bugsy', type: 'Bug', image: '/images/badges/hive-badge.png' },
+  plain: { name: 'Plain Badge', leader: 'Whitney', type: 'Normal', image: '/images/badges/plain-badge.png' },
+  fog: { name: 'Fog Badge', leader: 'Morty', type: 'Ghost', image: '/images/badges/fog-badge.png' },
+  storm: { name: 'Storm Badge', leader: 'Chuck', type: 'Fighting', image: '/images/badges/storm-badge.png' },
+  mineral: { name: 'Mineral Badge', leader: 'Jasmine', type: 'Steel', image: '/images/badges/mineral-badge.png' },
+  glacier: { name: 'Glacier Badge', leader: 'Pryce', type: 'Ice', image: '/images/badges/glacier-badge.png' },
+  rising: { name: 'Rising Badge', leader: 'Clair', type: 'Dragon', image: '/images/badges/rising-badge.png' }
 };
 
 const containerVariants = {
@@ -50,15 +50,17 @@ const itemVariants = {
 };
 
 const TournamentsScreen = () => {
-  const { setGameState, tournaments, setTournaments, tournamentsLoading, setTournamentsLoading, setSelectedTournament } = useGame();
+  const { setGameState, tournaments, setTournaments, setSelectedTournament } = useGame();
   const { user } = useAuth();
+  // Use local loading state to fix the double-open bug
+  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch tournaments on mount - always fetch fresh data
   useEffect(() => {
     let isMounted = true;
 
     const loadTournaments = async () => {
-      setTournamentsLoading(true);
+      setIsLoading(true);
       try {
         const data = await apiGetTournaments();
         if (isMounted) {
@@ -71,7 +73,7 @@ const TournamentsScreen = () => {
         }
       }
       if (isMounted) {
-        setTournamentsLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -150,7 +152,7 @@ const TournamentsScreen = () => {
           </motion.div>
         )}
 
-        {tournamentsLoading ? (
+        {isLoading ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -222,13 +224,17 @@ const TournamentsScreen = () => {
                     {/* Badge reward display */}
                     {gymBadge ? (
                       <div
-                        className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                        className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 p-1"
                         style={{
-                          background: `linear-gradient(135deg, ${typeColor}40, ${typeColor}80)`,
+                          background: `linear-gradient(135deg, ${typeColor}20, ${typeColor}40)`,
                           border: `2px solid ${typeColor}`
                         }}
                       >
-                        <Shield size={20} className="text-white" />
+                        <img
+                          src={gymBadge.image}
+                          alt={gymBadge.name}
+                          className="w-8 h-8 object-contain"
+                        />
                       </div>
                     ) : (
                       <div className="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
@@ -244,7 +250,11 @@ const TournamentsScreen = () => {
                       style={{ backgroundColor: `${typeColor}15` }}
                     >
                       <div className="flex items-center gap-2">
-                        <Shield size={14} style={{ color: typeColor }} />
+                        <img
+                          src={gymBadge.image}
+                          alt={gymBadge.name}
+                          className="w-4 h-4 object-contain"
+                        />
                         <span className="font-bold" style={{ color: typeColor }}>
                           Prize: {gymBadge.name}
                         </span>

@@ -230,7 +230,7 @@ const SupportSelectionScreen = () => {
       strategyUpgrades
     });
 
-    const careerState = await startCareer(pokemon, selectedSupports);
+    const careerState = await startCareer(pokemon, selectedSupports, selectedInspirations);
 
     if (careerState) {
       setGameState('career');
