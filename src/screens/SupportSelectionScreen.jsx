@@ -1,17 +1,20 @@
 /**
  * SupportSelectionScreen Component
  *
- * Allows users to select up to 5 support cards from their inventory for career.
- * Shows compact cards by default with larger sprites.
- * Long-press opens detailed modal with all support information.
+ * Uma Musume style support selection with deck slots.
+ * - 5 slots with + signs for empty slots
+ * - Modal for selecting supports when clicking a slot
+ * - Deck navigation with arrows (5 decks total)
+ * - Deck persistence
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { ArrowLeft, Users, Check, X, Diamond } from 'lucide-react';
+import { ArrowLeft, Users, Check, X, Diamond, Plus, ChevronLeft, ChevronRight, Copy, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import { useCareer } from '../contexts/CareerContext';
+import { useAuth } from '../contexts/AuthContext';
 import {
   getRarityColor,
   getSupportCardAttributes
@@ -20,19 +23,10 @@ import { TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, POKEMON } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
+import { apiGetSupportDecks, apiSaveSupportDeck } from '../services/apiService';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 }
-};
+const TOTAL_DECKS = 5;
+const SLOTS_PER_DECK = 5;
 
 const SupportSelectionScreen = () => {
   const {
@@ -40,8 +34,6 @@ const SupportSelectionScreen = () => {
     selectedSupports,
     setSelectedSupports,
     setGameState,
-    supportSortBy,
-    setSupportSortBy,
     selectedInspirations
   } = useGame();
 
@@ -55,9 +47,76 @@ const SupportSelectionScreen = () => {
     SHARD_COST_PER_LIMIT_BREAK
   } = useInventory();
   const { startCareer, careerLoading } = useCareer();
+  const { token } = useAuth();
 
+  // Deck state
+  const [currentDeckIndex, setCurrentDeckIndex] = useState(0);
+  const [decks, setDecks] = useState(() => {
+    // Initialize 5 empty decks
+    return Array(TOTAL_DECKS).fill(null).map(() => Array(SLOTS_PER_DECK).fill(null));
+  });
+  const [decksLoaded, setDecksLoaded] = useState(false);
+
+  // Modal state
+  const [selectingSlotIndex, setSelectingSlotIndex] = useState(null);
   const [detailSupport, setDetailSupport] = useState(null);
   const [isLimitBreaking, setIsLimitBreaking] = useState(false);
+
+  // Filter/sort state for modal
+  const [typeFilter, setTypeFilter] = useState('All');
+  const [sortBy, setSortBy] = useState('rarity');
+  const supportTypes = ['All', 'HP', 'Attack', 'Defense', 'Instinct', 'Speed'];
+
+  // Load decks from backend on mount
+  useEffect(() => {
+    const loadDecks = async () => {
+      if (!token) {
+        setDecksLoaded(true);
+        return;
+      }
+      try {
+        const response = await apiGetSupportDecks(token);
+        const savedDecks = response?.decks;
+        if (savedDecks && Array.isArray(savedDecks) && savedDecks.length > 0) {
+          // Merge saved decks with empty deck structure
+          const mergedDecks = Array(TOTAL_DECKS).fill(null).map((_, i) => {
+            if (savedDecks[i] && Array.isArray(savedDecks[i])) {
+              // Ensure we have exactly 5 slots
+              const deckSupports = [...savedDecks[i]];
+              while (deckSupports.length < SLOTS_PER_DECK) {
+                deckSupports.push(null);
+              }
+              return deckSupports.slice(0, SLOTS_PER_DECK);
+            }
+            return Array(SLOTS_PER_DECK).fill(null);
+          });
+          setDecks(mergedDecks);
+        }
+      } catch (error) {
+        console.error('Failed to load decks:', error);
+      }
+      setDecksLoaded(true);
+    };
+    loadDecks();
+  }, [token]);
+
+  // Sync selectedSupports with current deck
+  useEffect(() => {
+    if (decksLoaded) {
+      const currentDeck = decks[currentDeckIndex].filter(s => s !== null);
+      setSelectedSupports(currentDeck);
+    }
+  }, [currentDeckIndex, decks, decksLoaded, setSelectedSupports]);
+
+  // Save deck to backend
+  const saveDeck = async (deckIndex, deckSupports) => {
+    if (!token) return;
+    try {
+      await apiSaveSupportDeck(deckIndex, deckSupports, token);
+    } catch (error) {
+      console.error('Failed to save deck:', error);
+    }
+  };
 
   // Get Support ID from full inventory
   const getSupportId = (supportKey) => {
@@ -65,67 +124,30 @@ const SupportSelectionScreen = () => {
     return support?.id;
   };
 
-  // Long-press state for detail modal
-  const longPressTimerRef = useRef(null);
-  const longPressSupportRef = useRef(null);
-  const LONG_PRESS_DURATION = 500; // 500ms hold to trigger
-
-  const handleLongPressStart = useCallback((supportKey) => {
-    longPressSupportRef.current = supportKey;
-    longPressTimerRef.current = setTimeout(() => {
-      setDetailSupport(longPressSupportRef.current);
-    }, LONG_PRESS_DURATION);
-  }, []);
-
-  const handleLongPressEnd = useCallback(() => {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = null;
-    }
-    longPressSupportRef.current = null;
-  }, []);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (longPressTimerRef.current) {
-        clearTimeout(longPressTimerRef.current);
-      }
-    };
-  }, []);
-
   // Calculate inspiration bonuses from selected inspirations
-  // Returns: { aptitudeUpgrades: { Red: 2, Blue: 1, ... }, strategyUpgrades: 1 }
   const calculateInspirationBonuses = () => {
-    const aptitudeStars = {}; // Track stars per aptitude type (by color)
+    const aptitudeStars = {};
     let strategyStars = 0;
 
-    // Sum up all stars from selected inspirations
     selectedInspirations.forEach(insp => {
       if (!insp.inspirations) return;
-
-      // Aptitude stars
       if (insp.inspirations.aptitude) {
         const color = insp.inspirations.aptitude.color;
         if (color) {
           aptitudeStars[color] = (aptitudeStars[color] || 0) + (insp.inspirations.aptitude.stars || 0);
         }
       }
-
-      // Strategy stars
       if (insp.inspirations.strategy) {
         strategyStars += insp.inspirations.strategy.stars || 0;
       }
     });
 
-    // Convert stars to grade upgrades (2 stars = 1 grade upgrade)
     const aptitudeUpgrades = {};
     Object.keys(aptitudeStars).forEach(color => {
       aptitudeUpgrades[color] = Math.floor(aptitudeStars[color] / 2);
     });
 
     const strategyUpgrades = Math.floor(strategyStars / 2);
-
     return { aptitudeUpgrades, strategyUpgrades };
   };
 
@@ -137,7 +159,6 @@ const SupportSelectionScreen = () => {
     Object.keys(upgrades).forEach(color => {
       const currentGrade = upgraded[color];
       if (!currentGrade) return;
-
       const currentIndex = gradeOrder.indexOf(currentGrade);
       const newIndex = Math.min(currentIndex + upgrades[color], gradeOrder.length - 1);
       upgraded[color] = gradeOrder[newIndex];
@@ -146,14 +167,13 @@ const SupportSelectionScreen = () => {
     return upgraded;
   };
 
-  // Apply strategy grade upgrade to all strategy aptitudes
+  // Apply strategy grade upgrade
   const applyStrategyAptitudesUpgrade = (strategyAptitudes, upgrades) => {
     if (!strategyAptitudes || upgrades === 0) return strategyAptitudes;
 
     const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
     const upgraded = { ...strategyAptitudes };
 
-    // Upgrade each strategy aptitude
     for (const [strategy, grade] of Object.entries(upgraded)) {
       const currentIndex = gradeOrder.indexOf(grade);
       if (currentIndex !== -1) {
@@ -165,7 +185,7 @@ const SupportSelectionScreen = () => {
     return upgraded;
   };
 
-  // Derive best strategy and grade from strategyAptitudes
+  // Derive best strategy from aptitudes
   const deriveStrategyFromAptitudes = (strategyAptitudes) => {
     const gradeRank = { 'S': 6, 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, 'F': 0 };
     let bestStrategy = 'Chipper';
@@ -186,48 +206,38 @@ const SupportSelectionScreen = () => {
     return { strategy: bestStrategy, strategyGrade: bestGrade };
   };
 
-  const [typeFilter, setTypeFilter] = useState('All');
-  const supportTypes = ['All', 'HP', 'Attack', 'Defense', 'Instinct', 'Speed'];
-
-  // Filter and sort support inventory
-  const filterAndSortSupportInventory = () => {
+  // Filter and sort support inventory for modal
+  const getFilteredSortedSupports = () => {
     const rarityOrder = { 'Legendary': 0, 'Rare': 1, 'Uncommon': 2, 'Common': 3 };
     const typeOrder = { 'HP': 0, 'Attack': 1, 'Defense': 2, 'Instinct': 3, 'Speed': 4 };
 
-    // First filter by type
     const filtered = supportInventory.filter(supportKey => {
       if (typeFilter === 'All') return true;
       const support = getSupportCardAttributes(supportKey, SUPPORT_CARDS);
       return support && support.supportType === typeFilter;
     });
 
-    // Then sort
     return [...filtered].sort((a, b) => {
       const supportA = getSupportCardAttributes(a, SUPPORT_CARDS);
       const supportB = getSupportCardAttributes(b, SUPPORT_CARDS);
       if (!supportA || !supportB) return 0;
 
-      if (supportSortBy === 'rarity') {
-        const rarityAValue = rarityOrder[supportA.rarity];
-        const rarityBValue = rarityOrder[supportB.rarity];
-        const rarityAFinal = rarityAValue !== undefined ? rarityAValue : 999;
-        const rarityBFinal = rarityBValue !== undefined ? rarityBValue : 999;
-        return rarityAFinal - rarityBFinal;
-      } else if (supportSortBy === 'type') {
-        const typeA = supportA.supportType || 'HP';
-        const typeB = supportB.supportType || 'HP';
-        const valueA = typeOrder[typeA] !== undefined ? typeOrder[typeA] : 999;
-        const valueB = typeOrder[typeB] !== undefined ? typeOrder[typeB] : 999;
+      if (sortBy === 'rarity') {
+        const rarityAValue = rarityOrder[supportA.rarity] ?? 999;
+        const rarityBValue = rarityOrder[supportB.rarity] ?? 999;
+        return rarityAValue - rarityBValue;
+      } else if (sortBy === 'type') {
+        const valueA = typeOrder[supportA.supportType] ?? 999;
+        const valueB = typeOrder[supportB.supportType] ?? 999;
         return valueA - valueB;
       }
       return 0;
     });
   };
 
-  const sortedSupportInventory = filterAndSortSupportInventory();
-
   const handleBeginCareer = async () => {
-    if (!selectedPokemon || selectedSupports.length === 0) {
+    const currentDeckSupports = decks[currentDeckIndex].filter(s => s !== null);
+    if (!selectedPokemon || currentDeckSupports.length === 0) {
       alert('Please select at least one support card');
       return;
     }
@@ -238,24 +248,10 @@ const SupportSelectionScreen = () => {
       return;
     }
 
-    // Calculate inspiration bonuses (2 stars = 1 grade upgrade)
     const { aptitudeUpgrades, strategyUpgrades } = calculateInspirationBonuses();
-
-    // Apply inspiration upgrades to type aptitudes
-    const upgradedAptitudes = applyGradeUpgrades(
-      pokemonData.typeAptitudes || {},
-      aptitudeUpgrades
-    );
-
-    // Apply inspiration upgrades to strategy aptitudes
-    const upgradedStrategyAptitudes = applyStrategyAptitudesUpgrade(
-      pokemonData.strategyAptitudes || {},
-      strategyUpgrades
-    );
-
-    // Derive default strategy from best aptitude
-    const { strategy: defaultStrategy, strategyGrade: defaultStrategyGrade } =
-      deriveStrategyFromAptitudes(upgradedStrategyAptitudes);
+    const upgradedAptitudes = applyGradeUpgrades(pokemonData.typeAptitudes || {}, aptitudeUpgrades);
+    const upgradedStrategyAptitudes = applyStrategyAptitudesUpgrade(pokemonData.strategyAptitudes || {}, strategyUpgrades);
+    const { strategy: defaultStrategy, strategyGrade: defaultStrategyGrade } = deriveStrategyFromAptitudes(upgradedStrategyAptitudes);
 
     const pokemon = {
       name: selectedPokemon,
@@ -266,24 +262,65 @@ const SupportSelectionScreen = () => {
       strategyGrade: defaultStrategyGrade
     };
 
-    console.log('[SupportSelectionScreen] Starting career with inspiration bonuses:', {
-      originalAptitudes: pokemonData.typeAptitudes,
-      upgradedAptitudes,
-      aptitudeUpgrades,
-      originalStrategyAptitudes: pokemonData.strategyAptitudes,
-      upgradedStrategyAptitudes,
-      defaultStrategy,
-      defaultStrategyGrade,
-      strategyUpgrades
-    });
-
-    const careerState = await startCareer(pokemon, selectedSupports, selectedInspirations);
+    const careerState = await startCareer(pokemon, currentDeckSupports, selectedInspirations);
 
     if (careerState) {
       setGameState('career');
     } else {
       alert('Failed to start career. Please try again.');
     }
+  };
+
+  // Handle slot click - open modal to select support
+  const handleSlotClick = (slotIndex) => {
+    setSelectingSlotIndex(slotIndex);
+  };
+
+  // Handle support selection from modal
+  const handleSelectSupport = (supportKey) => {
+    if (selectingSlotIndex === null) return;
+
+    const newDecks = [...decks];
+    const currentDeck = [...newDecks[currentDeckIndex]];
+
+    // Remove support from other slots if already in deck
+    const existingIndex = currentDeck.indexOf(supportKey);
+    if (existingIndex !== -1 && existingIndex !== selectingSlotIndex) {
+      currentDeck[existingIndex] = null;
+    }
+
+    currentDeck[selectingSlotIndex] = supportKey;
+    newDecks[currentDeckIndex] = currentDeck;
+    setDecks(newDecks);
+    saveDeck(currentDeckIndex, currentDeck);
+    setSelectingSlotIndex(null);
+  };
+
+  // Handle removing support from slot
+  const handleRemoveFromSlot = (slotIndex) => {
+    const newDecks = [...decks];
+    const currentDeck = [...newDecks[currentDeckIndex]];
+    currentDeck[slotIndex] = null;
+    newDecks[currentDeckIndex] = currentDeck;
+    setDecks(newDecks);
+    saveDeck(currentDeckIndex, currentDeck);
+  };
+
+  // Handle deck navigation
+  const handlePrevDeck = () => {
+    setCurrentDeckIndex((prev) => (prev - 1 + TOTAL_DECKS) % TOTAL_DECKS);
+  };
+
+  const handleNextDeck = () => {
+    setCurrentDeckIndex((prev) => (prev + 1) % TOTAL_DECKS);
+  };
+
+  // Handle reset deck
+  const handleResetDeck = () => {
+    const newDecks = [...decks];
+    newDecks[currentDeckIndex] = Array(SLOTS_PER_DECK).fill(null);
+    setDecks(newDecks);
+    saveDeck(currentDeckIndex, Array(SLOTS_PER_DECK).fill(null));
   };
 
   // Get type color for focus
@@ -296,6 +333,8 @@ const SupportSelectionScreen = () => {
     ];
   };
 
+  const currentDeck = decks[currentDeckIndex];
+  const filledSlots = currentDeck.filter(s => s !== null).length;
   const detailSupportData = detailSupport ? getSupportCardAttributes(detailSupport, SUPPORT_CARDS) : null;
 
   return (
@@ -304,7 +343,7 @@ const SupportSelectionScreen = () => {
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-10 bg-white shadow-card rounded-2xl mb-4 max-w-4xl mx-auto"
+        className="sticky top-0 z-10 bg-white shadow-card rounded-2xl mb-4 max-w-lg mx-auto"
       >
         <div className="flex items-center justify-between px-4 py-3">
           <button
@@ -321,158 +360,126 @@ const SupportSelectionScreen = () => {
             <span className="font-bold text-pocket-text">Select Supports</span>
           </div>
           <span className="text-pocket-text-light text-sm font-semibold">
-            {selectedSupports.length}/5
+            {filledSlots}/5
           </span>
         </div>
       </motion.header>
 
-      <div className="max-w-4xl mx-auto">
-        {/* Filters Card */}
+      <div className="max-w-lg mx-auto">
+        {/* Deck Navigation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl shadow-card p-4 mb-4"
         >
-          {/* Type Filter */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-            <span className="text-sm font-semibold text-pocket-text-light">Filter:</span>
-            {supportTypes.map(type => (
-              <button
-                key={type}
-                onClick={() => setTypeFilter(type)}
-                className={`px-3 py-1.5 rounded-xl font-bold text-xs transition ${
-                  typeFilter === type
-                    ? 'text-white'
-                    : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
-                }`}
-                style={typeFilter === type ? {
-                  backgroundColor: type === 'All' ? '#6366f1' :
-                    type === 'HP' ? TYPE_COLORS['Grass'] :
-                    type === 'Attack' ? TYPE_COLORS['Fire'] :
-                    type === 'Defense' ? TYPE_COLORS['Water'] :
-                    type === 'Instinct' ? TYPE_COLORS['Psychic'] :
-                    TYPE_COLORS['Electric']
-                } : {}}
-              >
-                {type}
-              </button>
-            ))}
+          <div className="flex items-center justify-between mb-3">
+            <button
+              onClick={handlePrevDeck}
+              className="p-2 text-pocket-text-light hover:text-pocket-text hover:bg-pocket-bg rounded-lg transition-colors"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-pocket-text text-lg">Deck {currentDeckIndex + 1}</span>
+            </div>
+            <button
+              onClick={handleNextDeck}
+              className="p-2 text-pocket-text-light hover:text-pocket-text hover:bg-pocket-bg rounded-lg transition-colors"
+            >
+              <ChevronRight size={24} />
+            </button>
           </div>
 
-          {/* Sort Options */}
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="text-sm font-semibold text-pocket-text-light">Sort:</span>
-            {['rarity', 'type'].map(sort => (
+          {/* Deck Dots */}
+          <div className="flex justify-center gap-2 mb-4">
+            {Array(TOTAL_DECKS).fill(null).map((_, idx) => (
               <button
-                key={sort}
-                onClick={() => setSupportSortBy(sort)}
-                className={`px-4 py-2 rounded-xl font-bold text-xs transition ${
-                  supportSortBy === sort
-                    ? 'bg-pocket-blue text-white'
-                    : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
-                }`}
-              >
-                {sort.charAt(0).toUpperCase() + sort.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {/* Instruction hint */}
-          <p className="text-xs text-pocket-text-light text-center">
-            Tap to select, hold for details
-          </p>
-        </motion.div>
-
-        {/* Support Cards Grid - Compact View */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-4"
-        >
-          {sortedSupportInventory.map((supportKey, idx) => {
-            const support = getSupportCardAttributes(supportKey, SUPPORT_CARDS);
-            if (!support) return null;
-
-            const isSelected = selectedSupports.includes(supportKey);
-            const trainerImage = getSupportImageFromCardName(support.name);
-            const limitBreakLevel = getSupportLimitBreak(supportKey);
-
-            return (
-              <motion.div
                 key={idx}
-                variants={itemVariants}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  if (isSelected) {
-                    setSelectedSupports(selectedSupports.filter(s => s !== supportKey));
-                  } else if (selectedSupports.length < 5) {
-                    setSelectedSupports([...selectedSupports, supportKey]);
-                  }
-                }}
-                onMouseDown={() => handleLongPressStart(supportKey)}
-                onMouseUp={handleLongPressEnd}
-                onMouseLeave={handleLongPressEnd}
-                onTouchStart={() => handleLongPressStart(supportKey)}
-                onTouchEnd={handleLongPressEnd}
-                className={`bg-white rounded-2xl shadow-card p-3 cursor-pointer transition select-none ${
-                  isSelected ? 'ring-4 ring-pocket-green' : 'hover:shadow-card-hover'
+                onClick={() => setCurrentDeckIndex(idx)}
+                className={`w-2.5 h-2.5 rounded-full transition-all ${
+                  idx === currentDeckIndex
+                    ? 'bg-pocket-blue scale-125'
+                    : 'bg-gray-300 hover:bg-gray-400'
                 }`}
-                style={{ borderLeft: `4px solid ${getRarityColor(support.rarity)}` }}
-              >
-                {/* Rarity Badge */}
-                <div className="flex justify-between items-start mb-2">
-                  <span
-                    className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-                    style={{ backgroundColor: getRarityColor(support.rarity) }}
-                  >
-                    {support.rarity}
-                  </span>
-                  {isSelected && (
-                    <div className="w-5 h-5 rounded-full bg-pocket-green flex items-center justify-center flex-shrink-0">
-                      <Check size={12} className="text-white" />
+              />
+            ))}
+          </div>
+
+          {/* Deck Slots - Uma Musume style grid */}
+          <div className="grid grid-cols-5 gap-2 mb-3">
+            {currentDeck.map((supportKey, slotIndex) => {
+              const support = supportKey ? getSupportCardAttributes(supportKey, SUPPORT_CARDS) : null;
+              const trainerImage = support ? getSupportImageFromCardName(support.name) : null;
+              const limitBreakLevel = supportKey ? getSupportLimitBreak(supportKey) : 0;
+
+              return (
+                <motion.div
+                  key={slotIndex}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleSlotClick(slotIndex)}
+                  className={`relative aspect-[3/4] rounded-xl border-2 cursor-pointer transition-all overflow-hidden ${
+                    support
+                      ? 'border-transparent'
+                      : 'border-dashed border-gray-300 bg-gray-50 hover:border-pocket-blue hover:bg-blue-50'
+                  }`}
+                  style={support ? { borderColor: getRarityColor(support.rarity) } : {}}
+                >
+                  {support ? (
+                    <>
+                      {/* Rarity indicator */}
+                      <div
+                        className="absolute top-0 left-0 right-0 h-1"
+                        style={{ backgroundColor: getRarityColor(support.rarity) }}
+                      />
+
+                      {/* Support Image */}
+                      {trainerImage && (
+                        <img
+                          src={trainerImage}
+                          alt={support.trainer}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+
+                      {/* Limit Break indicator */}
+                      {limitBreakLevel > 0 && (
+                        <div className="absolute bottom-1 left-0 right-0 flex justify-center">
+                          <LimitBreakDiamonds level={limitBreakLevel} size={6} />
+                        </div>
+                      )}
+
+                      {/* Remove button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveFromSlot(slotIndex);
+                        }}
+                        className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+                      >
+                        <X size={12} className="text-white" />
+                      </button>
+                    </>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Plus size={24} className="text-gray-400" />
                     </div>
                   )}
-                </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
-                {/* Larger Support Image */}
-                <div className="flex justify-center mb-2">
-                  {trainerImage && (
-                    <img
-                      src={trainerImage}
-                      alt={support.trainer}
-                      className="w-20 h-20 object-contain rounded-xl border-2 bg-pocket-bg"
-                      style={{ borderColor: getRarityColor(support.rarity) }}
-                    />
-                  )}
-                </div>
-
-                {/* Support Name */}
-                <h3 className="font-bold text-pocket-text text-sm text-center mb-1 truncate">{support.name}</h3>
-
-                {/* Limit Break Diamonds */}
-                <div className="flex justify-center mb-2">
-                  <LimitBreakDiamonds level={limitBreakLevel} size={10} />
-                </div>
-
-                {/* Focus Type */}
-                {support.supportType && (
-                  <p
-                    className="text-xs font-bold text-center mb-1"
-                    style={{ color: getFocusColor(support.supportType) }}
-                  >
-                    Focus: {support.supportType}
-                  </p>
-                )}
-
-                {/* Description - truncated */}
-                <p className="text-[10px] text-pocket-text-light italic text-center line-clamp-2">
-                  {support.description || support.effect?.description}
-                </p>
-              </motion.div>
-            );
-          })}
+          {/* Deck Actions */}
+          <div className="flex justify-center gap-2">
+            <button
+              onClick={handleResetDeck}
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-pocket-text-light hover:text-pocket-red hover:bg-red-50 rounded-lg transition-colors"
+            >
+              <RotateCcw size={14} />
+              Reset
+            </button>
+          </div>
         </motion.div>
 
         {/* Begin Career Button */}
@@ -483,7 +490,7 @@ const SupportSelectionScreen = () => {
         >
           <button
             onClick={handleBeginCareer}
-            disabled={careerLoading || selectedSupports.length === 0}
+            disabled={careerLoading || filledSlots === 0}
             className="w-full pocket-btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {careerLoading ? 'Starting Career...' : 'Begin Career'}
@@ -491,14 +498,170 @@ const SupportSelectionScreen = () => {
         </motion.div>
       </div>
 
-      {/* Detail Modal (Long Press) */}
+      {/* Support Selection Modal */}
+      <AnimatePresence>
+        {selectingSlotIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center"
+            onClick={() => setSelectingSlotIndex(null)}
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25 }}
+              className="bg-white rounded-t-2xl sm:rounded-2xl shadow-card-lg w-full sm:max-w-lg max-h-[85vh] overflow-hidden"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
+                <h3 className="font-bold text-pocket-text">Select Support</h3>
+                <button
+                  onClick={() => setSelectingSlotIndex(null)}
+                  className="p-2 text-pocket-text-light hover:text-pocket-text rounded-lg"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Filters */}
+              <div className="px-4 py-3 border-b border-gray-100">
+                {/* Type Filter */}
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className="text-xs font-semibold text-pocket-text-light">Filter:</span>
+                  {supportTypes.map(type => (
+                    <button
+                      key={type}
+                      onClick={() => setTypeFilter(type)}
+                      className={`px-2 py-1 rounded-lg font-bold text-[10px] transition ${
+                        typeFilter === type
+                          ? 'text-white'
+                          : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
+                      }`}
+                      style={typeFilter === type ? {
+                        backgroundColor: type === 'All' ? '#6366f1' :
+                          type === 'HP' ? TYPE_COLORS['Grass'] :
+                          type === 'Attack' ? TYPE_COLORS['Fire'] :
+                          type === 'Defense' ? TYPE_COLORS['Water'] :
+                          type === 'Instinct' ? TYPE_COLORS['Psychic'] :
+                          TYPE_COLORS['Electric']
+                      } : {}}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Sort Options */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold text-pocket-text-light">Sort:</span>
+                  {['rarity', 'type'].map(sort => (
+                    <button
+                      key={sort}
+                      onClick={() => setSortBy(sort)}
+                      className={`px-3 py-1 rounded-lg font-bold text-[10px] transition ${
+                        sortBy === sort
+                          ? 'bg-pocket-blue text-white'
+                          : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
+                      }`}
+                    >
+                      {sort.charAt(0).toUpperCase() + sort.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Support Grid */}
+              <div className="p-4 overflow-y-auto max-h-[60vh]">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                  {getFilteredSortedSupports().map((supportKey, idx) => {
+                    const support = getSupportCardAttributes(supportKey, SUPPORT_CARDS);
+                    if (!support) return null;
+
+                    const trainerImage = getSupportImageFromCardName(support.name);
+                    const limitBreakLevel = getSupportLimitBreak(supportKey);
+                    const isInDeck = currentDeck.includes(supportKey);
+
+                    return (
+                      <motion.div
+                        key={idx}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => handleSelectSupport(supportKey)}
+                        className={`relative aspect-[3/4] rounded-xl border-2 cursor-pointer transition-all overflow-hidden ${
+                          isInDeck
+                            ? 'ring-2 ring-pocket-green ring-offset-1'
+                            : ''
+                        }`}
+                        style={{ borderColor: getRarityColor(support.rarity) }}
+                      >
+                        {/* Rarity indicator */}
+                        <div
+                          className="absolute top-0 left-0 right-0 h-1"
+                          style={{ backgroundColor: getRarityColor(support.rarity) }}
+                        />
+
+                        {/* Support Image */}
+                        {trainerImage && (
+                          <img
+                            src={trainerImage}
+                            alt={support.trainer}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+
+                        {/* Overlay with info */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-1.5">
+                          <p className="text-white text-[9px] font-bold truncate">{support.name}</p>
+                          <div className="flex items-center justify-between">
+                            <span
+                              className="text-[8px] font-bold"
+                              style={{ color: getFocusColor(support.supportType) }}
+                            >
+                              {support.supportType}
+                            </span>
+                            <LimitBreakDiamonds level={limitBreakLevel} size={5} />
+                          </div>
+                        </div>
+
+                        {/* In-deck indicator */}
+                        {isInDeck && (
+                          <div className="absolute top-1 right-1 w-5 h-5 bg-pocket-green rounded-full flex items-center justify-center">
+                            <Check size={12} className="text-white" />
+                          </div>
+                        )}
+
+                        {/* Long press for details */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDetailSupport(supportKey);
+                          }}
+                          className="absolute top-1 left-1 w-5 h-5 bg-white/80 rounded-full flex items-center justify-center text-[10px] font-bold text-pocket-text-light hover:bg-white"
+                        >
+                          ?
+                        </button>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Detail Modal */}
       <AnimatePresence>
         {detailSupport && detailSupportData && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
             onClick={() => setDetailSupport(null)}
           >
             <motion.div
@@ -591,20 +754,6 @@ const SupportSelectionScreen = () => {
                 </div>
               </div>
 
-              {/* Appearance Rate & Type Match Preference */}
-              <div className="bg-pocket-bg rounded-lg p-3 mb-3">
-                <div className="grid grid-cols-2 gap-1 text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-pocket-text-light">Appearance</span>
-                    <span className="text-pocket-text font-bold">{Math.round(detailSupportData.appearanceChance * 100)}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-pocket-text-light">Type Pref</span>
-                    <span className="text-pocket-text font-bold">{Math.round(detailSupportData.typeAppearancePriority * 100)}%</span>
-                  </div>
-                </div>
-              </div>
-
               {/* Special Effects */}
               {detailSupportData.specialEffect && (
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-3">
@@ -632,30 +781,6 @@ const SupportSelectionScreen = () => {
                       <div className="flex justify-between">
                         <span className="text-pocket-text-light">Rest Bonus</span>
                         <span className="text-pocket-green font-bold">+{detailSupportData.specialEffect.restBonus}</span>
-                      </div>
-                    )}
-                    {detailSupportData.specialEffect.energyRegenBonus && (
-                      <div className="flex justify-between">
-                        <span className="text-pocket-text-light">Energy Regen</span>
-                        <span className="text-pocket-green font-bold">+{detailSupportData.specialEffect.energyRegenBonus}</span>
-                      </div>
-                    )}
-                    {detailSupportData.specialEffect.skillPointMultiplier && (
-                      <div className="flex justify-between">
-                        <span className="text-pocket-text-light">SP Mult</span>
-                        <span className="text-pocket-green font-bold">{detailSupportData.specialEffect.skillPointMultiplier}x</span>
-                      </div>
-                    )}
-                    {detailSupportData.specialEffect.friendshipGainBonus && (
-                      <div className="flex justify-between">
-                        <span className="text-pocket-text-light">Friendship Gain</span>
-                        <span className="text-pocket-green font-bold">+{detailSupportData.specialEffect.friendshipGainBonus}</span>
-                      </div>
-                    )}
-                    {detailSupportData.specialEffect.energyCostReduction && (
-                      <div className="flex justify-between">
-                        <span className="text-pocket-text-light">Energy Cost</span>
-                        <span className="text-pocket-green font-bold">-{detailSupportData.specialEffect.energyCostReduction}</span>
                       </div>
                     )}
                   </div>
@@ -700,9 +825,6 @@ const SupportSelectionScreen = () => {
                         </span>
                       </div>
                     </div>
-                    <p className="text-xs text-pocket-text-light text-center mb-2">
-                      Current: +{detailLimitBreak * 5}% → Next: +{(detailLimitBreak + 1) * 5}% Training Bonuses
-                    </p>
                     <button
                       onClick={async () => {
                         if (!detailSupportId || !detailCanLimitBreak) return;
@@ -719,44 +841,13 @@ const SupportSelectionScreen = () => {
                     >
                       {isLimitBreaking ? 'Limit Breaking...' : 'Limit Break'}
                     </button>
-                    {limitBreakShards < SHARD_COST_PER_LIMIT_BREAK && (
-                      <p className="text-xs text-pocket-red text-center mt-2">
-                        Not enough shards
-                      </p>
-                    )}
                   </div>
                 ) : (
                   <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-3 mb-3 text-center">
                     <p className="font-bold text-amber-600 text-sm">Maximum Limit Break Reached!</p>
-                    <p className="text-xs text-pocket-text-light mt-1">
-                      +20% Training Bonuses
-                    </p>
                   </div>
                 );
               })()}
-
-              {/* Select/Deselect Button */}
-              <button
-                onClick={() => {
-                  const isSelected = selectedSupports.includes(detailSupport);
-                  if (isSelected) {
-                    setSelectedSupports(selectedSupports.filter(s => s !== detailSupport));
-                  } else if (selectedSupports.length < 5) {
-                    setSelectedSupports([...selectedSupports, detailSupport]);
-                  }
-                  setDetailSupport(null);
-                }}
-                className={`w-full py-3 rounded-xl font-bold transition-all mb-2 ${
-                  selectedSupports.includes(detailSupport)
-                    ? 'bg-red-500 text-white hover:bg-red-600'
-                    : selectedSupports.length >= 5
-                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-pocket-green text-white hover:bg-green-600'
-                }`}
-                disabled={!selectedSupports.includes(detailSupport) && selectedSupports.length >= 5}
-              >
-                {selectedSupports.includes(detailSupport) ? 'Remove from Team' : 'Add to Team'}
-              </button>
 
               {/* Close button */}
               <button

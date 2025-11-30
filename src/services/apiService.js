@@ -1345,4 +1345,54 @@ export const apiUpdateProfileIcon = async (icon, authToken) => {
   }
 };
 
+// ============================================================================
+// SUPPORT DECK API
+// ============================================================================
+
+export const apiGetSupportDecks = async (authToken) => {
+  if (!authToken) return { decks: Array(5).fill(null).map(() => Array(5).fill(null)) };
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/support-decks`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch support decks');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get support decks error:', error);
+    return { decks: Array(5).fill(null).map(() => Array(5).fill(null)) };
+  }
+};
+
+export const apiSaveSupportDeck = async (deckIndex, supports, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/inventory/support-decks/${deckIndex}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ supports })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to save support deck');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Save support deck error:', error);
+    return null;
+  }
+};
 

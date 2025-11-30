@@ -173,8 +173,9 @@ export const SUPPORT_TRAINER_IMAGES = {
 };
 
 // Helper function to get gym leader image with fallback
+// Now also checks support trainer images since gym leaders can come from the support pool
 export const getGymLeaderImage = (name) => {
-  return GYM_LEADER_IMAGES[name] || '/images/trainers/gym-leaders/default.png';
+  return GYM_LEADER_IMAGES[name] || SUPPORT_TRAINER_IMAGES[name] || '/images/trainers/gym-leaders/default.png';
 };
 
 // Helper function to get support trainer image with fallback to gym leader images

@@ -375,7 +375,7 @@ const PvPTeamSelectScreen = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-96 overflow-y-auto overflow-x-hidden">
                 {filteredAndSortedPokemon.map((pokemon) => {
                   const selected = isSelected(pokemon);
                   const speciesDuplicate = isSpeciesSelected(pokemon);
@@ -396,7 +396,7 @@ const PvPTeamSelectScreen = () => {
                       onMouseLeave={handleLongPressEnd}
                       onTouchStart={() => !isDisabled && handleLongPressStart(pokemon)}
                       onTouchEnd={handleLongPressEnd}
-                      className={`relative p-2 rounded-xl border-2 cursor-pointer transition-all select-none overflow-hidden ${
+                      className={`relative p-3 rounded-xl border-2 cursor-pointer transition-all select-none ${
                         selected
                           ? 'border-green-500 bg-green-50'
                           : isDisabled
@@ -422,21 +422,21 @@ const PvPTeamSelectScreen = () => {
 
                       {/* Pokemon Info */}
                       <div className="text-center">
-                        <div className="w-12 h-12 mx-auto mb-1 flex items-center justify-center overflow-hidden">
+                        <div className="mb-2 flex justify-center">
                           {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                         </div>
-                        <div className="font-bold text-xs truncate mb-1">{pokemon.name}</div>
+                        <div className="font-bold text-sm truncate mb-1">{pokemon.name}</div>
                         <div className="flex justify-center mb-1">
-                          <TypeBadge type={pokemon.primaryType || pokemon.type} size={10} />
+                          <TypeBadge type={pokemon.primaryType || pokemon.type} size={12} />
                         </div>
                         <div className="flex items-center justify-center gap-1">
                           <span
-                            className="px-1.5 py-0.5 rounded text-[9px] font-bold text-white"
+                            className="px-2 py-0.5 rounded text-[10px] font-bold text-white"
                             style={{ backgroundColor: getGradeColor(grade) }}
                           >
                             {grade}
                           </span>
-                          <span className="text-[9px] text-gray-500">
+                          <span className="text-[10px] text-gray-500">
                             {statTotal}
                           </span>
                         </div>
