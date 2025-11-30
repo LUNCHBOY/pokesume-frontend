@@ -256,7 +256,7 @@ const MyPokemonScreen = () => {
                   variants={itemVariants}
                   className="pokemon-card"
                 >
-                  <div className="mb-2">
+                  <div className="mb-1">
                     {generatePokemonSprite('Normal', pokemonName)}
                   </div>
                   <h3 className="font-bold text-pocket-text">{pokemonName}</h3>
@@ -288,14 +288,14 @@ const MyPokemonScreen = () => {
                   </span>
                   <Box size={14} className="text-pocket-green" />
                 </div>
-                <div className="mb-2">
+                <div className="mb-1">
                   {generatePokemonSprite(pokemon.primaryType, pokemonName)}
                 </div>
                 <div className="flex items-center justify-center gap-1.5 mb-1">
                   <h3 className="font-bold text-pocket-text text-sm">{pokemonName}</h3>
                   <LimitBreakDiamonds level={limitBreakLevel} size={8} />
                 </div>
-                <div className="flex items-center justify-center gap-2 my-2">
+                <div className="flex items-center justify-center gap-2 my-1">
                   <TypeBadge type={pokemon.primaryType} size={14} />
                   {(() => {
                     const bestStrat = getBestStrategy(pokemon.strategyAptitudes);

@@ -351,7 +351,7 @@ export const checkAndApplyInspiration = (turn, selectedInspirations, currentStat
 
 const spriteCache = {};
 
-export const PokemonSprite = ({ type, pokemonName, size = 120 }) => {
+export const PokemonSprite = ({ type, pokemonName, size = 64 }) => {
   const [spriteUrl, setSpriteUrl] = React.useState(spriteCache[pokemonName] || null);
 
   React.useEffect(() => {

@@ -396,7 +396,7 @@ const PvPTeamSelectScreen = () => {
                       onMouseLeave={handleLongPressEnd}
                       onTouchStart={() => !isDisabled && handleLongPressStart(pokemon)}
                       onTouchEnd={handleLongPressEnd}
-                      className={`relative p-3 rounded-xl border-2 cursor-pointer transition-all select-none ${
+                      className={`relative p-2 rounded-xl border-2 cursor-pointer transition-all select-none overflow-hidden ${
                         selected
                           ? 'border-green-500 bg-green-50'
                           : isDisabled
@@ -422,23 +422,21 @@ const PvPTeamSelectScreen = () => {
 
                       {/* Pokemon Info */}
                       <div className="text-center">
-                        <div className="w-14 h-14 mx-auto mb-2">
+                        <div className="w-12 h-12 mx-auto mb-1 flex items-center justify-center overflow-hidden">
                           {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
                         </div>
-                        <div className="font-bold text-sm truncate mb-1">{pokemon.name}</div>
-                        <TypeBadge type={pokemon.primaryType || pokemon.type} size={12} className="text-[10px] mb-1" />
-
-                        <div className="flex items-center justify-center gap-1 mt-1">
+                        <div className="font-bold text-xs truncate mb-1">{pokemon.name}</div>
+                        <div className="flex justify-center mb-1">
+                          <TypeBadge type={pokemon.primaryType || pokemon.type} size={10} />
+                        </div>
+                        <div className="flex items-center justify-center gap-1">
                           <span
-                            className="px-2 py-0.5 rounded text-[10px] font-bold"
-                            style={{
-                              backgroundColor: getGradeColor(grade),
-                              color: grade === 'UU' || grade === 'S' ? '#fff' : '#333'
-                            }}
+                            className="px-1.5 py-0.5 rounded text-[9px] font-bold text-white"
+                            style={{ backgroundColor: getGradeColor(grade) }}
                           >
                             {grade}
                           </span>
-                          <span className="text-[10px] text-gray-500">
+                          <span className="text-[9px] text-gray-500">
                             {statTotal}
                           </span>
                         </div>

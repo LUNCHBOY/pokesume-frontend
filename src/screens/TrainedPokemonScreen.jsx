@@ -246,11 +246,11 @@ const TrainedPokemonScreen = () => {
               onTouchEnd={handleLongPressEnd}
               className="pokemon-card relative cursor-pointer select-none"
             >
-              <div className="mb-2">
+              <div className="mb-1">
                 {generatePokemonSprite(trained.type, trained.name)}
               </div>
               <h3 className="font-bold text-pocket-text text-sm text-center">{trained.name}</h3>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-1">
                 <TypeBadge type={trained.type} size={14} />
               </div>
               <div className="flex justify-center mb-2">

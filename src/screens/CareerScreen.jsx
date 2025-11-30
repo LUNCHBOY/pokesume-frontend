@@ -2256,23 +2256,16 @@ const CareerScreen = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                   <div className="flex items-center gap-3">
                     <h3 className="font-bold text-pocket-text">Training</h3>
-                    {/* Uma Musume style energy bar */}
+                    {/* Energy bar with conditional colors */}
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-pocket-text-light">Energy</span>
                       <div className="relative w-32 sm:w-40 h-4 rounded-full overflow-hidden bg-gray-200 border border-gray-300">
-                        {/* Rainbow gradient background (full bar) */}
-                        <div
-                          className="absolute inset-0 opacity-30"
-                          style={{
-                            background: 'linear-gradient(to right, #ff6b6b, #ffa500, #ffee58, #9ccc65, #4dd0e1, #7986cb, #ba68c8)'
-                          }}
-                        />
-                        {/* Active energy portion with rainbow gradient */}
+                        {/* Active energy portion with conditional color */}
                         <div
                           className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
                           style={{
                             width: `${Math.min(100, (careerData.energy / (GAME_CONFIG.CAREER?.MAX_ENERGY || 100)) * 100)}%`,
-                            background: 'linear-gradient(to right, #ff6b6b, #ffa500, #ffee58, #9ccc65, #4dd0e1, #7986cb, #ba68c8)'
+                            backgroundColor: careerData.energy > 50 ? '#22c55e' : careerData.energy >= 25 ? '#eab308' : '#ef4444'
                           }}
                         />
                         {/* Energy text overlay */}
