@@ -6,7 +6,7 @@
  * Supports limit breaking Pokemon using shards.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowLeft, Box, Diamond, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
@@ -55,8 +55,47 @@ const MyPokemonScreen = () => {
     SHARD_COST_PER_LIMIT_BREAK
   } = useInventory();
 
-  const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isLimitBreaking, setIsLimitBreaking] = useState(false);
+  const [detailPokemon, setDetailPokemon] = useState(null);
+
+  // Long-press state for detail modal
+  const longPressTimerRef = useRef(null);
+  const longPressPokemonRef = useRef(null);
+  const LONG_PRESS_DURATION = 500; // 500ms hold to trigger
+
+  const handleLongPressStart = useCallback((pokemonName) => {
+    longPressPokemonRef.current = pokemonName;
+    longPressTimerRef.current = setTimeout(() => {
+      setDetailPokemon(longPressPokemonRef.current);
+    }, LONG_PRESS_DURATION);
+  }, []);
+
+  const handleLongPressEnd = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    longPressPokemonRef.current = null;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+      }
+    };
+  }, []);
+
+  // Color to type mapping for aptitudes
+  const colorToType = {
+    Red: 'Fire',
+    Blue: 'Water',
+    Green: 'Grass',
+    Yellow: 'Electric',
+    Purple: 'Psychic',
+    Orange: 'Fighting'
+  };
 
   // Sort pokemon inventory
   const sortPokemon = (inventory) => {
@@ -98,25 +137,21 @@ const MyPokemonScreen = () => {
   };
 
   // Handle limit break confirmation
-  const handleLimitBreak = async () => {
-    if (!selectedPokemon) return;
+  const handleLimitBreak = async (pokemonName) => {
+    if (!pokemonName) return;
 
-    const pokemonId = getPokemonId(selectedPokemon);
+    const pokemonId = getPokemonId(pokemonName);
     if (!pokemonId) return;
 
     setIsLimitBreaking(true);
     const result = await limitBreakPokemonWithShards(pokemonId);
     setIsLimitBreaking(false);
 
-    if (result && result.success) {
-      // Keep modal open to show updated level, user can close manually
-    } else {
+    if (!result || !result.success) {
       alert('Failed to limit break Pokemon. Please try again.');
     }
+    // Keep modal open to show updated level
   };
-
-  const currentLimitBreak = selectedPokemon ? getPokemonLimitBreak(selectedPokemon) : 0;
-  const canLimitBreak = currentLimitBreak < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
 
   return (
     <div className="min-h-screen bg-pocket-bg p-4">
@@ -200,7 +235,7 @@ const MyPokemonScreen = () => {
 
           {/* Instruction hint */}
           <p className="text-xs text-pocket-text-light mt-3 text-center">
-            Tap a Pokemon to limit break using shards
+            Hold a Pokemon to view details and limit break
           </p>
         </motion.div>
 
@@ -235,8 +270,12 @@ const MyPokemonScreen = () => {
                 variants={itemVariants}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => setSelectedPokemon(pokemonName)}
-                className="pokemon-card cursor-pointer hover:ring-2 hover:ring-purple-300 transition-all"
+                onMouseDown={() => handleLongPressStart(pokemonName)}
+                onMouseUp={handleLongPressEnd}
+                onMouseLeave={handleLongPressEnd}
+                onTouchStart={() => handleLongPressStart(pokemonName)}
+                onTouchEnd={handleLongPressEnd}
+                className="pokemon-card cursor-pointer hover:ring-2 hover:ring-purple-300 transition-all select-none"
                 style={{ borderLeft: `4px solid ${getRarityColor(getPokemonRarity(pokemonName))}` }}
               >
                 {/* Rarity badge at top */}
@@ -312,105 +351,189 @@ const MyPokemonScreen = () => {
         )}
       </div>
 
-      {/* Limit Break Modal */}
+      {/* Pokemon Detail Modal (Long Press) */}
       <AnimatePresence>
-        {selectedPokemon && (
+        {detailPokemon && POKEMON[detailPokemon] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedPokemon(null)}
+            onClick={() => setDetailPokemon(null)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-card-lg p-6 max-w-sm w-full"
+              className="bg-white rounded-2xl shadow-card-lg p-5 max-w-md w-full max-h-[90vh] overflow-y-auto relative"
               onClick={e => e.stopPropagation()}
             >
               {/* Close button */}
               <button
-                onClick={() => setSelectedPokemon(null)}
-                className="absolute top-4 right-4 p-2 text-pocket-text-light hover:text-pocket-text rounded-lg"
+                onClick={() => setDetailPokemon(null)}
+                className="absolute top-3 right-3 p-2 text-pocket-text-light hover:text-pocket-text rounded-lg"
               >
                 <X size={20} />
               </button>
 
-              {/* Pokemon info */}
-              <div className="text-center mb-4">
-                <div className="mb-3 flex justify-center">
-                  {generatePokemonSprite(POKEMON[selectedPokemon]?.primaryType || 'Normal', selectedPokemon)}
-                </div>
-                <h3 className="font-bold text-xl text-pocket-text mb-2">{selectedPokemon}</h3>
-                <div className="flex justify-center mb-3">
-                  <LimitBreakDiamonds level={currentLimitBreak} size={16} />
-                </div>
-                <p className="text-sm text-pocket-text-light">
-                  Limit Break Level: {currentLimitBreak} / {MAX_LIMIT_BREAK}
-                </p>
-                {currentLimitBreak > 0 && (
-                  <p className="text-sm text-pocket-green font-semibold">
-                    +{currentLimitBreak * 5}% Base Stats
-                  </p>
-                )}
-              </div>
+              {(() => {
+                const pokemon = POKEMON[detailPokemon];
+                const rarity = getPokemonRarity(detailPokemon);
+                const limitBreakLevel = getPokemonLimitBreak(detailPokemon);
+                const statTotal = Object.values(pokemon.baseStats).reduce((a, b) => a + b, 0);
 
-              {/* Limit Break Action */}
-              {currentLimitBreak < MAX_LIMIT_BREAK ? (
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-pocket-text">Limit Break Cost:</span>
-                    <div className="flex items-center gap-1">
-                      <Diamond size={14} className="text-purple-500" />
-                      <span className="font-bold text-purple-600">{SHARD_COST_PER_LIMIT_BREAK}</span>
+                return (
+                  <>
+                    {/* Pokemon sprite and name */}
+                    <div className="text-center mb-4">
+                      <div className="mb-2 flex justify-center">
+                        {generatePokemonSprite(pokemon.primaryType, detailPokemon)}
+                      </div>
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <h3 className="font-bold text-xl text-pocket-text">{detailPokemon}</h3>
+                        <LimitBreakDiamonds level={limitBreakLevel} size={12} />
+                      </div>
+                      <div className="flex justify-center gap-2 mt-2">
+                        <TypeBadge type={pokemon.primaryType} size={16} />
+                      </div>
+                      <div className="flex items-center justify-center gap-2 mt-2">
+                        <span
+                          className="px-3 py-1 rounded-full text-sm font-bold text-white"
+                          style={{ backgroundColor: getRarityColor(rarity) }}
+                        >
+                          {rarity}
+                        </span>
+                        <span className="text-sm text-pocket-text-light">
+                          Base Total: {statTotal}
+                        </span>
+                      </div>
+                      {limitBreakLevel > 0 && (
+                        <p className="text-sm text-pocket-green font-semibold mt-1">
+                          +{limitBreakLevel * 5}% Base Stats from Limit Break
+                        </p>
+                      )}
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-pocket-text-light">Your Shards:</span>
-                    <div className="flex items-center gap-1">
-                      <Diamond size={14} className="text-purple-500" />
-                      <span className={`font-bold ${limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}`}>
-                        {limitBreakShards}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-xs text-pocket-text-light text-center mb-3">
-                    Next level: +{(currentLimitBreak + 1) * 5}% Base Stats
-                  </p>
-                  <button
-                    onClick={handleLimitBreak}
-                    disabled={!canLimitBreak || isLimitBreaking}
-                    className={`w-full py-3 rounded-xl font-bold transition-all ${
-                      canLimitBreak && !isLimitBreaking
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    }`}
-                  >
-                    {isLimitBreaking ? 'Limit Breaking...' : 'Limit Break'}
-                  </button>
-                  {limitBreakShards < SHARD_COST_PER_LIMIT_BREAK && (
-                    <p className="text-xs text-pocket-red text-center mt-2">
-                      Not enough shards
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-4 mb-4 text-center">
-                  <p className="font-bold text-amber-600">Maximum Limit Break Reached!</p>
-                  <p className="text-sm text-pocket-text-light mt-1">
-                    This Pokemon is at full power (+20% Base Stats)
-                  </p>
-                </div>
-              )}
 
-              {/* Close button */}
-              <button
-                onClick={() => setSelectedPokemon(null)}
-                className="w-full py-2 rounded-xl bg-pocket-bg text-pocket-text-light font-semibold hover:bg-gray-200 transition-colors"
-              >
-                Close
-              </button>
+                    {/* Base Stats */}
+                    <div className="bg-pocket-bg rounded-xl p-3 mb-3">
+                      <h4 className="font-bold text-pocket-text text-sm mb-2">Base Stats</h4>
+                      <div className="space-y-1.5 text-xs">
+                        {Object.entries(pokemon.baseStats).map(([stat, value]) => (
+                          <div key={stat} className="flex items-center gap-2">
+                            <span className="text-pocket-text-light w-16">{stat}</span>
+                            <div className="flex-1 bg-gray-200 rounded-full h-2">
+                              <div
+                                className="h-2 rounded-full bg-pocket-blue"
+                                style={{ width: `${Math.min(100, (value / 150) * 100)}%` }}
+                              />
+                            </div>
+                            <span className="font-bold text-pocket-text w-10 text-right">{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Strategy Aptitudes */}
+                    {pokemon.strategyAptitudes && Object.keys(pokemon.strategyAptitudes).length > 0 && (
+                      <div className="bg-purple-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-purple-700 text-sm mb-2">Strategy Aptitudes</h4>
+                        <div className="grid grid-cols-2 gap-1 text-xs">
+                          {Object.entries(pokemon.strategyAptitudes).map(([strategy, grade]) => (
+                            <div
+                              key={strategy}
+                              className="flex justify-between items-center px-2 py-1 rounded bg-white"
+                            >
+                              <span className="text-pocket-text">{strategy}</span>
+                              <span
+                                className="px-2 py-0.5 rounded text-white font-bold"
+                                style={{ backgroundColor: getAptitudeColor(grade) }}
+                              >
+                                {grade}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Type Aptitudes */}
+                    {pokemon.typeAptitudes && Object.keys(pokemon.typeAptitudes).length > 0 && (
+                      <div className="bg-pocket-bg rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-pocket-text text-sm mb-2">Type Aptitudes</h4>
+                        <div className="grid grid-cols-2 gap-1 text-xs">
+                          {Object.entries(pokemon.typeAptitudes).map(([color, grade]) => {
+                            const typeName = colorToType[color] || color;
+                            return (
+                              <div
+                                key={color}
+                                className="flex justify-between items-center px-2 py-1 rounded"
+                                style={{ backgroundColor: `${TYPE_COLORS[typeName] || '#888'}20` }}
+                              >
+                                <span style={{ color: TYPE_COLORS[typeName] || '#888' }}>{typeName}</span>
+                                <span className="font-bold text-pocket-text">{grade}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Limit Break Section */}
+                    {(() => {
+                      const canLimitBreak = limitBreakLevel < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
+
+                      return limitBreakLevel < MAX_LIMIT_BREAK ? (
+                        <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-3 mb-3">
+                          <h4 className="font-bold text-purple-700 text-sm mb-2">Limit Break</h4>
+                          <div className="flex items-center justify-between mb-2 text-xs">
+                            <span className="text-pocket-text">Level: {limitBreakLevel} / {MAX_LIMIT_BREAK}</span>
+                            <div className="flex items-center gap-1">
+                              <Diamond size={12} className="text-purple-500" />
+                              <span className={`font-bold ${limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}`}>
+                                {limitBreakShards} / {SHARD_COST_PER_LIMIT_BREAK}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-pocket-text-light text-center mb-2">
+                            Next level: +{(limitBreakLevel + 1) * 5}% Base Stats
+                          </p>
+                          <button
+                            onClick={() => handleLimitBreak(detailPokemon)}
+                            disabled={!canLimitBreak || isLimitBreaking}
+                            className={`w-full py-2 rounded-xl font-bold text-sm transition-all ${
+                              canLimitBreak && !isLimitBreaking
+                                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            }`}
+                          >
+                            {isLimitBreaking ? 'Limit Breaking...' : 'Limit Break'}
+                          </button>
+                          {limitBreakShards < SHARD_COST_PER_LIMIT_BREAK && (
+                            <p className="text-xs text-pocket-red text-center mt-1">
+                              Not enough shards
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-3 mb-3 text-center">
+                          <p className="font-bold text-amber-600 text-sm">Maximum Limit Break!</p>
+                          <p className="text-xs text-pocket-text-light mt-1">
+                            +20% Base Stats
+                          </p>
+                        </div>
+                      );
+                    })()}
+
+                    {/* Close button */}
+                    <button
+                      onClick={() => setDetailPokemon(null)}
+                      className="w-full py-2 rounded-xl bg-pocket-bg text-pocket-text-light font-semibold hover:bg-gray-200 transition-colors"
+                    >
+                      Close
+                    </button>
+                  </>
+                );
+              })()}
             </motion.div>
           </motion.div>
         )}

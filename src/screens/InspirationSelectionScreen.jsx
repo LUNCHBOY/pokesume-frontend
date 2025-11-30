@@ -5,12 +5,43 @@
  * Inspirations provide stat bonuses and aptitude upgrades at turns 11, 23, 35, 47, 59.
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ArrowLeft, Sparkles, Star, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import { generatePokemonSprite } from '../utils/gameUtils';
+import { EVOLUTION_CHAINS } from '../shared/gameData';
+
+// Helper function to get all Pokemon in the same evolution chain
+const getEvolutionChainMembers = (pokemonName) => {
+  // Check if this Pokemon is a base form with evolutions
+  if (EVOLUTION_CHAINS[pokemonName]) {
+    const chain = EVOLUTION_CHAINS[pokemonName];
+    const members = [pokemonName, chain.stage1];
+    if (chain.stage2) members.push(chain.stage2);
+    return members;
+  }
+
+  // Check if this Pokemon is an evolution of something else
+  for (const [basePokemon, chain] of Object.entries(EVOLUTION_CHAINS)) {
+    if (chain.stage1 === pokemonName || chain.stage2 === pokemonName) {
+      const members = [basePokemon, chain.stage1];
+      if (chain.stage2) members.push(chain.stage2);
+      return members;
+    }
+  }
+
+  // No evolution chain found, return just this Pokemon
+  return [pokemonName];
+};
+
+// Check if two Pokemon are in the same evolution chain
+const areInSameEvolutionChain = (pokemon1Name, pokemon2Name) => {
+  if (pokemon1Name === pokemon2Name) return true;
+  const chain1 = getEvolutionChainMembers(pokemon1Name);
+  return chain1.includes(pokemon2Name);
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -175,8 +206,9 @@ const InspirationSelectionScreen = () => {
                   insp => insp.name === trained.name && insp.completedAt === trained.completedAt
                 );
                 const isSameSpecies = selectedPokemon && trained.name === selectedPokemon.name;
-                const isDisabled = isSameSpecies;
-                
+                const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon.name, trained.name);
+                const isDisabled = isSameSpecies || isInEvolutionChain;
+
                 const totalStars = trained.inspirations
                   ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
                   : 0;
@@ -189,7 +221,7 @@ const InspirationSelectionScreen = () => {
                     whileTap={!isDisabled ? { scale: 0.98 } : {}}
                     onClick={() => {
                       if (isDisabled) return;
-                      
+
                       if (isSelected) {
                         setSelectedInspirations(
                           selectedInspirations.filter(
@@ -215,6 +247,13 @@ const InspirationSelectionScreen = () => {
                     {isSameSpecies && (
                       <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
                         Can't use same species
+                      </div>
+                    )}
+
+                    {/* Evolution Chain Warning */}
+                    {isInEvolutionChain && (
+                      <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
+                        Same evolution line
                       </div>
                     )}
 

@@ -5,7 +5,7 @@
  * grade, and inspirations. Shows trained Pokemon history with sorting and filtering.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowLeft, Trophy, Star, Shield, Trash2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
@@ -15,7 +15,8 @@ import {
   getGradeColor,
   StatIcon
 } from '../utils/gameUtils';
-import { TypeBadge } from '../components/TypeIcon';
+import { TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
+import { ABILITIES } from '../shared/gameData';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,6 +44,36 @@ const TrainedPokemonScreen = () => {
 
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [detailPokemon, setDetailPokemon] = useState(null);
+
+  // Long-press state for detail modal
+  const longPressTimerRef = useRef(null);
+  const longPressPokemonRef = useRef(null);
+  const LONG_PRESS_DURATION = 500; // 500ms hold to trigger
+
+  const handleLongPressStart = useCallback((pokemon) => {
+    longPressPokemonRef.current = pokemon;
+    longPressTimerRef.current = setTimeout(() => {
+      setDetailPokemon(longPressPokemonRef.current);
+    }, LONG_PRESS_DURATION);
+  }, []);
+
+  const handleLongPressEnd = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    longPressPokemonRef.current = null;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleDelete = async (trained) => {
     setDeleting(true);
@@ -99,6 +130,12 @@ const TrainedPokemonScreen = () => {
     Yellow: 'Electric',
     Purple: 'Psychic',
     Orange: 'Fighting'
+  };
+
+  // Helper to calculate total stats
+  const getStatTotal = (stats) => {
+    if (!stats) return 0;
+    return Object.values(stats).reduce((sum, val) => sum + (val || 0), 0);
   };
 
   return (
@@ -182,6 +219,11 @@ const TrainedPokemonScreen = () => {
               </button>
             ))}
           </div>
+
+          {/* Instruction hint */}
+          <p className="text-xs text-pocket-text-light mt-3 text-center">
+            Hold a Pokemon to view full details
+          </p>
         </motion.div>
 
         {/* Pokemon Grid */}
@@ -196,18 +238,13 @@ const TrainedPokemonScreen = () => {
               key={trained.id || idx}
               variants={itemVariants}
               whileHover={{ y: -2 }}
-              className="pokemon-card relative group"
+              onMouseDown={() => handleLongPressStart(trained)}
+              onMouseUp={handleLongPressEnd}
+              onMouseLeave={handleLongPressEnd}
+              onTouchStart={() => handleLongPressStart(trained)}
+              onTouchEnd={handleLongPressEnd}
+              className="pokemon-card relative cursor-pointer select-none"
             >
-              {/* Delete Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDeleteConfirm(trained);
-                }}
-                className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-200"
-              >
-                <Trash2 size={12} className="text-red-500" />
-              </button>
               <div className="mb-2">
                 {generatePokemonSprite(trained.type, trained.name)}
               </div>
@@ -227,7 +264,7 @@ const TrainedPokemonScreen = () => {
               <div className="flex items-center justify-center gap-2 text-[10px] text-pocket-text-light mb-2">
                 <div className="flex items-center gap-1">
                   <Shield size={10} className="text-amber-500" />
-                  <span className="font-semibold">{trained.gymsDefeated || 0}/7</span>
+                  <span className="font-semibold">{trained.gymsDefeated || 0}/8</span>
                 </div>
                 <span>•</span>
                 <span>{new Date(trained.completedAt).toLocaleDateString()}</span>
@@ -377,6 +414,212 @@ const TrainedPokemonScreen = () => {
                   </button>
                 </div>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Pokemon Detail Modal */}
+      <AnimatePresence>
+        {detailPokemon && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            onClick={() => setDetailPokemon(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-card-lg p-5 max-w-md w-full max-h-[90vh] overflow-y-auto relative"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setDetailPokemon(null)}
+                className="absolute top-3 right-3 p-2 text-pocket-text-light hover:text-pocket-text rounded-lg"
+              >
+                <X size={20} />
+              </button>
+
+              {(() => {
+                const pokemon = detailPokemon;
+                const grade = pokemon.grade;
+                const statTotal = getStatTotal(pokemon.stats);
+
+                return (
+                  <>
+                    {/* Pokemon sprite and name */}
+                    <div className="text-center mb-4">
+                      <div className="mb-2 flex justify-center">
+                        {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
+                      </div>
+                      <h3 className="font-bold text-xl text-pocket-text">{pokemon.name}</h3>
+                      <div className="flex justify-center gap-2 mt-2">
+                        <TypeBadge type={pokemon.primaryType || pokemon.type} size={16} />
+                      </div>
+                      <div className="flex items-center justify-center gap-2 mt-2">
+                        <span
+                          className="px-3 py-1 rounded-full text-sm font-bold text-white"
+                          style={{ backgroundColor: getGradeColor(grade) }}
+                        >
+                          {grade}
+                        </span>
+                        <span className="text-sm text-pocket-text-light">
+                          Total: {statTotal}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-center gap-2 mt-2 text-xs text-pocket-text-light">
+                        <div className="flex items-center gap-1">
+                          <Shield size={12} className="text-amber-500" />
+                          <span>{pokemon.gymsDefeated || 0}/8 Gyms</span>
+                        </div>
+                        <span>•</span>
+                        <span>{new Date(pokemon.completedAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+
+                    {/* Stats */}
+                    {pokemon.stats && (
+                      <div className="bg-pocket-bg rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-pocket-text text-sm mb-2">Stats</h4>
+                        <div className="space-y-1.5 text-xs">
+                          {Object.entries(pokemon.stats).map(([stat, value]) => (
+                            <div key={stat} className="flex items-center gap-2">
+                              <span className="text-pocket-text-light w-16">{stat}</span>
+                              <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                <div
+                                  className="h-2 rounded-full bg-pocket-blue"
+                                  style={{ width: `${Math.min(100, (value / 500) * 100)}%` }}
+                                />
+                              </div>
+                              <span className="font-bold text-pocket-text w-10 text-right">{value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Strategy */}
+                    {pokemon.strategy && (
+                      <div className="bg-purple-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-purple-700 text-sm mb-1">Strategy</h4>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-purple-600">{pokemon.strategy}</span>
+                          {pokemon.strategyGrade && (
+                            <span className="px-2 py-0.5 rounded bg-purple-200 text-purple-700 text-xs font-bold">
+                              {pokemon.strategyGrade}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Type Aptitudes */}
+                    {pokemon.typeAptitudes && Object.keys(pokemon.typeAptitudes).length > 0 && (
+                      <div className="bg-pocket-bg rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-pocket-text text-sm mb-2">Type Aptitudes</h4>
+                        <div className="grid grid-cols-2 gap-1 text-xs">
+                          {Object.entries(pokemon.typeAptitudes).map(([color, aptGrade]) => {
+                            const typeName = colorToType[color] || color;
+                            return (
+                              <div
+                                key={color}
+                                className="flex justify-between items-center px-2 py-1 rounded"
+                                style={{ backgroundColor: `${TYPE_COLORS[typeName] || '#888'}20` }}
+                              >
+                                <span style={{ color: TYPE_COLORS[typeName] || '#888' }}>{typeName}</span>
+                                <span className="font-bold text-pocket-text">{aptGrade}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Learned Moves */}
+                    {pokemon.abilities && pokemon.abilities.length > 0 && (
+                      <div className="bg-blue-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-blue-700 text-sm mb-2">Learned Moves ({pokemon.abilities.length})</h4>
+                        <div className="grid grid-cols-2 gap-1 text-xs max-h-32 overflow-y-auto">
+                          {pokemon.abilities.map((moveName, idx) => {
+                            const move = ABILITIES && ABILITIES[moveName];
+                            const moveType = move?.type || pokemon.primaryType || pokemon.type || 'Normal';
+                            return (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-1 px-2 py-1 rounded bg-white"
+                              >
+                                <TypeBadge type={moveType} size={10} />
+                                <span className="truncate text-pocket-text">{moveName}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Inspirations */}
+                    {pokemon.inspirations && pokemon.inspirations.stat && pokemon.inspirations.aptitude && (
+                      <div className="bg-amber-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-amber-700 text-sm mb-2">Inspirations</h4>
+                        <div className="space-y-1 text-xs">
+                          <div className="flex justify-between items-center">
+                            <span className="font-semibold text-pocket-text">{pokemon.inspirations.stat.name}</span>
+                            <div className="flex gap-0.5">
+                              {[...Array(pokemon.inspirations.stat.stars || 0)].map((_, i) => (
+                                <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="font-semibold text-pocket-text">
+                              {colorToType[pokemon.inspirations.aptitude.name] || pokemon.inspirations.aptitude.name}
+                            </span>
+                            <div className="flex gap-0.5">
+                              {[...Array(pokemon.inspirations.aptitude.stars || 0)].map((_, i) => (
+                                <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
+                          </div>
+                          {pokemon.inspirations.strategy && (
+                            <div className="flex justify-between items-center">
+                              <span className="font-semibold text-pocket-text">{pokemon.inspirations.strategy.name}</span>
+                              <div className="flex gap-0.5">
+                                {[...Array(pokemon.inspirations.strategy.stars || 0)].map((_, i) => (
+                                  <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Action buttons */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setDetailPokemon(null)}
+                        className="flex-1 py-2 rounded-xl bg-pocket-bg text-pocket-text-light font-semibold hover:bg-gray-200 transition-colors"
+                      >
+                        Close
+                      </button>
+                      <button
+                        onClick={() => {
+                          setDeleteConfirm(pokemon);
+                          setDetailPokemon(null);
+                        }}
+                        className="px-4 py-2 rounded-xl bg-red-100 text-red-600 font-semibold hover:bg-red-200 transition-colors flex items-center gap-1"
+                      >
+                        <Trash2 size={16} />
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                );
+              })()}
             </motion.div>
           </motion.div>
         )}

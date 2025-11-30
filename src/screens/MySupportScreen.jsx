@@ -2,11 +2,12 @@
  * MySupportScreen Component
  *
  * Displays the user's support card inventory with sorting and filtering.
- * Shows detailed information about each support card including bonuses and effects.
+ * Shows compact cards by default with larger sprites.
+ * Long-press opens detailed modal with all support information.
  * Supports limit breaking support cards using shards.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ArrowLeft, Users, Diamond, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
@@ -53,7 +54,37 @@ const MySupportScreen = () => {
   } = useInventory();
 
   const [selectedSupport, setSelectedSupport] = useState(null);
+  const [detailSupport, setDetailSupport] = useState(null);
   const [isLimitBreaking, setIsLimitBreaking] = useState(false);
+
+  // Long-press state for detail modal
+  const longPressTimerRef = useRef(null);
+  const longPressSupportRef = useRef(null);
+  const LONG_PRESS_DURATION = 500; // 500ms hold to trigger
+
+  const handleLongPressStart = useCallback((supportKey) => {
+    longPressSupportRef.current = supportKey;
+    longPressTimerRef.current = setTimeout(() => {
+      setDetailSupport(longPressSupportRef.current);
+    }, LONG_PRESS_DURATION);
+  }, []);
+
+  const handleLongPressEnd = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    longPressSupportRef.current = null;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+      }
+    };
+  }, []);
 
   // Sort support inventory based on selected sort option
   const rarityOrder = { 'Legendary': 0, 'Rare': 1, 'Uncommon': 2, 'Common': 3 };
@@ -122,8 +153,19 @@ const MySupportScreen = () => {
   };
 
   const selectedSupportData = selectedSupport ? getSupportCardAttributes(selectedSupport, SUPPORT_CARDS) : null;
+  const detailSupportData = detailSupport ? getSupportCardAttributes(detailSupport, SUPPORT_CARDS) : null;
   const currentLimitBreak = selectedSupport ? getSupportLimitBreak(selectedSupport) : 0;
   const canLimitBreak = currentLimitBreak < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
+
+  // Get type color for focus
+  const getFocusColor = (supportType) => {
+    return TYPE_COLORS[
+      supportType === 'Attack' ? 'Fire' :
+      supportType === 'Defense' ? 'Water' :
+      supportType === 'HP' ? 'Grass' :
+      supportType === 'Instinct' ? 'Psychic' : 'Electric'
+    ];
+  };
 
   return (
     <div className="min-h-screen bg-pocket-bg p-4">
@@ -207,16 +249,16 @@ const MySupportScreen = () => {
 
           {/* Instruction hint */}
           <p className="text-xs text-pocket-text-light mt-3 text-center">
-            Tap a support card to limit break using shards
+            Tap to limit break, hold for details
           </p>
         </motion.div>
 
-        {/* Support Cards Grid */}
+        {/* Support Cards Grid - Compact View */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"
         >
           {sortedSupportInventory.map((supportKey, idx) => {
             const support = getSupportCardAttributes(supportKey, SUPPORT_CARDS);
@@ -231,173 +273,58 @@ const MySupportScreen = () => {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setSelectedSupport(supportKey)}
-                className="bg-white rounded-2xl shadow-card p-4 transition-shadow hover:shadow-card-hover cursor-pointer hover:ring-2 hover:ring-purple-300"
+                onMouseDown={() => handleLongPressStart(supportKey)}
+                onMouseUp={handleLongPressEnd}
+                onMouseLeave={handleLongPressEnd}
+                onTouchStart={() => handleLongPressStart(supportKey)}
+                onTouchEnd={handleLongPressEnd}
+                className="bg-white rounded-2xl shadow-card p-3 transition-shadow hover:shadow-card-hover cursor-pointer hover:ring-2 hover:ring-purple-300 select-none"
                 style={{ borderLeft: `4px solid ${getRarityColor(support.rarity)}` }}
               >
-                {/* Header with rarity and icon */}
-                <div className="flex items-center justify-between mb-3">
+                {/* Rarity Badge */}
+                <div className="flex justify-center mb-2">
                   <span
                     className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
                     style={{ backgroundColor: getRarityColor(support.rarity) }}
                   >
                     {support.rarity}
                   </span>
-                  <Users size={16} className="text-pocket-blue" />
                 </div>
 
-                {/* Support info with image */}
-                <div className="flex gap-3 mb-3">
+                {/* Larger Support Image */}
+                <div className="flex justify-center mb-2">
                   {trainerImage && (
                     <img
                       src={trainerImage}
                       alt={support.trainer}
-                      className="w-16 h-16 object-contain rounded-xl border-2 bg-pocket-bg flex-shrink-0"
+                      className="w-20 h-20 object-contain rounded-xl border-2 bg-pocket-bg"
                       style={{ borderColor: getRarityColor(support.rarity) }}
                     />
                   )}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-pocket-text text-sm mb-1">{support.name}</h3>
-                    <LimitBreakDiamonds level={limitBreakLevel} size={10} />
-                  </div>
+                </div>
+
+                {/* Support Name */}
+                <h3 className="font-bold text-pocket-text text-sm text-center mb-1 truncate">{support.name}</h3>
+
+                {/* Limit Break Diamonds */}
+                <div className="flex justify-center mb-2">
+                  <LimitBreakDiamonds level={limitBreakLevel} size={10} />
                 </div>
 
                 {/* Focus Type */}
                 {support.supportType && (
                   <p
-                    className="text-xs font-bold mb-2"
-                    style={{ color: TYPE_COLORS[support.supportType === 'Attack' ? 'Fire' : support.supportType === 'Defense' ? 'Water' : support.supportType === 'HP' ? 'Grass' : support.supportType === 'Instinct' ? 'Psychic' : 'Electric'] }}
+                    className="text-xs font-bold text-center mb-1"
+                    style={{ color: getFocusColor(support.supportType) }}
                   >
                     Focus: {support.supportType}
                   </p>
                 )}
 
-                {/* Effect Description */}
-                <p className="text-xs text-pocket-text-light italic mb-3">{support.description || support.effect?.description}</p>
-
-                {/* Base Stats */}
-                {support.baseStatIncrease && Object.values(support.baseStatIncrease).some(v => v > 0) && (
-                  <div className="bg-pocket-bg rounded-lg p-2 mb-2">
-                    <p className="font-bold text-type-psychic text-[10px] mb-1">Base Stat Bonuses</p>
-                    <div className="space-y-0.5 text-[10px]">
-                      {Object.entries(support.baseStatIncrease).map(([stat, value]) => (
-                        value > 0 && (
-                          <div key={stat} className="flex justify-between">
-                            <span className="text-pocket-text-light">{stat}</span>
-                            <span className="text-pocket-green font-bold">+{value}</span>
-                          </div>
-                        )
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Training Bonuses */}
-                <div className="bg-pocket-bg rounded-lg p-2 mb-2">
-                  <p className="font-bold text-type-psychic text-[10px] mb-1">Training Bonuses</p>
-                  <div className="grid grid-cols-2 gap-1 text-[10px]">
-                    <div className="flex justify-between">
-                      <span className="text-pocket-text-light">Friendship</span>
-                      <span className="text-pocket-blue font-bold">{support.initialFriendship}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-pocket-text-light">Type Match</span>
-                      <span className="text-pocket-green font-bold">+{support.typeBonusTraining}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-pocket-text-light">Other Stats</span>
-                      <span className="text-pocket-green font-bold">+{support.generalBonusTraining}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-pocket-text-light">Max Friend</span>
-                      <span className="text-pocket-green font-bold">+{support.friendshipBonusTraining}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Appearance Rate & Type Match Preference */}
-                <div className="bg-pocket-bg rounded-lg p-2 mb-2">
-                  <div className="grid grid-cols-2 gap-1 text-[10px]">
-                    <div className="flex justify-between">
-                      <span className="text-pocket-text-light">Appearance</span>
-                      <span className="text-pocket-text font-bold">{Math.round(support.appearanceChance * 100)}%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-pocket-text-light">Type Pref</span>
-                      <span className="text-pocket-text font-bold">{Math.round(support.typeAppearancePriority * 100)}%</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Special Effects */}
-                {support.specialEffect && (
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-2 mb-2">
-                    <p className="font-bold text-purple-700 text-[10px] mb-1">Special Effects</p>
-                    <div className="space-y-0.5 text-[10px]">
-                      {support.specialEffect.statGainMultiplier && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Stat Gain</span>
-                          <span className="text-pocket-green font-bold">{support.specialEffect.statGainMultiplier}x</span>
-                        </div>
-                      )}
-                      {support.specialEffect.failRateReduction && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Fail Rate</span>
-                          <span className="text-pocket-green font-bold">-{(support.specialEffect.failRateReduction * 100).toFixed(0)}%</span>
-                        </div>
-                      )}
-                      {support.specialEffect.maxEnergyBonus && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Max Energy</span>
-                          <span className="text-pocket-green font-bold">+{support.specialEffect.maxEnergyBonus}</span>
-                        </div>
-                      )}
-                      {support.specialEffect.restBonus && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Rest Bonus</span>
-                          <span className="text-pocket-green font-bold">+{support.specialEffect.restBonus}</span>
-                        </div>
-                      )}
-                      {support.specialEffect.energyRegenBonus && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Speed Training Energy Regen</span>
-                          <span className="text-pocket-green font-bold">+{support.specialEffect.energyRegenBonus}</span>
-                        </div>
-                      )}
-                      {support.specialEffect.skillPointMultiplier && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">SP Mult</span>
-                          <span className="text-pocket-green font-bold">{support.specialEffect.skillPointMultiplier}x</span>
-                        </div>
-                      )}
-                      {support.specialEffect.friendshipGainBonus && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Friendship Gain</span>
-                          <span className="text-pocket-green font-bold">+{support.specialEffect.friendshipGainBonus}</span>
-                        </div>
-                      )}
-                      {support.specialEffect.energyCostReduction && (
-                        <div className="flex justify-between">
-                          <span className="text-pocket-text-light">Energy Cost</span>
-                          <span className="text-pocket-green font-bold">-{support.specialEffect.energyCostReduction}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Move Hints */}
-                {support.moveHints && support.moveHints.length > 0 && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-2">
-                    <p className="font-bold text-blue-700 text-[10px] mb-1">Move Hints</p>
-                    <div className="flex flex-wrap gap-1">
-                      {support.moveHints.map((move, moveIdx) => (
-                        <span key={moveIdx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[10px] font-semibold">
-                          {move}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                {/* Description - truncated */}
+                <p className="text-[10px] text-pocket-text-light italic text-center line-clamp-2">
+                  {support.description || support.effect?.description}
+                </p>
               </motion.div>
             );
           })}
@@ -447,7 +374,7 @@ const MySupportScreen = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-card-lg p-6 max-w-sm w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-2xl shadow-card-lg p-6 max-w-sm w-full max-h-[90vh] overflow-y-auto relative"
               onClick={e => e.stopPropagation()}
             >
               {/* Close button */}
@@ -492,7 +419,7 @@ const MySupportScreen = () => {
               <div className="bg-pocket-bg rounded-xl p-3 mb-4 text-xs">
                 <p className="text-pocket-text-light italic mb-2">{selectedSupportData.description}</p>
                 {selectedSupportData.supportType && (
-                  <p className="font-semibold" style={{ color: TYPE_COLORS[selectedSupportData.supportType === 'Attack' ? 'Fire' : selectedSupportData.supportType === 'Defense' ? 'Water' : selectedSupportData.supportType === 'HP' ? 'Grass' : selectedSupportData.supportType === 'Instinct' ? 'Psychic' : 'Electric'] }}>
+                  <p className="font-semibold" style={{ color: getFocusColor(selectedSupportData.supportType) }}>
                     Focus: {selectedSupportData.supportType}
                   </p>
                 )}
@@ -549,6 +476,203 @@ const MySupportScreen = () => {
               {/* Close button */}
               <button
                 onClick={() => setSelectedSupport(null)}
+                className="w-full py-2 rounded-xl bg-pocket-bg text-pocket-text-light font-semibold hover:bg-gray-200 transition-colors"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Detail Modal (Long Press) */}
+      <AnimatePresence>
+        {detailSupport && detailSupportData && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            onClick={() => setDetailSupport(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-card-lg p-5 max-w-md w-full max-h-[90vh] overflow-y-auto relative"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setDetailSupport(null)}
+                className="absolute top-3 right-3 p-2 text-pocket-text-light hover:text-pocket-text rounded-lg"
+              >
+                <X size={20} />
+              </button>
+
+              {/* Support Header */}
+              <div className="text-center mb-4">
+                <span
+                  className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white inline-block mb-2"
+                  style={{ backgroundColor: getRarityColor(detailSupportData.rarity) }}
+                >
+                  {detailSupportData.rarity}
+                </span>
+                {getSupportImageFromCardName(detailSupportData.name) && (
+                  <img
+                    src={getSupportImageFromCardName(detailSupportData.name)}
+                    alt={detailSupportData.trainer}
+                    className="w-24 h-24 object-contain rounded-xl border-2 bg-pocket-bg mx-auto mb-3"
+                    style={{ borderColor: getRarityColor(detailSupportData.rarity) }}
+                  />
+                )}
+                <h3 className="font-bold text-xl text-pocket-text">{detailSupportData.name}</h3>
+                <div className="flex justify-center mt-2">
+                  <LimitBreakDiamonds level={getSupportLimitBreak(detailSupport)} size={14} />
+                </div>
+                {detailSupportData.supportType && (
+                  <p
+                    className="text-sm font-bold mt-2"
+                    style={{ color: getFocusColor(detailSupportData.supportType) }}
+                  >
+                    Focus: {detailSupportData.supportType}
+                  </p>
+                )}
+              </div>
+
+              {/* Description */}
+              <p className="text-xs text-pocket-text-light italic mb-4 text-center">
+                {detailSupportData.description}
+              </p>
+
+              {/* Base Stats */}
+              {detailSupportData.baseStatIncrease && Object.values(detailSupportData.baseStatIncrease).some(v => v > 0) && (
+                <div className="bg-pocket-bg rounded-lg p-3 mb-3">
+                  <p className="font-bold text-type-psychic text-xs mb-2">Base Stat Bonuses</p>
+                  <div className="space-y-1 text-xs">
+                    {Object.entries(detailSupportData.baseStatIncrease).map(([stat, value]) => (
+                      value > 0 && (
+                        <div key={stat} className="flex justify-between">
+                          <span className="text-pocket-text-light">{stat}</span>
+                          <span className="text-pocket-green font-bold">+{value}</span>
+                        </div>
+                      )
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Training Bonuses */}
+              <div className="bg-pocket-bg rounded-lg p-3 mb-3">
+                <p className="font-bold text-type-psychic text-xs mb-2">Training Bonuses</p>
+                <div className="grid grid-cols-2 gap-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Friendship</span>
+                    <span className="text-pocket-blue font-bold">{detailSupportData.initialFriendship}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Type Match</span>
+                    <span className="text-pocket-green font-bold">+{detailSupportData.typeBonusTraining}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Other Stats</span>
+                    <span className="text-pocket-green font-bold">+{detailSupportData.generalBonusTraining}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Max Friend</span>
+                    <span className="text-pocket-green font-bold">+{detailSupportData.friendshipBonusTraining}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Appearance Rate & Type Match Preference */}
+              <div className="bg-pocket-bg rounded-lg p-3 mb-3">
+                <div className="grid grid-cols-2 gap-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Appearance</span>
+                    <span className="text-pocket-text font-bold">{Math.round(detailSupportData.appearanceChance * 100)}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Type Pref</span>
+                    <span className="text-pocket-text font-bold">{Math.round(detailSupportData.typeAppearancePriority * 100)}%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Special Effects */}
+              {detailSupportData.specialEffect && (
+                <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-3">
+                  <p className="font-bold text-purple-700 text-xs mb-2">Special Effects</p>
+                  <div className="space-y-1 text-xs">
+                    {detailSupportData.specialEffect.statGainMultiplier && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">Stat Gain</span>
+                        <span className="text-pocket-green font-bold">{detailSupportData.specialEffect.statGainMultiplier}x</span>
+                      </div>
+                    )}
+                    {detailSupportData.specialEffect.failRateReduction && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">Fail Rate</span>
+                        <span className="text-pocket-green font-bold">-{(detailSupportData.specialEffect.failRateReduction * 100).toFixed(0)}%</span>
+                      </div>
+                    )}
+                    {detailSupportData.specialEffect.maxEnergyBonus && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">Max Energy</span>
+                        <span className="text-pocket-green font-bold">+{detailSupportData.specialEffect.maxEnergyBonus}</span>
+                      </div>
+                    )}
+                    {detailSupportData.specialEffect.restBonus && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">Rest Bonus</span>
+                        <span className="text-pocket-green font-bold">+{detailSupportData.specialEffect.restBonus}</span>
+                      </div>
+                    )}
+                    {detailSupportData.specialEffect.energyRegenBonus && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">Energy Regen</span>
+                        <span className="text-pocket-green font-bold">+{detailSupportData.specialEffect.energyRegenBonus}</span>
+                      </div>
+                    )}
+                    {detailSupportData.specialEffect.skillPointMultiplier && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">SP Mult</span>
+                        <span className="text-pocket-green font-bold">{detailSupportData.specialEffect.skillPointMultiplier}x</span>
+                      </div>
+                    )}
+                    {detailSupportData.specialEffect.friendshipGainBonus && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">Friendship Gain</span>
+                        <span className="text-pocket-green font-bold">+{detailSupportData.specialEffect.friendshipGainBonus}</span>
+                      </div>
+                    )}
+                    {detailSupportData.specialEffect.energyCostReduction && (
+                      <div className="flex justify-between">
+                        <span className="text-pocket-text-light">Energy Cost</span>
+                        <span className="text-pocket-green font-bold">-{detailSupportData.specialEffect.energyCostReduction}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Move Hints */}
+              {detailSupportData.moveHints && detailSupportData.moveHints.length > 0 && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                  <p className="font-bold text-blue-700 text-xs mb-2">Move Hints</p>
+                  <div className="flex flex-wrap gap-1">
+                    {detailSupportData.moveHints.map((move, moveIdx) => (
+                      <span key={moveIdx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-xs font-semibold">
+                        {move}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Close button */}
+              <button
+                onClick={() => setDetailSupport(null)}
                 className="w-full py-2 rounded-xl bg-pocket-bg text-pocket-text-light font-semibold hover:bg-gray-200 transition-colors"
               >
                 Close

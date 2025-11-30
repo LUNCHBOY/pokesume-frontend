@@ -10,7 +10,6 @@ import { motion } from 'framer-motion';
 import {
   Sparkles,
   LogOut,
-  AlertTriangle,
   Swords,
   Box,
   Users,
@@ -20,7 +19,6 @@ import {
   Gift,
   Star,
   HelpCircle,
-  Shield,
   Diamond
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -32,6 +30,7 @@ import { generatePokemonSprite } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { POKEMON } from '../shared/gameData';
 import { MenuTile } from '../components/ui/menu-tile';
+import ProfileIcon from '../components/ProfileIcon';
 
 // Animation variants
 const containerVariants = {
@@ -151,10 +150,11 @@ const StarterCard = ({ pokemon, name, onSelect }) => {
 
 const MenuScreen = () => {
   const { user, logout } = useAuth();
-  const { setGameState, setShowResetConfirm } = useGame();
-  const { hasActiveCareer, careerLoading } = useCareer();
+  const { setGameState } = useGame();
+  const { hasActiveCareer } = useCareer();
   const {
     pokemonInventory,
+    pokemonLoading,
     supportInventory,
     trainedPokemon,
     primos,
@@ -192,7 +192,26 @@ const MenuScreen = () => {
     return item;
   });
 
-  // Starter selection (if user has no pokemon)
+  // Show loading while inventory is being fetched
+  if (pokemonLoading) {
+    return (
+      <div className="min-h-screen bg-pocket-bg flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pocket-red/10 flex items-center justify-center">
+            <Box size={32} className="text-pocket-red animate-pulse" />
+          </div>
+          <p className="text-pocket-text-light">Loading your collection...</p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Starter selection (if user has no pokemon AND inventory finished loading)
+  // Don't show starter selection while loading - prevents race condition after abandon career
   if (pokemonInventory.length === 0) {
     return (
       <div className="min-h-screen bg-pocket-bg p-4">
@@ -270,13 +289,15 @@ const MenuScreen = () => {
             onClick={() => setGameState('profile')}
             className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full border border-amber-200 hover:border-amber-300 transition-colors"
           >
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
-              <Shield size={12} className="text-white" />
-            </div>
+            <ProfileIcon
+              icon={user?.profileIcon || 'pikachu'}
+              size={24}
+              showBorder={false}
+            />
             <span className="text-pocket-text font-semibold text-sm">Profile</span>
           </motion.button>
 
-          {/* Currencies */}
+          {/* Currencies and Logout (right side) */}
           <div className="flex items-center gap-2">
             {/* Primos */}
             <motion.div
@@ -301,16 +322,8 @@ const MenuScreen = () => {
                 {(limitBreakShards || 0).toLocaleString()}
               </span>
             </motion.div>
-          </div>
 
-          {/* User info */}
-          <div className="flex items-center gap-2">
-            <div className="text-right">
-              <p className="text-pocket-text font-semibold text-sm">{user.username}</p>
-              <p className="text-pocket-text-light text-xs">
-                {user.rating || 1000}
-              </p>
-            </div>
+            {/* Logout */}
             <button
               onClick={logout}
               className="p-2 text-gray-400 hover:text-pocket-red hover:bg-red-50 rounded-lg transition-colors"
@@ -358,21 +371,6 @@ const MenuScreen = () => {
               />
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* Danger Zone */}
-        <motion.div variants={itemVariants}>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowResetConfirm(true);
-            }}
-            className="w-full flex items-center justify-center gap-1.5 py-3 text-gray-400 hover:text-pocket-red text-xs transition-colors"
-          >
-            <AlertTriangle size={12} />
-            <span>Reset All Data</span>
-          </button>
         </motion.div>
 
         {/* Version */}

@@ -44,15 +44,6 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3 }
-  }
-};
-
 const TournamentsScreen = () => {
   const { setGameState, tournaments, setTournaments, setSelectedTournament } = useGame();
   const { user } = useAuth();

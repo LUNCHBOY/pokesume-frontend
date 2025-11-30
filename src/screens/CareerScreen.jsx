@@ -17,7 +17,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Book, Trophy, Zap, Clock, Star, HelpCircle, Home, LogOut } from 'lucide-react';
+import { Sparkles, Book, Trophy, Clock, Star, HelpCircle, Home, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useCareer } from '../contexts/CareerContext';
@@ -1503,20 +1503,10 @@ const CareerScreen = () => {
                     <Trophy size={12} className="sm:w-3.5 sm:h-3.5" />
                     <span className="font-bold">{careerData.currentGymIndex}/4</span>
                   </button>
-                  <div className="flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 bg-red-100 rounded text-xs sm:text-sm">
-                    <Zap size={12} className="sm:w-3.5 sm:h-3.5" />
-                    <span className="font-bold">{careerData.energy}</span>
-                  </div>
                   <div className="flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 bg-pink-100 rounded text-xs sm:text-sm" title="Pokeclocks: Retry gym battles">
                     <Clock size={12} className="sm:w-3.5 sm:h-3.5" />
                     <span className="font-bold">{careerData.pokeclocks || 0}</span>
                   </div>
-                  <button
-                    onClick={() => setShowHelp(true)}
-                    className="flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-100 hover:bg-gray-200 rounded transition cursor-pointer text-xs sm:text-sm"
-                  >
-                    <span className="font-bold">?</span>
-                  </button>
                   <button
                     onClick={() => setGameState('menu')}
                     className="flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 bg-blue-100 hover:bg-blue-200 rounded transition cursor-pointer text-xs sm:text-sm"
@@ -2264,7 +2254,36 @@ const CareerScreen = () => {
                 className="bg-white rounded-2xl p-3 shadow-card"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                  <h3 className="font-bold text-pocket-text">Training</h3>
+                  <div className="flex items-center gap-3">
+                    <h3 className="font-bold text-pocket-text">Training</h3>
+                    {/* Uma Musume style energy bar */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-pocket-text-light">Energy</span>
+                      <div className="relative w-32 sm:w-40 h-4 rounded-full overflow-hidden bg-gray-200 border border-gray-300">
+                        {/* Rainbow gradient background (full bar) */}
+                        <div
+                          className="absolute inset-0 opacity-30"
+                          style={{
+                            background: 'linear-gradient(to right, #ff6b6b, #ffa500, #ffee58, #9ccc65, #4dd0e1, #7986cb, #ba68c8)'
+                          }}
+                        />
+                        {/* Active energy portion with rainbow gradient */}
+                        <div
+                          className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                          style={{
+                            width: `${Math.min(100, (careerData.energy / (GAME_CONFIG.CAREER?.MAX_ENERGY || 100)) * 100)}%`,
+                            background: 'linear-gradient(to right, #ff6b6b, #ffa500, #ffee58, #9ccc65, #4dd0e1, #7986cb, #ba68c8)'
+                          }}
+                        />
+                        {/* Energy text overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-[10px] font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
+                            {careerData.energy}/{GAME_CONFIG.CAREER?.MAX_ENERGY || 100}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="flex gap-1 sm:gap-2 flex-wrap">
                     <button
                       onClick={performRest}

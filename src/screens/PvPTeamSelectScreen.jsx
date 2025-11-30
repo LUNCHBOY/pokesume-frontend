@@ -83,7 +83,11 @@ const PvPTeamSelectScreen = () => {
 
   // Filter and sort trained Pokemon
   const filteredAndSortedPokemon = useMemo(() => {
-    const gradeOrder = { 'S': 0, 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6 };
+    const gradeOrder = {
+      'UU+': 0, 'UU': 1, 'S+': 2, 'S': 3, 'A+': 4, 'A': 5,
+      'B+': 6, 'B': 7, 'C+': 8, 'C': 9, 'D+': 10, 'D': 11,
+      'E+': 12, 'E': 13, 'F+': 14, 'F': 15
+    };
     let result = [...trainedPokemon];
 
     // Apply search filter
@@ -103,7 +107,7 @@ const PvPTeamSelectScreen = () => {
         case 'grade':
           const gradeA = a.grade || getPokemonGrade(a.stats);
           const gradeB = b.grade || getPokemonGrade(b.stats);
-          return (gradeOrder[gradeA] || 6) - (gradeOrder[gradeB] || 6);
+          return (gradeOrder[gradeA] ?? 15) - (gradeOrder[gradeB] ?? 15);
         case 'type':
           return (a.primaryType || a.type || '').localeCompare(b.primaryType || b.type || '');
         case 'name':

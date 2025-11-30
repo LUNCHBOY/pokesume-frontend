@@ -339,7 +339,7 @@ const BattleScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-pocket-bg p-2 sm:p-4">
+    <div className={`min-h-screen bg-pocket-bg p-2 sm:p-4 ${battleOver ? 'pb-24' : ''}`}>
       <div className="max-w-4xl mx-auto">
         {/* Battle Arena Card */}
         <motion.div
@@ -581,7 +581,7 @@ const BattleScreen = () => {
           <div
             ref={battleLogRef}
             className="p-4 space-y-1 overflow-y-auto pocket-scrollbar"
-            style={{ maxHeight: '300px' }}
+            style={{ maxHeight: battleOver ? '120px' : '300px' }}
           >
             {(battleState.displayLog || []).map((entry, idx) => (
               <motion.div
@@ -603,16 +603,19 @@ const BattleScreen = () => {
           </div>
         </motion.div>
 
-        {/* Continue Button */}
-        {battleOver && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4"
-          >
+      </div>
+
+      {/* Continue Button - Fixed at bottom on mobile when battle is over */}
+      {battleOver && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-pocket-bg via-pocket-bg to-transparent z-40"
+        >
+          <div className="max-w-4xl mx-auto">
             <button
               onClick={handleContinue}
-              className="w-full pocket-btn-primary py-4 text-lg"
+              className="w-full pocket-btn-primary py-4 text-lg shadow-lg"
             >
               {battleState.winner === 'player' ? 'Continue ▶' : (
                 (battleState.isGymLeader || battleState.isEliteFour) && (careerData?.pokeclocks || 0) > 0
@@ -620,9 +623,9 @@ const BattleScreen = () => {
                   : 'Continue'
               )}
             </button>
-          </motion.div>
-        )}
-      </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* Badge Modal for Gym Leader Victories */}
       <BadgeModal
