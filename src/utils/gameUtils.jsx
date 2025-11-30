@@ -370,7 +370,8 @@ export const PokemonSprite = ({ type, pokemonName, size = 120 }) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
       .then(res => res.json())
       .then(data => {
-        const url = data.sprites.front_default;
+        // Use animated showdown sprites if available, fallback to static front_default
+        const url = data.sprites?.other?.showdown?.front_default || data.sprites.front_default;
         spriteCache[pokemonName] = url;
         setSpriteUrl(url);
       })
