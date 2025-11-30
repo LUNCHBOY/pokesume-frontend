@@ -757,7 +757,7 @@ export const apiGetActiveCareer = async (authToken) => {
   }
 };
 
-export const apiStartCareer = async (pokemon, selectedSupports, initialFriendships, authToken) => {
+export const apiStartCareer = async (pokemon, selectedSupports, selectedInspirations, initialFriendships, authToken) => {
   if (!authToken) return null;
 
   try {
@@ -767,21 +767,9 @@ export const apiStartCareer = async (pokemon, selectedSupports, initialFriendshi
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
       },
-      body: JSON.stringify({ pokemon, selectedSupports, initialFriendships })
+      body: JSON.stringify({ pokemon, selectedSupports, selectedInspirations, initialFriendships })
+
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || 'Failed to start career');
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Start career error:', error);
-    return null;
-  }
-};
 
 export const apiUpdateCareer = async (careerState, authToken) => {
   if (!authToken) return null;
@@ -1344,3 +1332,4 @@ export const apiUpdateProfileIcon = async (icon, authToken) => {
     return null;
   }
 };
+
