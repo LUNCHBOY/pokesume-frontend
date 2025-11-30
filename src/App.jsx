@@ -123,7 +123,7 @@ const GameRouter = () => {
 
     // Tournament Screens
     case 'tournaments':
-      return <TournamentsScreen key={Date.now()} />;
+      return <TournamentsScreen />;
 
     case 'tournamentDetails':
       return <TournamentDetailsScreen />;
@@ -186,3 +186,4 @@ export default function App() {
     </AppProviders>
   );
 }
+
