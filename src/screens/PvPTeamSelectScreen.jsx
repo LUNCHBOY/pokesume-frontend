@@ -5,8 +5,8 @@
  * Player selects 3 trained Pokemon from their inventory.
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowLeft, Swords, Search, Filter, X, Info, Star } from 'lucide-react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { ArrowLeft, Swords, Search, Filter, X, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -35,6 +35,35 @@ const PvPTeamSelectScreen = () => {
 
   const [selectedPokemon, setSelectedPokemon] = useState([null, null, null]);
   const [detailPokemon, setDetailPokemon] = useState(null);
+
+  // Long-press state for detail modal
+  const longPressTimerRef = useRef(null);
+  const longPressPokemonRef = useRef(null);
+  const LONG_PRESS_DURATION = 500; // 500ms hold to trigger
+
+  const handleLongPressStart = useCallback((pokemon) => {
+    longPressPokemonRef.current = pokemon;
+    longPressTimerRef.current = setTimeout(() => {
+      setDetailPokemon(longPressPokemonRef.current);
+    }, LONG_PRESS_DURATION);
+  }, []);
+
+  const handleLongPressEnd = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    longPressPokemonRef.current = null;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+      }
+    };
+  }, []);
 
   // Sort and filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -358,14 +387,19 @@ const PvPTeamSelectScreen = () => {
                       whileHover={{ scale: isDisabled ? 1 : 1.02 }}
                       whileTap={{ scale: isDisabled ? 1 : 0.98 }}
                       onClick={() => !isDisabled && handleSelectPokemon(pokemon)}
-                      className={`relative p-3 rounded-xl border-2 cursor-pointer transition-all ${
+                      onMouseDown={() => !isDisabled && handleLongPressStart(pokemon)}
+                      onMouseUp={handleLongPressEnd}
+                      onMouseLeave={handleLongPressEnd}
+                      onTouchStart={() => !isDisabled && handleLongPressStart(pokemon)}
+                      onTouchEnd={handleLongPressEnd}
+                      className={`relative p-3 rounded-xl border-2 cursor-pointer transition-all select-none ${
                         selected
                           ? 'border-green-500 bg-green-50'
                           : isDisabled
                             ? 'border-gray-200 bg-gray-100 opacity-50 cursor-not-allowed'
                             : 'border-gray-200 hover:border-gray-400 bg-white'
                       }`}
-                      title={isDisabled ? `${pokemon.name} already selected` : selected ? 'Click to deselect' : `Select ${pokemon.name}`}
+                      title={isDisabled ? `${pokemon.name} already selected` : selected ? 'Click to deselect' : `Hold for details, click to select`}
                     >
                       {/* Selection Badge */}
                       {selected && (
@@ -381,18 +415,11 @@ const PvPTeamSelectScreen = () => {
                         </div>
                       )}
 
-                      {/* Info Button */}
+                      {/* Hold hint */}
                       {!selected && !isDisabled && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setDetailPokemon(pokemon);
-                          }}
-                          className="absolute top-1 left-1 w-5 h-5 bg-pocket-blue text-white rounded-full flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity"
-                          title="View details"
-                        >
-                          <Info size={12} />
-                        </button>
+                        <div className="absolute top-1 left-1 text-[8px] text-pocket-text-light opacity-60">
+                          Hold for info
+                        </div>
                       )}
 
                       {/* Pokemon Info */}
@@ -549,8 +576,8 @@ const PvPTeamSelectScreen = () => {
                         <h4 className="font-bold text-blue-700 text-sm mb-2">Learned Moves ({pokemon.abilities.length})</h4>
                         <div className="grid grid-cols-2 gap-1 text-xs max-h-32 overflow-y-auto">
                           {pokemon.abilities.map((moveName, idx) => {
-                            const move = ABILITIES[moveName];
-                            const moveType = move?.type || 'Normal';
+                            const move = ABILITIES && ABILITIES[moveName];
+                            const moveType = move?.type || pokemon.primaryType || pokemon.type || 'Normal';
                             return (
                               <div
                                 key={idx}

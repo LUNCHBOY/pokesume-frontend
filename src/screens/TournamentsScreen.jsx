@@ -46,7 +46,11 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0 }
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3 }
+  }
 };
 
 const TournamentsScreen = () => {
@@ -195,7 +199,9 @@ const TournamentsScreen = () => {
               return (
                 <motion.div
                   key={tournament.id}
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.08 * tournaments.indexOf(tournament) }}
                   whileHover={{ y: -2 }}
                   onClick={() => {
                     setSelectedTournament(tournament);

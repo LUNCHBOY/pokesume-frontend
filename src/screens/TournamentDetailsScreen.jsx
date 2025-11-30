@@ -9,17 +9,19 @@
  * - Registered players list
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowLeft, Trophy, Clock, Users, CheckCircle, Search, Filter, X } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { ArrowLeft, Trophy, Clock, Users, CheckCircle, Search, Filter, X, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useInventory } from '../contexts/InventoryContext';
 import {
   generatePokemonSprite,
-  getGradeColor
+  getGradeColor,
+  getPokemonGrade
 } from '../utils/gameUtils';
-import { TypeBadge } from '../components/TypeIcon';
+import { TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
+import { ABILITIES } from '../shared/gameData';
 import { apiEnterTournament, apiGetTournamentDetails } from '../services/apiService';
 
 const containerVariants = {
@@ -47,6 +49,36 @@ const TournamentDetailsScreen = () => {
 
   const [selectedTeam, setSelectedTeam] = useState([null, null, null]);
   const [countdown, setCountdown] = useState('');
+  const [detailPokemon, setDetailPokemon] = useState(null);
+
+  // Long-press state for detail modal
+  const longPressTimerRef = useRef(null);
+  const longPressPokemonRef = useRef(null);
+  const LONG_PRESS_DURATION = 500; // 500ms hold to trigger
+
+  const handleLongPressStart = useCallback((pokemon) => {
+    longPressPokemonRef.current = pokemon;
+    longPressTimerRef.current = setTimeout(() => {
+      setDetailPokemon(longPressPokemonRef.current);
+    }, LONG_PRESS_DURATION);
+  }, []);
+
+  const handleLongPressEnd = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+    longPressPokemonRef.current = null;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+      }
+    };
+  }, []);
 
   // Sort and filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -184,6 +216,11 @@ const TournamentDetailsScreen = () => {
       default:
         return '#A8A878';
     }
+  };
+
+  const getStatTotal = (stats) => {
+    if (!stats) return 0;
+    return Object.values(stats).reduce((sum, val) => sum + (val || 0), 0);
   };
 
   return (
@@ -444,7 +481,7 @@ const TournamentDetailsScreen = () => {
                         key={rosterId || idx}
                         whileHover={{ scale: isDisabled ? 1 : 1.05 }}
                         whileTap={{ scale: isDisabled ? 1 : 0.95 }}
-                        className={`bg-white rounded-xl p-2 cursor-pointer transition shadow-card relative ${
+                        className={`bg-white rounded-xl p-2 cursor-pointer transition shadow-card relative select-none ${
                           isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-card-hover'
                         }`}
                         onClick={() => {
@@ -460,11 +497,22 @@ const TournamentDetailsScreen = () => {
                             }
                           }
                         }}
-                        title={speciesAlreadySelected ? `${pokemonName} already selected` : alreadySelected ? 'Already in team' : `Select ${pokemonName}`}
+                        onMouseDown={() => !isDisabled && handleLongPressStart(pokemon)}
+                        onMouseUp={handleLongPressEnd}
+                        onMouseLeave={handleLongPressEnd}
+                        onTouchStart={() => !isDisabled && handleLongPressStart(pokemon)}
+                        onTouchEnd={handleLongPressEnd}
+                        title={speciesAlreadySelected ? `${pokemonName} already selected` : alreadySelected ? 'Already in team' : `Hold for details, click to select`}
                       >
                         {speciesAlreadySelected && !alreadySelected && (
                           <div className="absolute top-1 right-1 bg-amber-500 text-white text-[6px] px-1 rounded font-bold">
                             DUP
+                          </div>
+                        )}
+                        {/* Hold hint */}
+                        {!isDisabled && (
+                          <div className="absolute top-0.5 left-0.5 text-[6px] text-pocket-text-light opacity-50">
+                            Hold
                           </div>
                         )}
                         <div className="flex justify-center mb-1">
@@ -548,6 +596,222 @@ const TournamentDetailsScreen = () => {
           </motion.div>
         )}
       </motion.div>
+
+      {/* Pokemon Detail Modal */}
+      <AnimatePresence>
+        {detailPokemon && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            onClick={() => setDetailPokemon(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-card-lg p-5 max-w-md w-full max-h-[90vh] overflow-y-auto relative"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setDetailPokemon(null)}
+                className="absolute top-3 right-3 p-2 text-pocket-text-light hover:text-pocket-text rounded-lg"
+              >
+                <X size={20} />
+              </button>
+
+              {(() => {
+                const pokemon = detailPokemon;
+                const grade = pokemon.grade || getPokemonGrade(pokemon.stats);
+                const statTotal = getStatTotal(pokemon.stats);
+                const colorToType = {
+                  Red: 'Fire', Blue: 'Water', Green: 'Grass',
+                  Yellow: 'Electric', Purple: 'Psychic', Orange: 'Fighting'
+                };
+
+                return (
+                  <>
+                    {/* Pokemon sprite and name */}
+                    <div className="text-center mb-4">
+                      <div className="mb-2">
+                        {generatePokemonSprite(pokemon.primaryType || pokemon.type, pokemon.name)}
+                      </div>
+                      <h3 className="font-bold text-xl text-pocket-text">{pokemon.name}</h3>
+                      <div className="flex justify-center gap-2 mt-2">
+                        <TypeBadge type={pokemon.primaryType || pokemon.type} size={16} />
+                      </div>
+                      <div className="flex items-center justify-center gap-2 mt-2">
+                        <span
+                          className="px-3 py-1 rounded-full text-sm font-bold text-white"
+                          style={{ backgroundColor: getGradeColor(grade) }}
+                        >
+                          {grade}
+                        </span>
+                        <span className="text-sm text-pocket-text-light">
+                          Total: {statTotal}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Stats */}
+                    {pokemon.stats && (
+                      <div className="bg-pocket-bg rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-pocket-text text-sm mb-2">Stats</h4>
+                        <div className="space-y-1.5 text-xs">
+                          {Object.entries(pokemon.stats).map(([stat, value]) => (
+                            <div key={stat} className="flex items-center gap-2">
+                              <span className="text-pocket-text-light w-16">{stat}</span>
+                              <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                <div
+                                  className="h-2 rounded-full bg-pocket-blue"
+                                  style={{ width: `${Math.min(100, (value / 500) * 100)}%` }}
+                                />
+                              </div>
+                              <span className="font-bold text-pocket-text w-10 text-right">{value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Strategy */}
+                    {pokemon.strategy && (
+                      <div className="bg-purple-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-purple-700 text-sm mb-1">Strategy</h4>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-purple-600">{pokemon.strategy}</span>
+                          {pokemon.strategyGrade && (
+                            <span className="px-2 py-0.5 rounded bg-purple-200 text-purple-700 text-xs font-bold">
+                              {pokemon.strategyGrade}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Type Aptitudes */}
+                    {pokemon.typeAptitudes && Object.keys(pokemon.typeAptitudes).length > 0 && (
+                      <div className="bg-pocket-bg rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-pocket-text text-sm mb-2">Type Aptitudes</h4>
+                        <div className="grid grid-cols-2 gap-1 text-xs">
+                          {Object.entries(pokemon.typeAptitudes).map(([color, aptGrade]) => {
+                            const typeName = colorToType[color] || color;
+                            return (
+                              <div
+                                key={color}
+                                className="flex justify-between items-center px-2 py-1 rounded"
+                                style={{ backgroundColor: `${TYPE_COLORS[typeName] || '#888'}20` }}
+                              >
+                                <span style={{ color: TYPE_COLORS[typeName] || '#888' }}>{typeName}</span>
+                                <span className="font-bold text-pocket-text">{aptGrade}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Learned Moves */}
+                    {pokemon.abilities && pokemon.abilities.length > 0 && (
+                      <div className="bg-blue-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-blue-700 text-sm mb-2">Learned Moves ({pokemon.abilities.length})</h4>
+                        <div className="grid grid-cols-2 gap-1 text-xs max-h-32 overflow-y-auto">
+                          {pokemon.abilities.map((moveName, idx) => {
+                            const move = ABILITIES && ABILITIES[moveName];
+                            const moveType = move?.type || pokemon.primaryType || pokemon.type || 'Normal';
+                            return (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-1 px-2 py-1 rounded bg-white"
+                              >
+                                <TypeBadge type={moveType} size={10} />
+                                <span className="truncate text-pocket-text">{moveName}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Inspirations */}
+                    {pokemon.inspirations && pokemon.inspirations.stat && pokemon.inspirations.aptitude && (
+                      <div className="bg-amber-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-amber-700 text-sm mb-2">Inspirations</h4>
+                        <div className="space-y-1 text-xs">
+                          <div className="flex justify-between items-center">
+                            <span className="font-semibold text-pocket-text">{pokemon.inspirations.stat.name}</span>
+                            <div className="flex gap-0.5">
+                              {[...Array(pokemon.inspirations.stat.stars || 0)].map((_, i) => (
+                                <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="font-semibold text-pocket-text">
+                              {colorToType[pokemon.inspirations.aptitude.name] || pokemon.inspirations.aptitude.name}
+                            </span>
+                            <div className="flex gap-0.5">
+                              {[...Array(pokemon.inspirations.aptitude.stars || 0)].map((_, i) => (
+                                <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
+                          </div>
+                          {pokemon.inspirations.strategy && (
+                            <div className="flex justify-between items-center">
+                              <span className="font-semibold text-pocket-text">{pokemon.inspirations.strategy.name}</span>
+                              <div className="flex gap-0.5">
+                                {[...Array(pokemon.inspirations.strategy.stars || 0)].map((_, i) => (
+                                  <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Select Button */}
+                    <button
+                      onClick={() => {
+                        const alreadySelected = selectedTeam.some(t => t && t.roster_id === detailPokemon.id);
+                        const speciesAlreadySelected = selectedTeam.some(t => t && t.name === detailPokemon.name && t.roster_id !== detailPokemon.id);
+                        if (!alreadySelected && !speciesAlreadySelected) {
+                          const emptySlot = selectedTeam.findIndex(t => t === null);
+                          if (emptySlot !== -1) {
+                            handleTeamSelect(emptySlot, {
+                              roster_id: detailPokemon.id,
+                              name: detailPokemon.name,
+                              type: detailPokemon.primaryType || detailPokemon.type || 'Normal',
+                              grade: detailPokemon.grade || 'E'
+                            });
+                          }
+                        }
+                        setDetailPokemon(null);
+                      }}
+                      disabled={selectedTeam.some(t => t && (t.roster_id === detailPokemon.id || t.name === detailPokemon.name))}
+                      className={`w-full py-3 rounded-xl font-bold transition-all ${
+                        selectedTeam.some(t => t && t.roster_id === detailPokemon.id)
+                          ? 'bg-green-500 text-white'
+                          : selectedTeam.some(t => t && t.name === detailPokemon.name)
+                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            : 'bg-type-psychic text-white hover:bg-purple-700'
+                      }`}
+                    >
+                      {selectedTeam.some(t => t && t.roster_id === detailPokemon.id)
+                        ? 'Already Selected'
+                        : selectedTeam.some(t => t && t.name === detailPokemon.name)
+                          ? 'Species Already Selected'
+                          : 'Select for Team'}
+                    </button>
+                  </>
+                );
+              })()}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
