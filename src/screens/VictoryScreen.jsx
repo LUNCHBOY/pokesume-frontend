@@ -14,9 +14,10 @@ import {
   generatePokemonSprite,
   getGradeColor,
   getPokemonGrade,
+  getAptitudeColor,
   StatIcon
 } from '../utils/gameUtils';
-import { TypeBadge } from '../components/TypeIcon';
+import { TypeBadge, TypeIcon } from '../components/TypeIcon';
 
 /**
  * Generate inspirations based on final Pokemon stats, aptitudes, and strategy aptitudes
@@ -288,24 +289,28 @@ const VictoryScreen = () => {
             </div>
           </div>
 
-          {/* Aptitudes */}
+          {/* Type Aptitudes */}
           {Object.keys(aptitudes).length > 0 && (
-            <div className="bg-pocket-bg rounded-xl p-4">
-              <h3 className="font-bold text-pocket-text text-sm mb-3 text-center">Attack Aptitudes</h3>
-              <div className="grid grid-cols-3 gap-2 text-xs">
-                {Object.entries(aptitudes).map(([aptitude, aptGrade]) => (
-                  <div key={aptitude} className="text-center">
-                    <div className="text-pocket-text-light font-semibold mb-1">
-                      {typeMap[aptitude] || aptitude}
-                    </div>
-                    <span
-                      className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-                      style={{ backgroundColor: getGradeColor(aptGrade) }}
+            <div className="bg-blue-50 rounded-xl p-4">
+              <h3 className="font-bold text-blue-700 text-sm mb-3 text-center">Type Aptitudes</h3>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {Object.entries(aptitudes).map(([aptitude, aptGrade]) => {
+                  const typeName = typeMap[aptitude] || aptitude;
+                  return (
+                    <div
+                      key={aptitude}
+                      className="flex justify-between items-center px-2 py-1 rounded bg-white"
                     >
-                      {aptGrade}
-                    </span>
-                  </div>
-                ))}
+                      <TypeIcon type={typeName} size={16} />
+                      <span
+                        className="px-2 py-0.5 rounded text-white font-bold"
+                        style={{ backgroundColor: getAptitudeColor(aptGrade) }}
+                      >
+                        {aptGrade}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

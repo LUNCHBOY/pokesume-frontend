@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { ArrowLeft, Users, Check, X } from 'lucide-react';
+import { ArrowLeft, Users, Check, X, Diamond } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
@@ -45,10 +45,25 @@ const SupportSelectionScreen = () => {
     selectedInspirations
   } = useGame();
 
-  const { supportInventory, getSupportLimitBreak } = useInventory();
+  const {
+    supportInventory,
+    supportInventoryFull,
+    getSupportLimitBreak,
+    limitBreakSupportWithShards,
+    limitBreakShards,
+    MAX_LIMIT_BREAK,
+    SHARD_COST_PER_LIMIT_BREAK
+  } = useInventory();
   const { startCareer, careerLoading } = useCareer();
 
   const [detailSupport, setDetailSupport] = useState(null);
+  const [isLimitBreaking, setIsLimitBreaking] = useState(false);
+
+  // Get Support ID from full inventory
+  const getSupportId = (supportKey) => {
+    const support = supportInventoryFull.find(s => s.support_name === supportKey);
+    return support?.id;
+  };
 
   // Long-press state for detail modal
   const longPressTimerRef = useRef(null);
@@ -660,6 +675,65 @@ const SupportSelectionScreen = () => {
                   </div>
                 </div>
               )}
+
+              {/* Limit Break Section */}
+              {(() => {
+                const detailLimitBreak = getSupportLimitBreak(detailSupport);
+                const detailSupportId = getSupportId(detailSupport);
+                const detailCanLimitBreak = detailLimitBreak < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
+
+                return detailLimitBreak < MAX_LIMIT_BREAK ? (
+                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold text-pocket-text">Limit Break Cost:</span>
+                      <div className="flex items-center gap-1">
+                        <Diamond size={14} className="text-purple-500" />
+                        <span className="font-bold text-purple-600">{SHARD_COST_PER_LIMIT_BREAK}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-pocket-text-light">Your Shards:</span>
+                      <div className="flex items-center gap-1">
+                        <Diamond size={14} className="text-purple-500" />
+                        <span className={`font-bold ${limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}`}>
+                          {limitBreakShards}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-pocket-text-light text-center mb-2">
+                      Current: +{detailLimitBreak * 5}% → Next: +{(detailLimitBreak + 1) * 5}% Training Bonuses
+                    </p>
+                    <button
+                      onClick={async () => {
+                        if (!detailSupportId || !detailCanLimitBreak) return;
+                        setIsLimitBreaking(true);
+                        await limitBreakSupportWithShards(detailSupportId);
+                        setIsLimitBreaking(false);
+                      }}
+                      disabled={!detailCanLimitBreak || isLimitBreaking}
+                      className={`w-full py-2.5 rounded-xl font-bold transition-all ${
+                        detailCanLimitBreak && !isLimitBreaking
+                          ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+                          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      }`}
+                    >
+                      {isLimitBreaking ? 'Limit Breaking...' : 'Limit Break'}
+                    </button>
+                    {limitBreakShards < SHARD_COST_PER_LIMIT_BREAK && (
+                      <p className="text-xs text-pocket-red text-center mt-2">
+                        Not enough shards
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-3 mb-3 text-center">
+                    <p className="font-bold text-amber-600 text-sm">Maximum Limit Break Reached!</p>
+                    <p className="text-xs text-pocket-text-light mt-1">
+                      +20% Training Bonuses
+                    </p>
+                  </div>
+                );
+              })()}
 
               {/* Select/Deselect Button */}
               <button

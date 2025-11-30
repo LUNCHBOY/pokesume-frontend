@@ -38,10 +38,11 @@ const MySupportScreen = () => {
   const {
     setGameState,
     supportSortBy,
-    setSupportSortBy,
-    supportFilterRarity,
-    setSupportFilterRarity
+    setSupportSortBy
   } = useGame();
+
+  const [filterType, setFilterType] = useState('All');
+  const supportTypes = ['All', 'HP', 'Attack', 'Defense', 'Instinct', 'Speed'];
 
   const {
     supportInventory,
@@ -118,12 +119,12 @@ const MySupportScreen = () => {
     }
   };
 
-  // Filter inventory by rarity
-  const filteredSupportInventory = supportFilterRarity === 'all'
+  // Filter inventory by type
+  const filteredSupportInventory = filterType === 'All'
     ? supportInventory
     : supportInventory.filter(key => {
         const support = getSupportCardAttributes(key, SUPPORT_CARDS);
-        return support?.rarity === supportFilterRarity;
+        return support?.supportType === filterType;
       });
 
   const sortedSupportInventory = sortSupports(filteredSupportInventory);
@@ -220,29 +221,28 @@ const MySupportScreen = () => {
             ))}
           </div>
 
-          {/* Rarity Filters */}
+          {/* Type Filters */}
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-semibold text-pocket-text-light">Filter:</span>
-            <button
-              onClick={() => setSupportFilterRarity('all')}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                supportFilterRarity === 'all'
-                  ? 'bg-pocket-blue text-white'
-                  : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
-              }`}
-            >
-              All
-            </button>
-            {['Legendary', 'Rare', 'Uncommon', 'Common'].map(rarity => (
+            {supportTypes.map(type => (
               <button
-                key={rarity}
-                onClick={() => setSupportFilterRarity(rarity)}
+                key={type}
+                onClick={() => setFilterType(type)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                  supportFilterRarity === rarity ? 'text-white' : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
+                  filterType === type
+                    ? 'text-white'
+                    : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
                 }`}
-                style={supportFilterRarity === rarity ? { backgroundColor: getRarityColor(rarity) } : {}}
+                style={filterType === type ? {
+                  backgroundColor: type === 'All' ? '#6366f1' :
+                    type === 'HP' ? TYPE_COLORS['Grass'] :
+                    type === 'Attack' ? TYPE_COLORS['Fire'] :
+                    type === 'Defense' ? TYPE_COLORS['Water'] :
+                    type === 'Instinct' ? TYPE_COLORS['Psychic'] :
+                    TYPE_COLORS['Electric']
+                } : {}}
               >
-                {rarity}
+                {type}
               </button>
             ))}
           </div>
@@ -341,11 +341,11 @@ const MySupportScreen = () => {
               <Users size={32} className="text-pocket-text-light" />
             </div>
             <p className="text-pocket-text mb-2">
-              {supportFilterRarity === 'all'
+              {filterType === 'All'
                 ? "No supports yet!"
-                : `No ${supportFilterRarity} supports found!`}
+                : `No ${filterType} supports found!`}
             </p>
-            {supportFilterRarity === 'all' && (
+            {filterType === 'All' && (
               <p className="text-sm text-pocket-text-light mb-4">
                 Roll for some supports to get started.
               </p>
@@ -669,6 +669,65 @@ const MySupportScreen = () => {
                   </div>
                 </div>
               )}
+
+              {/* Limit Break Section */}
+              {(() => {
+                const detailLimitBreak = getSupportLimitBreak(detailSupport);
+                const detailSupportId = getSupportId(detailSupport);
+                const detailCanLimitBreak = detailLimitBreak < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
+
+                return detailLimitBreak < MAX_LIMIT_BREAK ? (
+                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold text-pocket-text">Limit Break Cost:</span>
+                      <div className="flex items-center gap-1">
+                        <Diamond size={14} className="text-purple-500" />
+                        <span className="font-bold text-purple-600">{SHARD_COST_PER_LIMIT_BREAK}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-pocket-text-light">Your Shards:</span>
+                      <div className="flex items-center gap-1">
+                        <Diamond size={14} className="text-purple-500" />
+                        <span className={`font-bold ${limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}`}>
+                          {limitBreakShards}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-pocket-text-light text-center mb-2">
+                      Current: +{detailLimitBreak * 5}% → Next: +{(detailLimitBreak + 1) * 5}% Training Bonuses
+                    </p>
+                    <button
+                      onClick={async () => {
+                        if (!detailSupportId || !detailCanLimitBreak) return;
+                        setIsLimitBreaking(true);
+                        await limitBreakSupportWithShards(detailSupportId);
+                        setIsLimitBreaking(false);
+                      }}
+                      disabled={!detailCanLimitBreak || isLimitBreaking}
+                      className={`w-full py-2.5 rounded-xl font-bold transition-all ${
+                        detailCanLimitBreak && !isLimitBreaking
+                          ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+                          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      }`}
+                    >
+                      {isLimitBreaking ? 'Limit Breaking...' : 'Limit Break'}
+                    </button>
+                    {limitBreakShards < SHARD_COST_PER_LIMIT_BREAK && (
+                      <p className="text-xs text-pocket-red text-center mt-2">
+                        Not enough shards
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-3 mb-3 text-center">
+                    <p className="font-bold text-amber-600 text-sm">Maximum Limit Break Reached!</p>
+                    <p className="text-xs text-pocket-text-light mt-1">
+                      +20% Training Bonuses
+                    </p>
+                  </div>
+                );
+              })()}
 
               {/* Close button */}
               <button

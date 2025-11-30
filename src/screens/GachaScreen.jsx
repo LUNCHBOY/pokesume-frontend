@@ -17,7 +17,7 @@ import {
   getBestStrategy,
   getAptitudeColor
 } from '../utils/gameUtils';
-import { TypeBadge } from '../components/TypeIcon';
+import { TypeBadge, TypeIcon } from '../components/TypeIcon';
 import { POKEMON, GACHA_RARITY } from '../shared/gameData';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
@@ -520,30 +520,30 @@ const GachaScreen = () => {
 
                     {/* Type Aptitudes */}
                     {pokemon.typeAptitudes && (
-                      <div className="bg-pocket-bg rounded-xl p-3 mb-3">
-                        <h4 className="font-bold text-pocket-text text-sm mb-2">Type Aptitudes</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {Object.entries(pokemon.typeAptitudes).map(([color, grade]) => (
-                            <div
-                              key={color}
-                              className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold"
-                              style={{
-                                backgroundColor: color === 'Red' ? '#fee2e2' :
-                                  color === 'Blue' ? '#dbeafe' :
-                                  color === 'Yellow' ? '#fef9c3' :
-                                  color === 'Green' ? '#dcfce7' :
-                                  color === 'Purple' ? '#f3e8ff' : '#f3f4f6',
-                                color: color === 'Red' ? '#dc2626' :
-                                  color === 'Blue' ? '#2563eb' :
-                                  color === 'Yellow' ? '#ca8a04' :
-                                  color === 'Green' ? '#16a34a' :
-                                  color === 'Purple' ? '#9333ea' : '#4b5563'
-                              }}
-                            >
-                              <span>{color}</span>
-                              <span className="opacity-70">{grade}</span>
-                            </div>
-                          ))}
+                      <div className="bg-blue-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-blue-700 text-sm mb-2">Type Aptitudes</h4>
+                        <div className="grid grid-cols-2 gap-1 text-xs">
+                          {Object.entries(pokemon.typeAptitudes).map(([color, grade]) => {
+                            const colorToType = {
+                              Red: 'Fire', Blue: 'Water', Green: 'Grass',
+                              Yellow: 'Electric', Purple: 'Psychic', Orange: 'Fighting'
+                            };
+                            const typeName = colorToType[color] || color;
+                            return (
+                              <div
+                                key={color}
+                                className="flex justify-between items-center px-2 py-1 rounded bg-white"
+                              >
+                                <TypeIcon type={typeName} size={16} />
+                                <span
+                                  className="px-2 py-0.5 rounded text-white font-bold"
+                                  style={{ backgroundColor: getAptitudeColor(grade) }}
+                                >
+                                  {grade}
+                                </span>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     )}

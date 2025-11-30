@@ -178,7 +178,7 @@ const TopPokemonCard = ({ pokemon }) => {
 };
 
 const ProfileScreen = () => {
-  const { token } = useAuth();
+  const { token, updateUser } = useAuth();
   const { setGameState } = useGame();
   const [profile, setProfile] = useState(null);
   const [badgeData, setBadgeData] = useState({ badges: [], allBadges: [] });
@@ -219,6 +219,8 @@ const ProfileScreen = () => {
         user: { ...(prev.user || {}), profileIcon: newIcon }
       };
     });
+    // Update AuthContext so MenuScreen and other components see the new icon
+    updateUser({ profileIcon: newIcon });
   };
 
   // Create badge lookup map
