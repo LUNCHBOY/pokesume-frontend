@@ -481,8 +481,7 @@ const CareerScreen = () => {
 
   const {
     careerData,
-    setCareerData: setCareerDataLocal,
-    updateCareer,
+    setCareerData,
     processBattle,
     trainStat,
     restOnServer,
@@ -494,18 +493,6 @@ const CareerScreen = () => {
     changeStrategy,
     abandonCareer
   } = useCareer();
-
-  // Wrapper function that updates both local state and backend
-  const setCareerData = (updaterFn) => {
-    setCareerDataLocal(prev => {
-      const newData = typeof updaterFn === 'function' ? updaterFn(prev) : updaterFn;
-      // Async update to backend (fire and forget for now)
-      if (newData) {
-        updateCareer(newData).catch(err => console.error('Failed to sync career to backend:', err));
-      }
-      return newData;
-    });
-  };
 
   const [viewMode, setViewMode] = useState('training');
   const [showHelp, setShowHelp] = useState(false);
