@@ -122,7 +122,11 @@ const TournamentBracketScreen = () => {
               <Trophy size={20} className="text-type-psychic" />
               <span className="font-bold text-pocket-text">{selectedTournament?.name}</span>
             </div>
-            <p className="text-xs text-pocket-text-light">Round {selectedTournament?.current_round}/{totalRounds}</p>
+            <p className="text-xs text-pocket-text-light">
+              {selectedTournament?.status === 'completed'
+                ? 'Final Results'
+                : `Round ${selectedTournament?.current_round}/${totalRounds}`}
+            </p>
           </div>
           <div className="w-10" />
         </div>
@@ -149,10 +153,39 @@ const TournamentBracketScreen = () => {
           </motion.div>
         ) : (
           <>
+            {/* Winner Banner for Completed Tournaments */}
+            {selectedTournament?.status === 'completed' && (() => {
+              // Find the finals match and winner
+              const finalsMatch = tournamentBracket.find(m => m.round === totalRounds && m.completed_at);
+              if (!finalsMatch || !finalsMatch.winner_username) return null;
+
+              return (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-r from-amber-100 to-yellow-100 border-2 border-amber-400 rounded-2xl p-6 mb-4 text-center"
+                >
+                  <Trophy size={48} className="mx-auto text-amber-500 mb-2" />
+                  <h2 className="text-2xl font-bold text-amber-700 mb-1">Tournament Champion</h2>
+                  <div className="flex items-center justify-center gap-2">
+                    <ProfileIcon
+                      icon={finalsMatch.winner_user_id === finalsMatch.player1_user_id
+                        ? finalsMatch.player1_profile_icon
+                        : finalsMatch.player2_profile_icon || 'pikachu'}
+                      size={32}
+                      showBorder={true}
+                    />
+                    <span className="text-xl font-bold text-amber-800">{finalsMatch.winner_username}</span>
+                  </div>
+                </motion.div>
+              );
+            })()}
+
             {/* Bracket Display */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: selectedTournament?.status === 'completed' ? 0.1 : 0 }}
               className="bg-white rounded-2xl shadow-card p-4 overflow-x-auto"
             >
               <div className="flex gap-4 min-w-max pb-4">

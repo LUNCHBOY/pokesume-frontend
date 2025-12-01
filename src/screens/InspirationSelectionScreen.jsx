@@ -5,7 +5,7 @@
  * Inspirations provide stat bonuses and aptitude upgrades at turns 11, 23, 35, 47, 59.
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { ArrowLeft, Sparkles, Star, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';

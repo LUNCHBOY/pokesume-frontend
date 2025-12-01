@@ -32,7 +32,6 @@ const SLOTS_PER_DECK = 5;
 const SupportSelectionScreen = () => {
   const {
     selectedPokemon,
-    selectedSupports,
     setSelectedSupports,
     setGameState,
     selectedInspirations

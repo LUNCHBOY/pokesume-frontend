@@ -1105,6 +1105,32 @@ export const apiLearnAbility = async (moveName, authToken) => {
   }
 };
 
+export const apiForgetAbility = async (moveName, authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/career/forget-ability`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ moveName })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to forget ability');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Forget ability error:', error);
+    return null;
+  }
+};
+
 // ============================================================================
 // PVP MATCHMAKING API
 // ============================================================================

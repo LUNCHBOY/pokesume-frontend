@@ -14,7 +14,6 @@ import { useInventory } from '../contexts/InventoryContext';
 import {
   generatePokemonSprite,
   getRarityColor,
-  getBestStrategy,
   getAptitudeColor
 } from '../utils/gameUtils';
 import { TypeBadge, TypeIcon } from '../components/TypeIcon';

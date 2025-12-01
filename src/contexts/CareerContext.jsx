@@ -21,7 +21,8 @@ import {
   apiGenerateTraining,
   apiTriggerEvent,
   apiResolveEvent,
-  apiLearnAbility
+  apiLearnAbility,
+  apiForgetAbility
 } from '../services/apiService';
 import { SUPPORT_CARDS, normalizeSupportName } from '../shared/gameData';
 
@@ -491,6 +492,28 @@ export const CareerProvider = ({ children }) => {
     }
   };
 
+  // Server-authoritative ability forgetting
+  const forgetAbility = async (moveName) => {
+    if (!authToken) return null;
+
+    setCareerLoading(true);
+    setCareerError(null);
+    try {
+      const result = await apiForgetAbility(moveName, authToken);
+      if (result && result.success) {
+        updateCareerFromServer(result.careerState);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Failed to forget ability:', error);
+      setCareerError(error.message);
+      return false;
+    } finally {
+      setCareerLoading(false);
+    }
+  };
+
   // Load career when user logs in
   useEffect(() => {
     if (authToken && user) {
@@ -527,6 +550,7 @@ export const CareerProvider = ({ children }) => {
     triggerEvent,
     resolveEvent,
     learnAbility,
+    forgetAbility,
 
     // Local state setter (for optimistic updates)
     setCareerData

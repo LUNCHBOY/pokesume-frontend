@@ -17,7 +17,7 @@ import {
   StatIcon
 } from '../utils/gameUtils';
 import { TypeBadge, TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
-import { ABILITIES } from '../shared/gameData';
+import { MOVES } from '../shared/gameData';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -558,7 +558,7 @@ const TrainedPokemonScreen = () => {
                         <h4 className="font-bold text-blue-700 text-sm mb-2">Learned Moves ({pokemon.abilities.length})</h4>
                         <div className="grid grid-cols-2 gap-1 text-xs max-h-32 overflow-y-auto">
                           {pokemon.abilities.map((moveName, idx) => {
-                            const move = ABILITIES && ABILITIES[moveName];
+                            const move = MOVES && MOVES[moveName];
                             const moveType = move?.type || pokemon.primaryType || pokemon.type || 'Normal';
                             return (
                               <div

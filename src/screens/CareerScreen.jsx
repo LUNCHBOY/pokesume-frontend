@@ -490,6 +490,7 @@ const CareerScreen = () => {
     triggerEvent,
     resolveEvent: resolveEventOnServer,
     learnAbility: learnAbilityOnServer,
+    forgetAbility: forgetAbilityOnServer,
     changeStrategy,
     abandonCareer
   } = useCareer();
@@ -2131,29 +2132,11 @@ const CareerScreen = () => {
                       {forgetMoveConfirm === moveName ? (
                         <div className="flex gap-1 mt-1">
                           <button
-                            onClick={(e) => {
+                            onClick={async (e) => {
                               e.preventDefault();
                               e.stopPropagation();
-
-                              setCareerData(prev => {
-                                // Remove from known abilities
-                                const newKnownAbilities = prev.knownAbilities.filter(m => m !== moveName);
-
-                                // Add to learnable abilities if not already there
-                                const newLearnableAbilities = [...prev.pokemon.learnableAbilities];
-                                if (!newLearnableAbilities.includes(moveName)) {
-                                  newLearnableAbilities.push(moveName);
-                                }
-
-                                return {
-                                  ...prev,
-                                  knownAbilities: newKnownAbilities,
-                                  pokemon: {
-                                    ...prev.pokemon,
-                                    learnableAbilities: newLearnableAbilities
-                                  }
-                                };
-                              });
+                              // Use server-authoritative forget ability
+                              await forgetAbilityOnServer(moveName);
                               setForgetMoveConfirm(null);
                             }}
                             className="flex-1 bg-red-600 text-white text-[10px] sm:text-xs py-0.5 sm:py-1 rounded hover:bg-red-700 cursor-pointer"

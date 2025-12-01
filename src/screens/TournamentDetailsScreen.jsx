@@ -21,9 +21,9 @@ import {
   getPokemonGrade,
   getAptitudeColor
 } from '../utils/gameUtils';
-import { TypeBadge, TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
-import { ABILITIES } from '../shared/gameData';
-import { apiEnterTournament, apiGetTournamentDetails } from '../services/apiService';
+import { TypeBadge, TypeIcon } from '../components/TypeIcon';
+import { MOVES } from '../shared/gameData';
+import { apiEnterTournament, apiGetTournamentDetails, apiGetTournamentBracket } from '../services/apiService';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,7 +43,8 @@ const TournamentDetailsScreen = () => {
     setGameState,
     selectedTournament,
     tournamentDetails,
-    setTournamentDetails
+    setTournamentDetails,
+    setTournamentBracket
   } = useGame();
   const { user, authToken } = useAuth();
   const { trainedPokemon } = useInventory();
@@ -167,6 +168,27 @@ const TournamentDetailsScreen = () => {
     return () => clearInterval(interval);
   }, [selectedTournament?.start_time]);
 
+  // Auto-refresh tournament details every 15 seconds to show status updates
+  useEffect(() => {
+    if (!selectedTournament?.id) return;
+
+    const refreshDetails = async () => {
+      try {
+        const details = await apiGetTournamentDetails(selectedTournament.id);
+        if (details) {
+          setTournamentDetails(details);
+        }
+      } catch (error) {
+        console.error('Failed to refresh tournament details:', error);
+      }
+    };
+
+    // Refresh every 15 seconds
+    const refreshInterval = setInterval(refreshDetails, 15000);
+
+    return () => clearInterval(refreshInterval);
+  }, [selectedTournament?.id, setTournamentDetails]);
+
   const userHasRosters = trainedPokemon.length >= 3;
   const canEnter = user && userHasRosters &&
                    (selectedTournament?.status === 'registration' || selectedTournament?.status === 'upcoming');
@@ -208,6 +230,19 @@ const TournamentDetailsScreen = () => {
       setTournamentDetails(details);
     } catch (error) {
       alert(`Failed to enter tournament: ${error.message}`);
+    }
+  };
+
+  // Navigate to bracket screen (fetches bracket data first)
+  const handleViewBracket = async () => {
+    if (!selectedTournament?.id) return;
+    try {
+      const bracketData = await apiGetTournamentBracket(selectedTournament.id);
+      setTournamentBracket(bracketData || []);
+      setGameState('tournamentBracket');
+    } catch (error) {
+      console.error('Failed to load bracket:', error);
+      alert('Failed to load tournament bracket');
     }
   };
 
@@ -303,10 +338,44 @@ const TournamentDetailsScreen = () => {
             <div className="bg-pocket-bg rounded-xl p-3">
               <span className="text-pocket-text-light text-xs">Rounds</span>
               <p className="font-bold text-pocket-text mt-1">
-                {selectedTournament?.total_rounds} rounds
+                {selectedTournament?.current_round
+                  ? `Round ${selectedTournament.current_round}/${selectedTournament?.total_rounds}`
+                  : `${selectedTournament?.total_rounds} rounds`}
               </p>
             </div>
           </div>
+
+          {/* Tournament Progress Message */}
+          {(selectedTournament?.status === 'registration' || selectedTournament?.status === 'upcoming') && (
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-3">
+              <p className="text-blue-700 text-xs font-medium text-center">
+                {(tournamentDetails?.tournament?.entries_count || 0) < 2
+                  ? '🎯 Waiting for at least 2 players to register. Tournament starts automatically when the timer reaches 0!'
+                  : '✅ Ready to start! Tournament will begin automatically when the timer reaches 0.'}
+              </p>
+            </div>
+          )}
+          {selectedTournament?.status === 'in_progress' && (
+            <div className="mt-4 bg-green-50 border border-green-200 rounded-xl p-3">
+              <p className="text-green-700 text-xs font-medium text-center">
+                ⚔️ Tournament in progress! Battles are simulated automatically. View the bracket to see results.
+              </p>
+            </div>
+          )}
+          {selectedTournament?.status === 'completed' && (
+            <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
+              <p className="text-amber-700 text-xs font-medium text-center">
+                🏆 Tournament completed! View the bracket to see the final results and watch battle replays.
+              </p>
+            </div>
+          )}
+          {selectedTournament?.status === 'cancelled' && (
+            <div className="mt-4 bg-red-50 border border-red-200 rounded-xl p-3">
+              <p className="text-red-700 text-xs font-medium text-center">
+                ❌ This tournament was cancelled due to insufficient players.
+              </p>
+            </div>
+          )}
         </motion.div>
 
         {/* User Entry Status */}
@@ -320,12 +389,12 @@ const TournamentDetailsScreen = () => {
               <h3 className="font-bold text-pocket-green">You're Registered!</h3>
             </div>
             <p className="text-pocket-green/80 text-sm mb-4">Your team has been submitted for this tournament.</p>
-            {selectedTournament?.status === 'in_progress' && (
+            {(selectedTournament?.status === 'in_progress' || selectedTournament?.status === 'completed') && (
               <button
-                onClick={() => setGameState('tournamentBracket')}
+                onClick={handleViewBracket}
                 className="w-full pocket-btn-primary py-3"
               >
-                View Bracket
+                {selectedTournament?.status === 'completed' ? 'View Results & Bracket' : 'View Bracket'}
               </button>
             )}
           </motion.div>
@@ -562,10 +631,20 @@ const TournamentDetailsScreen = () => {
               <>
                 <p className="text-center text-pocket-text font-bold mb-4">Tournament in progress</p>
                 <button
-                  onClick={() => setGameState('tournamentBracket')}
+                  onClick={handleViewBracket}
                   className="w-full pocket-btn-purple py-3"
                 >
                   View Bracket
+                </button>
+              </>
+            ) : selectedTournament?.status === 'completed' ? (
+              <>
+                <p className="text-center text-pocket-text font-bold mb-4">Tournament completed</p>
+                <button
+                  onClick={handleViewBracket}
+                  className="w-full pocket-btn-purple py-3"
+                >
+                  View Results & Bracket
                 </button>
               </>
             ) : (
@@ -724,7 +803,7 @@ const TournamentDetailsScreen = () => {
                         <h4 className="font-bold text-blue-700 text-sm mb-2">Learned Moves ({pokemon.abilities.length})</h4>
                         <div className="grid grid-cols-2 gap-1 text-xs max-h-32 overflow-y-auto">
                           {pokemon.abilities.map((moveName, idx) => {
-                            const move = ABILITIES && ABILITIES[moveName];
+                            const move = MOVES && MOVES[moveName];
                             const moveType = move?.type || pokemon.primaryType || pokemon.type || 'Normal';
                             return (
                               <div
