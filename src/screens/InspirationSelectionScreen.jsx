@@ -205,8 +205,8 @@ const InspirationSelectionScreen = () => {
               const isSelected = selectedInspirations.some(
                 insp => insp.name === trained.name && insp.completedAt === trained.completedAt
               );
-              const isSameSpecies = selectedPokemon && trained.name === selectedPokemon.name;
-              const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon.name, trained.name);
+              const isSameSpecies = selectedPokemon && trained.name === selectedPokemon;
+              const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon, trained.name);
               const isDisabled = isSameSpecies || isInEvolutionChain;
             
               const totalStars = trained.inspirations
@@ -327,6 +327,7 @@ const InspirationSelectionScreen = () => {
 };
 
 export default InspirationSelectionScreen;
+
 
 
 
