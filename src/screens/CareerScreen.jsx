@@ -482,6 +482,7 @@ const CareerScreen = () => {
   const {
     careerData,
     setCareerData,
+    updateCareer,
     processBattle,
     trainStat,
     restOnServer,
