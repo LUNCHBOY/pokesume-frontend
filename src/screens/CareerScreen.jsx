@@ -997,6 +997,10 @@ const CareerScreen = () => {
     // Skip if still processing an event resolution (prevents flicker during state transition)
     if (isProcessingEvent) return;
 
+    // Skip if a training/rest action is in progress (prevents race condition where
+    // triggerEvent/generateTraining overwrites training options while user's action is pending)
+    if (isProcessingAction) return;
+
     // Skip if we just declined an event and are waiting for training options
     if (declinedEventRef.current) return;
 
@@ -1032,7 +1036,7 @@ const CareerScreen = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [careerData?.turn, careerData?.currentTrainingOptions, careerData?.pendingEvent, careerData?.eventResult, evolutionModal, inspirationModal, battleState, isProcessingEvent]);
+  }, [careerData?.turn, careerData?.currentTrainingOptions, careerData?.pendingEvent, careerData?.eventResult, evolutionModal, inspirationModal, battleState, isProcessingEvent, isProcessingAction]);
 
   // Null check AFTER all hooks
   if (!careerData) {
@@ -2449,8 +2453,9 @@ const CareerScreen = () => {
                   </div>
                 </div>
                 <div className="grid grid-cols-5 gap-1 sm:gap-2">
-                  {Object.keys(careerData.currentTrainingOptions).map(stat => {
+                  {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map(stat => {
                     const option = careerData.currentTrainingOptions[stat];
+                    if (!option) return null; // Skip if option doesn't exist for this stat
                     const energyCost = GAME_CONFIG.TRAINING.ENERGY_COSTS[stat];
 
                     // Calculate fail chance based on CURRENT energy and stat type
