@@ -46,28 +46,53 @@ import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 // HELPER FUNCTIONS
 // ============================================================================
 
+// Elite Four base multipliers - ENEMY_STAT_MULTIPLIER (0.8) is applied separately
+// Cascades from quadratic curve endpoint, capping at 3.75x effective for Lance
+const ELITE_FOUR_BASE_MULTIPLIERS = {
+  0: 4.06,  // Lorelei (turn 60) - 3.25x effective
+  1: 4.25,  // Bruno (turn 61) - 3.40x effective
+  2: 4.44,  // Agatha (turn 62) - 3.55x effective
+  3: 4.69   // Lance (turn 63) - 3.75x effective (Champion cap)
+};
+
 /**
- * Calculate difficulty multiplier for gym leaders based on turn
+ * Calculate difficulty multiplier based on turn
  * Matches backend: 1.0x until turn 12, then quadratic curve to 3.25x effective at turn 60
- * Elite Four then scales from 3.25x to 3.75x (Lance cap)
+ * Elite Four uses fixed multipliers from 3.25x to 3.75x (Lance cap)
  * ENEMY_STAT_MULTIPLIER (0.8) is applied
  */
-const calculateGymLeaderMultiplier = (turn) => {
+const calculateDifficultyMultiplier = (turn) => {
   const enemyStatMult = GAME_CONFIG.CAREER.ENEMY_STAT_MULTIPLIER || 1.0;
+  const eliteFourStartTurn = GAME_CONFIG.CAREER.ELITE_FOUR_START_TURN || 60;
 
+  // Elite Four uses fixed multipliers
+  if (turn >= eliteFourStartTurn) {
+    const eliteFourIndex = turn - eliteFourStartTurn;
+    if (eliteFourIndex >= 0 && eliteFourIndex < 4) {
+      const baseMult = ELITE_FOUR_BASE_MULTIPLIERS[eliteFourIndex] || 4.25;
+      return baseMult * enemyStatMult;
+    }
+  }
+
+  // No scaling before turn 12
   if (turn < 12) {
     return 1.0 * enemyStatMult;
   }
+
+  // Quadratic scaling from turn 12 to 59
   const progress = (turn - 12) / 48;
   const baseMultiplier = 1.0 + (1.56 * progress * progress) + (1.5 * progress);
   return baseMultiplier * enemyStatMult;
 };
 
+// Alias for backwards compatibility
+const calculateGymLeaderMultiplier = calculateDifficultyMultiplier;
+
 /**
  * Scale stats based on turn for display purposes
  */
 const getScaledStats = (baseStats, turn) => {
-  const multiplier = calculateGymLeaderMultiplier(turn);
+  const multiplier = calculateDifficultyMultiplier(turn);
   return {
     HP: Math.floor(baseStats.HP * multiplier),
     Attack: Math.floor(baseStats.Attack * multiplier),
