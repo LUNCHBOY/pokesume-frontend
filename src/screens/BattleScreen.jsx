@@ -14,7 +14,8 @@ import { useInventory } from '../contexts/InventoryContext';
 import {
   generatePokemonSprite,
   getGradeColor,
-  getPokemonGrade
+  getPokemonGrade,
+  getEvolutionFormForGrade
 } from '../utils/gameUtils';
 import { TypeBadge } from '../components/TypeIcon';
 import { ICONS } from '../shared/gameData';
@@ -186,10 +187,12 @@ const BattleScreen = () => {
   }
 
   const getBattleDisplayName = (combatant) => {
+    // Get the appropriate evolution form name based on grade
+    const displayName = getEvolutionFormForGrade(combatant.name, combatant.stats);
     if (combatant.isGymLeader) {
-      return `${combatant.name} (Gym Leader)`;
+      return `${displayName} (Gym Leader)`;
     }
-    return combatant.name;
+    return displayName;
   };
 
   const handleContinue = async () => {
@@ -497,7 +500,10 @@ const BattleScreen = () => {
                     animate={battleState.opponent.currentHP <= 0 ? { opacity: 0.3, scale: 0.9 } : {}}
                     className="inline-block"
                   >
-                    {generatePokemonSprite(battleState.opponent.primaryType, battleState.opponent.name)}
+                    {generatePokemonSprite(
+                      battleState.opponent.primaryType,
+                      getEvolutionFormForGrade(battleState.opponent.name, battleState.opponent.stats)
+                    )}
                   </motion.div>
                 </div>
 

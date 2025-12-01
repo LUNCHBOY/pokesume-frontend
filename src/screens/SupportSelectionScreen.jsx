@@ -21,7 +21,7 @@ import {
   StatIcon
 } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
-import { SUPPORT_CARDS, POKEMON } from '../shared/gameData';
+import { SUPPORT_CARDS, POKEMON, MOVES } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 import { apiGetSupportDecks, apiSaveSupportDeck } from '../services/apiService';
@@ -834,14 +834,23 @@ const SupportSelectionScreen = () => {
 
               {/* Move Hints */}
               {detailSupportData.moveHints && detailSupportData.moveHints.length > 0 && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
-                  <p className="font-bold text-blue-700 text-xs mb-2">Move Hints</p>
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-3">
+                  <p className="font-bold text-gray-700 text-xs mb-2">Move Hints</p>
                   <div className="flex flex-wrap gap-1">
-                    {detailSupportData.moveHints.map((move, moveIdx) => (
-                      <span key={moveIdx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-xs font-semibold">
-                        {move}
-                      </span>
-                    ))}
+                    {detailSupportData.moveHints.map((move, moveIdx) => {
+                      const moveData = MOVES[move];
+                      const moveType = moveData?.type || 'Normal';
+                      const typeColor = TYPE_COLORS[moveType] || '#A8A878';
+                      return (
+                        <span
+                          key={moveIdx}
+                          className="px-1.5 py-0.5 rounded text-xs font-semibold text-white"
+                          style={{ backgroundColor: typeColor }}
+                        >
+                          {move}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               )}

@@ -274,6 +274,7 @@ export const InventoryProvider = ({ children }) => {
           stats: stats,
           abilities: pokemonData.abilities,
           typeAptitudes: pokemonData.typeAptitudes,
+          strategyAptitudes: pokemonData.strategyAptitudes,
           strategy: pokemonData.strategy,
           strategyGrade: pokemonData.strategyGrade,
           inspirations: pokemonData.inspirations,

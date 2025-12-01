@@ -13,7 +13,7 @@ import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import { getRarityColor } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
-import { SUPPORT_CARDS, SUPPORT_GACHA_RARITY } from '../shared/gameData';
+import { SUPPORT_CARDS, SUPPORT_GACHA_RARITY, MOVES } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
@@ -400,14 +400,23 @@ const SupportGachaScreen = () => {
 
                   {/* Move Hints Display */}
                   {SUPPORT_CARDS[rollResult.support].moveHints && SUPPORT_CARDS[rollResult.support].moveHints.length > 0 && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 text-xs">
-                      <p className="font-bold text-blue-700 mb-1">Move Hints:</p>
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs">
+                      <p className="font-bold text-gray-700 mb-1">Move Hints:</p>
                       <div className="flex flex-wrap gap-1">
-                        {SUPPORT_CARDS[rollResult.support].moveHints.map((move, idx) => (
-                          <span key={idx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-semibold">
-                            {move}
-                          </span>
-                        ))}
+                        {SUPPORT_CARDS[rollResult.support].moveHints.map((move, idx) => {
+                          const moveData = MOVES[move];
+                          const moveType = moveData?.type || 'Normal';
+                          const typeColor = TYPE_COLORS[moveType] || '#A8A878';
+                          return (
+                            <span
+                              key={idx}
+                              className="px-1.5 py-0.5 rounded font-semibold text-white"
+                              style={{ backgroundColor: typeColor }}
+                            >
+                              {move}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -685,14 +694,23 @@ const SupportGachaScreen = () => {
 
                     {/* Move Hints */}
                     {support.moveHints && support.moveHints.length > 0 && (
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <p className="font-bold text-blue-700 text-xs mb-2">Move Hints</p>
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                        <p className="font-bold text-gray-700 text-xs mb-2">Move Hints</p>
                         <div className="flex flex-wrap gap-1">
-                          {support.moveHints.map((move, idx) => (
-                            <span key={idx} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[10px] font-semibold">
-                              {move}
-                            </span>
-                          ))}
+                          {support.moveHints.map((move, idx) => {
+                            const moveData = MOVES[move];
+                            const moveType = moveData?.type || 'Normal';
+                            const typeColor = TYPE_COLORS[moveType] || '#A8A878';
+                            return (
+                              <span
+                                key={idx}
+                                className="px-1.5 py-0.5 rounded text-[10px] font-semibold text-white"
+                                style={{ backgroundColor: typeColor }}
+                              >
+                                {move}
+                              </span>
+                            );
+                          })}
                         </div>
                       </div>
                     )}

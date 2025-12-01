@@ -104,6 +104,88 @@ export const getPokemonGrade = (stats) => {
 };
 
 /**
+ * Returns the appropriate evolution form of a Pokemon based on its grade
+ * Grade C = eligible for stage 1 evolution
+ * Grade A = eligible for stage 2 evolution
+ * @param pokemonName - The Pokemon name (can be any form in the evolution chain)
+ * @param stats - Pokemon stat object to calculate grade, OR a grade string directly
+ * @returns The appropriate evolution form name for display
+ */
+export const getEvolutionFormForGrade = (pokemonName, stats) => {
+  if (!pokemonName) return pokemonName;
+
+  // Calculate grade from stats, or use directly if it's already a grade string
+  let grade;
+  if (typeof stats === 'string') {
+    grade = stats;
+  } else if (stats && typeof stats === 'object') {
+    grade = getPokemonGrade(stats);
+  } else {
+    return pokemonName; // No stats provided, return original name
+  }
+
+  // Find the evolution chain this Pokemon belongs to
+  let baseForm = null;
+  let chainData = null;
+
+  // Check if pokemonName is a base form
+  if (EVOLUTION_CHAINS[pokemonName]) {
+    baseForm = pokemonName;
+    chainData = EVOLUTION_CHAINS[pokemonName];
+  } else {
+    // Search for this Pokemon in evolution chains (as stage1 or stage2)
+    for (const [base, data] of Object.entries(EVOLUTION_CHAINS)) {
+      if (data.stage1 === pokemonName || data.stage2 === pokemonName) {
+        baseForm = base;
+        chainData = data;
+        break;
+      }
+    }
+  }
+
+  // If Pokemon doesn't evolve or isn't in evolution chains, return original name
+  if (!chainData) {
+    return pokemonName;
+  }
+
+  // Grade thresholds for evolution (matching EVOLUTION_CONFIG in gameData.js)
+  // Stage 1 requires grade C or higher
+  // Stage 2 requires grade A or higher
+  const baseGrade = grade.replace('+', ''); // Normalize grade (remove + suffix)
+  const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S', 'UU'];
+  const gradeIndex = gradeOrder.indexOf(baseGrade);
+  const cIndex = gradeOrder.indexOf('C');  // Index 3
+  const aIndex = gradeOrder.indexOf('A');  // Index 5
+
+  // Determine which evolution form is appropriate
+  if (chainData.stages === 2) {
+    // 2-stage evolution (base -> stage1 -> stage2)
+    if (gradeIndex >= aIndex) {
+      // Grade A or higher: fully evolved (stage2)
+      return chainData.stage2;
+    } else if (gradeIndex >= cIndex) {
+      // Grade C to B: middle evolution (stage1)
+      return chainData.stage1;
+    } else {
+      // Below grade C: base form
+      return baseForm;
+    }
+  } else if (chainData.stages === 1) {
+    // 1-stage evolution (base -> stage1)
+    if (gradeIndex >= cIndex) {
+      // Grade C or higher: evolved form
+      return chainData.stage1;
+    } else {
+      // Below grade C: base form
+      return baseForm;
+    }
+  }
+
+  // Fallback
+  return pokemonName;
+};
+
+/**
  * Returns the rarity of a Pokemon based on GACHA_RARITY
  */
 export const getPokemonRarity = (pokemonName) => {
