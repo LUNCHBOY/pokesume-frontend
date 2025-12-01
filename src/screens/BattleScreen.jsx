@@ -342,25 +342,13 @@ const BattleScreen = () => {
         setGameState('victory');
         return;
       } else {
-        // completeCareer failed - fall back to using local career data or battleState
-        const fallbackPokemon = careerData?.pokemon || {
-          name: battleState.player?.name || 'Champion',
-          primaryType: battleState.player?.type || 'Normal',
-          typeAptitudes: {},
-          strategyAptitudes: {}
-        };
-        const fallbackStats = careerData?.currentStats || battleState.player?.stats || {};
-
-        setCompletedCareerData({
-          pokemon: fallbackPokemon,
-          currentStats: fallbackStats,
-          turn: careerData?.turn || 63,
-          inspirations: inspirations,
-          victory: true,
-          primosReward: 0
-        });
+        // completeCareer failed - this is a serious issue, career is still active!
+        console.error('[BattleScreen] completeCareer FAILED! Career may still be active.');
+        // Don't show victory screen - go back to career and let the user try again
+        // or show an error message
+        alert('Failed to complete career. Please try again.');
         setBattleState(null);
-        setGameState('victory');
+        setGameState('career');
         return;
       }
     }
