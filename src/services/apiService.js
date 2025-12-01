@@ -1292,6 +1292,22 @@ export const apiGetProfile = async (authToken) => {
   }
 };
 
+export const apiGetPublicProfile = async (userId) => {
+  try {
+    const response = await fetch(`${API_URL}/profile/user/${userId}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to fetch profile');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get public profile error:', error);
+    return null;
+  }
+};
+
 export const apiGetAllBadges = async () => {
   try {
     const response = await fetch(`${API_URL}/profile/badges/all`);

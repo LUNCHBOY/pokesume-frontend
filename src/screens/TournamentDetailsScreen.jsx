@@ -24,6 +24,8 @@ import {
 import { TypeBadge, TypeIcon } from '../components/TypeIcon';
 import { MOVES } from '../shared/gameData';
 import { apiEnterTournament, apiGetTournamentDetails, apiGetTournamentBracket } from '../services/apiService';
+import ProfileIcon from '../components/ProfileIcon';
+import UserProfileModal from '../components/UserProfileModal';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -52,6 +54,8 @@ const TournamentDetailsScreen = () => {
   const [selectedTeam, setSelectedTeam] = useState([null, null, null]);
   const [countdown, setCountdown] = useState('');
   const [detailPokemon, setDetailPokemon] = useState(null);
+  // Profile modal state
+  const [profileModal, setProfileModal] = useState({ isOpen: false, userId: null, username: null, profileIcon: null });
 
   // Long-press state for detail modal
   const longPressTimerRef = useRef(null);
@@ -365,10 +369,30 @@ const TournamentDetailsScreen = () => {
           {selectedTournament?.status === 'completed' && (
             <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
               {(tournamentDetails?.tournament?.winner_username || selectedTournament?.winner_username) && (
-                <div className="flex items-center justify-center gap-2 mb-2">
+                <div
+                  className="flex items-center justify-center gap-3 mb-2 cursor-pointer hover:bg-amber-100 -mx-2 px-2 py-2 rounded-lg transition-colors"
+                  onClick={() => {
+                    const winnerId = tournamentDetails?.tournament?.winner_user_id || selectedTournament?.winner_user_id;
+                    const winnerUsername = tournamentDetails?.tournament?.winner_username || selectedTournament?.winner_username;
+                    const winnerIcon = tournamentDetails?.tournament?.winner_profile_icon || selectedTournament?.winner_profile_icon;
+                    if (winnerId) {
+                      setProfileModal({
+                        isOpen: true,
+                        userId: winnerId,
+                        username: winnerUsername,
+                        profileIcon: winnerIcon
+                      });
+                    }
+                  }}
+                >
                   <Trophy size={20} className="text-amber-500" />
+                  <ProfileIcon
+                    icon={tournamentDetails?.tournament?.winner_profile_icon || selectedTournament?.winner_profile_icon || 'pikachu'}
+                    size={32}
+                    showBorder={true}
+                  />
                   <span className="font-bold text-amber-700">
-                    Winner: {tournamentDetails?.tournament?.winner_username || selectedTournament?.winner_username}
+                    {tournamentDetails?.tournament?.winner_username || selectedTournament?.winner_username}
                   </span>
                   <Trophy size={20} className="text-amber-500" />
                 </div>
@@ -905,6 +929,15 @@ const TournamentDetailsScreen = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* User Profile Modal */}
+      <UserProfileModal
+        userId={profileModal.userId}
+        username={profileModal.username}
+        profileIcon={profileModal.profileIcon}
+        isOpen={profileModal.isOpen}
+        onClose={() => setProfileModal({ isOpen: false, userId: null, username: null, profileIcon: null })}
+      />
     </div>
   );
 };

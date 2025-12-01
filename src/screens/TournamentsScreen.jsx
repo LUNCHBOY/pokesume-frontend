@@ -15,6 +15,8 @@ import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { apiGetTournaments } from '../services/apiService';
+import ProfileIcon from '../components/ProfileIcon';
+import UserProfileModal from '../components/UserProfileModal';
 
 // Gym badge data for display - includes image path
 const GYM_BADGES = {
@@ -49,6 +51,8 @@ const TournamentsScreen = () => {
   const { user } = useAuth();
   // Use local loading state to fix the double-open bug
   const [isLoading, setIsLoading] = useState(true);
+  // Profile modal state
+  const [profileModal, setProfileModal] = useState({ isOpen: false, userId: null, username: null, profileIcon: null });
 
   // Fetch tournaments on mount - always fetch fresh data
   useEffect(() => {
@@ -278,11 +282,29 @@ const TournamentsScreen = () => {
                       </span>
                     </div>
                     {tournament.status === 'completed' && tournament.winner_username && (
-                      <div className="flex items-center justify-between">
+                      <div
+                        className="flex items-center justify-between cursor-pointer hover:bg-amber-50 -mx-2 px-2 py-1 rounded-lg transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setProfileModal({
+                            isOpen: true,
+                            userId: tournament.winner_user_id,
+                            username: tournament.winner_username,
+                            profileIcon: tournament.winner_profile_icon
+                          });
+                        }}
+                      >
                         <span className="text-pocket-text-light flex items-center gap-1">
                           <Trophy size={14} className="text-amber-500" /> Winner
                         </span>
-                        <span className="font-bold text-amber-600">{tournament.winner_username}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-amber-600">{tournament.winner_username}</span>
+                          <ProfileIcon
+                            icon={tournament.winner_profile_icon || 'pikachu'}
+                            size={24}
+                            showBorder={true}
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -303,6 +325,15 @@ const TournamentsScreen = () => {
           </motion.div>
         )}
       </div>
+
+      {/* User Profile Modal */}
+      <UserProfileModal
+        userId={profileModal.userId}
+        username={profileModal.username}
+        profileIcon={profileModal.profileIcon}
+        isOpen={profileModal.isOpen}
+        onClose={() => setProfileModal({ isOpen: false, userId: null, username: null, profileIcon: null })}
+      />
     </div>
   );
 };
