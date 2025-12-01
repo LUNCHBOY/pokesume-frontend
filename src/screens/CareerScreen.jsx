@@ -1872,13 +1872,24 @@ const CareerScreen = () => {
                           const allNonStarterPokemons = Object.values(POKEMON).filter(c => !c.isStarter);
                           const eventPokemon = allNonStarterPokemons[Math.floor(Math.random() * allNonStarterPokemons.length)];
 
-                          // Apply same scaling as wild pokemon battles
-                          const startMultiplier = 1.0 * 1.04;
-                          const growthPerTurn = 0.03125 * 1.04 * 1.3 * 1.25;
-                          const turnScaling = startMultiplier + (careerData.turn * growthPerTurn);
-
-                          // Combine turn scaling with event difficulty
-                          const mult = careerData.pendingEvent.difficulty * turnScaling;
+                          // Use same quadratic scaling as backend wild pokemon battles
+                          // calculateDifficultyMultiplier formula from career.js
+                          const enemyStatMult = GAME_CONFIG.CAREER.ENEMY_STAT_MULTIPLIER || 0.8;
+                          const turn = careerData.turn;
+                          let baseMult;
+                          if (turn < 12) {
+                            baseMult = 1.0 * enemyStatMult;
+                          } else {
+                            const progress = (turn - 12) / 48;
+                            baseMult = (1.0 + (1.56 * progress * progress) + (1.5 * progress)) * enemyStatMult;
+                          }
+                          // Wild pokemon are 25% stronger than gym leaders (wildMult = baseMult * 1.25)
+                          // Event difficulty (1.0-1.25x) represents scaling vs wild baseline
+                          // So event mult = baseMult * 1.25 * difficulty
+                          // But difficulty 1.0 should equal wild (1.25x), difficulty 1.25 should be ~1.56x
+                          // For events to be 1.0-1.25x OF wild: mult = wildMult * difficulty
+                          const wildMult = baseMult * 1.25;
+                          const mult = wildMult * careerData.pendingEvent.difficulty;
 
                           const eventOpponent = {
                             name: eventPokemon.name,
@@ -2414,14 +2425,14 @@ const CareerScreen = () => {
                         <div
                           className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
                           style={{
-                            width: `${Math.min(100, (careerData.energy / (GAME_CONFIG.CAREER?.MAX_ENERGY || 100)) * 100)}%`,
+                            width: `${Math.min(100, (careerData.energy / (careerData.maxEnergy || GAME_CONFIG.CAREER?.MAX_ENERGY || 100)) * 100)}%`,
                             backgroundColor: careerData.energy > 50 ? '#22c55e' : careerData.energy >= 25 ? '#eab308' : '#ef4444'
                           }}
                         />
                         {/* Energy text overlay */}
                         <div className="absolute inset-0 flex items-center justify-center">
                           <span className="text-[10px] font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
-                            {careerData.energy}/{GAME_CONFIG.CAREER?.MAX_ENERGY || 100}
+                            {careerData.energy}/{careerData.maxEnergy || GAME_CONFIG.CAREER?.MAX_ENERGY || 100}
                           </span>
                         </div>
                       </div>

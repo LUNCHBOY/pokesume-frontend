@@ -344,8 +344,9 @@ const TournamentReplayScreen = () => {
   }
 
   // Battle replay screen (using BattleScreen style)
-  const pokemon1 = currentBattle?.pokemon1;
-  const pokemon2 = currentBattle?.pokemon2;
+  // Handle both new format (pokemon1 object) and old format (pokemon1Name string)
+  const pokemon1 = currentBattle?.pokemon1 || (currentBattle?.pokemon1Name ? { name: currentBattle.pokemon1Name } : null);
+  const pokemon2 = currentBattle?.pokemon2 || (currentBattle?.pokemon2Name ? { name: currentBattle.pokemon2Name } : null);
 
   // Get HP from current state
   const player1Hp = state?.player1;
