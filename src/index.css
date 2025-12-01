@@ -249,17 +249,17 @@ body {
     @apply text-sm font-bold leading-none;
   }
 
-  /* Pokemon card (clean white card with subtle shadow) */
-  .pokemon-card {
-    @apply bg-white rounded-2xl p-4 flex flex-col items-center;
-    @apply transition-all duration-200 cursor-pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
+/* Pokemon card (clean white card with subtle shadow) */
+.pokemon-card {
+  @apply bg-white rounded-2xl p-4 flex flex-col items-center;
+  @apply transition-all duration-200 cursor-pointer relative; /* ← Added relative here */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
 
-  .pokemon-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
-  }
+.pokemon-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  /*translateY(-2px); - let React handle the hover animation */
+}
 
   /* Filter pill button */
   .filter-pill {
@@ -324,3 +324,4 @@ body {
     @apply bg-blue-50 text-blue-700 border-blue-300;
   }
 }
+
