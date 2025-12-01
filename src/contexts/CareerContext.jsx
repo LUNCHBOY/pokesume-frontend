@@ -21,6 +21,7 @@ import {
   apiGenerateTraining,
   apiTriggerEvent,
   apiResolveEvent,
+  apiClearEventResult,
   apiLearnAbility,
   apiForgetAbility
 } from '../services/apiService';
@@ -470,6 +471,23 @@ export const CareerProvider = ({ children }) => {
     }
   };
 
+  // Server-authoritative clear event result (when Continue is clicked)
+  const clearEventResult = async () => {
+    if (!authToken) return false;
+
+    try {
+      const result = await apiClearEventResult(authToken);
+      if (result && result.success) {
+        updateCareerFromServer(result.careerState);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Failed to clear event result:', error);
+      return false;
+    }
+  };
+
   // Server-authoritative ability learning
   const learnAbility = async (moveName) => {
     if (!authToken) return null;
@@ -549,6 +567,7 @@ export const CareerProvider = ({ children }) => {
     generateTraining,
     triggerEvent,
     resolveEvent,
+    clearEventResult,
     learnAbility,
     forgetAbility,
 

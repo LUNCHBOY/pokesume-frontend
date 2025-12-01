@@ -1079,6 +1079,31 @@ export const apiResolveEvent = async (choiceIndex, authToken) => {
   }
 };
 
+export const apiClearEventResult = async (authToken) => {
+  if (!authToken) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/career/clear-event-result`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to clear event result');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Clear event result error:', error);
+    return null;
+  }
+};
+
 export const apiLearnAbility = async (moveName, authToken) => {
   if (!authToken) return null;
 

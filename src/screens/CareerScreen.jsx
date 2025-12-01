@@ -489,6 +489,7 @@ const CareerScreen = () => {
     generateTraining,
     triggerEvent,
     resolveEvent: resolveEventOnServer,
+    clearEventResult,
     learnAbility: learnAbilityOnServer,
     forgetAbility: forgetAbilityOnServer,
     changeStrategy,
@@ -2038,39 +2039,9 @@ const CareerScreen = () => {
                     if (isProcessingEvent) return;
                     setIsProcessingEvent(true);
                     try {
-                      // Capture moveHint before clearing eventResult
-                      const moveHintToAdd = careerData.eventResult?.moveHint;
-
-                      // Generate training first, then clear eventResult
-                      // This prevents the useEffect from racing and potentially triggering another event
-                      await generateTraining();
-
-                      setCareerData(prev => {
-                        // Start with clearing eventResult
-                        const updates = {
-                          ...prev,
-                          eventResult: null
-                        };
-
-                        // If there was a moveHint, ensure it's added to learnableAbilities
-                        if (moveHintToAdd) {
-                          const isAlreadyLearnable = prev.pokemon.learnableAbilities?.includes(moveHintToAdd);
-                          const isAlreadyKnown = prev.knownAbilities?.includes(moveHintToAdd);
-
-                          if (!isAlreadyLearnable && !isAlreadyKnown) {
-                            updates.pokemon = {
-                              ...prev.pokemon,
-                              learnableAbilities: [...(prev.pokemon.learnableAbilities || []), moveHintToAdd]
-                            };
-                            updates.moveHints = {
-                              ...prev.moveHints,
-                              [moveHintToAdd]: (prev.moveHints?.[moveHintToAdd] || 0) + 1
-                            };
-                          }
-                        }
-
-                        return updates;
-                      });
+                      // Server clears eventResult and returns updated state
+                      // Training options are already set from resolve-event, so no need to regenerate
+                      await clearEventResult();
                     } finally {
                       setIsProcessingEvent(false);
                     }
