@@ -1872,7 +1872,7 @@ const CareerScreen = () => {
                           const allNonStarterPokemons = Object.values(POKEMON).filter(c => !c.isStarter);
                           const eventPokemon = allNonStarterPokemons[Math.floor(Math.random() * allNonStarterPokemons.length)];
 
-                          // Use same quadratic scaling as backend wild pokemon battles
+                          // Use same scaling as backend wild pokemon battles
                           // calculateDifficultyMultiplier formula from career.js
                           const enemyStatMult = GAME_CONFIG.CAREER.ENEMY_STAT_MULTIPLIER || 0.8;
                           const turn = careerData.turn;
@@ -1881,7 +1881,8 @@ const CareerScreen = () => {
                             baseMult = 1.0 * enemyStatMult;
                           } else {
                             const progress = (turn - 12) / 48;
-                            baseMult = (1.0 + (1.56 * progress * progress) + (1.5 * progress)) * enemyStatMult;
+                            // More linear curve: stronger mid-game, same start/end
+                            baseMult = (1.0 + (0.36 * progress * progress) + (2.7 * progress)) * enemyStatMult;
                           }
                           // Wild pokemon are 25% stronger than gym leaders (wildMult = baseMult * 1.25)
                           // Event difficulty (1.0-1.25x) represents scaling vs wild baseline
