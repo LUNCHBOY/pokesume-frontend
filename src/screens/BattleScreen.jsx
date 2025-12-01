@@ -264,11 +264,33 @@ const BattleScreen = () => {
             localStorage.setItem('pokemonCareerHistory', JSON.stringify(newHistory));
             return newHistory;
           });
-        }
 
-        setBattleState(null);
-        setGameState('gameOver');
-        return;
+          setBattleState(null);
+          setGameState('gameOver');
+          return;
+        } else {
+          // completeCareer failed - fall back to using local career data or battleState
+          const fallbackPokemon = careerData?.pokemon || {
+            name: battleState.player?.name || 'Pokemon',
+            primaryType: battleState.player?.type || 'Normal',
+            typeAptitudes: {},
+            strategyAptitudes: {}
+          };
+          const fallbackStats = careerData?.currentStats || battleState.player?.stats || {};
+
+          setCompletedCareerData({
+            pokemon: fallbackPokemon,
+            currentStats: fallbackStats,
+            turn: careerData?.turn,
+            currentGymIndex: careerData?.currentGymIndex || 0,
+            inspirations: inspirations,
+            victory: false,
+            primosReward: 0
+          });
+          setBattleState(null);
+          setGameState('gameOver');
+          return;
+        }
       }
     }
 
@@ -315,11 +337,32 @@ const BattleScreen = () => {
           localStorage.setItem('pokemonCareerHistory', JSON.stringify(newHistory));
           return newHistory;
         });
-      }
 
-      setBattleState(null);
-      setGameState('victory');
-      return;
+        setBattleState(null);
+        setGameState('victory');
+        return;
+      } else {
+        // completeCareer failed - fall back to using local career data or battleState
+        const fallbackPokemon = careerData?.pokemon || {
+          name: battleState.player?.name || 'Champion',
+          primaryType: battleState.player?.type || 'Normal',
+          typeAptitudes: {},
+          strategyAptitudes: {}
+        };
+        const fallbackStats = careerData?.currentStats || battleState.player?.stats || {};
+
+        setCompletedCareerData({
+          pokemon: fallbackPokemon,
+          currentStats: fallbackStats,
+          turn: careerData?.turn || 63,
+          inspirations: inspirations,
+          victory: true,
+          primosReward: 0
+        });
+        setBattleState(null);
+        setGameState('victory');
+        return;
+      }
     }
 
     // Normal case - player won or wasn't a gym battle, return to career
