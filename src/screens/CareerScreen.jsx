@@ -551,22 +551,23 @@ const CareerScreen = () => {
   /**
    * Check if Pokemon can evolve based on grade
    */
-  const checkForEvolution = (pokemonName, currentStats) => {
-    // Use basePokemonName from careerData to look up the evolution chain
-    const baseName = careerData?.basePokemonName || pokemonName;
+  const checkForEvolution = (pokemonName, currentStats, serverCareerState) => {
+    // Use basePokemonName from server state to look up the evolution chain
+    const baseName = serverCareerState?.basePokemonName || pokemonName;
     const evolutionChain = EVOLUTION_CHAINS[baseName];
     if (!evolutionChain) return null;
 
     const currentGrade = getPokemonGrade(currentStats);
-    const currentStage = careerData?.evolutionStage || 0;
+    // Use evolution stage from server state (not React state which may be stale)
+    const currentStage = serverCareerState?.evolutionStage || 0;
 
-    // Check for stage 1 evolution (at C grade, not C+)
-    if (currentStage === 0 && evolutionChain.stage1 && ['C', 'B+', 'B', 'A+', 'A', 'S+', 'S', 'UU+', 'UU'].includes(currentGrade)) {
+    // Check for stage 1 evolution (at C grade or higher)
+    if (currentStage === 0 && evolutionChain.stage1 && ['C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade)) {
       return { toName: evolutionChain.stage1, toStage: 1 };
     }
 
-    // Check for stage 2 evolution (at A grade, not A+)
-    if (currentStage === 1 && evolutionChain.stage2 && ['A', 'S+', 'S', 'UU+', 'UU'].includes(currentGrade)) {
+    // Check for stage 2 evolution (at A grade or higher)
+    if (currentStage === 1 && evolutionChain.stage2 && ['A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade)) {
       return { toName: evolutionChain.stage2, toStage: 2 };
     }
 
@@ -744,10 +745,11 @@ const CareerScreen = () => {
         }, 0);
       }
 
-      // Check for evolution
+      // Check for evolution (pass server state to avoid stale React state)
       const evolutionCheck = checkForEvolution(
         result.careerState.pokemon.name,
-        result.careerState.currentStats
+        result.careerState.currentStats,
+        result.careerState
       );
 
       if (evolutionCheck) {

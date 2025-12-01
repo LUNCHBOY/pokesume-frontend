@@ -391,7 +391,7 @@ const TrainedPokemonScreen = () => {
               </div>
 
               <div className="p-6 text-center">
-                <div className="mb-4">
+                <div className="mb-4 flex justify-center">
                   {generatePokemonSprite(deleteConfirm.type, deleteConfirm.name)}
                 </div>
                 <h3 className="font-bold text-pocket-text text-lg mb-2">{deleteConfirm.name}</h3>
