@@ -175,7 +175,8 @@ export const CareerProvider = ({ children }) => {
     try {
       const result = await apiUpdateCareer(newCareerState, authToken);
       if (result && result.success) {
-        setCareerData(newCareerState);
+        // Use server's response which has the incremented stateVersion
+        updateCareerFromServer(result.careerState);
         return true;
       }
       return false;
