@@ -548,9 +548,9 @@ const CareerScreen = () => {
   };
 
   /**
-   * Apply evolution to Pokemon
+   * Apply evolution to Pokemon (persists to server)
    */
-  const applyEvolution = (fromName, toName, toStage) => {
+  const applyEvolution = async (fromName, toName, toStage) => {
     console.log('=== applyEvolution START ===');
     console.log('fromName:', fromName, 'toName:', toName, 'toStage:', toStage);
 
@@ -558,52 +558,48 @@ const CareerScreen = () => {
     const evolutionData = POKEMON[toName];
     console.log('evolutionData exists?:', !!evolutionData);
 
-    setCareerData(prev => {
-      // Determine stat boost based on evolution chain (use prev for latest state)
-      const baseName = prev.basePokemonName || prev.pokemon.name;
-      const evolutionChain = EVOLUTION_CHAINS[baseName];
-      const statBoost = evolutionChain && evolutionChain.stages === 2
-        ? EVOLUTION_CONFIG.STAT_BOOST.TWO_STAGE  // 5% for two-stage evolutions
-        : EVOLUTION_CONFIG.STAT_BOOST.ONE_STAGE; // 10% for one-stage evolutions
+    // Build the evolved career state
+    const baseName = careerData.basePokemonName || careerData.pokemon.name;
+    const evolutionChain = EVOLUTION_CHAINS[baseName];
+    const statBoost = evolutionChain && evolutionChain.stages === 2
+      ? EVOLUTION_CONFIG.STAT_BOOST.TWO_STAGE  // 5% for two-stage evolutions
+      : EVOLUTION_CONFIG.STAT_BOOST.ONE_STAGE; // 10% for one-stage evolutions
 
-      console.log('Base Pokemon:', baseName);
-      console.log('Evolution chain stages:', evolutionChain?.stages);
-      console.log('Applying stat boost:', (statBoost * 100) + '%');
-      console.log('Current stats BEFORE evolution:', prev.currentStats);
+    console.log('Base Pokemon:', baseName);
+    console.log('Evolution chain stages:', evolutionChain?.stages);
+    console.log('Applying stat boost:', (statBoost * 100) + '%');
+    console.log('Current stats BEFORE evolution:', careerData.currentStats);
 
-      // Calculate new stats using prev (latest state)
-      const newStats = {};
-      for (const [stat, value] of Object.entries(prev.currentStats)) {
-        newStats[stat] = Math.round(value * (1 + statBoost));
-      }
-      console.log('New stats AFTER boost:', newStats);
+    // Calculate new stats
+    const newStats = {};
+    for (const [stat, value] of Object.entries(careerData.currentStats)) {
+      newStats[stat] = Math.round(value * (1 + statBoost));
+    }
+    console.log('New stats AFTER boost:', newStats);
 
-      if (!evolutionData) {
-        console.log('No evolution data found - using base Pokemon data with updated name');
-        // Keep current Pokemon data but update the name
-        const updatedPokemon = {
-          ...prev.pokemon,
-          name: toName
-        };
+    let evolvedCareerState;
 
-        console.log('Updated pokemon object:', updatedPokemon);
+    if (!evolutionData) {
+      console.log('No evolution data found - using base Pokemon data with updated name');
+      // Keep current Pokemon data but update the name
+      const updatedPokemon = {
+        ...careerData.pokemon,
+        name: toName
+      };
 
-        const updated = {
-          ...prev,
-          pokemon: updatedPokemon,
-          currentStats: newStats,
-          evolutionStage: toStage,
-          basePokemonName: prev.basePokemonName,
-          turnLog: [{
-            turn: prev.turn,
-            type: 'evolution',
-            message: `${fromName} evolved into ${toName}!`
-          }, ...(prev.turnLog || [])]
-        };
-        console.log('New careerData after evolution:', updated);
-        return updated;
-      }
-
+      evolvedCareerState = {
+        ...careerData,
+        pokemon: updatedPokemon,
+        currentStats: newStats,
+        evolutionStage: toStage,
+        basePokemonName: careerData.basePokemonName,
+        turnLog: [{
+          turn: careerData.turn,
+          type: 'evolution',
+          message: `${fromName} evolved into ${toName}!`
+        }, ...(careerData.turnLog || [])]
+      };
+    } else {
       // Add signature move for final evolution
       let signatureMove = null;
       const chain = EVOLUTION_CHAINS[baseName];
@@ -621,27 +617,35 @@ const CareerScreen = () => {
         }
       }
 
-      const newLearnableAbilities = [...prev.pokemon.learnableAbilities];
-      if (signatureMove && !newLearnableAbilities.includes(signatureMove) && !prev.knownAbilities.includes(signatureMove)) {
+      const newLearnableAbilities = [...careerData.pokemon.learnableAbilities];
+      if (signatureMove && !newLearnableAbilities.includes(signatureMove) && !careerData.knownAbilities.includes(signatureMove)) {
         newLearnableAbilities.push(signatureMove);
       }
 
-      return {
-        ...prev,
+      evolvedCareerState = {
+        ...careerData,
         pokemon: {
           ...evolutionData,
           learnableAbilities: newLearnableAbilities
         },
         currentStats: newStats,
         evolutionStage: toStage,
-        basePokemonName: prev.basePokemonName, // Preserve the original base name
+        basePokemonName: careerData.basePokemonName, // Preserve the original base name
         turnLog: [{
-          turn: prev.turn,
+          turn: careerData.turn,
           type: 'evolution',
           message: `${fromName} evolved into ${toName}!${signatureMove ? ` Learned signature move: ${signatureMove}!` : ''}`
-        }, ...(prev.turnLog || [])]
+        }, ...(careerData.turnLog || [])]
       };
-    });
+    }
+
+    console.log('Evolved careerData:', evolvedCareerState);
+
+    // Persist evolution to server
+    const success = await updateCareer(evolvedCareerState);
+    if (!success) {
+      console.error('Failed to persist evolution to server');
+    }
 
     setEvolutionModal(null);
     console.log('=== applyEvolution END ===');
