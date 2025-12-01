@@ -29,7 +29,6 @@ import packageJson from '../../package.json';
 import { generatePokemonSprite } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { POKEMON } from '../shared/gameData';
-import { MenuTile } from '../components/ui/menu-tile';
 import ProfileIcon from '../components/ProfileIcon';
 
 // Animation variants
@@ -63,7 +62,8 @@ const MENU_ITEMS = [
     icon: Box,
     color: '#78C850',
     screen: 'pokemonInventory',
-    badgeKey: 'pokemonInventory'
+    showCount: true,
+    countKey: 'pokemonInventory'
   },
   {
     key: 'supports',
@@ -71,7 +71,8 @@ const MENU_ITEMS = [
     icon: Users,
     color: '#6890F0',
     screen: 'supportInventory',
-    badgeKey: 'supportInventory'
+    showCount: true,
+    countKey: 'supportInventory'
   },
   {
     key: 'hallOfFame',
@@ -79,7 +80,8 @@ const MENU_ITEMS = [
     icon: Trophy,
     color: '#F8D030',
     screen: 'trainedPokemon',
-    badgeKey: 'trainedPokemon'
+    showCount: true,
+    countKey: 'trainedPokemon'
   },
   {
     key: 'pokemonGacha',
@@ -117,6 +119,38 @@ const MENU_ITEMS = [
     screen: 'guide'
   }
 ];
+
+// Menu Tile Component with integrated count
+const MenuTile = ({ icon: Icon, iconColor, label, count, onClick, disabled }) => {
+  return (
+    <motion.button
+      whileHover={!disabled ? { scale: 1.05, y: -2 } : {}}
+      whileTap={!disabled ? { scale: 0.98 } : {}}
+      onClick={onClick}
+      disabled={disabled}
+      className={`bg-white rounded-xl p-3 shadow-card transition-all ${
+        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-card-hover active:shadow-sm'
+      }`}
+    >
+      <div className="flex flex-col items-center gap-1.5">
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center"
+          style={{ backgroundColor: `${iconColor}15` }}
+        >
+          <Icon size={20} style={{ color: iconColor }} />
+        </div>
+        <span className="text-pocket-text font-semibold text-xs text-center leading-tight">
+          {label}
+        </span>
+        {count !== undefined && (
+          <span className="text-pocket-text-light text-[10px] font-bold">
+            {count}
+          </span>
+        )}
+      </div>
+    </motion.button>
+  );
+};
 
 // Starter selection card component
 const StarterCard = ({ pokemon, name, onSelect }) => {
@@ -365,7 +399,7 @@ const MenuScreen = () => {
                 icon={item.icon}
                 iconColor={item.color}
                 label={item.label}
-                badge={item.badgeKey ? badgeCounts[item.badgeKey] : undefined}
+                count={item.showCount ? badgeCounts[item.countKey] : undefined}
                 onClick={() => setGameState(item.screen)}
                 disabled={(item.key === 'career' && pokemonInventory.length === 0) || (item.key === 'career' && isLoadingCareer)}
               />
