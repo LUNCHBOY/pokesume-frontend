@@ -48,8 +48,9 @@ import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 
 /**
  * Calculate difficulty multiplier for gym leaders based on turn
- * Matches backend: 1.0x until turn 12, then scales to 3.5x at turn 60
- * Now applies ENEMY_STAT_MULTIPLIER (0.8 = 20% reduction)
+ * Matches backend: 1.0x until turn 12, then quadratic curve to 3.25x effective at turn 60
+ * Elite Four then scales from 3.25x to 3.75x (Lance cap)
+ * ENEMY_STAT_MULTIPLIER (0.8) is applied
  */
 const calculateGymLeaderMultiplier = (turn) => {
   const enemyStatMult = GAME_CONFIG.CAREER.ENEMY_STAT_MULTIPLIER || 1.0;
@@ -57,8 +58,8 @@ const calculateGymLeaderMultiplier = (turn) => {
   if (turn < 12) {
     return 1.0 * enemyStatMult;
   }
-  const growthPerTurn = 2.5 / 48; // ~0.052 per turn
-  const baseMultiplier = 1.0 + ((turn - 12) * growthPerTurn);
+  const progress = (turn - 12) / 48;
+  const baseMultiplier = 1.0 + (1.56 * progress * progress) + (1.5 * progress);
   return baseMultiplier * enemyStatMult;
 };
 
