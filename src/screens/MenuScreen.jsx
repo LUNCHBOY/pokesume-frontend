@@ -131,7 +131,7 @@ const MenuTile = ({ icon: Icon, iconColor, label, count, onClick, disabled }) =>
       className={`bg-white rounded-xl p-3 shadow-card transition-all ${
         disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-card-hover active:shadow-sm'
       }`}
-      style={{ minHeight: '110px' }}
+      style={{ height: '110px' }}
     >
       <div className="flex flex-col items-center justify-between h-full gap-1">
         <div
@@ -419,3 +419,4 @@ const MenuScreen = () => {
 };
 
 export default MenuScreen;
+
