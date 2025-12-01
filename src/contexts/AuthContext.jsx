@@ -5,8 +5,8 @@
  * Provides user, token, login, logout, and registration functionality.
  */
 
-import React, { createContext, useContext, useState } from 'react';
-import { apiLogin, apiRegister, apiLogout, apiGoogleLogin, apiSetUsername } from '../services/apiService';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { apiLogin, apiRegister, apiLogout, apiGoogleLogin, apiSetUsername, apiGetProfile } from '../services/apiService';
 
 const AuthContext = createContext(null);
 
@@ -35,6 +35,28 @@ export const AuthProvider = ({ children }) => {
 
   const [authError, setAuthError] = useState(null);
   const [authLoading, setAuthLoading] = useState(false);
+
+  // Fetch profile on initial load to get profileIcon and other profile data
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!authToken || !user) return;
+
+      try {
+        const profileData = await apiGetProfile(authToken);
+        if (profileData?.user?.profileIcon && profileData.user.profileIcon !== user.profileIcon) {
+          // Update user with profileIcon from server
+          const updatedUser = { ...user, profileIcon: profileData.user.profileIcon };
+          setUser(updatedUser);
+          localStorage.setItem('pokesume_user', JSON.stringify(updatedUser));
+        }
+      } catch (error) {
+        console.error('Failed to fetch profile on load:', error);
+      }
+    };
+
+    fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authToken]); // Only run when authToken changes (login/logout) - intentionally excluding user to prevent infinite loop
 
   // Login handler
   const login = async (username, password) => {

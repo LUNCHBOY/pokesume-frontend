@@ -534,13 +534,13 @@ const CareerScreen = () => {
     const currentGrade = getPokemonGrade(currentStats);
     const currentStage = careerData?.evolutionStage || 0;
 
-    // Check for stage 1 evolution (at C grade)
-    if (currentStage === 0 && evolutionChain.stage1 && ['C+', 'C', 'B+', 'B', 'A+', 'A', 'S+', 'S', 'UU+', 'UU'].includes(currentGrade)) {
+    // Check for stage 1 evolution (at C grade, not C+)
+    if (currentStage === 0 && evolutionChain.stage1 && ['C', 'B+', 'B', 'A+', 'A', 'S+', 'S', 'UU+', 'UU'].includes(currentGrade)) {
       return { toName: evolutionChain.stage1, toStage: 1 };
     }
 
-    // Check for stage 2 evolution (at A grade)
-    if (currentStage === 1 && evolutionChain.stage2 && ['A+', 'A', 'S+', 'S', 'UU+', 'UU'].includes(currentGrade)) {
+    // Check for stage 2 evolution (at A grade, not A+)
+    if (currentStage === 1 && evolutionChain.stage2 && ['A', 'S+', 'S', 'UU+', 'UU'].includes(currentGrade)) {
       return { toName: evolutionChain.stage2, toStage: 2 };
     }
 
