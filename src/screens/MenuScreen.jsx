@@ -131,10 +131,11 @@ const MenuTile = ({ icon: Icon, iconColor, label, count, onClick, disabled }) =>
       className={`bg-white rounded-xl p-3 shadow-card transition-all ${
         disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-card-hover active:shadow-sm'
       }`}
+      style={{ minHeight: '110px' }}
     >
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center justify-between h-full gap-1">
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center"
+          className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: `${iconColor}15` }}
         >
           <Icon size={20} style={{ color: iconColor }} />
@@ -142,11 +143,9 @@ const MenuTile = ({ icon: Icon, iconColor, label, count, onClick, disabled }) =>
         <span className="text-pocket-text font-semibold text-xs text-center leading-tight">
           {label}
         </span>
-        {count !== undefined && (
-          <span className="text-pocket-text-light text-[10px] font-bold">
-            {count}
-          </span>
-        )}
+        <span className="text-pocket-text-light text-[10px] font-bold h-3">
+          {count !== undefined ? count : ''}
+        </span>
       </div>
     </motion.button>
   );
