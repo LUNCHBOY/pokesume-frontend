@@ -16,7 +16,7 @@ import {
   getAptitudeColor,
   StatIcon
 } from '../utils/gameUtils';
-import { TypeBadge, TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
+import { TypeBadge, TypeIcon } from '../components/TypeIcon';
 import { MOVES } from '../shared/gameData';
 
 const containerVariants = {

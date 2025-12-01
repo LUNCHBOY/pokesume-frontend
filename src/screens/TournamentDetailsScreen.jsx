@@ -364,8 +364,17 @@ const TournamentDetailsScreen = () => {
           )}
           {selectedTournament?.status === 'completed' && (
             <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
+              {(tournamentDetails?.tournament?.winner_username || selectedTournament?.winner_username) && (
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Trophy size={20} className="text-amber-500" />
+                  <span className="font-bold text-amber-700">
+                    Winner: {tournamentDetails?.tournament?.winner_username || selectedTournament?.winner_username}
+                  </span>
+                  <Trophy size={20} className="text-amber-500" />
+                </div>
+              )}
               <p className="text-amber-700 text-xs font-medium text-center">
-                🏆 Tournament completed! View the bracket to see the final results and watch battle replays.
+                Tournament completed! View the bracket to see the final results and watch battle replays.
               </p>
             </div>
           )}

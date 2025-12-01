@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { ArrowLeft, Sparkles, Star, Check } from 'lucide-react';
+import { ArrowLeft, Sparkles, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';

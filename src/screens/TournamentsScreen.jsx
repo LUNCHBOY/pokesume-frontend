@@ -277,6 +277,14 @@ const TournamentsScreen = () => {
                           : new Date(tournament.start_time).toLocaleDateString()}
                       </span>
                     </div>
+                    {tournament.status === 'completed' && tournament.winner_username && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-pocket-text-light flex items-center gap-1">
+                          <Trophy size={14} className="text-amber-500" /> Winner
+                        </span>
+                        <span className="font-bold text-amber-600">{tournament.winner_username}</span>
+                      </div>
+                    )}
                   </div>
 
                   <button
