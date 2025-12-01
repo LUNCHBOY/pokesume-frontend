@@ -3,7 +3,7 @@
  *
  * Uma Musume style support selection with deck slots.
  * - 5 slots with + signs for empty slots
- * - Modal for selecting supports when clicking a slot
+ * - Modal for selecting supports when clicking a slot (MULTI-SELECT)
  * - Deck navigation with arrows (5 decks total)
  * - Deck persistence
  */
@@ -57,8 +57,8 @@ const SupportSelectionScreen = () => {
   });
   const [decksLoaded, setDecksLoaded] = useState(false);
 
-  // Modal state
-  const [selectingSlotIndex, setSelectingSlotIndex] = useState(null);
+  // Modal state - Changed to boolean instead of slot index
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [detailSupport, setDetailSupport] = useState(null);
   const [isLimitBreaking, setIsLimitBreaking] = useState(false);
 
@@ -300,29 +300,37 @@ const SupportSelectionScreen = () => {
     }
   };
 
-  // Handle slot click - open modal to select support
+  // Handle slot click - open modal to select supports
   const handleSlotClick = (slotIndex) => {
-    setSelectingSlotIndex(slotIndex);
+    setIsSelectModalOpen(true);
   };
 
-  // Handle support selection from modal
+  // Handle support selection from modal - MULTI-SELECT VERSION
   const handleSelectSupport = (supportKey) => {
-    if (selectingSlotIndex === null) return;
-
     const newDecks = [...decks];
     const currentDeck = [...newDecks[currentDeckIndex]];
 
-    // Remove support from other slots if already in deck
+    // Check if support is already in deck
     const existingIndex = currentDeck.indexOf(supportKey);
-    if (existingIndex !== -1 && existingIndex !== selectingSlotIndex) {
+    
+    if (existingIndex !== -1) {
+      // If clicking a card that's already in the deck, remove it
       currentDeck[existingIndex] = null;
+    } else {
+      // Find first empty slot and add the support
+      const firstEmptySlot = currentDeck.findIndex(slot => slot === null);
+      if (firstEmptySlot !== -1) {
+        currentDeck[firstEmptySlot] = supportKey;
+      } else {
+        // If no empty slots, replace the last slot
+        currentDeck[SLOTS_PER_DECK - 1] = supportKey;
+      }
     }
 
-    currentDeck[selectingSlotIndex] = supportKey;
     newDecks[currentDeckIndex] = currentDeck;
     setDecks(newDecks);
     saveDeck(currentDeckIndex, currentDeck);
-    setSelectingSlotIndex(null);
+    // Don't close modal - let user keep selecting
   };
 
   // Handle removing support from slot
@@ -532,33 +540,35 @@ const SupportSelectionScreen = () => {
         </motion.div>
       </div>
 
-      {/* Support Selection Modal */}
+      {/* Support Selection Modal - MULTI-SELECT VERSION */}
       <AnimatePresence mode="sync">
-        {selectingSlotIndex !== null && (
+        {isSelectModalOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
             className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center"
-            onClick={() => setSelectingSlotIndex(null)}
+            onClick={() => setIsSelectModalOpen(false)}
           >
             <motion.div
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 400 }}
-              className="bg-white rounded-t-2xl sm:rounded-2xl shadow-card-lg w-full sm:max-w-lg max-h-[85vh] overflow-hidden"
+              className="bg-white rounded-t-2xl sm:rounded-2xl shadow-card-lg w-full sm:max-w-lg max-h-[85vh] overflow-hidden flex flex-col"
               onClick={e => e.stopPropagation()}
             >
-              {/* Modal Header */}
+              {/* Modal Header with Done button */}
               <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
-                <h3 className="font-bold text-pocket-text">Select Support</h3>
+                <h3 className="font-bold text-pocket-text">
+                  Select Supports ({filledSlots}/5)
+                </h3>
                 <button
-                  onClick={() => setSelectingSlotIndex(null)}
-                  className="p-2 text-pocket-text-light hover:text-pocket-text rounded-lg"
+                  onClick={() => setIsSelectModalOpen(false)}
+                  className="px-4 py-1.5 bg-pocket-blue text-white rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors"
                 >
-                  <X size={20} />
+                  Done
                 </button>
               </div>
 
@@ -610,7 +620,7 @@ const SupportSelectionScreen = () => {
               </div>
 
               {/* Support Grid */}
-              <div className="p-4 overflow-y-auto max-h-[60vh]">
+              <div className="p-4 overflow-y-auto flex-1">
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                   {getFilteredSortedSupports().map((supportKey, idx) => {
                     const support = getSupportCardAttributes(supportKey, SUPPORT_CARDS);
@@ -637,7 +647,7 @@ const SupportSelectionScreen = () => {
                             : ''
                         }`}
                         style={{ borderColor: getRarityColor(support.rarity) }}
-                        title="Tap to select • Hold for details"
+                        title="Tap to add/remove • Hold for details"
                       >
                         {/* Rarity indicator */}
                         <div
