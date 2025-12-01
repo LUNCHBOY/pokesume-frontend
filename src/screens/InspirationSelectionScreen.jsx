@@ -232,7 +232,7 @@ const InspirationSelectionScreen = () => {
                       setSelectedInspirations([...selectedInspirations, trained]);
                     }
                   }}
-                  className={`pokemon-card relative transition-all ${
+                  className={`pokemon-card transition-all ${
                     isSelected ? 'ring-4 ring-pocket-green' : ''
                   } ${
                     !isDisabled ? 'hover:ring-4 hover:ring-pocket-green' : ''
@@ -336,4 +336,5 @@ const InspirationSelectionScreen = () => {
 };
 
 export default InspirationSelectionScreen;
+
 
