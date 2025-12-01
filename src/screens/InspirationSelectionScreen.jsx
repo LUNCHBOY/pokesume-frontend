@@ -201,115 +201,118 @@ const InspirationSelectionScreen = () => {
               animate="visible"
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4"
             >
-              {sortedTrainedPokemon.map((trained, idx) => {
-                const isSelected = selectedInspirations.some(
-                  insp => insp.name === trained.name && insp.completedAt === trained.completedAt
-                );
-                const isSameSpecies = selectedPokemon && trained.name === selectedPokemon.name;
-                const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon.name, trained.name);
-                const isDisabled = isSameSpecies || isInEvolutionChain;
-
-                const totalStars = trained.inspirations
-                  ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
-                  : 0;
-
-                return (
-                  <motion.div
-                    key={idx}
-                    variants={itemVariants}
-                    whileHover={!isDisabled ? { y: -2 } : {}}
-                    whileTap={!isDisabled ? { scale: 0.98 } : {}}
-                    onClick={() => {
-                      if (isDisabled) return;
-
-                      if (isSelected) {
-                        setSelectedInspirations(
-                          selectedInspirations.filter(
-                            insp => !(insp.name === trained.name && insp.completedAt === trained.completedAt)
-                          )
-                        );
-                      } else if (selectedInspirations.length < 2) {
-                        setSelectedInspirations([...selectedInspirations, trained]);
-                      }
-                    }}
-                    className={`pokemon-card transition ${
-                      isSelected ? 'ring-4 ring-pocket-green' : ''
-                    } ${
-                      isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
-                    }`}
-                  >
-                    <div className="flex justify-center mb-2">
-                      {generatePokemonSprite(trained.type, trained.name)}
+            {sortedTrainedPokemon.map((trained, idx) => {
+              const isSelected = selectedInspirations.some(
+                insp => insp.name === trained.name && insp.completedAt === trained.completedAt
+              );
+              const isSameSpecies = selectedPokemon && trained.name === selectedPokemon.name;
+              const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon.name, trained.name);
+              const isDisabled = isSameSpecies || isInEvolutionChain;
+            
+              const totalStars = trained.inspirations
+                ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
+                : 0;
+            
+              return (
+                <motion.div
+                  key={idx}
+                  variants={itemVariants}
+                  whileHover={!isDisabled ? { y: -2, scale: 1.02 } : {}}
+                  whileTap={!isDisabled ? { scale: 0.98 } : {}}
+                  onClick={() => {
+                    if (isDisabled) return;
+            
+                    if (isSelected) {
+                      setSelectedInspirations(
+                        selectedInspirations.filter(
+                          insp => !(insp.name === trained.name && insp.completedAt === trained.completedAt)
+                        )
+                      );
+                    } else if (selectedInspirations.length < 2) {
+                      setSelectedInspirations([...selectedInspirations, trained]);
+                    }
+                  }}
+                  className={`pokemon-card relative transition-all ${
+                    isSelected ? 'ring-4 ring-pocket-green' : ''
+                  } ${
+                    !isDisabled ? 'hover:ring-4 hover:ring-pocket-green' : ''
+                  } ${
+                    isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
+                  }`}
+                >
+                  <div className="flex justify-center mb-2">
+                    {generatePokemonSprite(trained.type, trained.name)}
+                  </div>
+                  <h3 className="text-center font-bold text-pocket-text text-sm">{trained.name}</h3>
+            
+                  {/* Same Species Warning */}
+                  {isSameSpecies && (
+                    <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
+                      Can't use same species
                     </div>
-                    <h3 className="text-center font-bold text-pocket-text text-sm">{trained.name}</h3>
-
-                    {/* Same Species Warning */}
-                    {isSameSpecies && (
-                      <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
-                        Can't use same species
+                  )}
+            
+                  {/* Evolution Chain Warning */}
+                  {isInEvolutionChain && (
+                    <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
+                      Same evolution line
+                    </div>
+                  )}
+            
+                  {/* Total Stars Display */}
+                  {trained.inspirations && totalStars > 0 && (
+                    <div className="flex justify-center gap-0.5 mt-2 mb-2">
+                      {[...Array(totalStars)].map((_, i) => (
+                        <Star key={i} size={12} className="text-amber-400 fill-amber-400" />
+                      ))}
+                    </div>
+                  )}
+            
+                  {/* Inspirations Display */}
+                  {trained.inspirations && trained.inspirations.stat && trained.inspirations.aptitude ? (
+                    <div className="bg-pocket-bg rounded-lg p-2 space-y-1 mt-2">
+                      <div className="flex justify-between items-center text-[10px]">
+                        <span className="font-semibold text-pocket-text">{trained.inspirations.stat.name}</span>
+                        <div className="flex gap-0.5">
+                          {[...Array(trained.inspirations.stat.stars)].map((_, i) => (
+                            <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                          ))}
+                        </div>
                       </div>
-                    )}
-
-                    {/* Evolution Chain Warning */}
-                    {isInEvolutionChain && (
-                      <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
-                        Same evolution line
+                      <div className="flex justify-between items-center text-[10px]">
+                        <span className="font-semibold text-pocket-text">
+                          {colorToType[trained.inspirations.aptitude.name] || trained.inspirations.aptitude.name}
+                        </span>
+                        <div className="flex gap-0.5">
+                          {[...Array(trained.inspirations.aptitude.stars)].map((_, i) => (
+                            <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                          ))}
+                        </div>
                       </div>
-                    )}
-
-                    {/* Total Stars Display */}
-                    {trained.inspirations && totalStars > 0 && (
-                      <div className="flex justify-center gap-0.5 mt-2 mb-2">
-                        {[...Array(totalStars)].map((_, i) => (
-                          <Star key={i} size={12} className="text-amber-400 fill-amber-400" />
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Inspirations Display */}
-                    {trained.inspirations && trained.inspirations.stat && trained.inspirations.aptitude ? (
-                      <div className="bg-pocket-bg rounded-lg p-2 space-y-1 mt-2">
+                      {trained.inspirations.strategy && (
                         <div className="flex justify-between items-center text-[10px]">
-                          <span className="font-semibold text-pocket-text">{trained.inspirations.stat.name}</span>
+                          <span className="font-semibold text-pocket-text">{trained.inspirations.strategy.name}</span>
                           <div className="flex gap-0.5">
-                            {[...Array(trained.inspirations.stat.stars)].map((_, i) => (
+                            {[...Array(trained.inspirations.strategy.stars)].map((_, i) => (
                               <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
                             ))}
                           </div>
                         </div>
-                        <div className="flex justify-between items-center text-[10px]">
-                          <span className="font-semibold text-pocket-text">
-                            {colorToType[trained.inspirations.aptitude.name] || trained.inspirations.aptitude.name}
-                          </span>
-                          <div className="flex gap-0.5">
-                            {[...Array(trained.inspirations.aptitude.stars)].map((_, i) => (
-                              <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
-                            ))}
-                          </div>
-                        </div>
-                        {trained.inspirations.strategy && (
-                          <div className="flex justify-between items-center text-[10px]">
-                            <span className="font-semibold text-pocket-text">{trained.inspirations.strategy.name}</span>
-                            <div className="flex gap-0.5">
-                              {[...Array(trained.inspirations.strategy.stars)].map((_, i) => (
-                                <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="text-[10px] font-bold text-pocket-red text-center mt-2">No Inspirations</div>
-                    )}
-
-                    {isSelected && (
-                      <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-pocket-green flex items-center justify-center">
-                        <Check size={14} className="text-white" />
-                      </div>
-                    )}
-                  </motion.div>
-                );
-              })}
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-[10px] font-bold text-pocket-red text-center mt-2">No Inspirations</div>
+                  )}
+            
+                  {/* Selected Checkmark - Always visible when selected */}
+                  {isSelected && (
+                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-pocket-green flex items-center justify-center shadow-lg">
+                      <Check size={14} className="text-white" />
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
             </motion.div>
 
             <motion.div
@@ -333,3 +336,4 @@ const InspirationSelectionScreen = () => {
 };
 
 export default InspirationSelectionScreen;
+
