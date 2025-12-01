@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 
 const MenuTile = React.forwardRef(
-  ({ className, icon: Icon, iconColor, label, badge, disabled, onClick, ...props }, ref) => {
+  ({ className, icon: Icon, iconColor, label, count, disabled, onClick, ...props }, ref) => {
     return (
       <motion.button
         ref={ref}
@@ -12,7 +12,7 @@ const MenuTile = React.forwardRef(
         whileHover={{ scale: disabled ? 1 : 1.02, y: disabled ? 0 : -2 }}
         whileTap={{ scale: disabled ? 1 : 0.98 }}
         className={cn(
-          "relative flex flex-col items-center justify-center gap-3 p-5 rounded-2xl bg-white",
+          "relative flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-white",
           "w-full aspect-square",
           "shadow-card",
           "transition-all duration-200",
@@ -42,15 +42,11 @@ const MenuTile = React.forwardRef(
           {label}
         </span>
 
-        {/* Badge */}
-        {badge !== undefined && badge > 0 && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute -top-1 -right-1 min-w-5 h-5 px-1.5 bg-pocket-red text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-pill"
-          >
-            {badge > 99 ? '99+' : badge}
-          </motion.div>
+        {/* Count (replaces badge) */}
+        {count !== undefined && (
+          <span className="text-pocket-text-light font-medium text-[10px]">
+            {count} {count === 1 ? 'item' : 'items'}
+          </span>
         )}
       </motion.button>
     );
