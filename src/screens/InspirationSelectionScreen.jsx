@@ -221,7 +221,7 @@ const InspirationSelectionScreen = () => {
                   whileTap={!isDisabled ? { scale: 0.98 } : {}}
                   onClick={() => {
                     if (isDisabled) return;
-            
+                
                     if (isSelected) {
                       setSelectedInspirations(
                         selectedInspirations.filter(
@@ -235,8 +235,6 @@ const InspirationSelectionScreen = () => {
                   className={`pokemon-card transition-all ${
                     isSelected ? 'ring-4 ring-pocket-green' : ''
                   } ${
-                    !isDisabled ? 'hover:ring-4 hover:ring-pocket-green' : ''
-                  } ${
                     isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
                   }`}
                 >
@@ -244,21 +242,21 @@ const InspirationSelectionScreen = () => {
                     {generatePokemonSprite(trained.type, trained.name)}
                   </div>
                   <h3 className="text-center font-bold text-pocket-text text-sm">{trained.name}</h3>
-            
+                
                   {/* Same Species Warning */}
                   {isSameSpecies && (
                     <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
                       Can't use same species
                     </div>
                   )}
-            
+                
                   {/* Evolution Chain Warning */}
                   {isInEvolutionChain && (
                     <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
                       Same evolution line
                     </div>
                   )}
-            
+                
                   {/* Total Stars Display */}
                   {trained.inspirations && totalStars > 0 && (
                     <div className="flex justify-center gap-0.5 mt-2 mb-2">
@@ -267,7 +265,7 @@ const InspirationSelectionScreen = () => {
                       ))}
                     </div>
                   )}
-            
+                
                   {/* Inspirations Display */}
                   {trained.inspirations && trained.inspirations.stat && trained.inspirations.aptitude ? (
                     <div className="bg-pocket-bg rounded-lg p-2 space-y-1 mt-2">
@@ -303,31 +301,24 @@ const InspirationSelectionScreen = () => {
                   ) : (
                     <div className="text-[10px] font-bold text-pocket-red text-center mt-2">No Inspirations</div>
                   )}
-            
-                  {/* Selected Checkmark - Always visible when selected */}
-                  {isSelected && (
-                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-pocket-green flex items-center justify-center shadow-lg">
-                      <Check size={14} className="text-white" />
-                    </div>
-                  )}
                 </motion.div>
-              );
-            })}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <button
-                onClick={() => setGameState('supportSelect')}
-                disabled={selectedInspirations.length > 2}
-                className="w-full pocket-btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Continue to Support Selection
-              </button>
-            </motion.div>
+                              );
+                            })}
+                            </motion.div>
+      
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <button
+                      onClick={() => setGameState('supportSelect')}
+                      disabled={selectedInspirations.length > 2}
+                      className="w-full pocket-btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Continue to Support Selection
+                    </button>
+                  </motion.div>
           </>
         )}
       </div>
@@ -336,5 +327,6 @@ const InspirationSelectionScreen = () => {
 };
 
 export default InspirationSelectionScreen;
+
 
 
