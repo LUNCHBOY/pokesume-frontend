@@ -573,7 +573,7 @@ const BattleScreen = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-2xl shadow-card overflow-hidden"
+          className={`bg-white rounded-2xl shadow-card overflow-hidden ${battleOver ? 'mb-20' : ''}`}
         >
           <div className="px-4 py-3 border-b border-gray-100">
             <h3 className="font-bold text-pocket-text">Battle Log</h3>
@@ -581,7 +581,7 @@ const BattleScreen = () => {
           <div
             ref={battleLogRef}
             className="p-4 space-y-1 overflow-y-auto pocket-scrollbar"
-            style={{ maxHeight: battleOver ? '120px' : '300px' }}
+            style={{ maxHeight: battleOver ? 'calc(100vh - 550px)' : '300px', minHeight: '200px' }}
           >
             {(battleState.displayLog || []).map((entry, idx) => (
               <motion.div
@@ -662,3 +662,4 @@ const BattleScreen = () => {
 };
 
 export default BattleScreen;
+
