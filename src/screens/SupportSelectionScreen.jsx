@@ -18,9 +18,10 @@ import { useAuth } from '../contexts/AuthContext';
 import {
   getRarityColor,
   getSupportCardAttributes,
-  StatIcon
+  StatIcon,
+  getAptitudeColor
 } from '../utils/gameUtils';
-import { TYPE_COLORS } from '../components/TypeIcon';
+import { TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, POKEMON, MOVES } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
@@ -549,66 +550,52 @@ const SupportSelectionScreen = () => {
 
                   {/* Stats Row */}
                   <div className="flex items-center gap-4 mb-3">
-                    {[
-                      { name: 'HP', icon: '❤', color: 'text-red-500' },
-                      { name: 'Attack', icon: '⚔', color: 'text-orange-500' },
-                      { name: 'Defense', icon: '🛡', color: 'text-blue-500' },
-                      { name: 'Instinct', icon: '✨', color: 'text-purple-500' },
-                      { name: 'Speed', icon: '⚡', color: 'text-yellow-500' }
-                    ].map((stat, idx) => {
-                      const hasBonus = totalStatBonuses[stat.name];
-                      const value = modifiedStats[stat.name];
+                    {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map((stat) => {
+                      const hasBonus = totalStatBonuses[stat];
+                      const value = modifiedStats[stat];
                       return (
-                        <div key={stat.name} className="flex items-center gap-1">
-                          <span className={`${stat.color}`}>{stat.icon}</span>
-                          <span className={`font-bold ${hasBonus ? 'text-orange-500' : 'text-pocket-text'}`}>
+                        <div key={stat} className="flex items-center gap-1">
+                          <StatIcon stat={stat} size={14} />
+                          <span className={`font-bold text-sm ${hasBonus ? 'text-orange-500' : 'text-pocket-text'}`}>
                             {value}
                           </span>
-                          {hasBonus && <span className="text-xs text-orange-500">(+{totalStatBonuses[stat.name]})</span>}
+                          {hasBonus && <span className="text-xs text-orange-500">(+{totalStatBonuses[stat]})</span>}
                         </div>
                       );
                     })}
                   </div>
 
-                  {/* Type Aptitudes - Fire badge style */}
-                  <div className="flex flex-wrap gap-2 mb-2">
+                  {/* Type Aptitudes */}
+                  <div className="flex flex-wrap gap-2 mb-2 text-xs">
                     {Object.entries(typeAptitudes).map(([color, grade]) => {
                       const hasUpgrade = aptitudeUpgrades[color];
-                      const typeInfo = {
-                        Red: { label: 'F', bg: 'bg-red-500', icon: '🔥' },
-                        Blue: { label: 'W', bg: 'bg-blue-500', icon: '💧' },
-                        Green: { label: 'G', bg: 'bg-green-500', icon: '🌿' },
-                        Purple: { label: 'P', bg: 'bg-purple-500', icon: '🔮' },
-                        Yellow: { label: 'E', bg: 'bg-yellow-500', icon: '⚡' },
-                        Orange: { label: 'F', bg: 'bg-orange-500', icon: '👊' }
+                      const typeMap = {
+                        Red: 'Fire',
+                        Blue: 'Water',
+                        Green: 'Grass',
+                        Purple: 'Psychic',
+                        Yellow: 'Electric',
+                        Orange: 'Fighting'
                       };
-                      const info = typeInfo[color] || { label: 'C', bg: 'bg-gray-500', icon: '?' };
+                      const type = typeMap[color];
 
                       return (
-                        <div
-                          key={color}
-                          className={`${info.bg} ${hasUpgrade ? 'ring-2 ring-orange-400' : ''} text-white px-3 py-1 rounded-md text-sm font-bold flex items-center gap-1`}
-                        >
-                          <span>{info.icon}</span>
-                          <span>{info.label} {grade}</span>
-                        </div>
+                        <span key={color} className={`inline-flex items-center gap-0.5 ${hasUpgrade ? 'text-orange-500' : ''}`}>
+                          <TypeIcon type={type} size={14} />
+                          <span style={{ color: hasUpgrade ? '#f97316' : getAptitudeColor(grade), fontWeight: 'bold' }}>{grade}</span>
+                        </span>
                       );
                     })}
                   </div>
 
                   {/* Strategy Aptitudes */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 text-xs">
                     {Object.entries(strategyAptitudes).map(([strategy, grade]) => {
                       const hasUpgrade = strategyUpgrades[strategy];
                       return (
-                        <div
-                          key={strategy}
-                          className={`px-3 py-1 rounded-md text-sm font-bold ${
-                            hasUpgrade ? 'bg-orange-100 text-orange-700 ring-2 ring-orange-400' : 'bg-gray-200 text-gray-700'
-                          }`}
-                        >
-                          {strategy} {grade}
-                        </div>
+                        <span key={strategy} className={`${hasUpgrade ? 'text-orange-500' : 'text-gray-600'}`}>
+                          {strategy} <span style={{ color: hasUpgrade ? '#f97316' : getAptitudeColor(grade), fontWeight: 'bold' }}>{grade}</span>
+                        </span>
                       );
                     })}
                   </div>

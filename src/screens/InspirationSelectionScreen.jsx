@@ -16,7 +16,8 @@ import { ArrowLeft, Sparkles, Star, Plus, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
-import { generatePokemonSprite } from '../utils/gameUtils';
+import { generatePokemonSprite, StatIcon, getAptitudeColor } from '../utils/gameUtils';
+import { TypeIcon } from '../components/TypeIcon';
 import { EVOLUTION_CHAINS, POKEMON } from '../shared/gameData';
 
 // Helper function to get all Pokemon in the same evolution chain
@@ -277,66 +278,52 @@ const InspirationSelectionScreen = () => {
 
                 {/* Stats Row */}
                 <div className="flex items-center gap-4 mb-3">
-                  {[
-                    { name: 'HP', icon: '❤', color: 'text-red-500' },
-                    { name: 'Attack', icon: '⚔', color: 'text-orange-500' },
-                    { name: 'Defense', icon: '🛡', color: 'text-blue-500' },
-                    { name: 'Instinct', icon: '✨', color: 'text-purple-500' },
-                    { name: 'Speed', icon: '⚡', color: 'text-yellow-500' }
-                  ].map((stat, idx) => {
-                    const hasBonus = modifiedData.statBonuses[stat.name];
-                    const value = modifiedData.modifiedStats[stat.name];
+                  {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map((stat) => {
+                    const hasBonus = modifiedData.statBonuses[stat];
+                    const value = modifiedData.modifiedStats[stat];
                     return (
-                      <div key={stat.name} className="flex items-center gap-1">
-                        <span className={`${stat.color}`}>{stat.icon}</span>
-                        <span className={`font-bold ${hasBonus ? 'text-orange-500' : 'text-pocket-text'}`}>
+                      <div key={stat} className="flex items-center gap-1">
+                        <StatIcon stat={stat} size={14} />
+                        <span className={`font-bold text-sm ${hasBonus ? 'text-orange-500' : 'text-pocket-text'}`}>
                           {value}
                         </span>
-                        {hasBonus && <span className="text-xs text-orange-500">(+{modifiedData.statBonuses[stat.name]})</span>}
+                        {hasBonus && <span className="text-xs text-orange-500">(+{modifiedData.statBonuses[stat]})</span>}
                       </div>
                     );
                   })}
                 </div>
 
-                {/* Type Aptitudes - Fire badge style */}
-                <div className="flex flex-wrap gap-2 mb-2">
+                {/* Type Aptitudes */}
+                <div className="flex flex-wrap gap-2 mb-2 text-xs">
                   {Object.entries(modifiedData.typeAptitudes).map(([color, grade]) => {
                     const hasUpgrade = modifiedData.aptitudeUpgrades[color];
-                    const typeInfo = {
-                      Red: { label: 'F C', bg: 'bg-red-500', icon: '🔥' },
-                      Blue: { label: 'W C', bg: 'bg-blue-500', icon: '💧' },
-                      Green: { label: 'G C', bg: 'bg-green-500', icon: '🌿' },
-                      Purple: { label: 'P A', bg: 'bg-purple-500', icon: '🔮' },
-                      Yellow: { label: 'E C', bg: 'bg-yellow-500', icon: '⚡' },
-                      Orange: { label: 'F C', bg: 'bg-orange-500', icon: '👊' }
+                    const typeMap = {
+                      Red: 'Fire',
+                      Blue: 'Water',
+                      Green: 'Grass',
+                      Purple: 'Psychic',
+                      Yellow: 'Electric',
+                      Orange: 'Fighting'
                     };
-                    const info = typeInfo[color] || { label: 'C', bg: 'bg-gray-500', icon: '?' };
+                    const type = typeMap[color];
 
                     return (
-                      <div
-                        key={color}
-                        className={`${info.bg} ${hasUpgrade ? 'ring-2 ring-orange-400' : ''} text-white px-3 py-1 rounded-md text-sm font-bold flex items-center gap-1`}
-                      >
-                        <span>{info.icon}</span>
-                        <span>{info.label.split(' ')[0]} {grade}</span>
-                      </div>
+                      <span key={color} className={`inline-flex items-center gap-0.5 ${hasUpgrade ? 'text-orange-500' : ''}`}>
+                        <TypeIcon type={type} size={14} />
+                        <span style={{ color: hasUpgrade ? '#f97316' : getAptitudeColor(grade), fontWeight: 'bold' }}>{grade}</span>
+                      </span>
                     );
                   })}
                 </div>
 
                 {/* Strategy Aptitudes */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 text-xs">
                   {Object.entries(modifiedData.strategyAptitudes).map(([strategy, grade]) => {
                     const hasUpgrade = modifiedData.strategyUpgrades[strategy];
                     return (
-                      <div
-                        key={strategy}
-                        className={`px-3 py-1 rounded-md text-sm font-bold ${
-                          hasUpgrade ? 'bg-orange-100 text-orange-700 ring-2 ring-orange-400' : 'bg-gray-200 text-gray-700'
-                        }`}
-                      >
-                        {strategy} {grade}
-                      </div>
+                      <span key={strategy} className={`${hasUpgrade ? 'text-orange-500' : 'text-gray-600'}`}>
+                        {strategy} <span style={{ color: hasUpgrade ? '#f97316' : getAptitudeColor(grade), fontWeight: 'bold' }}>{grade}</span>
+                      </span>
                     );
                   })}
                 </div>
