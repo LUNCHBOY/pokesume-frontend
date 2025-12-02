@@ -156,58 +156,90 @@ const SupportSelectionScreen = () => {
   // Calculate inspiration bonuses from selected inspirations
   const calculateInspirationBonuses = () => {
     const aptitudeStars = {};
-    let strategyStars = 0;
+    const strategyStars = {}; // Changed to object to track per-strategy
+    const statBonuses = {}; // NEW: Track stat bonuses
 
     selectedInspirations.forEach(insp => {
       if (!insp.inspirations) return;
+
+      // Type aptitude stars
       if (insp.inspirations.aptitude) {
         const color = insp.inspirations.aptitude.color;
         if (color) {
           aptitudeStars[color] = (aptitudeStars[color] || 0) + (insp.inspirations.aptitude.stars || 0);
         }
       }
+
+      // Strategy stars - track per strategy name
       if (insp.inspirations.strategy) {
-        strategyStars += insp.inspirations.strategy.stars || 0;
+        const strategyName = insp.inspirations.strategy.name;
+        if (strategyName) {
+          strategyStars[strategyName] = (strategyStars[strategyName] || 0) + (insp.inspirations.strategy.stars || 0);
+        }
+      }
+
+      // NEW: Stat bonuses (same calculation as in-career: 1★=+10, 2★=+25, 3★=+50)
+      if (insp.inspirations.stat) {
+        const statName = insp.inspirations.stat.name;
+        const stars = insp.inspirations.stat.stars;
+        if (statName && stars) {
+          const bonus = stars === 1 ? 10 : stars === 2 ? 25 : 50;
+          statBonuses[statName] = (statBonuses[statName] || 0) + bonus;
+        }
       }
     });
 
+    // Calculate aptitude upgrades: every 2 stars = 1 grade upgrade (max A grade)
     const aptitudeUpgrades = {};
     Object.keys(aptitudeStars).forEach(color => {
       aptitudeUpgrades[color] = Math.floor(aptitudeStars[color] / 2);
     });
 
-    const strategyUpgrades = Math.floor(strategyStars / 2);
-    return { aptitudeUpgrades, strategyUpgrades };
+    // Calculate strategy upgrades: every 2 stars = 1 grade upgrade per strategy (max A grade)
+    const strategyUpgrades = {};
+    Object.keys(strategyStars).forEach(strategyName => {
+      strategyUpgrades[strategyName] = Math.floor(strategyStars[strategyName] / 2);
+    });
+
+    return { aptitudeUpgrades, strategyUpgrades, statBonuses };
   };
 
-  // Apply grade upgrades to aptitudes
+  // Apply grade upgrades to aptitudes (capped at A grade for pre-career bonuses)
   const applyGradeUpgrades = (aptitudes, upgrades) => {
     const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    const maxGradeIndex = gradeOrder.indexOf('A'); // Cap at A grade
     const upgraded = { ...aptitudes };
 
     Object.keys(upgrades).forEach(color => {
       const currentGrade = upgraded[color];
       if (!currentGrade) return;
       const currentIndex = gradeOrder.indexOf(currentGrade);
-      const newIndex = Math.min(currentIndex + upgrades[color], gradeOrder.length - 1);
+      const targetIndex = currentIndex + upgrades[color];
+      const newIndex = Math.min(targetIndex, maxGradeIndex);
       upgraded[color] = gradeOrder[newIndex];
     });
 
     return upgraded;
   };
 
-  // Apply strategy grade upgrade
+  // Apply strategy grade upgrades (only to specific strategies, capped at A grade)
   const applyStrategyAptitudesUpgrade = (strategyAptitudes, upgrades) => {
-    if (!strategyAptitudes || upgrades === 0) return strategyAptitudes;
+    if (!strategyAptitudes || !upgrades || Object.keys(upgrades).length === 0) return strategyAptitudes;
 
     const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    const maxGradeIndex = gradeOrder.indexOf('A'); // Cap at A grade
     const upgraded = { ...strategyAptitudes };
 
-    for (const [strategy, grade] of Object.entries(upgraded)) {
-      const currentIndex = gradeOrder.indexOf(grade);
-      if (currentIndex !== -1) {
-        const newIndex = Math.min(currentIndex + upgrades, gradeOrder.length - 1);
-        upgraded[strategy] = gradeOrder[newIndex];
+    // Only upgrade the specific strategies that have upgrade values
+    for (const [strategyName, upgradeAmount] of Object.entries(upgrades)) {
+      if (upgraded[strategyName]) {
+        const currentGrade = upgraded[strategyName];
+        const currentIndex = gradeOrder.indexOf(currentGrade);
+        if (currentIndex !== -1) {
+          const targetIndex = currentIndex + upgradeAmount;
+          const newIndex = Math.min(targetIndex, maxGradeIndex);
+          upgraded[strategyName] = gradeOrder[newIndex];
+        }
       }
     }
 
@@ -277,14 +309,24 @@ const SupportSelectionScreen = () => {
       return;
     }
 
-    const { aptitudeUpgrades, strategyUpgrades } = calculateInspirationBonuses();
+    const { aptitudeUpgrades, strategyUpgrades, statBonuses } = calculateInspirationBonuses();
     const upgradedAptitudes = applyGradeUpgrades(pokemonData.typeAptitudes || {}, aptitudeUpgrades);
     const upgradedStrategyAptitudes = applyStrategyAptitudesUpgrade(pokemonData.strategyAptitudes || {}, strategyUpgrades);
     const { strategy: defaultStrategy, strategyGrade: defaultStrategyGrade } = deriveStrategyFromAptitudes(upgradedStrategyAptitudes);
 
+    // Apply initial stat bonuses from inspirations
+    const baseStats = pokemonData.baseStats || { HP: 150, Attack: 50, Defense: 50, Instinct: 50, Speed: 50 };
+    const upgradedBaseStats = { ...baseStats };
+    Object.keys(statBonuses).forEach(statName => {
+      if (upgradedBaseStats[statName] !== undefined) {
+        upgradedBaseStats[statName] += statBonuses[statName];
+      }
+    });
+
     const pokemon = {
       name: selectedPokemon,
       ...pokemonData,
+      baseStats: upgradedBaseStats,
       typeAptitudes: upgradedAptitudes,
       strategyAptitudes: upgradedStrategyAptitudes,
       strategy: defaultStrategy,
@@ -523,6 +565,124 @@ const SupportSelectionScreen = () => {
             </button>
           </div>
         </motion.div>
+
+        {/* Stat/Aptitude Summary Panel */}
+        {selectedPokemon && (selectedInspirations.length > 0 || filledSlots > 0) && (() => {
+          const pokemonData = POKEMON[selectedPokemon];
+          if (!pokemonData) return null;
+
+          const { aptitudeUpgrades, strategyUpgrades, statBonuses } = calculateInspirationBonuses();
+
+          // Calculate modified stats
+          const baseStats = pokemonData.baseStats || { HP: 150, Attack: 50, Defense: 50, Instinct: 50, Speed: 50 };
+          const modifiedStats = { ...baseStats };
+          Object.keys(statBonuses).forEach(stat => {
+            if (modifiedStats[stat] !== undefined) {
+              modifiedStats[stat] += statBonuses[stat];
+            }
+          });
+
+          // Calculate modified aptitudes (capped at A)
+          const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+          const maxIndex = gradeOrder.indexOf('A');
+          const typeAptitudes = { ...pokemonData.typeAptitudes };
+          Object.keys(aptitudeUpgrades).forEach(color => {
+            const currentGrade = typeAptitudes[color];
+            const currentIndex = gradeOrder.indexOf(currentGrade);
+            const newIndex = Math.min(currentIndex + aptitudeUpgrades[color], maxIndex);
+            typeAptitudes[color] = gradeOrder[newIndex];
+          });
+
+          // Calculate modified strategy aptitudes (capped at A)
+          const strategyAptitudes = { ...pokemonData.strategyAptitudes };
+          Object.keys(strategyUpgrades).forEach(strategyName => {
+            if (strategyAptitudes[strategyName]) {
+              const currentGrade = strategyAptitudes[strategyName];
+              const currentIndex = gradeOrder.indexOf(currentGrade);
+              const newIndex = Math.min(currentIndex + strategyUpgrades[strategyName], maxIndex);
+              strategyAptitudes[strategyName] = gradeOrder[newIndex];
+            }
+          });
+
+          const colorToType = {
+            Red: 'Fire',
+            Blue: 'Water',
+            Green: 'Grass',
+            Yellow: 'Electric',
+            Purple: 'Psychic',
+            Orange: 'Fighting'
+          };
+
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl shadow-card p-4 mb-4"
+            >
+              <h4 className="text-sm font-bold text-purple-700 mb-3 text-center">
+                {selectedPokemon} - Career Start Overview
+              </h4>
+
+              {/* Stats */}
+              <div className="grid grid-cols-5 gap-2 mb-3">
+                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map(stat => {
+                  const hasBonus = statBonuses[stat];
+                  return (
+                    <div key={stat} className="text-center bg-white rounded-lg p-2">
+                      <div className="text-[10px] text-pocket-text-light mb-1">{stat}</div>
+                      <div className={`text-sm font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
+                        {modifiedStats[stat]}
+                      </div>
+                      {hasBonus && <div className="text-[9px] text-amber-600">+{statBonuses[stat]}</div>}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Type Aptitudes */}
+              <div className="mb-3">
+                <div className="text-[10px] font-bold text-purple-600 mb-1">Type Aptitudes</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(typeAptitudes).map(([color, grade]) => {
+                    const hasUpgrade = aptitudeUpgrades[color];
+                    return (
+                      <div
+                        key={color}
+                        className={`px-2 py-1 rounded text-[11px] font-bold ${
+                          hasUpgrade ? 'bg-amber-100 text-amber-700 ring-1 ring-amber-300' : 'bg-white text-gray-600'
+                        }`}
+                      >
+                        {colorToType[color]}: {grade}
+                        {hasUpgrade && <span className="text-[9px]"> ↑</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Strategy Aptitudes */}
+              <div>
+                <div className="text-[10px] font-bold text-purple-600 mb-1">Strategy Aptitudes</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(strategyAptitudes).map(([strategy, grade]) => {
+                    const hasUpgrade = strategyUpgrades[strategy];
+                    return (
+                      <div
+                        key={strategy}
+                        className={`px-2 py-1 rounded text-[11px] font-bold ${
+                          hasUpgrade ? 'bg-amber-100 text-amber-700 ring-1 ring-amber-300' : 'bg-white text-gray-600'
+                        }`}
+                      >
+                        {strategy}: {grade}
+                        {hasUpgrade && <span className="text-[9px]"> ↑</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          );
+        })()}
 
         {/* Begin Career Button */}
         <motion.div

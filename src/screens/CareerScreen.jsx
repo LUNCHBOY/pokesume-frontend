@@ -434,23 +434,27 @@ const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, curr
       }
 
       // Check for strategy aptitude upgrade (same % chance as type aptitudes)
-      // Now uses strategy name to upgrade specific strategy aptitude
-      if (strategyInsp && strategyInsp.name && strategyInsp.stars) {
+      // IMPORTANT: Only upgrades the specific strategy that matches the inspiration
+      if (strategyInsp && strategyInsp.name && strategyInsp.stars && updatedStrategyAptitudes) {
+        const strategyName = strategyInsp.name;
         const upgradeChance = strategyInsp.stars === 1 ? 0.03 : strategyInsp.stars === 2 ? 0.10 : 0.20;
-        if (Math.random() < upgradeChance) {
-          const strategyName = strategyInsp.name;
-          const currentGrade = updatedStrategyAptitudes[strategyName] || 'C';
-          const currentIndex = aptitudeOrder.indexOf(currentGrade);
-          if (currentIndex < aptitudeOrder.length - 1) { // Not already S
-            const newGrade = aptitudeOrder[currentIndex + 1];
-            updatedStrategyAptitudes[strategyName] = newGrade;
-            result.strategyUpgrade = {
-              strategy: strategyName,
-              from: currentGrade,
-              to: newGrade,
-              stars: strategyInsp.stars,
-              chance: upgradeChance
-            };
+
+        // Only apply if the strategy name matches one in the Pokemon's strategy aptitudes
+        if (updatedStrategyAptitudes[strategyName]) {
+          if (Math.random() < upgradeChance) {
+            const currentGrade = updatedStrategyAptitudes[strategyName];
+            const currentIndex = aptitudeOrder.indexOf(currentGrade);
+            if (currentIndex < aptitudeOrder.length - 1) { // Not already S
+              const newGrade = aptitudeOrder[currentIndex + 1];
+              updatedStrategyAptitudes[strategyName] = newGrade;
+              result.strategyUpgrade = {
+                strategy: strategyName,
+                from: currentGrade,
+                to: newGrade,
+                stars: strategyInsp.stars,
+                chance: upgradeChance
+              };
+            }
           }
         }
       }

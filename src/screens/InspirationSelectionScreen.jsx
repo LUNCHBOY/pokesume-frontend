@@ -3,19 +3,24 @@
  *
  * Allows users to select up to 2 trained Pokemon as inspirations.
  * Inspirations provide stat bonuses and aptitude upgrades at turns 11, 23, 35, 47, 59.
+ *
+ * UI Features:
+ * - 2 inspiration slots with tabs (like Uma Musume legacy screen)
+ * - Click empty tab to open selection modal
+ * - Condensed star display on each tab
+ * - Stat/aptitude summary panel showing bonuses
  */
 
-import React from 'react';
-import { ArrowLeft, Sparkles, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { ArrowLeft, Sparkles, Star, Plus, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import { generatePokemonSprite } from '../utils/gameUtils';
-import { EVOLUTION_CHAINS } from '../shared/gameData';
+import { EVOLUTION_CHAINS, POKEMON } from '../shared/gameData';
 
 // Helper function to get all Pokemon in the same evolution chain
 const getEvolutionChainMembers = (pokemonName) => {
-  // Check if this Pokemon is a base form with evolutions
   if (EVOLUTION_CHAINS[pokemonName]) {
     const chain = EVOLUTION_CHAINS[pokemonName];
     const members = [pokemonName, chain.stage1];
@@ -23,7 +28,6 @@ const getEvolutionChainMembers = (pokemonName) => {
     return members;
   }
 
-  // Check if this Pokemon is an evolution of something else
   for (const [basePokemon, chain] of Object.entries(EVOLUTION_CHAINS)) {
     if (chain.stage1 === pokemonName || chain.stage2 === pokemonName) {
       const members = [basePokemon, chain.stage1];
@@ -32,28 +36,22 @@ const getEvolutionChainMembers = (pokemonName) => {
     }
   }
 
-  // No evolution chain found, return just this Pokemon
   return [pokemonName];
 };
 
-// Check if two Pokemon are in the same evolution chain
 const areInSameEvolutionChain = (pokemon1Name, pokemon2Name) => {
   if (pokemon1Name === pokemon2Name) return true;
   const chain1 = getEvolutionChainMembers(pokemon1Name);
   return chain1.includes(pokemon2Name);
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 }
+const colorToType = {
+  Red: 'Fire',
+  Blue: 'Water',
+  Green: 'Grass',
+  Yellow: 'Electric',
+  Purple: 'Psychic',
+  Orange: 'Fighting'
 };
 
 const InspirationSelectionScreen = () => {
@@ -68,7 +66,106 @@ const InspirationSelectionScreen = () => {
 
   const { trainedPokemon } = useInventory();
 
-  // Sort trained pokemon by inspiration
+  const [selectedSlotIndex, setSelectedSlotIndex] = useState(null); // null or 0 or 1
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Calculate total bonuses from selected inspirations
+  const calculateBonuses = () => {
+    const statBonuses = {};
+    const aptitudeStars = {};
+    const strategyStars = {};
+
+    selectedInspirations.forEach(insp => {
+      if (!insp.inspirations) return;
+
+      // Stat bonuses
+      if (insp.inspirations.stat) {
+        const statName = insp.inspirations.stat.name;
+        const stars = insp.inspirations.stat.stars;
+        const bonus = stars === 1 ? 10 : stars === 2 ? 25 : 50;
+        statBonuses[statName] = (statBonuses[statName] || 0) + bonus;
+      }
+
+      // Aptitude stars
+      if (insp.inspirations.aptitude) {
+        const color = insp.inspirations.aptitude.color;
+        aptitudeStars[color] = (aptitudeStars[color] || 0) + (insp.inspirations.aptitude.stars || 0);
+      }
+
+      // Strategy stars
+      if (insp.inspirations.strategy) {
+        const strategyName = insp.inspirations.strategy.name;
+        strategyStars[strategyName] = (strategyStars[strategyName] || 0) + (insp.inspirations.strategy.stars || 0);
+      }
+    });
+
+    // Calculate grade upgrades (2 stars = 1 grade)
+    const aptitudeUpgrades = {};
+    Object.keys(aptitudeStars).forEach(color => {
+      aptitudeUpgrades[color] = Math.floor(aptitudeStars[color] / 2);
+    });
+
+    const strategyUpgrades = {};
+    Object.keys(strategyStars).forEach(strategyName => {
+      strategyUpgrades[strategyName] = Math.floor(strategyStars[strategyName] / 2);
+    });
+
+    return { statBonuses, aptitudeUpgrades, strategyUpgrades };
+  };
+
+  // Apply bonuses to show final stats/aptitudes
+  const getModifiedStatsAndAptitudes = () => {
+    if (!selectedPokemon) return null;
+    const pokemonData = POKEMON[selectedPokemon];
+    if (!pokemonData) return null;
+
+    const { statBonuses, aptitudeUpgrades, strategyUpgrades } = calculateBonuses();
+
+    // Base stats with bonuses
+    const baseStats = pokemonData.baseStats || { HP: 150, Attack: 50, Defense: 50, Instinct: 50, Speed: 50 };
+    const modifiedStats = { ...baseStats };
+    Object.keys(statBonuses).forEach(stat => {
+      if (modifiedStats[stat] !== undefined) {
+        modifiedStats[stat] += statBonuses[stat];
+      }
+    });
+
+    // Type aptitudes with upgrades (capped at A)
+    const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+    const maxIndex = gradeOrder.indexOf('A');
+    const typeAptitudes = { ...pokemonData.typeAptitudes };
+    Object.keys(aptitudeUpgrades).forEach(color => {
+      const currentGrade = typeAptitudes[color];
+      const currentIndex = gradeOrder.indexOf(currentGrade);
+      const newIndex = Math.min(currentIndex + aptitudeUpgrades[color], maxIndex);
+      typeAptitudes[color] = gradeOrder[newIndex];
+    });
+
+    // Strategy aptitudes with upgrades (capped at A)
+    const strategyAptitudes = { ...pokemonData.strategyAptitudes };
+    Object.keys(strategyUpgrades).forEach(strategyName => {
+      if (strategyAptitudes[strategyName]) {
+        const currentGrade = strategyAptitudes[strategyName];
+        const currentIndex = gradeOrder.indexOf(currentGrade);
+        const newIndex = Math.min(currentIndex + strategyUpgrades[strategyName], maxIndex);
+        strategyAptitudes[strategyName] = gradeOrder[newIndex];
+      }
+    });
+
+    return {
+      baseStats: pokemonData.baseStats,
+      modifiedStats,
+      originalTypeAptitudes: pokemonData.typeAptitudes,
+      typeAptitudes,
+      originalStrategyAptitudes: pokemonData.strategyAptitudes,
+      strategyAptitudes,
+      statBonuses,
+      aptitudeUpgrades,
+      strategyUpgrades
+    };
+  };
+
+  // Sort trained pokemon
   const sortTrainedByInspiration = (pokemon) => {
     return [...pokemon].sort((a, b) => {
       const getTotalStars = (p) => {
@@ -76,7 +173,6 @@ const InspirationSelectionScreen = () => {
         return p.inspirations.stat.stars + p.inspirations.aptitude.stars + (p.inspirations.strategy?.stars || 0);
       };
 
-      // Primary sort by mode
       if (inspirationSortMode === 'stat') {
         const statA = a.inspirations?.stat?.name || '';
         const statB = b.inspirations?.stat?.name || '';
@@ -84,14 +180,6 @@ const InspirationSelectionScreen = () => {
         if (statCompare !== 0) return statCompare;
         return getTotalStars(b) - getTotalStars(a);
       } else if (inspirationSortMode === 'aptitude') {
-        const colorToType = {
-          Red: 'Fire',
-          Blue: 'Water',
-          Green: 'Grass',
-          Yellow: 'Electric',
-          Purple: 'Psychic',
-          Orange: 'Fighting'
-        };
         const aptA = colorToType[a.inspirations?.aptitude?.name] || a.inspirations?.aptitude?.name || '';
         const aptB = colorToType[b.inspirations?.aptitude?.name] || b.inspirations?.aptitude?.name || '';
         const aptCompare = aptA.localeCompare(aptB);
@@ -105,14 +193,28 @@ const InspirationSelectionScreen = () => {
 
   const sortedTrainedPokemon = sortTrainedByInspiration(trainedPokemon);
 
-  const colorToType = {
-    Red: 'Fire',
-    Blue: 'Water',
-    Green: 'Grass',
-    Yellow: 'Electric',
-    Purple: 'Psychic',
-    Orange: 'Fighting'
+  const handleSlotClick = (slotIndex) => {
+    setSelectedSlotIndex(slotIndex);
+    setIsModalOpen(true);
   };
+
+  const handleSelectInspiration = (trained) => {
+    if (selectedSlotIndex === null) return;
+
+    const newInspirations = [...selectedInspirations];
+    newInspirations[selectedSlotIndex] = trained;
+    setSelectedInspirations(newInspirations);
+    setIsModalOpen(false);
+    setSelectedSlotIndex(null);
+  };
+
+  const handleRemoveInspiration = (slotIndex) => {
+    const newInspirations = [...selectedInspirations];
+    newInspirations[slotIndex] = null;
+    setSelectedInspirations(newInspirations.filter(i => i !== null));
+  };
+
+  const modifiedData = getModifiedStatsAndAptitudes();
 
   return (
     <div className="min-h-screen bg-pocket-bg p-4">
@@ -144,190 +246,347 @@ const InspirationSelectionScreen = () => {
       </motion.header>
 
       <div className="max-w-4xl mx-auto">
-        {/* Info Card */}
+        {/* Inspiration Slots - Uma Musume style tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl shadow-card p-4 mb-4"
         >
-          <p className="text-sm text-pocket-text-light text-center">
+          <p className="text-sm text-pocket-text-light text-center mb-4">
             Choose trained Pokemon to inspire your career at turns 11, 23, 35, 47, and 59
           </p>
 
-          {/* Sort Options */}
-          <div className="flex justify-center gap-2 mt-3">
-            {['stars', 'stat', 'aptitude'].map(mode => (
-              <button
-                key={mode}
-                onClick={() => setInspirationSortMode(mode)}
-                className={`px-4 py-2 rounded-xl font-bold text-xs transition ${
-                  inspirationSortMode === mode
-                    ? 'bg-type-psychic text-white'
-                    : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
-                }`}
-              >
-                {mode === 'stars' ? 'Total Stars' : mode === 'stat' ? 'By Stat' : 'By Type'}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Trained Pokemon Grid */}
-        {trainedPokemon.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl shadow-card p-8 text-center"
-          >
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pocket-bg flex items-center justify-center">
-              <Sparkles size={32} className="text-pocket-text-light" />
-            </div>
-            <p className="text-pocket-text mb-2">No trained Pokemon yet</p>
-            <p className="text-sm text-pocket-text-light mb-4">
-              You can continue without inspirations.
-            </p>
-            <button
-              onClick={() => setGameState('supportSelect')}
-              className="pocket-btn-primary px-6 py-3"
-            >
-              Continue to Support Selection
-            </button>
-          </motion.div>
-        ) : (
-          <>
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4"
-            >
-            {sortedTrainedPokemon.map((trained, idx) => {
-              const isSelected = selectedInspirations.some(
-                insp => insp.name === trained.name && insp.completedAt === trained.completedAt
-              );
-              const isSameSpecies = selectedPokemon && trained.name === selectedPokemon;
-              const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon, trained.name);
-              const isDisabled = isSameSpecies || isInEvolutionChain;
-            
-              const totalStars = trained.inspirations
-                ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
-                : 0;
-            
+          <div className="flex gap-3 mb-4">
+            {[0, 1].map(slotIndex => {
+              const inspiration = selectedInspirations[slotIndex];
               return (
                 <motion.div
-                  key={idx}
-                  variants={itemVariants}
-                  whileHover={!isDisabled ? { y: -2, scale: 1.02 } : {}}
-                  whileTap={!isDisabled ? { scale: 0.98 } : {}}
-                  onClick={() => {
-                    if (isDisabled) return;
-                
-                    if (isSelected) {
-                      setSelectedInspirations(
-                        selectedInspirations.filter(
-                          insp => !(insp.name === trained.name && insp.completedAt === trained.completedAt)
-                        )
-                      );
-                    } else if (selectedInspirations.length < 2) {
-                      setSelectedInspirations([...selectedInspirations, trained]);
-                    }
-                  }}
-                  className={`pokemon-card transition-all ${
-                    isSelected ? 'ring-4 ring-pocket-green' : ''
-                  } ${
-                    isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
+                  key={slotIndex}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleSlotClick(slotIndex)}
+                  className={`flex-1 relative rounded-xl border-2 cursor-pointer transition-all p-3 ${
+                    inspiration
+                      ? 'border-pocket-green bg-green-50'
+                      : 'border-dashed border-gray-300 bg-gray-50 hover:border-pocket-blue hover:bg-blue-50'
                   }`}
                 >
-                  <div className="flex justify-center mb-2">
-                    {generatePokemonSprite(trained.type, trained.name)}
-                  </div>
-                  <h3 className="text-center font-bold text-pocket-text text-sm">{trained.name}</h3>
-                
-                  {/* Same Species Warning */}
-                  {isSameSpecies && (
-                    <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
-                      Can't use same species
-                    </div>
-                  )}
-                
-                  {/* Evolution Chain Warning */}
-                  {isInEvolutionChain && (
-                    <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
-                      Same evolution line
-                    </div>
-                  )}
-                
-                  {/* Total Stars Display */}
-                  {trained.inspirations && totalStars > 0 && (
-                    <div className="flex justify-center gap-0.5 mt-2 mb-2">
-                      {[...Array(totalStars)].map((_, i) => (
-                        <Star key={i} size={12} className="text-amber-400 fill-amber-400" />
-                      ))}
-                    </div>
-                  )}
-                
-                  {/* Inspirations Display */}
-                  {trained.inspirations && trained.inspirations.stat && trained.inspirations.aptitude ? (
-                    <div className="bg-pocket-bg rounded-lg p-2 space-y-1 mt-2">
-                      <div className="flex justify-between items-center text-[10px]">
-                        <span className="font-semibold text-pocket-text">{trained.inspirations.stat.name}</span>
-                        <div className="flex gap-0.5">
-                          {[...Array(trained.inspirations.stat.stars)].map((_, i) => (
-                            <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
-                          ))}
+                  {inspiration ? (
+                    <>
+                      {/* Tab label */}
+                      <div className="text-[10px] font-bold text-pocket-text-light mb-2">
+                        LEGACY {slotIndex + 1}
+                      </div>
+
+                      {/* Pokemon sprite and name */}
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-12 h-12">
+                          {generatePokemonSprite(inspiration.type, inspiration.name)}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-pocket-text text-sm">{inspiration.name}</h3>
                         </div>
                       </div>
-                      <div className="flex justify-between items-center text-[10px]">
-                        <span className="font-semibold text-pocket-text">
-                          {colorToType[trained.inspirations.aptitude.name] || trained.inspirations.aptitude.name}
-                        </span>
-                        <div className="flex gap-0.5">
-                          {[...Array(trained.inspirations.aptitude.stars)].map((_, i) => (
-                            <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
-                          ))}
-                        </div>
-                      </div>
-                      {trained.inspirations.strategy && (
-                        <div className="flex justify-between items-center text-[10px]">
-                          <span className="font-semibold text-pocket-text">{trained.inspirations.strategy.name}</span>
-                          <div className="flex gap-0.5">
-                            {[...Array(trained.inspirations.strategy.stars)].map((_, i) => (
-                              <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
-                            ))}
+
+                      {/* Condensed star info */}
+                      {inspiration.inspirations && (
+                        <div className="space-y-1">
+                          {/* Stat */}
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-pocket-text-light">{inspiration.inspirations.stat?.name}</span>
+                            <div className="flex gap-0.5">
+                              {[...Array(inspiration.inspirations.stat?.stars || 0)].map((_, i) => (
+                                <Star key={i} size={8} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
                           </div>
+                          {/* Aptitude */}
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-pocket-text-light">
+                              {colorToType[inspiration.inspirations.aptitude?.name] || inspiration.inspirations.aptitude?.name}
+                            </span>
+                            <div className="flex gap-0.5">
+                              {[...Array(inspiration.inspirations.aptitude?.stars || 0)].map((_, i) => (
+                                <Star key={i} size={8} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
+                          </div>
+                          {/* Strategy */}
+                          {inspiration.inspirations.strategy && (
+                            <div className="flex items-center justify-between text-[10px]">
+                              <span className="text-pocket-text-light">{inspiration.inspirations.strategy.name}</span>
+                              <div className="flex gap-0.5">
+                                {[...Array(inspiration.inspirations.strategy.stars)].map((_, i) => (
+                                  <Star key={i} size={8} className="text-amber-400 fill-amber-400" />
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
-                    </div>
+
+                      {/* Remove button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveInspiration(slotIndex);
+                        }}
+                        className="absolute top-2 right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                      >
+                        <X size={12} className="text-white" />
+                      </button>
+                    </>
                   ) : (
-                    <div className="text-[10px] font-bold text-pocket-red text-center mt-2">No Inspirations</div>
+                    <>
+                      {/* Empty slot */}
+                      <div className="text-center">
+                        <div className="text-[10px] font-bold text-pocket-text-light mb-2">
+                          LEGACY {slotIndex + 1}
+                        </div>
+                        <div className="flex items-center justify-center h-20">
+                          <Plus size={32} className="text-gray-400" />
+                        </div>
+                      </div>
+                    </>
                   )}
                 </motion.div>
-                              );
-                            })}
-                            </motion.div>
-      
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <button
-                      onClick={() => setGameState('supportSelect')}
-                      disabled={selectedInspirations.length > 2}
-                      className="w-full pocket-btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              );
+            })}
+          </div>
+
+          {/* Stat/Aptitude Summary Panel */}
+          {modifiedData && selectedInspirations.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-3 border-2 border-purple-200"
+            >
+              <h4 className="text-xs font-bold text-purple-700 mb-2">Career Start Bonuses</h4>
+
+              {/* Stats */}
+              <div className="grid grid-cols-5 gap-2 mb-3">
+                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map(stat => {
+                  const hasBonus = modifiedData.statBonuses[stat];
+                  return (
+                    <div key={stat} className="text-center">
+                      <div className="text-[9px] text-pocket-text-light mb-0.5">{stat}</div>
+                      <div className={`text-xs font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
+                        {modifiedData.modifiedStats[stat]}
+                        {hasBonus && <span className="text-[9px]"> (+{modifiedData.statBonuses[stat]})</span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Type Aptitudes */}
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {Object.entries(modifiedData.typeAptitudes).map(([color, grade]) => {
+                  const hasUpgrade = modifiedData.aptitudeUpgrades[color];
+                  return (
+                    <div
+                      key={color}
+                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                        hasUpgrade ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                      }`}
                     >
-                      Continue to Support Selection
-                    </button>
-                  </motion.div>
-          </>
-        )}
+                      {colorToType[color]}: {grade}
+                      {hasUpgrade && <span className="text-[8px]"> ↑</span>}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Strategy Aptitudes */}
+              <div className="flex flex-wrap gap-1.5">
+                {Object.entries(modifiedData.strategyAptitudes).map(([strategy, grade]) => {
+                  const hasUpgrade = modifiedData.strategyUpgrades[strategy];
+                  return (
+                    <div
+                      key={strategy}
+                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                        hasUpgrade ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                      }`}
+                    >
+                      {strategy}: {grade}
+                      {hasUpgrade && <span className="text-[8px]"> ↑</span>}
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Continue Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <button
+            onClick={() => setGameState('supportSelect')}
+            className="w-full pocket-btn-primary py-4 text-lg"
+          >
+            Continue to Support Selection
+          </button>
+        </motion.div>
       </div>
+
+      {/* Selection Modal */}
+      <AnimatePresence>
+        {isModalOpen && selectedSlotIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            onClick={() => {
+              setIsModalOpen(false);
+              setSelectedSlotIndex(null);
+            }}
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+              className="bg-white rounded-2xl shadow-card-lg w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-3">
+                <h3 className="font-bold text-pocket-text text-center">
+                  Select Inspiration for Legacy {selectedSlotIndex + 1}
+                </h3>
+
+                {/* Sort Options */}
+                <div className="flex justify-center gap-2 mt-3">
+                  {['stars', 'stat', 'aptitude'].map(mode => (
+                    <button
+                      key={mode}
+                      onClick={() => setInspirationSortMode(mode)}
+                      className={`px-4 py-2 rounded-xl font-bold text-xs transition ${
+                        inspirationSortMode === mode
+                          ? 'bg-type-psychic text-white'
+                          : 'bg-pocket-bg text-pocket-text-light hover:bg-gray-200'
+                      }`}
+                    >
+                      {mode === 'stars' ? 'Total Stars' : mode === 'stat' ? 'By Stat' : 'By Type'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Pokemon Grid */}
+              <div className="p-4 overflow-y-auto flex-1">
+                {trainedPokemon.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-pocket-text-light">No trained Pokemon available</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {sortedTrainedPokemon.map((trained, idx) => {
+                      const isAlreadySelected = selectedInspirations.some(
+                        insp => insp && insp.name === trained.name && insp.completedAt === trained.completedAt
+                      );
+                      const isSameSpecies = selectedPokemon && trained.name === selectedPokemon;
+                      const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon, trained.name);
+                      const isDisabled = isSameSpecies || isInEvolutionChain || isAlreadySelected;
+
+                      const totalStars = trained.inspirations
+                        ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
+                        : 0;
+
+                      return (
+                        <motion.div
+                          key={idx}
+                          whileHover={!isDisabled ? { y: -2, scale: 1.02 } : {}}
+                          whileTap={!isDisabled ? { scale: 0.98 } : {}}
+                          onClick={() => {
+                            if (!isDisabled) {
+                              handleSelectInspiration(trained);
+                            }
+                          }}
+                          className={`pokemon-card transition-all duration-200 cursor-pointer ${
+                            isDisabled ? 'opacity-40 cursor-not-allowed' : ''
+                          }`}
+                        >
+                          <div className="flex justify-center mb-2">
+                            {generatePokemonSprite(trained.type, trained.name)}
+                          </div>
+                          <h3 className="text-center font-bold text-pocket-text text-sm">{trained.name}</h3>
+
+                          {isSameSpecies && (
+                            <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
+                              Can't use same species
+                            </div>
+                          )}
+
+                          {isInEvolutionChain && (
+                            <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
+                              Same evolution line
+                            </div>
+                          )}
+
+                          {isAlreadySelected && (
+                            <div className="text-[10px] font-bold text-pocket-blue text-center mt-1">
+                              Already selected
+                            </div>
+                          )}
+
+                          {trained.inspirations && totalStars > 0 && (
+                            <div className="flex justify-center gap-0.5 mt-2 mb-2">
+                              {[...Array(totalStars)].map((_, i) => (
+                                <Star key={i} size={12} className="text-amber-400 fill-amber-400" />
+                              ))}
+                            </div>
+                          )}
+
+                          {trained.inspirations && trained.inspirations.stat && trained.inspirations.aptitude && (
+                            <div className="bg-pocket-bg rounded-lg p-2 space-y-1 mt-2">
+                              <div className="flex justify-between items-center text-[10px]">
+                                <span className="font-semibold text-pocket-text">{trained.inspirations.stat.name}</span>
+                                <div className="flex gap-0.5">
+                                  {[...Array(trained.inspirations.stat.stars)].map((_, i) => (
+                                    <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center text-[10px]">
+                                <span className="font-semibold text-pocket-text">
+                                  {colorToType[trained.inspirations.aptitude.name] || trained.inspirations.aptitude.name}
+                                </span>
+                                <div className="flex gap-0.5">
+                                  {[...Array(trained.inspirations.aptitude.stars)].map((_, i) => (
+                                    <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                                  ))}
+                                </div>
+                              </div>
+                              {trained.inspirations.strategy && (
+                                <div className="flex justify-between items-center text-[10px]">
+                                  <span className="font-semibold text-pocket-text">{trained.inspirations.strategy.name}</span>
+                                  <div className="flex gap-0.5">
+                                    {[...Array(trained.inspirations.strategy.stars)].map((_, i) => (
+                                      <Star key={i} size={10} className="text-amber-400 fill-amber-400" />
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
 export default InspirationSelectionScreen;
-
-
-
-
