@@ -560,17 +560,23 @@ const CareerScreen = () => {
     const currentGrade = getPokemonGrade(currentStats);
     // Use evolution stage from server state (not React state which may be stale)
     const currentStage = serverCareerState?.evolutionStage || 0;
+    const totalStats = Object.values(currentStats).reduce((sum, val) => sum + val, 0);
+
+    console.log('[checkForEvolution] Pokemon:', pokemonName, 'Base:', baseName, 'Grade:', currentGrade, 'TotalStats:', totalStats, 'CurrentStage:', currentStage, 'Chain:', evolutionChain);
 
     // Check for stage 1 evolution (at C grade or higher)
     if (currentStage === 0 && evolutionChain.stage1 && ['C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade)) {
+      console.log('[checkForEvolution] Triggering stage 1 evolution to:', evolutionChain.stage1);
       return { toName: evolutionChain.stage1, toStage: 1 };
     }
 
     // Check for stage 2 evolution (at A grade or higher)
     if (currentStage === 1 && evolutionChain.stage2 && ['A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade)) {
+      console.log('[checkForEvolution] Triggering stage 2 evolution to:', evolutionChain.stage2);
       return { toName: evolutionChain.stage2, toStage: 2 };
     }
 
+    console.log('[checkForEvolution] No evolution triggered. Stage1 condition:', currentStage === 0 && evolutionChain.stage1, 'Grade in list:', ['C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade));
     return null;
   };
 
@@ -2508,14 +2514,19 @@ const CareerScreen = () => {
                     // Get training progress
                     const trainingProgress = careerData.trainingProgress?.[stat] || 0;
 
-                    // Get training level color based on level (like rarity colors)
+                    // Get training level color based on level (1-5 display, matching rarity colors)
+                    // Internal level 0-4 maps to display level 1-5
                     const getLevelColor = (level) => {
-                      if (level === 0) return '#9ca3af'; // Gray
-                      if (level <= 2) return '#22c55e'; // Green (Common)
-                      if (level <= 4) return '#3b82f6'; // Blue (Uncommon)
-                      if (level <= 6) return '#a855f7'; // Purple (Rare)
-                      return '#eab308'; // Gold (Legendary)
+                      const displayLevel = Math.min(level + 1, 5); // Cap at 5
+                      if (displayLevel === 1) return '#9ca3af'; // Gray (Common)
+                      if (displayLevel === 2) return '#22c55e'; // Green (Uncommon)
+                      if (displayLevel === 3) return '#3b82f6'; // Blue (Rare)
+                      if (displayLevel === 4) return '#a855f7'; // Purple (Legendary-ish)
+                      return '#eab308'; // Yellow/Gold (Max level)
                     };
+
+                    // Display level (1-5, capped)
+                    const displayLevel = Math.min(trainingLevel + 1, 5);
 
                     const currentStatValue = careerData.currentStats[stat];
 
@@ -2558,7 +2569,7 @@ const CareerScreen = () => {
                             className="text-white text-[8px] sm:text-xs px-1 py-0.5 rounded font-bold"
                             style={{ backgroundColor: getLevelColor(trainingLevel) }}
                           >
-                            Lv.{trainingLevel}
+                            Lv.{displayLevel}
                           </div>
                         </div>
                         <div className="text-[9px] sm:text-xs mb-0.5 sm:mb-1">

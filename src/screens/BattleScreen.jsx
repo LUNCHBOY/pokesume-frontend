@@ -130,6 +130,70 @@ const generateInspirations = (stats, aptitudes, strategyAptitudes = null, isVict
   };
 };
 
+/**
+ * Calculate stat modifiers from status effects
+ * Returns an object with buff/debuff info for each stat
+ */
+const getStatModifiers = (statusEffects = []) => {
+  const modifiers = {
+    Attack: { buff: 0, debuff: 0 },
+    Defense: { buff: 0, debuff: 0 },
+    Instinct: { buff: 0, debuff: 0 },
+    Speed: { buff: 0, debuff: 0 }
+  };
+
+  statusEffects.forEach(effect => {
+    if (effect.type === 'buff_attack' && effect.multiplier) {
+      // Convert multiplier to percentage increase (e.g., 2.0 -> +100%)
+      modifiers.Attack.buff += Math.round((effect.multiplier - 1) * 100);
+    }
+    if (effect.type === 'debuff_attack' && effect.multiplier) {
+      // Convert multiplier to percentage decrease (e.g., 0.7 -> -30%)
+      modifiers.Attack.debuff += Math.round((1 - effect.multiplier) * 100);
+    }
+    if (effect.type === 'buff_defense' && effect.multiplier) {
+      modifiers.Defense.buff += Math.round((effect.multiplier - 1) * 100);
+    }
+    if (effect.type === 'debuff_defense' && effect.multiplier) {
+      modifiers.Defense.debuff += Math.round((1 - effect.multiplier) * 100);
+    }
+    if (effect.type === 'buff_instinct' && effect.multiplier) {
+      modifiers.Instinct.buff += Math.round((effect.multiplier - 1) * 100);
+    }
+    if (effect.type === 'debuff_instinct' && effect.multiplier) {
+      modifiers.Instinct.debuff += Math.round((1 - effect.multiplier) * 100);
+    }
+    if (effect.type === 'buff_speed' && effect.multiplier) {
+      modifiers.Speed.buff += Math.round((effect.multiplier - 1) * 100);
+    }
+    if (effect.type === 'debuff_speed' && effect.multiplier) {
+      modifiers.Speed.debuff += Math.round((1 - effect.multiplier) * 100);
+    }
+  });
+
+  return modifiers;
+};
+
+/**
+ * StatDisplay component - shows stat value with buff/debuff indicators
+ */
+const StatDisplay = ({ label, value, modifier }) => {
+  const hasBuff = modifier.buff > 0;
+  const hasDebuff = modifier.debuff > 0;
+
+  return (
+    <span className="flex items-center gap-0.5">
+      <span>{label} {value}</span>
+      {hasBuff && (
+        <span className="text-green-500 font-bold">+{modifier.buff}%</span>
+      )}
+      {hasDebuff && (
+        <span className="text-red-500 font-bold">-{modifier.debuff}%</span>
+      )}
+    </span>
+  );
+};
+
 const BattleScreen = () => {
   const { battleState, battleSpeed, setBattleSpeed, setGameState, setBattleState, setCareerHistory, setCompletedCareerData } = useGame();
   const { careerData, completeCareer, consumePokeclock } = useCareer();
@@ -462,12 +526,17 @@ const BattleScreen = () => {
                   </div>
 
                   {/* Stats Row */}
-                  <div className="flex justify-between mt-3 text-[10px] text-pocket-text-light">
-                    <span>ATK {battleState.player.stats.Attack}</span>
-                    <span>DEF {battleState.player.stats.Defense}</span>
-                    <span>INS {battleState.player.stats.Instinct}</span>
-                    <span>SPE {battleState.player.stats.Speed}</span>
-                  </div>
+                  {(() => {
+                    const modifiers = getStatModifiers(battleState.player.statusEffects);
+                    return (
+                      <div className="flex justify-between mt-3 text-[10px] text-pocket-text-light">
+                        <StatDisplay label="ATK" value={battleState.player.stats.Attack} modifier={modifiers.Attack} />
+                        <StatDisplay label="DEF" value={battleState.player.stats.Defense} modifier={modifiers.Defense} />
+                        <StatDisplay label="INS" value={battleState.player.stats.Instinct} modifier={modifiers.Instinct} />
+                        <StatDisplay label="SPE" value={battleState.player.stats.Speed} modifier={modifiers.Speed} />
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -562,12 +631,17 @@ const BattleScreen = () => {
                   </div>
 
                   {/* Stats Row */}
-                  <div className="flex justify-between mt-3 text-[10px] text-pocket-text-light">
-                    <span>ATK {battleState.opponent.stats.Attack}</span>
-                    <span>DEF {battleState.opponent.stats.Defense}</span>
-                    <span>INS {battleState.opponent.stats.Instinct}</span>
-                    <span>SPE {battleState.opponent.stats.Speed}</span>
-                  </div>
+                  {(() => {
+                    const modifiers = getStatModifiers(battleState.opponent.statusEffects);
+                    return (
+                      <div className="flex justify-between mt-3 text-[10px] text-pocket-text-light">
+                        <StatDisplay label="ATK" value={battleState.opponent.stats.Attack} modifier={modifiers.Attack} />
+                        <StatDisplay label="DEF" value={battleState.opponent.stats.Defense} modifier={modifiers.Defense} />
+                        <StatDisplay label="INS" value={battleState.opponent.stats.Instinct} modifier={modifiers.Instinct} />
+                        <StatDisplay label="SPE" value={battleState.opponent.stats.Speed} modifier={modifiers.Speed} />
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             </div>

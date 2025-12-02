@@ -16,7 +16,7 @@ import {
   getAptitudeColor,
   StatIcon
 } from '../utils/gameUtils';
-import { TypeBadge, TypeIcon } from '../components/TypeIcon';
+import { TypeBadge, TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
 import { MOVES } from '../shared/gameData';
 
 const containerVariants = {
@@ -555,18 +555,29 @@ const TrainedPokemonScreen = () => {
                     {/* Learned Moves */}
                     {pokemon.abilities && pokemon.abilities.length > 0 && (
                       <div className="bg-blue-50 rounded-xl p-3 mb-3">
-                        <h4 className="font-bold text-blue-700 text-sm mb-2">Learned Moves ({pokemon.abilities.length})</h4>
-                        <div className="grid grid-cols-2 gap-1 text-xs max-h-32 overflow-y-auto">
+                        <h4 className="font-bold text-blue-700 text-sm mb-2">Known Moves ({pokemon.abilities.length})</h4>
+                        <div className="space-y-1.5 text-xs max-h-48 overflow-y-auto">
                           {pokemon.abilities.map((moveName, idx) => {
                             const move = MOVES && MOVES[moveName];
                             const moveType = move?.type || pokemon.primaryType || pokemon.type || 'Normal';
+                            const typeColor = TYPE_COLORS[moveType] || '#A8A878';
                             return (
                               <div
                                 key={idx}
-                                className="flex items-center gap-1 px-2 py-1 rounded bg-white"
+                                className="flex items-center justify-between px-2 py-1.5 rounded bg-white border-l-4"
+                                style={{ borderLeftColor: typeColor }}
                               >
-                                <TypeBadge type={moveType} size={10} />
-                                <span className="truncate text-pocket-text">{moveName}</span>
+                                <div className="flex items-center gap-2">
+                                  <TypeBadge type={moveType} size={12} />
+                                  <span className="font-semibold text-pocket-text">{moveName}</span>
+                                </div>
+                                {move && (
+                                  <div className="flex items-center gap-2 text-pocket-text-light">
+                                    <span title="Damage">⚔️{move.damage}</span>
+                                    <span title="Stamina">💪{move.stamina}</span>
+                                    <span title="Warmup/Cooldown">⏱️{move.warmup}/{move.cooldown}</span>
+                                  </div>
+                                )}
                               </div>
                             );
                           })}
