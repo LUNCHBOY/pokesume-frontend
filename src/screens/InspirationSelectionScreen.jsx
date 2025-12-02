@@ -246,6 +246,105 @@ const InspirationSelectionScreen = () => {
       </motion.header>
 
       <div className="max-w-4xl mx-auto">
+        {/* Pokemon Info Card - Career Screen Style */}
+        {modifiedData && selectedPokemon && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white rounded-2xl shadow-card p-4 mb-4"
+          >
+            <div className="flex items-center gap-4">
+              {/* Pokemon Sprite */}
+              <div className="w-20 h-20">
+                {generatePokemonSprite(selectedPokemon, selectedPokemon)}
+              </div>
+
+              {/* Pokemon Name and Strategy */}
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-pocket-text mb-2">{selectedPokemon}</h2>
+
+                {/* Strategy Badge */}
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="px-3 py-1 bg-red-500 text-white text-sm font-bold rounded">
+                    ⚔ {modifiedData.strategyAptitudes && Object.entries(modifiedData.strategyAptitudes).reduce((best, [strat, grade]) => {
+                      const gradeRank = { 'S': 6, 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, 'F': 0 };
+                      const currentRank = gradeRank[grade] || 0;
+                      const bestRank = gradeRank[best.grade] || 0;
+                      return currentRank > bestRank ? { strat, grade } : best;
+                    }, { strat: 'Chipper', grade: 'F' }).strat}
+                  </span>
+                </div>
+
+                {/* Stats Row */}
+                <div className="flex items-center gap-4 mb-3">
+                  {[
+                    { name: 'HP', icon: '❤', color: 'text-red-500' },
+                    { name: 'Attack', icon: '⚔', color: 'text-orange-500' },
+                    { name: 'Defense', icon: '🛡', color: 'text-blue-500' },
+                    { name: 'Instinct', icon: '✨', color: 'text-purple-500' },
+                    { name: 'Speed', icon: '⚡', color: 'text-yellow-500' }
+                  ].map((stat, idx) => {
+                    const hasBonus = modifiedData.statBonuses[stat.name];
+                    const value = modifiedData.modifiedStats[stat.name];
+                    return (
+                      <div key={stat.name} className="flex items-center gap-1">
+                        <span className={`${stat.color}`}>{stat.icon}</span>
+                        <span className={`font-bold ${hasBonus ? 'text-orange-500' : 'text-pocket-text'}`}>
+                          {value}
+                        </span>
+                        {hasBonus && <span className="text-xs text-orange-500">(+{modifiedData.statBonuses[stat.name]})</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Type Aptitudes - Fire badge style */}
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {Object.entries(modifiedData.typeAptitudes).map(([color, grade]) => {
+                    const hasUpgrade = modifiedData.aptitudeUpgrades[color];
+                    const typeInfo = {
+                      Red: { label: 'F C', bg: 'bg-red-500', icon: '🔥' },
+                      Blue: { label: 'W C', bg: 'bg-blue-500', icon: '💧' },
+                      Green: { label: 'G C', bg: 'bg-green-500', icon: '🌿' },
+                      Purple: { label: 'P A', bg: 'bg-purple-500', icon: '🔮' },
+                      Yellow: { label: 'E C', bg: 'bg-yellow-500', icon: '⚡' },
+                      Orange: { label: 'F C', bg: 'bg-orange-500', icon: '👊' }
+                    };
+                    const info = typeInfo[color] || { label: 'C', bg: 'bg-gray-500', icon: '?' };
+
+                    return (
+                      <div
+                        key={color}
+                        className={`${info.bg} ${hasUpgrade ? 'ring-2 ring-orange-400' : ''} text-white px-3 py-1 rounded-md text-sm font-bold flex items-center gap-1`}
+                      >
+                        <span>{info.icon}</span>
+                        <span>{info.label.split(' ')[0]} {grade}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Strategy Aptitudes */}
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(modifiedData.strategyAptitudes).map(([strategy, grade]) => {
+                    const hasUpgrade = modifiedData.strategyUpgrades[strategy];
+                    return (
+                      <div
+                        key={strategy}
+                        className={`px-3 py-1 rounded-md text-sm font-bold ${
+                          hasUpgrade ? 'bg-orange-100 text-orange-700 ring-2 ring-orange-400' : 'bg-gray-200 text-gray-700'
+                        }`}
+                      >
+                        {strategy} {grade}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Inspiration Slots - Uma Musume style tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -353,94 +452,6 @@ const InspirationSelectionScreen = () => {
               );
             })}
           </div>
-
-          {/* Pokemon Info Card - Uma Musume Style */}
-          {modifiedData && selectedInspirations.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-xl p-3 shadow-md border-2 border-purple-200 mb-3"
-            >
-              {/* Pokemon Header */}
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-16 h-16 flex items-center justify-center">
-                  {generatePokemonSprite(selectedPokemon, selectedPokemon)}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-pocket-text">{selectedPokemon}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded">
-                      ⚔ {modifiedData.strategyAptitudes && Object.entries(modifiedData.strategyAptitudes).reduce((best, [strat, grade]) => {
-                        const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
-                        return gradeOrder.indexOf(grade) > gradeOrder.indexOf(best.grade) ? { strat, grade } : best;
-                      }, { strat: 'Chipper', grade: 'F' }).strat}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats Row */}
-              <div className="flex items-center gap-2 mb-3">
-                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map((stat, idx) => {
-                  const hasBonus = modifiedData.statBonuses[stat];
-                  const statIcons = { HP: '❤', Attack: '⚔', Defense: '🛡', Instinct: '✨', Speed: '⚡' };
-                  return (
-                    <div key={stat} className="flex items-center gap-1">
-                      <span className="text-xs">{statIcons[stat]}</span>
-                      <span className={`text-sm font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
-                        {modifiedData.modifiedStats[stat]}
-                      </span>
-                      {idx < 4 && <span className="text-gray-300">•</span>}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Type Aptitudes */}
-              <div className="mb-2">
-                <div className="flex flex-wrap gap-1">
-                  {Object.entries(modifiedData.typeAptitudes).map(([color, grade]) => {
-                    const hasUpgrade = modifiedData.aptitudeUpgrades[color];
-                    const typeColors = {
-                      Red: 'bg-red-500',
-                      Blue: 'bg-blue-500',
-                      Green: 'bg-green-500',
-                      Yellow: 'bg-yellow-500',
-                      Purple: 'bg-purple-500',
-                      Orange: 'bg-orange-500'
-                    };
-                    return (
-                      <div
-                        key={color}
-                        className={`px-2 py-1 rounded-md text-xs font-bold text-white ${typeColors[color]} ${
-                          hasUpgrade ? 'ring-2 ring-amber-400' : ''
-                        }`}
-                      >
-                        {colorToType[color][0]} {grade}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Strategy Aptitudes */}
-              <div className="flex flex-wrap gap-1">
-                {Object.entries(modifiedData.strategyAptitudes).map(([strategy, grade]) => {
-                  const hasUpgrade = modifiedData.strategyUpgrades[strategy];
-                  return (
-                    <div
-                      key={strategy}
-                      className={`px-2 py-1 rounded-md text-xs font-bold ${
-                        hasUpgrade ? 'bg-amber-100 text-amber-700 ring-2 ring-amber-400' : 'bg-gray-100 text-gray-600'
-                      }`}
-                    >
-                      {strategy} {grade}
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
         </motion.div>
 
         {/* Continue Button */}

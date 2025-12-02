@@ -445,6 +445,179 @@ const SupportSelectionScreen = () => {
       </motion.header>
 
       <div className="max-w-lg mx-auto">
+        {/* Pokemon Info Card - Career Screen Style */}
+        {selectedPokemon && (() => {
+          const pokemonData = POKEMON[selectedPokemon];
+          if (!pokemonData) return null;
+
+          const { aptitudeUpgrades, strategyUpgrades, statBonuses } = calculateInspirationBonuses();
+
+          // Calculate support deck stat bonuses
+          const supportStatBonuses = {};
+          const currentDeckSupports = decks[currentDeckIndex].filter(s => s !== null);
+          currentDeckSupports.forEach(supportKey => {
+            const support = SUPPORT_CARDS[supportKey];
+            if (support && support.baseStats) {
+              Object.entries(support.baseStats).forEach(([stat, value]) => {
+                supportStatBonuses[stat] = (supportStatBonuses[stat] || 0) + value;
+              });
+            }
+          });
+
+          // Calculate total stat bonuses (inspiration + support)
+          const totalStatBonuses = { ...statBonuses };
+          Object.keys(supportStatBonuses).forEach(stat => {
+            totalStatBonuses[stat] = (totalStatBonuses[stat] || 0) + supportStatBonuses[stat];
+          });
+
+          // Calculate modified stats
+          const baseStats = pokemonData.baseStats || { HP: 150, Attack: 50, Defense: 50, Instinct: 50, Speed: 50 };
+          const modifiedStats = { ...baseStats };
+          Object.keys(totalStatBonuses).forEach(stat => {
+            if (modifiedStats[stat] !== undefined) {
+              modifiedStats[stat] += totalStatBonuses[stat];
+            }
+          });
+
+          // Calculate modified aptitudes (capped at A)
+          const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+          const maxIndex = gradeOrder.indexOf('A');
+          const typeAptitudes = { ...pokemonData.typeAptitudes };
+          Object.keys(aptitudeUpgrades).forEach(color => {
+            const currentGrade = typeAptitudes[color];
+            const currentIndex = gradeOrder.indexOf(currentGrade);
+            const newIndex = Math.min(currentIndex + aptitudeUpgrades[color], maxIndex);
+            typeAptitudes[color] = gradeOrder[newIndex];
+          });
+
+          // Calculate modified strategy aptitudes (capped at A)
+          const strategyAptitudes = { ...pokemonData.strategyAptitudes };
+          Object.keys(strategyUpgrades).forEach(strategyName => {
+            if (strategyAptitudes[strategyName]) {
+              const currentGrade = strategyAptitudes[strategyName];
+              const currentIndex = gradeOrder.indexOf(currentGrade);
+              const newIndex = Math.min(currentIndex + strategyUpgrades[strategyName], maxIndex);
+              strategyAptitudes[strategyName] = gradeOrder[newIndex];
+            }
+          });
+
+          // Get best strategy
+          const bestStrategy = Object.entries(strategyAptitudes).reduce((best, [strat, grade]) => {
+            const gradeRank = { 'S': 6, 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, 'F': 0 };
+            const currentRank = gradeRank[grade] || 0;
+            const bestRank = gradeRank[best.grade] || 0;
+            return currentRank > bestRank ? { strat, grade } : best;
+          }, { strat: 'Chipper', grade: 'F' });
+
+          // Pokemon sprite component
+          const PokemonSprite = ({ pokemonName }) => {
+            const [spriteUrl, setSpriteUrl] = React.useState(null);
+            React.useEffect(() => {
+              fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
+                .then(res => res.json())
+                .then(data => {
+                  const bwAnimated = data.sprites?.versions?.['generation-v']?.['black-white']?.animated?.front_default;
+                  setSpriteUrl(bwAnimated || data.sprites.front_default);
+                })
+                .catch(() => setSpriteUrl(null));
+            }, [pokemonName]);
+            return spriteUrl ? <img src={spriteUrl} alt={pokemonName} className="w-20 h-20" /> : <div className="w-20 h-20" />;
+          };
+
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-2xl shadow-card p-4 mb-4"
+            >
+              <div className="flex items-center gap-4">
+                {/* Pokemon Sprite */}
+                <div className="w-20 h-20">
+                  <PokemonSprite pokemonName={selectedPokemon} />
+                </div>
+
+                {/* Pokemon Name and Strategy */}
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-pocket-text mb-2">{selectedPokemon}</h2>
+
+                  {/* Strategy Badge */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="px-3 py-1 bg-red-500 text-white text-sm font-bold rounded">
+                      ⚔ {bestStrategy.strat}
+                    </span>
+                  </div>
+
+                  {/* Stats Row */}
+                  <div className="flex items-center gap-4 mb-3">
+                    {[
+                      { name: 'HP', icon: '❤', color: 'text-red-500' },
+                      { name: 'Attack', icon: '⚔', color: 'text-orange-500' },
+                      { name: 'Defense', icon: '🛡', color: 'text-blue-500' },
+                      { name: 'Instinct', icon: '✨', color: 'text-purple-500' },
+                      { name: 'Speed', icon: '⚡', color: 'text-yellow-500' }
+                    ].map((stat, idx) => {
+                      const hasBonus = totalStatBonuses[stat.name];
+                      const value = modifiedStats[stat.name];
+                      return (
+                        <div key={stat.name} className="flex items-center gap-1">
+                          <span className={`${stat.color}`}>{stat.icon}</span>
+                          <span className={`font-bold ${hasBonus ? 'text-orange-500' : 'text-pocket-text'}`}>
+                            {value}
+                          </span>
+                          {hasBonus && <span className="text-xs text-orange-500">(+{totalStatBonuses[stat.name]})</span>}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Type Aptitudes - Fire badge style */}
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {Object.entries(typeAptitudes).map(([color, grade]) => {
+                      const hasUpgrade = aptitudeUpgrades[color];
+                      const typeInfo = {
+                        Red: { label: 'F', bg: 'bg-red-500', icon: '🔥' },
+                        Blue: { label: 'W', bg: 'bg-blue-500', icon: '💧' },
+                        Green: { label: 'G', bg: 'bg-green-500', icon: '🌿' },
+                        Purple: { label: 'P', bg: 'bg-purple-500', icon: '🔮' },
+                        Yellow: { label: 'E', bg: 'bg-yellow-500', icon: '⚡' },
+                        Orange: { label: 'F', bg: 'bg-orange-500', icon: '👊' }
+                      };
+                      const info = typeInfo[color] || { label: 'C', bg: 'bg-gray-500', icon: '?' };
+
+                      return (
+                        <div
+                          key={color}
+                          className={`${info.bg} ${hasUpgrade ? 'ring-2 ring-orange-400' : ''} text-white px-3 py-1 rounded-md text-sm font-bold flex items-center gap-1`}
+                        >
+                          <span>{info.icon}</span>
+                          <span>{info.label} {grade}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Strategy Aptitudes */}
+                  <div className="flex flex-wrap gap-2">
+                    {Object.entries(strategyAptitudes).map(([strategy, grade]) => {
+                      const hasUpgrade = strategyUpgrades[strategy];
+                      return (
+                        <div
+                          key={strategy}
+                          className={`px-3 py-1 rounded-md text-sm font-bold ${
+                            hasUpgrade ? 'bg-orange-100 text-orange-700 ring-2 ring-orange-400' : 'bg-gray-200 text-gray-700'
+                          }`}
+                        >
+                          {strategy} {grade}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })()}
+
         {/* Deck Navigation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -565,164 +738,6 @@ const SupportSelectionScreen = () => {
             </button>
           </div>
         </motion.div>
-
-        {/* Pokemon Info Card - Uma Musume Style */}
-        {selectedPokemon && (selectedInspirations.length > 0 || filledSlots > 0) && (() => {
-          const pokemonData = POKEMON[selectedPokemon];
-          if (!pokemonData) return null;
-
-          const { aptitudeUpgrades, strategyUpgrades, statBonuses } = calculateInspirationBonuses();
-
-          // Calculate modified stats
-          const baseStats = pokemonData.baseStats || { HP: 150, Attack: 50, Defense: 50, Instinct: 50, Speed: 50 };
-          const modifiedStats = { ...baseStats };
-          Object.keys(statBonuses).forEach(stat => {
-            if (modifiedStats[stat] !== undefined) {
-              modifiedStats[stat] += statBonuses[stat];
-            }
-          });
-
-          // Calculate modified aptitudes (capped at A)
-          const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
-          const maxIndex = gradeOrder.indexOf('A');
-          const typeAptitudes = { ...pokemonData.typeAptitudes };
-          Object.keys(aptitudeUpgrades).forEach(color => {
-            const currentGrade = typeAptitudes[color];
-            const currentIndex = gradeOrder.indexOf(currentGrade);
-            const newIndex = Math.min(currentIndex + aptitudeUpgrades[color], maxIndex);
-            typeAptitudes[color] = gradeOrder[newIndex];
-          });
-
-          // Calculate modified strategy aptitudes (capped at A)
-          const strategyAptitudes = { ...pokemonData.strategyAptitudes };
-          Object.keys(strategyUpgrades).forEach(strategyName => {
-            if (strategyAptitudes[strategyName]) {
-              const currentGrade = strategyAptitudes[strategyName];
-              const currentIndex = gradeOrder.indexOf(currentGrade);
-              const newIndex = Math.min(currentIndex + strategyUpgrades[strategyName], maxIndex);
-              strategyAptitudes[strategyName] = gradeOrder[newIndex];
-            }
-          });
-
-          const colorToType = {
-            Red: 'Fire',
-            Blue: 'Water',
-            Green: 'Grass',
-            Yellow: 'Electric',
-            Purple: 'Psychic',
-            Orange: 'Fighting'
-          };
-
-          // Get best strategy
-          const bestStrategy = Object.entries(strategyAptitudes).reduce((best, [strat, grade]) => {
-            const gradeRank = { 'S': 6, 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, 'F': 0 };
-            const currentRank = gradeRank[grade] || 0;
-            const bestRank = gradeRank[best.grade] || 0;
-            return currentRank > bestRank ? { strat, grade } : best;
-          }, { strat: 'Chipper', grade: 'F' });
-
-          return (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-xl p-3 shadow-md border-2 border-purple-200 mb-4"
-            >
-              {/* Pokemon Header */}
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-16 h-16 flex items-center justify-center">
-                  {(() => {
-                    const PokemonSprite = ({ pokemonName }) => {
-                      const [spriteUrl, setSpriteUrl] = React.useState(null);
-                      React.useEffect(() => {
-                        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
-                          .then(res => res.json())
-                          .then(data => {
-                            const bwAnimated = data.sprites?.versions?.['generation-v']?.['black-white']?.animated?.front_default;
-                            setSpriteUrl(bwAnimated || data.sprites.front_default);
-                          })
-                          .catch(() => setSpriteUrl(null));
-                      }, [pokemonName]);
-                      return spriteUrl ? <img src={spriteUrl} alt={pokemonName} className="w-16 h-16" /> : <div className="w-16 h-16" />;
-                    };
-                    return <PokemonSprite pokemonName={selectedPokemon} />;
-                  })()}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-pocket-text">{selectedPokemon}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded">
-                      ⚔ {bestStrategy.strat}
-                    </span>
-                    <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded">
-                      {bestStrategy.grade}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats Row */}
-              <div className="flex items-center gap-2 mb-3">
-                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map((stat, idx) => {
-                  const hasBonus = statBonuses[stat];
-                  const statIcons = { HP: '❤', Attack: '⚔', Defense: '🛡', Instinct: '✨', Speed: '⚡' };
-                  return (
-                    <div key={stat} className="flex items-center gap-1">
-                      <span className="text-xs">{statIcons[stat]}</span>
-                      <span className={`text-sm font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
-                        {modifiedStats[stat]}
-                      </span>
-                      {idx < 4 && <span className="text-gray-300">•</span>}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Type Aptitudes */}
-              <div className="mb-2">
-                <div className="flex flex-wrap gap-1">
-                  {Object.entries(typeAptitudes).map(([color, grade]) => {
-                    const hasUpgrade = aptitudeUpgrades[color];
-                    const typeColors = {
-                      Red: 'bg-red-500',
-                      Blue: 'bg-blue-500',
-                      Green: 'bg-green-500',
-                      Yellow: 'bg-yellow-500',
-                      Purple: 'bg-purple-500',
-                      Orange: 'bg-orange-500'
-                    };
-                    return (
-                      <div
-                        key={color}
-                        className={`px-2 py-1 rounded-md text-xs font-bold text-white ${typeColors[color]} ${
-                          hasUpgrade ? 'ring-2 ring-amber-400' : ''
-                        }`}
-                      >
-                        {colorToType[color][0]} {grade}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Strategy Aptitudes */}
-              <div className="flex flex-wrap gap-1">
-                {Object.entries(strategyAptitudes).map(([strategy, grade]) => {
-                  const hasUpgrade = strategyUpgrades[strategy];
-                  return (
-                    <div
-                      key={strategy}
-                      className={`px-2 py-1 rounded-md text-xs font-bold ${
-                        hasUpgrade ? 'bg-amber-100 text-amber-700 ring-2 ring-amber-400' : 'bg-gray-100 text-gray-600'
-                      }`}
-                    >
-                      {strategy} {grade}
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          );
-        })()}
 
         {/* Begin Career Button */}
         <motion.div
