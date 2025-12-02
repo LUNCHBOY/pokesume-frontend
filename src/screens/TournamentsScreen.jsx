@@ -53,6 +53,8 @@ const TournamentsScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   // Profile modal state
   const [profileModal, setProfileModal] = useState({ isOpen: false, userId: null, username: null, profileIcon: null });
+  // Tab state: 'active' or 'completed'
+  const [activeTab, setActiveTab] = useState('active');
 
   // Fetch tournaments on mount - always fetch fresh data
   useEffect(() => {
@@ -114,6 +116,11 @@ const TournamentsScreen = () => {
     }
   };
 
+  // Filter tournaments by tab
+  const activeTournaments = tournaments.filter(t => t.status !== 'completed');
+  const completedTournaments = tournaments.filter(t => t.status === 'completed');
+  const displayedTournaments = activeTab === 'active' ? activeTournaments : completedTournaments;
+
   return (
     <div className="min-h-screen bg-pocket-bg p-4">
       {/* Header */}
@@ -151,6 +158,34 @@ const TournamentsScreen = () => {
           </motion.div>
         )}
 
+        {/* Tabs */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex gap-2 mb-4"
+        >
+          <button
+            onClick={() => setActiveTab('active')}
+            className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all ${
+              activeTab === 'active'
+                ? 'bg-type-psychic text-white shadow-card'
+                : 'bg-white text-pocket-text-light hover:bg-gray-50'
+            }`}
+          >
+            Active ({activeTournaments.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('completed')}
+            className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all ${
+              activeTab === 'completed'
+                ? 'bg-type-psychic text-white shadow-card'
+                : 'bg-white text-pocket-text-light hover:bg-gray-50'
+            }`}
+          >
+            Completed ({completedTournaments.length})
+          </button>
+        </motion.div>
+
         {isLoading ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -162,7 +197,7 @@ const TournamentsScreen = () => {
             </div>
             <p className="text-pocket-text-light">Loading tournaments...</p>
           </motion.div>
-        ) : tournaments.length === 0 ? (
+        ) : displayedTournaments.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -171,14 +206,20 @@ const TournamentsScreen = () => {
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pocket-bg flex items-center justify-center">
               <Trophy size={32} className="text-pocket-text-light" />
             </div>
-            <p className="text-pocket-text mb-2">No tournaments available</p>
-            <p className="text-sm text-pocket-text-light mb-4">Check back later!</p>
-            <button
-              onClick={() => setGameState('menu')}
-              className="pocket-btn-primary px-6 py-2"
-            >
-              Back to Menu
-            </button>
+            <p className="text-pocket-text mb-2">
+              {activeTab === 'active' ? 'No active tournaments' : 'No completed tournaments'}
+            </p>
+            <p className="text-sm text-pocket-text-light mb-4">
+              {activeTab === 'active' ? 'Check back later!' : 'Completed tournaments are shown for 24 hours'}
+            </p>
+            {activeTab === 'active' && (
+              <button
+                onClick={() => setGameState('menu')}
+                className="pocket-btn-primary px-6 py-2"
+              >
+                Back to Menu
+              </button>
+            )}
           </motion.div>
         ) : (
           <motion.div
@@ -187,7 +228,7 @@ const TournamentsScreen = () => {
             animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {tournaments.map((tournament) => {
+            {displayedTournaments.map((tournament, index) => {
               const gymBadge = tournament.gym_theme ? GYM_BADGES[tournament.gym_theme] : null;
               const typeColor = gymBadge ? (TYPE_COLORS[gymBadge.type] || '#6b7280') : '#6b7280';
 
@@ -196,7 +237,7 @@ const TournamentsScreen = () => {
                   key={tournament.id}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.08 * tournaments.indexOf(tournament) }}
+                  transition={{ duration: 0.3, delay: 0.08 * index }}
                   whileHover={{ y: -2 }}
                   onClick={() => {
                     setSelectedTournament(tournament);
