@@ -566,7 +566,7 @@ const SupportSelectionScreen = () => {
           </div>
         </motion.div>
 
-        {/* Stat/Aptitude Summary Panel */}
+        {/* Pokemon Info Card - Uma Musume Style */}
         {selectedPokemon && (selectedInspirations.length > 0 || filledSlots > 0) && (() => {
           const pokemonData = POKEMON[selectedPokemon];
           if (!pokemonData) return null;
@@ -613,47 +613,91 @@ const SupportSelectionScreen = () => {
             Orange: 'Fighting'
           };
 
+          // Get best strategy
+          const bestStrategy = Object.entries(strategyAptitudes).reduce((best, [strat, grade]) => {
+            const gradeRank = { 'S': 6, 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, 'F': 0 };
+            const currentRank = gradeRank[grade] || 0;
+            const bestRank = gradeRank[best.grade] || 0;
+            return currentRank > bestRank ? { strat, grade } : best;
+          }, { strat: 'Chipper', grade: 'F' });
+
           return (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl shadow-card p-4 mb-4"
+              className="bg-white rounded-xl p-3 shadow-md border-2 border-purple-200 mb-4"
             >
-              <h4 className="text-sm font-bold text-purple-700 mb-3 text-center">
-                {selectedPokemon} - Career Start Overview
-              </h4>
+              {/* Pokemon Header */}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-16 h-16 flex items-center justify-center">
+                  {(() => {
+                    const PokemonSprite = ({ pokemonName }) => {
+                      const [spriteUrl, setSpriteUrl] = React.useState(null);
+                      React.useEffect(() => {
+                        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
+                          .then(res => res.json())
+                          .then(data => {
+                            const bwAnimated = data.sprites?.versions?.['generation-v']?.['black-white']?.animated?.front_default;
+                            setSpriteUrl(bwAnimated || data.sprites.front_default);
+                          })
+                          .catch(() => setSpriteUrl(null));
+                      }, [pokemonName]);
+                      return spriteUrl ? <img src={spriteUrl} alt={pokemonName} className="w-16 h-16" /> : <div className="w-16 h-16" />;
+                    };
+                    return <PokemonSprite pokemonName={selectedPokemon} />;
+                  })()}
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-pocket-text">{selectedPokemon}</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded">
+                      ⚔ {bestStrategy.strat}
+                    </span>
+                    <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded">
+                      {bestStrategy.grade}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-5 gap-2 mb-3">
-                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map(stat => {
+              {/* Stats Row */}
+              <div className="flex items-center gap-2 mb-3">
+                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map((stat, idx) => {
                   const hasBonus = statBonuses[stat];
+                  const statIcons = { HP: '❤', Attack: '⚔', Defense: '🛡', Instinct: '✨', Speed: '⚡' };
                   return (
-                    <div key={stat} className="text-center bg-white rounded-lg p-2">
-                      <div className="text-[10px] text-pocket-text-light mb-1">{stat}</div>
-                      <div className={`text-sm font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
+                    <div key={stat} className="flex items-center gap-1">
+                      <span className="text-xs">{statIcons[stat]}</span>
+                      <span className={`text-sm font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
                         {modifiedStats[stat]}
-                      </div>
-                      {hasBonus && <div className="text-[9px] text-amber-600">+{statBonuses[stat]}</div>}
+                      </span>
+                      {idx < 4 && <span className="text-gray-300">•</span>}
                     </div>
                   );
                 })}
               </div>
 
               {/* Type Aptitudes */}
-              <div className="mb-3">
-                <div className="text-[10px] font-bold text-purple-600 mb-1">Type Aptitudes</div>
-                <div className="flex flex-wrap gap-1.5">
+              <div className="mb-2">
+                <div className="flex flex-wrap gap-1">
                   {Object.entries(typeAptitudes).map(([color, grade]) => {
                     const hasUpgrade = aptitudeUpgrades[color];
+                    const typeColors = {
+                      Red: 'bg-red-500',
+                      Blue: 'bg-blue-500',
+                      Green: 'bg-green-500',
+                      Yellow: 'bg-yellow-500',
+                      Purple: 'bg-purple-500',
+                      Orange: 'bg-orange-500'
+                    };
                     return (
                       <div
                         key={color}
-                        className={`px-2 py-1 rounded text-[11px] font-bold ${
-                          hasUpgrade ? 'bg-amber-100 text-amber-700 ring-1 ring-amber-300' : 'bg-white text-gray-600'
+                        className={`px-2 py-1 rounded-md text-xs font-bold text-white ${typeColors[color]} ${
+                          hasUpgrade ? 'ring-2 ring-amber-400' : ''
                         }`}
                       >
-                        {colorToType[color]}: {grade}
-                        {hasUpgrade && <span className="text-[9px]"> ↑</span>}
+                        {colorToType[color][0]} {grade}
                       </div>
                     );
                   })}
@@ -661,24 +705,20 @@ const SupportSelectionScreen = () => {
               </div>
 
               {/* Strategy Aptitudes */}
-              <div>
-                <div className="text-[10px] font-bold text-purple-600 mb-1">Strategy Aptitudes</div>
-                <div className="flex flex-wrap gap-1.5">
-                  {Object.entries(strategyAptitudes).map(([strategy, grade]) => {
-                    const hasUpgrade = strategyUpgrades[strategy];
-                    return (
-                      <div
-                        key={strategy}
-                        className={`px-2 py-1 rounded text-[11px] font-bold ${
-                          hasUpgrade ? 'bg-amber-100 text-amber-700 ring-1 ring-amber-300' : 'bg-white text-gray-600'
-                        }`}
-                      >
-                        {strategy}: {grade}
-                        {hasUpgrade && <span className="text-[9px]"> ↑</span>}
-                      </div>
-                    );
-                  })}
-                </div>
+              <div className="flex flex-wrap gap-1">
+                {Object.entries(strategyAptitudes).map(([strategy, grade]) => {
+                  const hasUpgrade = strategyUpgrades[strategy];
+                  return (
+                    <div
+                      key={strategy}
+                      className={`px-2 py-1 rounded-md text-xs font-bold ${
+                        hasUpgrade ? 'bg-amber-100 text-amber-700 ring-2 ring-amber-400' : 'bg-gray-100 text-gray-600'
+                      }`}
+                    >
+                      {strategy} {grade}
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           );

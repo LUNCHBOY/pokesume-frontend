@@ -354,62 +354,87 @@ const InspirationSelectionScreen = () => {
             })}
           </div>
 
-          {/* Stat/Aptitude Summary Panel */}
+          {/* Pokemon Info Card - Uma Musume Style */}
           {modifiedData && selectedInspirations.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-3 border-2 border-purple-200"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-xl p-3 shadow-md border-2 border-purple-200 mb-3"
             >
-              <h4 className="text-xs font-bold text-purple-700 mb-2">Career Start Bonuses</h4>
+              {/* Pokemon Header */}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-16 h-16 flex items-center justify-center">
+                  {generatePokemonSprite(selectedPokemon, selectedPokemon)}
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-pocket-text">{selectedPokemon}</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded">
+                      ⚔ {modifiedData.strategyAptitudes && Object.entries(modifiedData.strategyAptitudes).reduce((best, [strat, grade]) => {
+                        const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+                        return gradeOrder.indexOf(grade) > gradeOrder.indexOf(best.grade) ? { strat, grade } : best;
+                      }, { strat: 'Chipper', grade: 'F' }).strat}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-5 gap-2 mb-3">
-                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map(stat => {
+              {/* Stats Row */}
+              <div className="flex items-center gap-2 mb-3">
+                {['HP', 'Attack', 'Defense', 'Instinct', 'Speed'].map((stat, idx) => {
                   const hasBonus = modifiedData.statBonuses[stat];
+                  const statIcons = { HP: '❤', Attack: '⚔', Defense: '🛡', Instinct: '✨', Speed: '⚡' };
                   return (
-                    <div key={stat} className="text-center">
-                      <div className="text-[9px] text-pocket-text-light mb-0.5">{stat}</div>
-                      <div className={`text-xs font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
+                    <div key={stat} className="flex items-center gap-1">
+                      <span className="text-xs">{statIcons[stat]}</span>
+                      <span className={`text-sm font-bold ${hasBonus ? 'text-amber-500' : 'text-pocket-text'}`}>
                         {modifiedData.modifiedStats[stat]}
-                        {hasBonus && <span className="text-[9px]"> (+{modifiedData.statBonuses[stat]})</span>}
-                      </div>
+                      </span>
+                      {idx < 4 && <span className="text-gray-300">•</span>}
                     </div>
                   );
                 })}
               </div>
 
               {/* Type Aptitudes */}
-              <div className="flex flex-wrap gap-1.5 mb-2">
-                {Object.entries(modifiedData.typeAptitudes).map(([color, grade]) => {
-                  const hasUpgrade = modifiedData.aptitudeUpgrades[color];
-                  return (
-                    <div
-                      key={color}
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        hasUpgrade ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
-                      }`}
-                    >
-                      {colorToType[color]}: {grade}
-                      {hasUpgrade && <span className="text-[8px]"> ↑</span>}
-                    </div>
-                  );
-                })}
+              <div className="mb-2">
+                <div className="flex flex-wrap gap-1">
+                  {Object.entries(modifiedData.typeAptitudes).map(([color, grade]) => {
+                    const hasUpgrade = modifiedData.aptitudeUpgrades[color];
+                    const typeColors = {
+                      Red: 'bg-red-500',
+                      Blue: 'bg-blue-500',
+                      Green: 'bg-green-500',
+                      Yellow: 'bg-yellow-500',
+                      Purple: 'bg-purple-500',
+                      Orange: 'bg-orange-500'
+                    };
+                    return (
+                      <div
+                        key={color}
+                        className={`px-2 py-1 rounded-md text-xs font-bold text-white ${typeColors[color]} ${
+                          hasUpgrade ? 'ring-2 ring-amber-400' : ''
+                        }`}
+                      >
+                        {colorToType[color][0]} {grade}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Strategy Aptitudes */}
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1">
                 {Object.entries(modifiedData.strategyAptitudes).map(([strategy, grade]) => {
                   const hasUpgrade = modifiedData.strategyUpgrades[strategy];
                   return (
                     <div
                       key={strategy}
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        hasUpgrade ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                      className={`px-2 py-1 rounded-md text-xs font-bold ${
+                        hasUpgrade ? 'bg-amber-100 text-amber-700 ring-2 ring-amber-400' : 'bg-gray-100 text-gray-600'
                       }`}
                     >
-                      {strategy}: {grade}
-                      {hasUpgrade && <span className="text-[8px]"> ↑</span>}
+                      {strategy} {grade}
                     </div>
                   );
                 })}
