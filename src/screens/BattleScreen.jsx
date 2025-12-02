@@ -131,65 +131,61 @@ const generateInspirations = (stats, aptitudes, strategyAptitudes = null, isVict
 };
 
 /**
- * Calculate stat modifiers from status effects
- * Returns an object with buff/debuff info for each stat
+ * Calculate stat multipliers from status effects
+ * Returns an object with combined multiplier for each stat
  */
-const getStatModifiers = (statusEffects = []) => {
-  const modifiers = {
-    Attack: { buff: 0, debuff: 0 },
-    Defense: { buff: 0, debuff: 0 },
-    Instinct: { buff: 0, debuff: 0 },
-    Speed: { buff: 0, debuff: 0 }
+const getStatMultipliers = (statusEffects = []) => {
+  const multipliers = {
+    Attack: 1,
+    Defense: 1,
+    Instinct: 1,
+    Speed: 1
   };
 
   statusEffects.forEach(effect => {
     if (effect.type === 'buff_attack' && effect.multiplier) {
-      // Convert multiplier to percentage increase (e.g., 2.0 -> +100%)
-      modifiers.Attack.buff += Math.round((effect.multiplier - 1) * 100);
+      multipliers.Attack *= effect.multiplier;
     }
     if (effect.type === 'debuff_attack' && effect.multiplier) {
-      // Convert multiplier to percentage decrease (e.g., 0.7 -> -30%)
-      modifiers.Attack.debuff += Math.round((1 - effect.multiplier) * 100);
+      multipliers.Attack *= effect.multiplier;
     }
     if (effect.type === 'buff_defense' && effect.multiplier) {
-      modifiers.Defense.buff += Math.round((effect.multiplier - 1) * 100);
+      multipliers.Defense *= effect.multiplier;
     }
     if (effect.type === 'debuff_defense' && effect.multiplier) {
-      modifiers.Defense.debuff += Math.round((1 - effect.multiplier) * 100);
+      multipliers.Defense *= effect.multiplier;
     }
     if (effect.type === 'buff_instinct' && effect.multiplier) {
-      modifiers.Instinct.buff += Math.round((effect.multiplier - 1) * 100);
+      multipliers.Instinct *= effect.multiplier;
     }
     if (effect.type === 'debuff_instinct' && effect.multiplier) {
-      modifiers.Instinct.debuff += Math.round((1 - effect.multiplier) * 100);
+      multipliers.Instinct *= effect.multiplier;
     }
     if (effect.type === 'buff_speed' && effect.multiplier) {
-      modifiers.Speed.buff += Math.round((effect.multiplier - 1) * 100);
+      multipliers.Speed *= effect.multiplier;
     }
     if (effect.type === 'debuff_speed' && effect.multiplier) {
-      modifiers.Speed.debuff += Math.round((1 - effect.multiplier) * 100);
+      multipliers.Speed *= effect.multiplier;
     }
   });
 
-  return modifiers;
+  return multipliers;
 };
 
 /**
- * StatDisplay component - shows stat value with buff/debuff indicators
+ * StatDisplay component - shows modified stat value in green (buffed) or red (debuffed)
  */
-const StatDisplay = ({ label, value, modifier }) => {
-  const hasBuff = modifier.buff > 0;
-  const hasDebuff = modifier.debuff > 0;
+const StatDisplay = ({ label, value, multiplier }) => {
+  const modifiedValue = Math.round(value * multiplier);
+  const isBuffed = multiplier > 1;
+  const isDebuffed = multiplier < 1;
 
   return (
-    <span className="flex items-center gap-0.5">
-      <span>{label} {value}</span>
-      {hasBuff && (
-        <span className="text-green-500 font-bold">+{modifier.buff}%</span>
-      )}
-      {hasDebuff && (
-        <span className="text-red-500 font-bold">-{modifier.debuff}%</span>
-      )}
+    <span>
+      {label}{' '}
+      <span className={isBuffed ? 'text-green-500 font-bold' : isDebuffed ? 'text-red-500 font-bold' : ''}>
+        {modifiedValue}
+      </span>
     </span>
   );
 };
@@ -527,13 +523,13 @@ const BattleScreen = () => {
 
                   {/* Stats Row */}
                   {(() => {
-                    const modifiers = getStatModifiers(battleState.player.statusEffects);
+                    const multipliers = getStatMultipliers(battleState.player.statusEffects);
                     return (
                       <div className="flex justify-between mt-3 text-[10px] text-pocket-text-light">
-                        <StatDisplay label="ATK" value={battleState.player.stats.Attack} modifier={modifiers.Attack} />
-                        <StatDisplay label="DEF" value={battleState.player.stats.Defense} modifier={modifiers.Defense} />
-                        <StatDisplay label="INS" value={battleState.player.stats.Instinct} modifier={modifiers.Instinct} />
-                        <StatDisplay label="SPE" value={battleState.player.stats.Speed} modifier={modifiers.Speed} />
+                        <StatDisplay label="ATK" value={battleState.player.stats.Attack} multiplier={multipliers.Attack} />
+                        <StatDisplay label="DEF" value={battleState.player.stats.Defense} multiplier={multipliers.Defense} />
+                        <StatDisplay label="INS" value={battleState.player.stats.Instinct} multiplier={multipliers.Instinct} />
+                        <StatDisplay label="SPE" value={battleState.player.stats.Speed} multiplier={multipliers.Speed} />
                       </div>
                     );
                   })()}
@@ -632,13 +628,13 @@ const BattleScreen = () => {
 
                   {/* Stats Row */}
                   {(() => {
-                    const modifiers = getStatModifiers(battleState.opponent.statusEffects);
+                    const multipliers = getStatMultipliers(battleState.opponent.statusEffects);
                     return (
                       <div className="flex justify-between mt-3 text-[10px] text-pocket-text-light">
-                        <StatDisplay label="ATK" value={battleState.opponent.stats.Attack} modifier={modifiers.Attack} />
-                        <StatDisplay label="DEF" value={battleState.opponent.stats.Defense} modifier={modifiers.Defense} />
-                        <StatDisplay label="INS" value={battleState.opponent.stats.Instinct} modifier={modifiers.Instinct} />
-                        <StatDisplay label="SPE" value={battleState.opponent.stats.Speed} modifier={modifiers.Speed} />
+                        <StatDisplay label="ATK" value={battleState.opponent.stats.Attack} multiplier={multipliers.Attack} />
+                        <StatDisplay label="DEF" value={battleState.opponent.stats.Defense} multiplier={multipliers.Defense} />
+                        <StatDisplay label="INS" value={battleState.opponent.stats.Instinct} multiplier={multipliers.Instinct} />
+                        <StatDisplay label="SPE" value={battleState.opponent.stats.Speed} multiplier={multipliers.Speed} />
                       </div>
                     );
                   })()}

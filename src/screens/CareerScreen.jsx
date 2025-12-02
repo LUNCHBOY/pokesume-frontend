@@ -564,19 +564,25 @@ const CareerScreen = () => {
 
     console.log('[checkForEvolution] Pokemon:', pokemonName, 'Base:', baseName, 'Grade:', currentGrade, 'TotalStats:', totalStats, 'CurrentStage:', currentStage, 'Chain:', evolutionChain);
 
+    // Define grade order for comparison (index-based)
+    const gradeOrder = ['F', 'F+', 'E', 'E+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'UU', 'UU+'];
+    const gradeIndex = gradeOrder.indexOf(currentGrade);
+    const cGradeIndex = gradeOrder.indexOf('C');  // Index 6
+    const aGradeIndex = gradeOrder.indexOf('A');  // Index 10
+
     // Check for stage 1 evolution (at C grade or higher)
-    if (currentStage === 0 && evolutionChain.stage1 && ['C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade)) {
+    if (currentStage === 0 && evolutionChain.stage1 && gradeIndex >= cGradeIndex) {
       console.log('[checkForEvolution] Triggering stage 1 evolution to:', evolutionChain.stage1);
       return { toName: evolutionChain.stage1, toStage: 1 };
     }
 
     // Check for stage 2 evolution (at A grade or higher)
-    if (currentStage === 1 && evolutionChain.stage2 && ['A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade)) {
+    if (currentStage === 1 && evolutionChain.stage2 && gradeIndex >= aGradeIndex) {
       console.log('[checkForEvolution] Triggering stage 2 evolution to:', evolutionChain.stage2);
       return { toName: evolutionChain.stage2, toStage: 2 };
     }
 
-    console.log('[checkForEvolution] No evolution triggered. Stage1 condition:', currentStage === 0 && evolutionChain.stage1, 'Grade in list:', ['C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'UU', 'UU+'].includes(currentGrade));
+    console.log('[checkForEvolution] No evolution triggered. Stage1 condition:', currentStage === 0 && evolutionChain.stage1, 'gradeIndex:', gradeIndex, 'cGradeIndex:', cGradeIndex, 'Grade:', currentGrade);
     return null;
   };
 
@@ -1461,17 +1467,17 @@ const CareerScreen = () => {
               <div className="space-y-3">
                 <div>
                   <h4 className="font-bold text-gray-800 mb-1">Combat</h4>
-                  <p className="text-sm ml-2">Real-time auto-battle system. Pokemon automatically use abilities based on stamina and cooldowns.</p>
+                  <p className="text-sm ml-2">Real-time auto-battle system. Pokemon automatically use moves based on stamina and cooldowns.</p>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-800 mb-1">Stamina</h4>
-                  <p className="text-sm ml-2">Required to use abilities. Regenerates when resting (not using abilities). Speed stat increases regen rate.</p>
+                  <p className="text-sm ml-2">Required to use moves. Regenerates when resting (not using moves). Speed stat increases regen rate.</p>
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-800 mb-1">Abilities</h4>
+                  <h4 className="font-bold text-gray-800 mb-1">Moves</h4>
                   <div className="text-sm ml-2 space-y-1">
-                    <p><strong>Warmup:</strong> Ticks before ability becomes available</p>
-                    <p><strong>Cooldown:</strong> Ticks before ability can be used again</p>
+                    <p><strong>Warmup:</strong> Ticks before move becomes available</p>
+                    <p><strong>Cooldown:</strong> Ticks before move can be used again</p>
                     <p><strong>Stamina Cost:</strong> Modified by strategy grade (better grade = lower cost)</p>
                   </div>
                 </div>
@@ -1523,12 +1529,12 @@ const CareerScreen = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-800 mb-1">Gym Battles</h4>
-                  <p className="text-sm ml-2">Must win or Game Over. Preview upcoming gym leader stats and abilities. Each gym progressively harder.</p>
+                  <p className="text-sm ml-2">Must win or Game Over. Preview upcoming gym leader stats and moves. Each gym progressively harder.</p>
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-800 mb-1">Learning Abilities</h4>
+                  <h4 className="font-bold text-gray-800 mb-1">Learning Moves</h4>
                   <div className="text-sm ml-2 space-y-1">
-                    <p>Spend Skill Points to learn new abilities</p>
+                    <p>Spend Skill Points to learn new moves</p>
                     <p>Base cost {ICONS.MULTIPLY} 3.0, reduced by move hints (up to -60%)</p>
                     <p>Hints earned through support hangouts</p>
                   </div>
@@ -1545,7 +1551,7 @@ const CareerScreen = () => {
               <div className="space-y-3">
                 <div>
                   <h4 className="font-bold text-gray-800 mb-1">Pokemon Gachapon</h4>
-                  <p className="text-sm ml-2">Draw random Pokemon to add to your collection. Each Pokemon has unique base stats, type aptitudes, strategies, and learnable abilities.</p>
+                  <p className="text-sm ml-2">Draw random Pokemon to add to your collection. Each Pokemon has unique base stats, type aptitudes, strategies, and learnable moves.</p>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-800 mb-1">Rarity Tiers</h4>
@@ -2116,7 +2122,7 @@ const CareerScreen = () => {
               className="bg-white rounded-2xl p-3 shadow-card"
             >
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-pocket-text">Known Abilities</h3>
+                <h3 className="font-bold text-pocket-text">Known Moves</h3>
                 <button onClick={() => setViewMode('training')} className="text-sm text-pocket-blue hover:underline">
                   Back
                 </button>
@@ -2136,9 +2142,47 @@ const CareerScreen = () => {
                         <div className="font-bold text-xs sm:text-sm truncate pr-1">{moveName}</div>
                         <TypeBadge type={move.type} size={12} className="text-[10px] sm:text-xs flex-shrink-0" />
                       </div>
+                      <div className="text-[10px] sm:text-xs text-gray-500 italic mb-1">{getMoveDescription(move)}</div>
                       <div className="text-[10px] sm:text-xs text-gray-600 space-y-0.5">
                         <div>DMG: {move.damage}</div>
                         <div>Stam: {move.stamina} | WU: {move.warmup} | CD: {move.cooldown}</div>
+                        {move.effect && (
+                          <div className="text-purple-600 font-bold truncate">
+                            {move.effect.type === 'burn' && `Burn ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'poison' && `Poison ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'paralyze' && `Paralyze ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'stun' && `Stun ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'confuse' && `Confuse ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'freeze' && `Freeze ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'sleep' && `Sleep ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'soak' && `Soak ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'energize' && `Energize ${Math.round((move.effect.chance || 1) * 100)}%`}
+                            {move.effect.type === 'drain' && `Drain ${Math.round((move.effect.healPercent || 0.5) * 100)}%`}
+                            {move.effect.type === 'recoil' && `Recoil ${Math.round((move.effect.damagePercent || 0.1) * 100)}%`}
+                            {move.effect.type === 'exhaust' && `Self-Exhaust`}
+                            {move.effect.type === 'evasion' && `Evasion`}
+                            {move.effect.type === 'high_crit' && `High Crit`}
+                            {move.effect.type === 'buff_speed' && `+Speed`}
+                            {move.effect.type === 'buff_attack' && `+Attack`}
+                            {move.effect.type === 'buff_defense' && `+Defense`}
+                            {move.effect.type === 'buff_instinct' && `+Instinct`}
+                            {move.effect.type === 'buff_attack_defense' && `+Atk/Def`}
+                            {move.effect.type === 'buff_attack_speed' && `+Atk/Spd`}
+                            {move.effect.type === 'debuff_attack' && `-Attack`}
+                            {move.effect.type === 'debuff_defense' && `-Defense`}
+                            {move.effect.type === 'debuff_speed' && `-Speed`}
+                            {move.effect.type === 'debuff_instinct' && `-Instinct`}
+                            {move.effect.type === 'debuff_accuracy' && `-Accuracy`}
+                            {move.effect.type === 'debuff_instinct_self' && `Self -Inst`}
+                            {move.effect.type === 'debuff_speed_self' && `Self -Spd`}
+                            {move.effect.type === 'debuff_attack_self' && `Self -Atk`}
+                            {move.effect.type === 'heal_self' && `Heal ${Math.round((move.effect.healPercent || 0.5) * 100)}%`}
+                            {move.effect.type === 'badly_poison' && `Bad Poison`}
+                            {move.effect.type === 'regen' && `Regen`}
+                            {move.effect.type?.startsWith('weather_') && `Weather`}
+                            {move.effect.type?.startsWith('terrain_') && `Terrain`}
+                          </div>
+                        )}
                       </div>
                       {forgetMoveConfirm === moveName ? (
                         <div className="flex gap-1 mt-1">
@@ -2242,7 +2286,7 @@ const CareerScreen = () => {
                     );
                   })()}
                   <div className="mb-2">
-                    <div className="font-bold text-sm mb-2">Abilities:</div>
+                    <div className="font-bold text-sm mb-2">Moves:</div>
                     <div className="grid grid-cols-2 gap-2">
                       {[...(nextGymLeader.pokemon.defaultAbilities || []), ...(nextGymLeader.pokemon.learnableAbilities || [])].map(moveName => {
                         const move = MOVES[moveName];
@@ -2274,7 +2318,7 @@ const CareerScreen = () => {
               className="bg-white rounded-2xl p-3 shadow-card"
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                <h3 className="font-bold text-pocket-text">Learn Abilities ({careerData.skillPoints ?? 0} SP)</h3>
+                <h3 className="font-bold text-pocket-text">Learn Moves ({careerData.skillPoints ?? 0} SP)</h3>
                 <button onClick={() => setViewMode('training')} className="text-sm text-pocket-blue hover:underline self-start sm:self-auto">
                   Back
                 </button>
@@ -2729,7 +2773,7 @@ const CareerScreen = () => {
                       </div>
                     </div>
                     <div className="mb-2">
-                      <div className="font-bold text-xs mb-1">Abilities:</div>
+                      <div className="font-bold text-xs mb-1">Moves:</div>
                       <div className="space-y-1">
                         {opponent.abilities.map(moveName => {
                           const move = MOVES[moveName];
