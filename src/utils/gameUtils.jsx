@@ -84,20 +84,20 @@ export const getRarityColor = (rarity) => {
 export const getPokemonGrade = (stats) => {
   const totalStats = Object.values(stats).reduce((sum, val) => sum + val, 0);
 
-  // Each grade threshold increased by 25 points from original 150-point gaps
-  if (totalStats >= 2525) return 'UU+';
-  if (totalStats >= 2375) return 'UU';
-  if (totalStats >= 2225) return 'S+';
-  if (totalStats >= 2075) return 'S';
-  if (totalStats >= 1925) return 'A+';
-  if (totalStats >= 1775) return 'A';
-  if (totalStats >= 1625) return 'B+';
-  if (totalStats >= 1475) return 'B';
-  if (totalStats >= 1325) return 'C+';
-  if (totalStats >= 1175) return 'C';
-  if (totalStats >= 1025) return 'D+';
-  if (totalStats >= 875) return 'D';
-  if (totalStats >= 725) return 'E+';
+  // Each grade is 175 stat points apart, starting from F at <400
+  if (totalStats >= 2850) return 'UU+';
+  if (totalStats >= 2675) return 'UU';
+  if (totalStats >= 2500) return 'S+';
+  if (totalStats >= 2325) return 'S';
+  if (totalStats >= 2150) return 'A+';
+  if (totalStats >= 1975) return 'A';
+  if (totalStats >= 1800) return 'B+';
+  if (totalStats >= 1625) return 'B';
+  if (totalStats >= 1450) return 'C+';
+  if (totalStats >= 1275) return 'C';
+  if (totalStats >= 1100) return 'D+';
+  if (totalStats >= 925) return 'D';
+  if (totalStats >= 750) return 'E+';
   if (totalStats >= 575) return 'E';
   if (totalStats >= 400) return 'F+';
   return 'F';
