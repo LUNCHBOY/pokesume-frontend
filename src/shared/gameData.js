@@ -636,7 +636,7 @@ const POKEMON = {
   Arcanine: {
     name: 'Arcanine',
     primaryType: 'Fire',
-    baseStats: { HP: 106, Attack: 86, Defense: 71, Instinct: 61, Speed: 56 },
+    baseStats: { HP: 53, Attack: 43, Defense: 35, Instinct: 30, Speed: 28 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -645,7 +645,7 @@ const POKEMON = {
   Golduck: {
     name: 'Golduck',
     primaryType: 'Water',
-    baseStats: { HP: 91, Attack: 61, Defense: 76, Instinct: 86, Speed: 66 },
+    baseStats: { HP: 45, Attack: 30, Defense: 38, Instinct: 43, Speed: 33 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'E', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'B', Chipper: 'D', MadLad: 'F' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -663,7 +663,7 @@ const POKEMON = {
   Victreebel: {
     name: 'Victreebel',
     primaryType: 'Grass',
-    baseStats: { HP: 96, Attack: 76, Defense: 81, Instinct: 66, Speed: 61 },
+    baseStats: { HP: 48, Attack: 38, Defense: 40, Instinct: 33, Speed: 30 },
     typeAptitudes: { Red: 'E', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -672,7 +672,7 @@ const POKEMON = {
   Vileplume: {
     name: 'Vileplume',
     primaryType: 'Grass',
-    baseStats: { HP: 81, Attack: 66, Defense: 66, Instinct: 81, Speed: 86 },
+    baseStats: { HP: 40, Attack: 33, Defense: 33, Instinct: 40, Speed: 43 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'A', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'A', Chipper: 'E', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -690,7 +690,7 @@ const POKEMON = {
   Raichu: {
     name: 'Raichu',
     primaryType: 'Electric',
-    baseStats: { HP: 86, Attack: 71, Defense: 61, Instinct: 81, Speed: 81 },
+    baseStats: { HP: 43, Attack: 35, Defense: 30, Instinct: 40, Speed: 40 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'B', Purple: 'D', Yellow: 'S', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
@@ -699,7 +699,7 @@ const POKEMON = {
   Arbok: {
     name: 'Arbok',
     primaryType: 'Psychic',
-    baseStats: { HP: 91, Attack: 86, Defense: 66, Instinct: 76, Speed: 61 },
+    baseStats: { HP: 45, Attack: 43, Defense: 33, Instinct: 38, Speed: 30 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'E', Orange: 'C' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'C', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -708,7 +708,7 @@ const POKEMON = {
   Nidoking: {
     name: 'Nidoking',
     primaryType: 'Psychic',
-    baseStats: { HP: 81, Attack: 91, Defense: 71, Instinct: 66, Speed: 71 },
+    baseStats: { HP: 40, Attack: 45, Defense: 35, Instinct: 33, Speed: 35 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'S', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -717,7 +717,7 @@ const POKEMON = {
   Rapidash: {
     name: 'Rapidash',
     primaryType: 'Fire',
-    baseStats: { HP: 96, Attack: 81, Defense: 61, Instinct: 76, Speed: 66 },
+    baseStats: { HP: 48, Attack: 40, Defense: 30, Instinct: 38, Speed: 33 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'B', Purple: 'C', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'B', MadLad: 'F' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -726,7 +726,7 @@ const POKEMON = {
   Starmie: {
     name: 'Starmie',
     primaryType: 'Water',
-    baseStats: { HP: 86, Attack: 71, Defense: 86, Instinct: 71, Speed: 66 },
+    baseStats: { HP: 43, Attack: 35, Defense: 43, Instinct: 35, Speed: 33 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'E', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -735,7 +735,7 @@ const POKEMON = {
   Exeggutor: {
     name: 'Exeggutor',
     primaryType: 'Grass',
-    baseStats: { HP: 91, Attack: 61, Defense: 76, Instinct: 86, Speed: 66 },
+    baseStats: { HP: 45, Attack: 30, Defense: 38, Instinct: 43, Speed: 33 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'A', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'B', Chipper: 'D', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -744,7 +744,7 @@ const POKEMON = {
   Jolteon: {
     name: 'Jolteon',
     primaryType: 'Electric',
-    baseStats: { HP: 81, Attack: 64, Defense: 57, Instinct: 87, Speed: 91 },
+    baseStats: { HP: 40, Attack: 32, Defense: 28, Instinct: 43, Speed: 45 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'B', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
@@ -753,7 +753,7 @@ const POKEMON = {
   Muk: {
     name: 'Muk',
     primaryType: 'Psychic',
-    baseStats: { HP: 101, Attack: 76, Defense: 66, Instinct: 81, Speed: 56 },
+    baseStats: { HP: 50, Attack: 38, Defense: 33, Instinct: 40, Speed: 28 },
     typeAptitudes: { Red: 'B', Blue: 'B', Green: 'C', Purple: 'A', Yellow: 'E', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'B', Chipper: 'E', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -762,7 +762,7 @@ const POKEMON = {
   Magmar: {
     name: 'Magmar',
     primaryType: 'Fire',
-    baseStats: { HP: 99, Attack: 89, Defense: 66, Instinct: 69, Speed: 57 },
+    baseStats: { HP: 49, Attack: 44, Defense: 33, Instinct: 34, Speed: 28 },
     typeAptitudes: { Red: 'S', Blue: 'E', Green: 'C', Purple: 'B', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -771,7 +771,7 @@ const POKEMON = {
   Vaporeon: {
     name: 'Vaporeon',
     primaryType: 'Water',
-    baseStats: { HP: 93, Attack: 69, Defense: 79, Instinct: 79, Speed: 60 },
+    baseStats: { HP: 46, Attack: 34, Defense: 39, Instinct: 39, Speed: 30 },
     typeAptitudes: { Red: 'E', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'C', Chipper: 'A', MadLad: 'E' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -780,7 +780,7 @@ const POKEMON = {
   Tangela: {
     name: 'Tangela',
     primaryType: 'Grass',
-    baseStats: { HP: 89, Attack: 83, Defense: 69, Instinct: 73, Speed: 66 },
+    baseStats: { HP: 44, Attack: 41, Defense: 34, Instinct: 36, Speed: 33 },
     typeAptitudes: { Red: 'E', Blue: 'C', Green: 'A', Purple: 'B', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'A', Chipper: 'E', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -789,7 +789,7 @@ const POKEMON = {
   Electabuzz: {
     name: 'Electabuzz',
     primaryType: 'Electric',
-    baseStats: { HP: 85, Attack: 71, Defense: 61, Instinct: 83, Speed: 80 },
+    baseStats: { HP: 42, Attack: 35, Defense: 30, Instinct: 41, Speed: 40 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
@@ -798,7 +798,7 @@ const POKEMON = {
   Weezing: {
     name: 'Weezing',
     primaryType: 'Psychic',
-    baseStats: { HP: 94, Attack: 79, Defense: 69, Instinct: 75, Speed: 63 },
+    baseStats: { HP: 47, Attack: 39, Defense: 34, Instinct: 37, Speed: 31 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'E', Debuffer: 'A', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -807,7 +807,7 @@ const POKEMON = {
   Flareon: {
     name: 'Flareon',
     primaryType: 'Fire',
-    baseStats: { HP: 88, Attack: 84, Defense: 59, Instinct: 73, Speed: 76 },
+    baseStats: { HP: 44, Attack: 42, Defense: 29, Instinct: 36, Speed: 38 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -816,7 +816,7 @@ const POKEMON = {
   Cloyster: {
     name: 'Cloyster',
     primaryType: 'Water',
-    baseStats: { HP: 92, Attack: 65, Defense: 73, Instinct: 83, Speed: 67 },
+    baseStats: { HP: 46, Attack: 32, Defense: 36, Instinct: 41, Speed: 33 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'B', MadLad: 'F' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -825,7 +825,7 @@ const POKEMON = {
   Parasect: {
     name: 'Parasect',
     primaryType: 'Grass',
-    baseStats: { HP: 85, Attack: 79, Defense: 73, Instinct: 77, Speed: 66 },
+    baseStats: { HP: 42, Attack: 39, Defense: 36, Instinct: 38, Speed: 33 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'E', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -834,7 +834,7 @@ const POKEMON = {
   Magneton: {
     name: 'Magneton',
     primaryType: 'Electric',
-    baseStats: { HP: 79, Attack: 69, Defense: 55, Instinct: 93, Speed: 94 },
+    baseStats: { HP: 39, Attack: 34, Defense: 27, Instinct: 46, Speed: 47 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'B', Purple: 'D', Yellow: 'S', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
@@ -843,7 +843,7 @@ const POKEMON = {
   Tentacruel: {
     name: 'Tentacruel',
     primaryType: 'Psychic',
-    baseStats: { HP: 97, Attack: 75, Defense: 71, Instinct: 69, Speed: 68 },
+    baseStats: { HP: 48, Attack: 37, Defense: 35, Instinct: 34, Speed: 34 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'E', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -883,7 +883,7 @@ const POKEMON = {
   Rattata: {
     name: 'Rattata',
     primaryType: 'Normal',
-    baseStats: { HP: 84, Attack: 69, Defense: 59, Instinct: 74, Speed: 94 },
+    baseStats: { HP: 42, Attack: 34, Defense: 29, Instinct: 37, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Headbutt', 'Bite'],
@@ -892,7 +892,7 @@ const POKEMON = {
   Meowth: {
     name: 'Meowth',
     primaryType: 'Normal',
-    baseStats: { HP: 85, Attack: 70, Defense: 60, Instinct: 75, Speed: 90 },
+    baseStats: { HP: 42, Attack: 35, Defense: 30, Instinct: 37, Speed: 45 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'B', Chipper: 'A', MadLad: 'E' },
     defaultAbilities: ['PayDay', 'Slash', 'Bite'],
@@ -901,7 +901,7 @@ const POKEMON = {
   Sandshrew: {
     name: 'Sandshrew',
     primaryType: 'Fighting',
-    baseStats: { HP: 88, Attack: 83, Defense: 88, Instinct: 63, Speed: 58 },
+    baseStats: { HP: 44, Attack: 41, Defense: 44, Instinct: 31, Speed: 29 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'F', MadLad: 'B' },
     defaultAbilities: ['Slash', 'Harden', 'SandAttack'],
@@ -910,7 +910,7 @@ const POKEMON = {
   Psyduck: {
     name: 'Psyduck',
     primaryType: 'Water',
-    baseStats: { HP: 91, Attack: 66, Defense: 66, Instinct: 81, Speed: 76 },
+    baseStats: { HP: 45, Attack: 33, Defense: 33, Instinct: 40, Speed: 38 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'Confusion'],
@@ -919,7 +919,7 @@ const POKEMON = {
   Poliwag: {
     name: 'Poliwag',
     primaryType: 'Water',
-    baseStats: { HP: 89, Attack: 64, Defense: 64, Instinct: 74, Speed: 89 },
+    baseStats: { HP: 44, Attack: 32, Defense: 32, Instinct: 37, Speed: 44 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'D', Yellow: 'B', Orange: 'D' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'B', Debuffer: 'D', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['WaterGun', 'BubbleBeam', 'BodySlam'],
@@ -928,7 +928,7 @@ const POKEMON = {
   Tentacool: {
     name: 'Tentacool',
     primaryType: 'Water',
-    baseStats: { HP: 90, Attack: 68, Defense: 65, Instinct: 72, Speed: 85 },
+    baseStats: { HP: 45, Attack: 34, Defense: 32, Instinct: 36, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['WaterGun', 'BubbleBeam', 'PsyBeam'],
@@ -937,7 +937,7 @@ const POKEMON = {
   Shellder: {
     name: 'Shellder',
     primaryType: 'Water',
-    baseStats: { HP: 82, Attack: 77, Defense: 97, Instinct: 67, Speed: 57 },
+    baseStats: { HP: 41, Attack: 38, Defense: 48, Instinct: 33, Speed: 28 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'D', Yellow: 'B', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'F', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'Harden', 'IcePunch'],
@@ -946,7 +946,7 @@ const POKEMON = {
   Krabby: {
     name: 'Krabby',
     primaryType: 'Water',
-    baseStats: { HP: 78, Attack: 98, Defense: 88, Instinct: 58, Speed: 58 },
+    baseStats: { HP: 39, Attack: 49, Defense: 44, Instinct: 29, Speed: 29 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'E', Chipper: 'D', MadLad: 'E' },
     defaultAbilities: ['WaterGun', 'Harden', 'ViceGrip'],
@@ -955,7 +955,7 @@ const POKEMON = {
   Oddish: {
     name: 'Oddish',
     primaryType: 'Grass',
-    baseStats: { HP: 89, Attack: 69, Defense: 74, Instinct: 79, Speed: 69 },
+    baseStats: { HP: 44, Attack: 34, Defense: 37, Instinct: 39, Speed: 34 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'PsyBeam'],
@@ -964,7 +964,7 @@ const POKEMON = {
   Bellsprout: {
     name: 'Bellsprout',
     primaryType: 'Grass',
-    baseStats: { HP: 80, Attack: 85, Defense: 55, Instinct: 80, Speed: 80 },
+    baseStats: { HP: 40, Attack: 42, Defense: 27, Instinct: 40, Speed: 40 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['VineWhip', 'RazorLeaf', 'PsyBeam'],
@@ -973,7 +973,7 @@ const POKEMON = {
   Paras: {
     name: 'Paras',
     primaryType: 'Grass',
-    baseStats: { HP: 79, Attack: 84, Defense: 74, Instinct: 74, Speed: 69 },
+    baseStats: { HP: 39, Attack: 42, Defense: 37, Instinct: 37, Speed: 34 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'E', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'Slash'],
@@ -982,7 +982,7 @@ const POKEMON = {
   Zubat: {
     name: 'Zubat',
     primaryType: 'Psychic',
-    baseStats: { HP: 84, Attack: 69, Defense: 59, Instinct: 74, Speed: 94 },
+    baseStats: { HP: 42, Attack: 34, Defense: 29, Instinct: 37, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'B', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'Bite'],
@@ -991,7 +991,7 @@ const POKEMON = {
   Grimer: {
     name: 'Grimer',
     primaryType: 'Psychic',
-    baseStats: { HP: 92, Attack: 82, Defense: 67, Instinct: 77, Speed: 62 },
+    baseStats: { HP: 46, Attack: 41, Defense: 33, Instinct: 38, Speed: 31 },
     typeAptitudes: { Red: 'C', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'B', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Harden', 'Bite'],
@@ -1000,7 +1000,7 @@ const POKEMON = {
   Koffing: {
     name: 'Koffing',
     primaryType: 'Psychic',
-    baseStats: { HP: 88, Attack: 78, Defense: 73, Instinct: 73, Speed: 68 },
+    baseStats: { HP: 44, Attack: 39, Defense: 36, Instinct: 36, Speed: 34 },
     typeAptitudes: { Red: 'C', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'Smokescreen'],
@@ -1009,7 +1009,7 @@ const POKEMON = {
   Voltorb: {
     name: 'Voltorb',
     primaryType: 'Electric',
-    baseStats: { HP: 81, Attack: 66, Defense: 66, Instinct: 76, Speed: 91 },
+    baseStats: { HP: 40, Attack: 33, Defense: 33, Instinct: 38, Speed: 45 },
     typeAptitudes: { Red: 'C', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'F', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['ThunderShock', 'Spark', 'Swift'],
@@ -1018,7 +1018,7 @@ const POKEMON = {
   Magnemite: {
     name: 'Magnemite',
     primaryType: 'Electric',
-    baseStats: { HP: 76, Attack: 71, Defense: 76, Instinct: 81, Speed: 76 },
+    baseStats: { HP: 38, Attack: 35, Defense: 38, Instinct: 40, Speed: 38 },
     typeAptitudes: { Red: 'C', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'D', Chipper: 'D', MadLad: 'E' },
     defaultAbilities: ['ThunderShock', 'Spark', 'FlashCannon'],
@@ -1027,7 +1027,7 @@ const POKEMON = {
   Sentret: {
     name: 'Sentret',
     primaryType: 'Normal',
-    baseStats: { HP: 81, Attack: 71, Defense: 66, Instinct: 76, Speed: 86 },
+    baseStats: { HP: 40, Attack: 35, Defense: 33, Instinct: 38, Speed: 43 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'Headbutt', 'Bite'],
@@ -1036,7 +1036,7 @@ const POKEMON = {
   Zigzagoon: {
     name: 'Zigzagoon',
     primaryType: 'Normal',
-    baseStats: { HP: 84, Attack: 68, Defense: 66, Instinct: 76, Speed: 86 },
+    baseStats: { HP: 42, Attack: 34, Defense: 33, Instinct: 38, Speed: 43 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'Headbutt', 'Bite'],
@@ -1045,7 +1045,7 @@ const POKEMON = {
   Bidoof: {
     name: 'Bidoof',
     primaryType: 'Normal',
-    baseStats: { HP: 90, Attack: 73, Defense: 71, Instinct: 70, Speed: 76 },
+    baseStats: { HP: 45, Attack: 36, Defense: 35, Instinct: 35, Speed: 38 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'D', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['QuickAttack', 'Bite', 'Headbutt'],
@@ -1054,7 +1054,7 @@ const POKEMON = {
   Lillipup: {
     name: 'Lillipup',
     primaryType: 'Normal',
-    baseStats: { HP: 85, Attack: 75, Defense: 67, Instinct: 73, Speed: 80 },
+    baseStats: { HP: 42, Attack: 37, Defense: 33, Instinct: 36, Speed: 40 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Bite', 'WorkUp'],
@@ -1065,7 +1065,7 @@ const POKEMON = {
   Vulpix: {
     name: 'Vulpix',
     primaryType: 'Fire',
-    baseStats: { HP: 84, Attack: 64, Defense: 62, Instinct: 84, Speed: 86 },
+    baseStats: { HP: 42, Attack: 32, Defense: 31, Instinct: 42, Speed: 43 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'A', Chipper: 'D', MadLad: 'E' },
     defaultAbilities: ['Ember', 'FlameBurst', 'QuickAttack'],
@@ -1074,7 +1074,7 @@ const POKEMON = {
   Ponyta: {
     name: 'Ponyta',
     primaryType: 'Fire',
-    baseStats: { HP: 83, Attack: 83, Defense: 63, Instinct: 68, Speed: 83 },
+    baseStats: { HP: 41, Attack: 41, Defense: 31, Instinct: 34, Speed: 41 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['Ember', 'FlameCharge', 'Stomp'],
@@ -1083,7 +1083,7 @@ const POKEMON = {
   Houndour: {
     name: 'Houndour',
     primaryType: 'Fire',
-    baseStats: { HP: 79, Attack: 79, Defense: 59, Instinct: 84, Speed: 79 },
+    baseStats: { HP: 39, Attack: 39, Defense: 29, Instinct: 42, Speed: 39 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'A', Debuffer: 'D', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['Ember', 'FireFang', 'DarkPulse'],
@@ -1092,7 +1092,7 @@ const POKEMON = {
   Torchic: {
     name: 'Torchic',
     primaryType: 'Fire',
-    baseStats: { HP: 81, Attack: 76, Defense: 61, Instinct: 79, Speed: 83 },
+    baseStats: { HP: 40, Attack: 38, Defense: 30, Instinct: 39, Speed: 41 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'E', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['Ember', 'FlameCharge', 'QuickAttack'],
@@ -1101,7 +1101,7 @@ const POKEMON = {
   Chinchou: {
     name: 'Chinchou',
     primaryType: 'Water',
-    baseStats: { HP: 85, Attack: 65, Defense: 73, Instinct: 81, Speed: 76 },
+    baseStats: { HP: 42, Attack: 32, Defense: 36, Instinct: 40, Speed: 38 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'D', Yellow: 'B', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['WaterGun', 'BubbleBeam', 'Spark'],
@@ -1110,7 +1110,7 @@ const POKEMON = {
   Mareep: {
     name: 'Mareep',
     primaryType: 'Electric',
-    baseStats: { HP: 83, Attack: 65, Defense: 63, Instinct: 85, Speed: 84 },
+    baseStats: { HP: 41, Attack: 32, Defense: 31, Instinct: 42, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'A', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'D', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['ThunderShock', 'Spark', 'Swift'],
@@ -1119,7 +1119,7 @@ const POKEMON = {
   Elekid: {
     name: 'Elekid',
     primaryType: 'Electric',
-    baseStats: { HP: 79, Attack: 77, Defense: 59, Instinct: 81, Speed: 84 },
+    baseStats: { HP: 39, Attack: 38, Defense: 29, Instinct: 40, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['ThunderShock', 'Spark', 'QuickAttack'],
@@ -1128,7 +1128,7 @@ const POKEMON = {
   Hoppip: {
     name: 'Hoppip',
     primaryType: 'Grass',
-    baseStats: { HP: 77, Attack: 62, Defense: 65, Instinct: 87, Speed: 89 },
+    baseStats: { HP: 38, Attack: 31, Defense: 32, Instinct: 43, Speed: 44 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'A', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'E', Debuffer: 'B', Chipper: 'A', MadLad: 'E' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'Swift'],
@@ -1137,7 +1137,7 @@ const POKEMON = {
   Sunkern: {
     name: 'Sunkern',
     primaryType: 'Grass',
-    baseStats: { HP: 82, Attack: 67, Defense: 72, Instinct: 77, Speed: 82 },
+    baseStats: { HP: 41, Attack: 33, Defense: 36, Instinct: 38, Speed: 41 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'A', Purple: 'D', Yellow: 'B', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'B', MadLad: 'F' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'MegaDrain'],
@@ -1146,7 +1146,7 @@ const POKEMON = {
   Spinarak: {
     name: 'Spinarak',
     primaryType: 'Psychic',
-    baseStats: { HP: 85, Attack: 76, Defense: 64, Instinct: 74, Speed: 81 },
+    baseStats: { HP: 42, Attack: 38, Defense: 32, Instinct: 37, Speed: 40 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'B', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'Bite'],
@@ -1155,7 +1155,7 @@ const POKEMON = {
   Skorupi: {
     name: 'Skorupi',
     primaryType: 'Psychic',
-    baseStats: { HP: 79, Attack: 77, Defense: 84, Instinct: 69, Speed: 71 },
+    baseStats: { HP: 39, Attack: 38, Defense: 42, Instinct: 34, Speed: 35 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'B', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Harden', 'Bite'],
@@ -1164,7 +1164,7 @@ const POKEMON = {
   Eevee: {
     name: 'Eevee',
     primaryType: 'Normal',
-    baseStats: { HP: 79, Attack: 69, Defense: 66, Instinct: 83, Speed: 83 },
+    baseStats: { HP: 39, Attack: 34, Defense: 33, Instinct: 41, Speed: 41 },
     typeAptitudes: { Red: 'B', Blue: 'B', Green: 'B', Purple: 'B', Yellow: 'B', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Bite', 'Swift'],
@@ -1173,7 +1173,7 @@ const POKEMON = {
   Togepi: {
     name: 'Togepi',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 62, Defense: 75, Instinct: 87, Speed: 79 },
+    baseStats: { HP: 38, Attack: 31, Defense: 37, Instinct: 43, Speed: 39 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['Swift', 'Metronome', 'CharmMove'],
@@ -1182,7 +1182,7 @@ const POKEMON = {
   Snubbull: {
     name: 'Snubbull',
     primaryType: 'Psychic',
-    baseStats: { HP: 83, Attack: 86, Defense: 66, Instinct: 71, Speed: 74 },
+    baseStats: { HP: 41, Attack: 43, Defense: 33, Instinct: 35, Speed: 37 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['Bite', 'Headbutt', 'CharmMove'],
@@ -1191,7 +1191,7 @@ const POKEMON = {
   Teddiursa: {
     name: 'Teddiursa',
     primaryType: 'Normal',
-    baseStats: { HP: 83, Attack: 81, Defense: 66, Instinct: 73, Speed: 77 },
+    baseStats: { HP: 41, Attack: 40, Defense: 33, Instinct: 36, Speed: 38 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'E', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['Slash', 'Bite', 'Leer'],
@@ -1202,7 +1202,7 @@ const POKEMON = {
   Slugma: {
     name: 'Slugma',
     primaryType: 'Fire',
-    baseStats: { HP: 89, Attack: 69, Defense: 67, Instinct: 84, Speed: 71 },
+    baseStats: { HP: 44, Attack: 34, Defense: 33, Instinct: 42, Speed: 35 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'D', Chipper: 'B', MadLad: 'F' },
     defaultAbilities: ['Ember', 'Incinerate', 'Harden'],
@@ -1211,7 +1211,7 @@ const POKEMON = {
   Clefairy: {
     name: 'Clefairy',
     primaryType: 'Psychic',
-    baseStats: { HP: 87, Attack: 61, Defense: 69, Instinct: 84, Speed: 79 },
+    baseStats: { HP: 43, Attack: 30, Defense: 34, Instinct: 42, Speed: 39 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'B', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['Swift', 'Metronome', 'Moonblast'],
@@ -1220,7 +1220,7 @@ const POKEMON = {
   Jigglypuff: {
     name: 'Jigglypuff',
     primaryType: 'Psychic',
-    baseStats: { HP: 109, Attack: 64, Defense: 62, Instinct: 79, Speed: 66 },
+    baseStats: { HP: 54, Attack: 32, Defense: 31, Instinct: 39, Speed: 33 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'B', Chipper: 'D', MadLad: 'E' },
     defaultAbilities: ['Swift', 'Harden', 'CharmMove'],
@@ -1229,7 +1229,7 @@ const POKEMON = {
   Phanpy: {
     name: 'Phanpy',
     primaryType: 'Fighting',
-    baseStats: { HP: 84, Attack: 79, Defense: 77, Instinct: 67, Speed: 73 },
+    baseStats: { HP: 42, Attack: 39, Defense: 38, Instinct: 33, Speed: 36 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['Headbutt', 'Harden', 'Rollout'],
@@ -1238,7 +1238,7 @@ const POKEMON = {
   Spheal: {
     name: 'Spheal',
     primaryType: 'Water',
-    baseStats: { HP: 93, Attack: 65, Defense: 70, Instinct: 83, Speed: 69 },
+    baseStats: { HP: 46, Attack: 32, Defense: 35, Instinct: 41, Speed: 34 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'Harden', 'IcePunch'],
@@ -1247,7 +1247,7 @@ const POKEMON = {
   Spoink: {
     name: 'Spoink',
     primaryType: 'Psychic',
-    baseStats: { HP: 83, Attack: 66, Defense: 69, Instinct: 86, Speed: 76 },
+    baseStats: { HP: 41, Attack: 33, Defense: 34, Instinct: 43, Speed: 38 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['PsyBeam', 'Psyshock', 'Swift'],
@@ -1256,7 +1256,7 @@ const POKEMON = {
   Skitty: {
     name: 'Skitty',
     primaryType: 'Normal',
-    baseStats: { HP: 81, Attack: 65, Defense: 63, Instinct: 83, Speed: 88 },
+    baseStats: { HP: 40, Attack: 32, Defense: 31, Instinct: 41, Speed: 44 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'B', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Bite', 'CharmMove'],
@@ -1265,7 +1265,7 @@ const POKEMON = {
   Deerling: {
     name: 'Deerling',
     primaryType: 'Grass',
-    baseStats: { HP: 81, Attack: 71, Defense: 67, Instinct: 77, Speed: 84 },
+    baseStats: { HP: 40, Attack: 35, Defense: 33, Instinct: 38, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'A', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'QuickAttack'],
@@ -1276,7 +1276,7 @@ const POKEMON = {
   Fletchling: {
     name: 'Fletchling',
     primaryType: 'Fire',
-    baseStats: { HP: 79, Attack: 69, Defense: 59, Instinct: 81, Speed: 92 },
+    baseStats: { HP: 39, Attack: 34, Defense: 29, Instinct: 40, Speed: 46 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['Ember', 'FlameCharge', 'QuickAttack'],
@@ -1286,7 +1286,7 @@ const POKEMON = {
   Bunnelby: {
     name: 'Bunnelby',
     primaryType: 'Normal',
-    baseStats: { HP: 81, Attack: 75, Defense: 59, Instinct: 77, Speed: 88 },
+    baseStats: { HP: 40, Attack: 37, Defense: 29, Instinct: 38, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'E', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'Headbutt', 'Bite'],
@@ -1296,7 +1296,7 @@ const POKEMON = {
   Yungoos: {
     name: 'Yungoos',
     primaryType: 'Normal',
-    baseStats: { HP: 83, Attack: 79, Defense: 65, Instinct: 75, Speed: 78 },
+    baseStats: { HP: 41, Attack: 39, Defense: 32, Instinct: 37, Speed: 39 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Bite', 'Leer'],
@@ -1306,7 +1306,7 @@ const POKEMON = {
   Wooloo: {
     name: 'Wooloo',
     primaryType: 'Normal',
-    baseStats: { HP: 89, Attack: 65, Defense: 75, Instinct: 79, Speed: 72 },
+    baseStats: { HP: 44, Attack: 32, Defense: 37, Instinct: 39, Speed: 36 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'D', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['Headbutt', 'Harden', 'TailWhip'],
@@ -1316,7 +1316,7 @@ const POKEMON = {
   Skwovet: {
     name: 'Skwovet',
     primaryType: 'Normal',
-    baseStats: { HP: 85, Attack: 69, Defense: 67, Instinct: 77, Speed: 82 },
+    baseStats: { HP: 42, Attack: 34, Defense: 33, Instinct: 38, Speed: 41 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'E' },
     defaultAbilities: ['QuickAttack', 'Bite', 'TailWhip'],
@@ -1427,7 +1427,7 @@ const POKEMON = {
   Klefki: {
     name: 'Klefki',
     primaryType: 'Fighting',
-    baseStats: { HP: 79, Attack: 71, Defense: 85, Instinct: 82, Speed: 83 },
+    baseStats: { HP: 39, Attack: 35, Defense: 42, Instinct: 41, Speed: 41 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'B', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'IronDefense', 'Spark'],
@@ -1436,7 +1436,7 @@ const POKEMON = {
   Sneasel: {
     name: 'Sneasel',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 85, Defense: 63, Instinct: 79, Speed: 96 },
+    baseStats: { HP: 38, Attack: 42, Defense: 31, Instinct: 39, Speed: 48 },
     typeAptitudes: { Red: 'B', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Ember'],
@@ -1445,7 +1445,7 @@ const POKEMON = {
   Murkrow: {
     name: 'Murkrow',
     primaryType: 'Psychic',
-    baseStats: { HP: 81, Attack: 81, Defense: 58, Instinct: 81, Speed: 99 },
+    baseStats: { HP: 40, Attack: 40, Defense: 29, Instinct: 40, Speed: 49 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'PsyBeam'],
@@ -1454,7 +1454,7 @@ const POKEMON = {
   Gligar: {
     name: 'Gligar',
     primaryType: 'Psychic',
-    baseStats: { HP: 83, Attack: 77, Defense: 81, Instinct: 73, Speed: 86 },
+    baseStats: { HP: 41, Attack: 38, Defense: 40, Instinct: 36, Speed: 43 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -1463,7 +1463,7 @@ const POKEMON = {
   Yanma: {
     name: 'Yanma',
     primaryType: 'Grass',
-    baseStats: { HP: 78, Attack: 69, Defense: 59, Instinct: 83, Speed: 111 },
+    baseStats: { HP: 39, Attack: 34, Defense: 29, Instinct: 41, Speed: 55 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'A', Purple: 'D', Yellow: 'B', Orange: 'D' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Spark'],
@@ -1472,7 +1472,7 @@ const POKEMON = {
   Snorunt: {
     name: 'Snorunt',
     primaryType: 'Water',
-    baseStats: { HP: 81, Attack: 69, Defense: 69, Instinct: 79, Speed: 82 },
+    baseStats: { HP: 40, Attack: 34, Defense: 34, Instinct: 39, Speed: 41 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -1481,7 +1481,7 @@ const POKEMON = {
   Aron: {
     name: 'Aron',
     primaryType: 'Fighting',
-    baseStats: { HP: 81, Attack: 75, Defense: 95, Instinct: 67, Speed: 62 },
+    baseStats: { HP: 40, Attack: 37, Defense: 47, Instinct: 33, Speed: 31 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'F', MadLad: 'B' },
     defaultAbilities: ['Headbutt', 'IronDefense', 'QuickAttack'],
@@ -1490,7 +1490,7 @@ const POKEMON = {
   Ralts: {
     name: 'Ralts',
     primaryType: 'Psychic',
-    baseStats: { HP: 73, Attack: 63, Defense: 63, Instinct: 91, Speed: 90 },
+    baseStats: { HP: 36, Attack: 31, Defense: 31, Instinct: 45, Speed: 45 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'D', MadLad: 'E' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'PsyBeam'],
@@ -1499,7 +1499,7 @@ const POKEMON = {
   Shinx: {
     name: 'Shinx',
     primaryType: 'Electric',
-    baseStats: { HP: 77, Attack: 75, Defense: 67, Instinct: 79, Speed: 82 },
+    baseStats: { HP: 38, Attack: 37, Defense: 33, Instinct: 39, Speed: 41 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['ThunderShock', 'Spark', 'QuickAttack'],
@@ -1508,7 +1508,7 @@ const POKEMON = {
   Starly: {
     name: 'Starly',
     primaryType: 'Normal',
-    baseStats: { HP: 75, Attack: 69, Defense: 57, Instinct: 75, Speed: 104 },
+    baseStats: { HP: 37, Attack: 34, Defense: 28, Instinct: 37, Speed: 52 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'F', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -1517,7 +1517,7 @@ const POKEMON = {
   Buneary: {
     name: 'Buneary',
     primaryType: 'Normal',
-    baseStats: { HP: 79, Attack: 77, Defense: 65, Instinct: 77, Speed: 82 },
+    baseStats: { HP: 39, Attack: 38, Defense: 32, Instinct: 38, Speed: 41 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'E', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -1526,7 +1526,7 @@ const POKEMON = {
   Glameow: {
     name: 'Glameow',
     primaryType: 'Normal',
-    baseStats: { HP: 77, Attack: 73, Defense: 65, Instinct: 79, Speed: 86 },
+    baseStats: { HP: 38, Attack: 36, Defense: 32, Instinct: 39, Speed: 43 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'B', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -1535,7 +1535,7 @@ const POKEMON = {
   Stunky: {
     name: 'Stunky',
     primaryType: 'Psychic',
-    baseStats: { HP: 81, Attack: 77, Defense: 65, Instinct: 75, Speed: 82 },
+    baseStats: { HP: 40, Attack: 38, Defense: 32, Instinct: 37, Speed: 41 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -1544,7 +1544,7 @@ const POKEMON = {
   Croagunk: {
     name: 'Croagunk',
     primaryType: 'Fighting',
-    baseStats: { HP: 77, Attack: 77, Defense: 65, Instinct: 77, Speed: 84 },
+    baseStats: { HP: 38, Attack: 38, Defense: 32, Instinct: 38, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -1553,7 +1553,7 @@ const POKEMON = {
   Purrloin: {
     name: 'Purrloin',
     primaryType: 'Psychic',
-    baseStats: { HP: 75, Attack: 73, Defense: 62, Instinct: 81, Speed: 89 },
+    baseStats: { HP: 37, Attack: 36, Defense: 31, Instinct: 40, Speed: 44 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'D', Debuffer: 'B', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -1562,7 +1562,7 @@ const POKEMON = {
   Patrat: {
     name: 'Patrat',
     primaryType: 'Normal',
-    baseStats: { HP: 77, Attack: 73, Defense: 65, Instinct: 75, Speed: 90 },
+    baseStats: { HP: 38, Attack: 36, Defense: 32, Instinct: 37, Speed: 45 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'D', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'Swift', 'Bite'],
@@ -1571,7 +1571,7 @@ const POKEMON = {
   Roggenrola: {
     name: 'Roggenrola',
     primaryType: 'Fighting',
-    baseStats: { HP: 79, Attack: 73, Defense: 91, Instinct: 63, Speed: 74 },
+    baseStats: { HP: 39, Attack: 36, Defense: 45, Instinct: 31, Speed: 37 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'D', Chipper: 'E', MadLad: 'B' },
     defaultAbilities: ['Headbutt', 'IronDefense', 'QuickAttack'],
@@ -1580,7 +1580,7 @@ const POKEMON = {
   Tympole: {
     name: 'Tympole',
     primaryType: 'Water',
-    baseStats: { HP: 81, Attack: 67, Defense: 65, Instinct: 77, Speed: 90 },
+    baseStats: { HP: 40, Attack: 33, Defense: 32, Instinct: 38, Speed: 45 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'B', Chipper: 'A', MadLad: 'E' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -1589,7 +1589,7 @@ const POKEMON = {
   Venipede: {
     name: 'Venipede',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 73, Defense: 75, Instinct: 71, Speed: 84 },
+    baseStats: { HP: 38, Attack: 36, Defense: 37, Instinct: 35, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'B', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'E', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -1598,7 +1598,7 @@ const POKEMON = {
   Sandile: {
     name: 'Sandile',
     primaryType: 'Fighting',
-    baseStats: { HP: 81, Attack: 79, Defense: 65, Instinct: 75, Speed: 80 },
+    baseStats: { HP: 40, Attack: 39, Defense: 32, Instinct: 37, Speed: 40 },
     typeAptitudes: { Red: 'B', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Swift', 'Ember'],
@@ -1607,7 +1607,7 @@ const POKEMON = {
   Dwebble: {
     name: 'Dwebble',
     primaryType: 'Fighting',
-    baseStats: { HP: 75, Attack: 73, Defense: 91, Instinct: 67, Speed: 74 },
+    baseStats: { HP: 37, Attack: 36, Defense: 45, Instinct: 33, Speed: 37 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'D', Chipper: 'E', MadLad: 'B' },
     defaultAbilities: ['Headbutt', 'IronDefense', 'QuickAttack'],
@@ -1616,7 +1616,7 @@ const POKEMON = {
   Scraggy: {
     name: 'Scraggy',
     primaryType: 'Fighting',
-    baseStats: { HP: 81, Attack: 83, Defense: 85, Instinct: 67, Speed: 64 },
+    baseStats: { HP: 40, Attack: 41, Defense: 42, Instinct: 33, Speed: 32 },
     typeAptitudes: { Red: 'B', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['Headbutt', 'IronDefense', 'Ember'],
@@ -1625,7 +1625,7 @@ const POKEMON = {
   Gothita: {
     name: 'Gothita',
     primaryType: 'Psychic',
-    baseStats: { HP: 75, Attack: 63, Defense: 71, Instinct: 87, Speed: 84 },
+    baseStats: { HP: 37, Attack: 31, Defense: 35, Instinct: 43, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['QuickAttack', 'Swift', 'PsyBeam'],
@@ -1634,7 +1634,7 @@ const POKEMON = {
   Litleo: {
     name: 'Litleo',
     primaryType: 'Fire',
-    baseStats: { HP: 79, Attack: 73, Defense: 67, Instinct: 83, Speed: 78 },
+    baseStats: { HP: 39, Attack: 36, Defense: 33, Instinct: 41, Speed: 39 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['Ember', 'FlameCharge', 'QuickAttack'],
@@ -1643,7 +1643,7 @@ const POKEMON = {
   Skiddo: {
     name: 'Skiddo',
     primaryType: 'Grass',
-    baseStats: { HP: 83, Attack: 75, Defense: 79, Instinct: 73, Speed: 70 },
+    baseStats: { HP: 41, Attack: 37, Defense: 39, Instinct: 36, Speed: 35 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'A', Purple: 'D', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'D', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'Harden', 'QuickAttack'],
@@ -1652,7 +1652,7 @@ const POKEMON = {
   Pancham: {
     name: 'Pancham',
     primaryType: 'Fighting',
-    baseStats: { HP: 83, Attack: 85, Defense: 67, Instinct: 71, Speed: 74 },
+    baseStats: { HP: 41, Attack: 42, Defense: 33, Instinct: 35, Speed: 37 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Swift', 'Ember'],
@@ -1661,7 +1661,7 @@ const POKEMON = {
   Honedge: {
     name: 'Honedge',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 85, Defense: 95, Instinct: 69, Speed: 54 },
+    baseStats: { HP: 38, Attack: 42, Defense: 47, Instinct: 34, Speed: 27 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'F', MadLad: 'B' },
     defaultAbilities: ['Headbutt', 'IronDefense', 'PsyBeam'],
@@ -1670,7 +1670,7 @@ const POKEMON = {
   Inkay: {
     name: 'Inkay',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 71, Defense: 69, Instinct: 83, Speed: 80 },
+    baseStats: { HP: 38, Attack: 35, Defense: 34, Instinct: 41, Speed: 40 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'E' },
     defaultAbilities: ['QuickAttack', 'Swift', 'PsyBeam'],
@@ -1679,7 +1679,7 @@ const POKEMON = {
   Binacle: {
     name: 'Binacle',
     primaryType: 'Water',
-    baseStats: { HP: 77, Attack: 77, Defense: 85, Instinct: 71, Speed: 70 },
+    baseStats: { HP: 38, Attack: 38, Defense: 42, Instinct: 35, Speed: 35 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'Harden', 'QuickAttack'],
@@ -1688,7 +1688,7 @@ const POKEMON = {
   Skrelp: {
     name: 'Skrelp',
     primaryType: 'Psychic',
-    baseStats: { HP: 75, Attack: 71, Defense: 85, Instinct: 79, Speed: 70 },
+    baseStats: { HP: 37, Attack: 35, Defense: 42, Instinct: 39, Speed: 35 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'B', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Harden', 'WaterGun'],
@@ -1697,7 +1697,7 @@ const POKEMON = {
   Helioptile: {
     name: 'Helioptile',
     primaryType: 'Electric',
-    baseStats: { HP: 75, Attack: 67, Defense: 63, Instinct: 83, Speed: 92 },
+    baseStats: { HP: 37, Attack: 33, Defense: 31, Instinct: 41, Speed: 46 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'B', Yellow: 'A', Orange: 'D' },
     strategyAptitudes: { Scaler: 'E', Nuker: 'B', Debuffer: 'D', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['ThunderShock', 'Thunder', 'QuickAttack'],
@@ -1706,7 +1706,7 @@ const POKEMON = {
   Tyrunt: {
     name: 'Tyrunt',
     primaryType: 'Fighting',
-    baseStats: { HP: 83, Attack: 85, Defense: 71, Instinct: 69, Speed: 72 },
+    baseStats: { HP: 41, Attack: 42, Defense: 35, Instinct: 34, Speed: 36 },
     typeAptitudes: { Red: 'B', Blue: 'D', Green: 'D', Purple: 'D', Yellow: 'D', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'A', Debuffer: 'E', Chipper: 'D', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'Swift', 'Ember'],
@@ -1715,7 +1715,7 @@ const POKEMON = {
   Amaura: {
     name: 'Amaura',
     primaryType: 'Water',
-    baseStats: { HP: 87, Attack: 63, Defense: 69, Instinct: 81, Speed: 80 },
+    baseStats: { HP: 43, Attack: 31, Defense: 34, Instinct: 40, Speed: 40 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'B', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -1724,7 +1724,7 @@ const POKEMON = {
   Goomy: {
     name: 'Goomy',
     primaryType: 'Water',
-    baseStats: { HP: 77, Attack: 69, Defense: 63, Instinct: 83, Speed: 88 },
+    baseStats: { HP: 38, Attack: 34, Defense: 31, Instinct: 41, Speed: 44 },
     typeAptitudes: { Red: 'D', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'D', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'E', Debuffer: 'D', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Swift', 'Bite'],
@@ -1733,7 +1733,7 @@ const POKEMON = {
   Noibat: {
     name: 'Noibat',
     primaryType: 'Psychic',
-    baseStats: { HP: 75, Attack: 67, Defense: 59, Instinct: 81, Speed: 98 },
+    baseStats: { HP: 37, Attack: 33, Defense: 29, Instinct: 40, Speed: 49 },
     typeAptitudes: { Red: 'D', Blue: 'D', Green: 'D', Purple: 'A', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'F', Nuker: 'B', Debuffer: 'D', Chipper: 'A', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'PsyBeam'],
@@ -1744,7 +1744,7 @@ const POKEMON = {
   Moltres: {
     name: 'Moltres',
     primaryType: 'Fire',
-    baseStats: { HP: 110, Attack: 95, Defense: 70, Instinct: 85, Speed: 75 },
+    baseStats: { HP: 55, Attack: 47, Defense: 35, Instinct: 42, Speed: 37 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'FireBlast', 'Psychic'],
@@ -1753,7 +1753,7 @@ const POKEMON = {
   Articuno: {
     name: 'Articuno',
     primaryType: 'Water',
-    baseStats: { HP: 115, Attack: 75, Defense: 90, Instinct: 90, Speed: 65 },
+    baseStats: { HP: 57, Attack: 37, Defense: 45, Instinct: 45, Speed: 32 },
     typeAptitudes: { Red: 'B', Blue: 'S', Green: 'D', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'Psychic'],
@@ -1762,7 +1762,7 @@ const POKEMON = {
   Celebi: {
     name: 'Celebi',
     primaryType: 'Grass',
-    baseStats: { HP: 120, Attack: 85, Defense: 85, Instinct: 80, Speed: 65 },
+    baseStats: { HP: 60, Attack: 42, Defense: 42, Instinct: 40, Speed: 32 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'S', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'SwordsDance', 'Psychic'],
@@ -1771,7 +1771,7 @@ const POKEMON = {
   Raikou: {
     name: 'Raikou',
     primaryType: 'Electric',
-    baseStats: { HP: 95, Attack: 80, Defense: 65, Instinct: 100, Speed: 95 },
+    baseStats: { HP: 47, Attack: 40, Defense: 32, Instinct: 50, Speed: 47 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'S', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['ThunderShock', 'Thunder', 'Flamethrower'],
@@ -1780,7 +1780,7 @@ const POKEMON = {
   Gengar: {
     name: 'Gengar',
     primaryType: 'Psychic',
-    baseStats: { HP: 105, Attack: 90, Defense: 75, Instinct: 85, Speed: 80 },
+    baseStats: { HP: 52, Attack: 45, Defense: 37, Instinct: 42, Speed: 40 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'B', Purple: 'S', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'Flamethrower'],
@@ -1789,7 +1789,7 @@ const POKEMON = {
   Entei: {
     name: 'Entei',
     primaryType: 'Fire',
-    baseStats: { HP: 108, Attack: 98, Defense: 73, Instinct: 83, Speed: 73 },
+    baseStats: { HP: 54, Attack: 49, Defense: 36, Instinct: 41, Speed: 36 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Ember', 'FlameCharge', 'Psychic'],
@@ -1798,7 +1798,7 @@ const POKEMON = {
   Suicune: {
     name: 'Suicune',
     primaryType: 'Water',
-    baseStats: { HP: 118, Attack: 73, Defense: 93, Instinct: 88, Speed: 63 },
+    baseStats: { HP: 59, Attack: 36, Defense: 46, Instinct: 44, Speed: 31 },
     typeAptitudes: { Red: 'B', Blue: 'S', Green: 'D', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'SwordsDance', 'Psychic'],
@@ -1813,7 +1813,7 @@ const POKEMON = {
   Kirlia: {
     name: 'Kirlia',
     primaryType: 'Psychic',
-    baseStats: { HP: 88, Attack: 73, Defense: 73, Instinct: 106, Speed: 100 },
+    baseStats: { HP: 44, Attack: 36, Defense: 36, Instinct: 53, Speed: 50 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'C', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Psychic', 'CalmMind'],
@@ -1822,7 +1822,7 @@ const POKEMON = {
   Gardevoir: {
     name: 'Gardevoir',
     primaryType: 'Psychic',
-    baseStats: { HP: 118, Attack: 85, Defense: 85, Instinct: 145, Speed: 110 },
+    baseStats: { HP: 59, Attack: 42, Defense: 42, Instinct: 72, Speed: 55 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'S', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Psychic', 'Moonblast', 'CalmMind'],
@@ -1833,7 +1833,7 @@ const POKEMON = {
   Houndoom: {
     name: 'Houndoom',
     primaryType: 'Fire',
-    baseStats: { HP: 95, Attack: 110, Defense: 65, Instinct: 95, Speed: 95 },
+    baseStats: { HP: 47, Attack: 55, Defense: 32, Instinct: 47, Speed: 47 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'FireBlast', 'Psychic'],
@@ -1844,7 +1844,7 @@ const POKEMON = {
   Furret: {
     name: 'Furret',
     primaryType: 'Normal',
-    baseStats: { HP: 95, Attack: 86, Defense: 74, Instinct: 85, Speed: 100 },
+    baseStats: { HP: 47, Attack: 43, Defense: 37, Instinct: 42, Speed: 50 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -1855,7 +1855,7 @@ const POKEMON = {
   Linoone: {
     name: 'Linoone',
     primaryType: 'Normal',
-    baseStats: { HP: 98, Attack: 85, Defense: 71, Instinct: 81, Speed: 105 },
+    baseStats: { HP: 49, Attack: 42, Defense: 35, Instinct: 40, Speed: 52 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -1866,7 +1866,7 @@ const POKEMON = {
   Lanturn: {
     name: 'Lanturn',
     primaryType: 'Water',
-    baseStats: { HP: 115, Attack: 68, Defense: 78, Instinct: 96, Speed: 73 },
+    baseStats: { HP: 57, Attack: 34, Defense: 39, Instinct: 48, Speed: 36 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'C', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['WaterGun', 'Growl', 'Spark'],
@@ -1877,7 +1877,7 @@ const POKEMON = {
   Flaaffy: {
     name: 'Flaaffy',
     primaryType: 'Electric',
-    baseStats: { HP: 90, Attack: 70, Defense: 70, Instinct: 95, Speed: 85 },
+    baseStats: { HP: 45, Attack: 35, Defense: 35, Instinct: 47, Speed: 42 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'C', MadLad: 'D' },
     defaultAbilities: ['ThunderShock', 'Thunderbolt', 'QuickAttack'],
@@ -1886,7 +1886,7 @@ const POKEMON = {
   Ampharos: {
     name: 'Ampharos',
     primaryType: 'Electric',
-    baseStats: { HP: 105, Attack: 85, Defense: 85, Instinct: 115, Speed: 65 },
+    baseStats: { HP: 52, Attack: 42, Defense: 42, Instinct: 57, Speed: 32 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'S', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['ThunderShock', 'Thunder', 'Harden'],
@@ -1897,7 +1897,7 @@ const POKEMON = {
   Skiploom: {
     name: 'Skiploom',
     primaryType: 'Grass',
-    baseStats: { HP: 83, Attack: 65, Defense: 70, Instinct: 90, Speed: 95 },
+    baseStats: { HP: 41, Attack: 32, Defense: 35, Instinct: 45, Speed: 47 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'SolarBeam', 'QuickAttack'],
@@ -1906,7 +1906,7 @@ const POKEMON = {
   Jumpluff: {
     name: 'Jumpluff',
     primaryType: 'Grass',
-    baseStats: { HP: 95, Attack: 60, Defense: 80, Instinct: 105, Speed: 120 },
+    baseStats: { HP: 47, Attack: 30, Defense: 40, Instinct: 52, Speed: 60 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'SolarBeam', 'QuickAttack'],
@@ -1917,7 +1917,7 @@ const POKEMON = {
   Sunflora: {
     name: 'Sunflora',
     primaryType: 'Grass',
-    baseStats: { HP: 95, Attack: 95, Defense: 75, Instinct: 105, Speed: 55 },
+    baseStats: { HP: 47, Attack: 47, Defense: 37, Instinct: 52, Speed: 27 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'S', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['VineWhip', 'SolarBeam', 'QuickAttack'],
@@ -1928,7 +1928,7 @@ const POKEMON = {
   Ariados: {
     name: 'Ariados',
     primaryType: 'Psychic',
-    baseStats: { HP: 90, Attack: 100, Defense: 80, Instinct: 75, Speed: 85 },
+    baseStats: { HP: 45, Attack: 50, Defense: 40, Instinct: 37, Speed: 42 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'PsychicBlast', 'QuickAttack'],
@@ -1939,7 +1939,7 @@ const POKEMON = {
   Drapion: {
     name: 'Drapion',
     primaryType: 'Psychic',
-    baseStats: { HP: 90, Attack: 100, Defense: 110, Instinct: 75, Speed: 95 },
+    baseStats: { HP: 45, Attack: 50, Defense: 55, Instinct: 37, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'S', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'SwordsDance', 'QuickAttack'],
@@ -1950,7 +1950,7 @@ const POKEMON = {
   Togetic: {
     name: 'Togetic',
     primaryType: 'Psychic',
-    baseStats: { HP: 88, Attack: 65, Defense: 95, Instinct: 105, Speed: 82 },
+    baseStats: { HP: 44, Attack: 32, Defense: 47, Instinct: 52, Speed: 41 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'SwordsDance', 'PsyBeam'],
@@ -1961,7 +1961,7 @@ const POKEMON = {
   Granbull: {
     name: 'Granbull',
     primaryType: 'Psychic',
-    baseStats: { HP: 100, Attack: 120, Defense: 85, Instinct: 70, Speed: 65 },
+    baseStats: { HP: 50, Attack: 60, Defense: 42, Instinct: 35, Speed: 32 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'PsyBeam'],
@@ -1972,7 +1972,7 @@ const POKEMON = {
   Ursaring: {
     name: 'Ursaring',
     primaryType: 'Normal',
-    baseStats: { HP: 105, Attack: 130, Defense: 85, Instinct: 85, Speed: 65 },
+    baseStats: { HP: 52, Attack: 65, Defense: 42, Instinct: 42, Speed: 32 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -1983,7 +1983,7 @@ const POKEMON = {
   Magcargo: {
     name: 'Magcargo',
     primaryType: 'Fire',
-    baseStats: { HP: 80, Attack: 80, Defense: 120, Instinct: 95, Speed: 45 },
+    baseStats: { HP: 40, Attack: 40, Defense: 60, Instinct: 47, Speed: 22 },
     typeAptitudes: { Red: 'A', Blue: 'E', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Ember', 'SwordsDance', 'QuickAttack'],
@@ -1994,7 +1994,7 @@ const POKEMON = {
   Clefable: {
     name: 'Clefable',
     primaryType: 'Psychic',
-    baseStats: { HP: 105, Attack: 75, Defense: 83, Instinct: 100, Speed: 70 },
+    baseStats: { HP: 52, Attack: 37, Defense: 41, Instinct: 50, Speed: 35 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'SwordsDance', 'PsyBeam'],
@@ -2005,7 +2005,7 @@ const POKEMON = {
   Wigglytuff: {
     name: 'Wigglytuff',
     primaryType: 'Psychic',
-    baseStats: { HP: 140, Attack: 75, Defense: 55, Instinct: 90, Speed: 55 },
+    baseStats: { HP: 70, Attack: 37, Defense: 27, Instinct: 45, Speed: 27 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'SwordsDance', 'PsyBeam'],
@@ -2016,7 +2016,7 @@ const POKEMON = {
   Donphan: {
     name: 'Donphan',
     primaryType: 'Fighting',
-    baseStats: { HP: 100, Attack: 120, Defense: 120, Instinct: 70, Speed: 60 },
+    baseStats: { HP: 50, Attack: 60, Defense: 60, Instinct: 35, Speed: 30 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'SwordsDance', 'Swift'],
@@ -2027,7 +2027,7 @@ const POKEMON = {
   Grumpig: {
     name: 'Grumpig',
     primaryType: 'Psychic',
-    baseStats: { HP: 95, Attack: 70, Defense: 80, Instinct: 110, Speed: 95 },
+    baseStats: { HP: 47, Attack: 35, Defense: 40, Instinct: 55, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'PsychicBlast', 'Harden'],
@@ -2038,7 +2038,7 @@ const POKEMON = {
   Delcatty: {
     name: 'Delcatty',
     primaryType: 'Normal',
-    baseStats: { HP: 90, Attack: 75, Defense: 70, Instinct: 65, Speed: 100 },
+    baseStats: { HP: 45, Attack: 37, Defense: 35, Instinct: 32, Speed: 50 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -2049,7 +2049,7 @@ const POKEMON = {
   Sawsbuck: {
     name: 'Sawsbuck',
     primaryType: 'Grass',
-    baseStats: { HP: 95, Attack: 105, Defense: 75, Instinct: 75, Speed: 105 },
+    baseStats: { HP: 47, Attack: 52, Defense: 37, Instinct: 37, Speed: 52 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'SolarBeam', 'QuickAttack'],
@@ -2060,7 +2060,7 @@ const POKEMON = {
   Diggersby: {
     name: 'Diggersby',
     primaryType: 'Normal',
-    baseStats: { HP: 95, Attack: 65, Defense: 85, Instinct: 65, Speed: 80 },
+    baseStats: { HP: 47, Attack: 32, Defense: 42, Instinct: 32, Speed: 40 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'C', Debuffer: 'A', Chipper: 'C', MadLad: 'D' },
     defaultAbilities: ['QuickAttack', 'Growl', 'Swift'],
@@ -2071,7 +2071,7 @@ const POKEMON = {
   Gumshoos: {
     name: 'Gumshoos',
     primaryType: 'Normal',
-    baseStats: { HP: 98, Attack: 110, Defense: 70, Instinct: 70, Speed: 75 },
+    baseStats: { HP: 49, Attack: 55, Defense: 35, Instinct: 35, Speed: 37 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'D', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -2082,7 +2082,7 @@ const POKEMON = {
   Dubwool: {
     name: 'Dubwool',
     primaryType: 'Normal',
-    baseStats: { HP: 100, Attack: 85, Defense: 100, Instinct: 75, Speed: 88 },
+    baseStats: { HP: 50, Attack: 42, Defense: 50, Instinct: 37, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'SwordsDance', 'Swift'],
@@ -2093,7 +2093,7 @@ const POKEMON = {
   Greedent: {
     name: 'Greedent',
     primaryType: 'Normal',
-    baseStats: { HP: 120, Attack: 95, Defense: 95, Instinct: 60, Speed: 65 },
+    baseStats: { HP: 60, Attack: 47, Defense: 47, Instinct: 30, Speed: 32 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'SwordsDance', 'Swift'],
@@ -2108,7 +2108,7 @@ const POKEMON = {
   Hoothoot: {
     name: 'Hoothoot',
     primaryType: 'Normal',
-    baseStats: { HP: 81, Attack: 67, Defense: 67, Instinct: 82, Speed: 83 },
+    baseStats: { HP: 40, Attack: 33, Defense: 33, Instinct: 41, Speed: 41 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'Swift', 'PsyBeam'],
@@ -2117,7 +2117,7 @@ const POKEMON = {
   Ledyba: {
     name: 'Ledyba',
     primaryType: 'Grass',
-    baseStats: { HP: 77, Attack: 62, Defense: 67, Instinct: 79, Speed: 95 },
+    baseStats: { HP: 38, Attack: 31, Defense: 33, Instinct: 39, Speed: 47 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -2126,7 +2126,7 @@ const POKEMON = {
   Natu: {
     name: 'Natu',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 69, Defense: 65, Instinct: 85, Speed: 84 },
+    baseStats: { HP: 38, Attack: 34, Defense: 32, Instinct: 42, Speed: 42 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'PsychicBlast', 'QuickAttack'],
@@ -2135,7 +2135,7 @@ const POKEMON = {
   Marill: {
     name: 'Marill',
     primaryType: 'Water',
-    baseStats: { HP: 85, Attack: 62, Defense: 67, Instinct: 77, Speed: 89 },
+    baseStats: { HP: 42, Attack: 31, Defense: 33, Instinct: 38, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -2144,7 +2144,7 @@ const POKEMON = {
   Wooper: {
     name: 'Wooper',
     primaryType: 'Water',
-    baseStats: { HP: 87, Attack: 70, Defense: 70, Instinct: 72, Speed: 81 },
+    baseStats: { HP: 43, Attack: 35, Defense: 35, Instinct: 36, Speed: 40 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -2153,7 +2153,7 @@ const POKEMON = {
   Swinub: {
     name: 'Swinub',
     primaryType: 'Water',
-    baseStats: { HP: 81, Attack: 73, Defense: 67, Instinct: 73, Speed: 86 },
+    baseStats: { HP: 40, Attack: 36, Defense: 33, Instinct: 36, Speed: 43 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -2162,7 +2162,7 @@ const POKEMON = {
   Remoraid: {
     name: 'Remoraid',
     primaryType: 'Water',
-    baseStats: { HP: 79, Attack: 77, Defense: 59, Instinct: 77, Speed: 88 },
+    baseStats: { HP: 39, Attack: 38, Defense: 29, Instinct: 38, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'HydroPump', 'QuickAttack'],
@@ -2171,7 +2171,7 @@ const POKEMON = {
   Seedot: {
     name: 'Seedot',
     primaryType: 'Grass',
-    baseStats: { HP: 79, Attack: 73, Defense: 67, Instinct: 73, Speed: 88 },
+    baseStats: { HP: 39, Attack: 36, Defense: 33, Instinct: 36, Speed: 44 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'QuickAttack'],
@@ -2180,7 +2180,7 @@ const POKEMON = {
   Lotad: {
     name: 'Lotad',
     primaryType: 'Grass',
-    baseStats: { HP: 83, Attack: 67, Defense: 67, Instinct: 79, Speed: 84 },
+    baseStats: { HP: 41, Attack: 33, Defense: 33, Instinct: 39, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'WaterGun'],
@@ -2189,7 +2189,7 @@ const POKEMON = {
   Shroomish: {
     name: 'Shroomish',
     primaryType: 'Grass',
-    baseStats: { HP: 81, Attack: 75, Defense: 75, Instinct: 71, Speed: 78 },
+    baseStats: { HP: 40, Attack: 37, Defense: 37, Instinct: 35, Speed: 39 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'QuickAttack'],
@@ -2198,7 +2198,7 @@ const POKEMON = {
   Makuhita: {
     name: 'Makuhita',
     primaryType: 'Fighting',
-    baseStats: { HP: 91, Attack: 77, Defense: 67, Instinct: 67, Speed: 78 },
+    baseStats: { HP: 45, Attack: 38, Defense: 33, Instinct: 33, Speed: 39 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['LowKick', 'MachPunch', 'QuickAttack'],
@@ -2207,7 +2207,7 @@ const POKEMON = {
   Nosepass: {
     name: 'Nosepass',
     primaryType: 'Fighting',
-    baseStats: { HP: 77, Attack: 73, Defense: 105, Instinct: 73, Speed: 52 },
+    baseStats: { HP: 38, Attack: 36, Defense: 52, Instinct: 36, Speed: 26 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'E', Debuffer: 'C', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['Headbutt', 'IronDefense', 'Spark'],
@@ -2216,7 +2216,7 @@ const POKEMON = {
   Gulpin: {
     name: 'Gulpin',
     primaryType: 'Psychic',
-    baseStats: { HP: 89, Attack: 73, Defense: 73, Instinct: 73, Speed: 72 },
+    baseStats: { HP: 44, Attack: 36, Defense: 36, Instinct: 36, Speed: 36 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -2225,7 +2225,7 @@ const POKEMON = {
   Numel: {
     name: 'Numel',
     primaryType: 'Fire',
-    baseStats: { HP: 85, Attack: 77, Defense: 71, Instinct: 77, Speed: 70 },
+    baseStats: { HP: 42, Attack: 38, Defense: 35, Instinct: 38, Speed: 35 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Ember', 'FlameCharge', 'QuickAttack'],
@@ -2234,7 +2234,7 @@ const POKEMON = {
   Trapinch: {
     name: 'Trapinch',
     primaryType: 'Fighting',
-    baseStats: { HP: 79, Attack: 95, Defense: 73, Instinct: 65, Speed: 68 },
+    baseStats: { HP: 39, Attack: 47, Defense: 36, Instinct: 32, Speed: 34 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'Swift', 'Ember'],
@@ -2243,7 +2243,7 @@ const POKEMON = {
   Baltoy: {
     name: 'Baltoy',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 67, Defense: 77, Instinct: 85, Speed: 74 },
+    baseStats: { HP: 38, Attack: 33, Defense: 38, Instinct: 42, Speed: 37 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -2252,7 +2252,7 @@ const POKEMON = {
   Barboach: {
     name: 'Barboach',
     primaryType: 'Water',
-    baseStats: { HP: 81, Attack: 73, Defense: 67, Instinct: 75, Speed: 84 },
+    baseStats: { HP: 40, Attack: 36, Defense: 33, Instinct: 37, Speed: 42 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -2261,7 +2261,7 @@ const POKEMON = {
   Corphish: {
     name: 'Corphish',
     primaryType: 'Water',
-    baseStats: { HP: 79, Attack: 85, Defense: 77, Instinct: 67, Speed: 72 },
+    baseStats: { HP: 39, Attack: 42, Defense: 38, Instinct: 33, Speed: 36 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -2270,7 +2270,7 @@ const POKEMON = {
   Kricketot: {
     name: 'Kricketot',
     primaryType: 'Grass',
-    baseStats: { HP: 75, Attack: 69, Defense: 69, Instinct: 71, Speed: 96 },
+    baseStats: { HP: 37, Attack: 34, Defense: 34, Instinct: 35, Speed: 48 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -2279,7 +2279,7 @@ const POKEMON = {
   Burmy: {
     name: 'Burmy',
     primaryType: 'Grass',
-    baseStats: { HP: 77, Attack: 63, Defense: 73, Instinct: 77, Speed: 90 },
+    baseStats: { HP: 38, Attack: 31, Defense: 36, Instinct: 38, Speed: 45 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -2288,7 +2288,7 @@ const POKEMON = {
   Combee: {
     name: 'Combee',
     primaryType: 'Grass',
-    baseStats: { HP: 77, Attack: 63, Defense: 67, Instinct: 79, Speed: 94 },
+    baseStats: { HP: 38, Attack: 31, Defense: 33, Instinct: 39, Speed: 47 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Spark'],
@@ -2297,7 +2297,7 @@ const POKEMON = {
   Cherubi: {
     name: 'Cherubi',
     primaryType: 'Grass',
-    baseStats: { HP: 79, Attack: 73, Defense: 73, Instinct: 77, Speed: 78 },
+    baseStats: { HP: 39, Attack: 36, Defense: 36, Instinct: 38, Speed: 39 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'QuickAttack'],
@@ -2306,7 +2306,7 @@ const POKEMON = {
   Bronzor: {
     name: 'Bronzor',
     primaryType: 'Psychic',
-    baseStats: { HP: 79, Attack: 59, Defense: 99, Instinct: 85, Speed: 58 },
+    baseStats: { HP: 39, Attack: 29, Defense: 49, Instinct: 42, Speed: 29 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'E', Debuffer: 'C', Chipper: 'D', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'IronDefense', 'Spark'],
@@ -2315,7 +2315,7 @@ const POKEMON = {
   Finneon: {
     name: 'Finneon',
     primaryType: 'Water',
-    baseStats: { HP: 77, Attack: 67, Defense: 67, Instinct: 81, Speed: 88 },
+    baseStats: { HP: 38, Attack: 33, Defense: 33, Instinct: 40, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'QuickAttack'],
@@ -2324,7 +2324,7 @@ const POKEMON = {
   Pidove: {
     name: 'Pidove',
     primaryType: 'Normal',
-    baseStats: { HP: 77, Attack: 73, Defense: 63, Instinct: 73, Speed: 94 },
+    baseStats: { HP: 38, Attack: 36, Defense: 31, Instinct: 36, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'Swift'],
@@ -2333,7 +2333,7 @@ const POKEMON = {
   Blitzle: {
     name: 'Blitzle',
     primaryType: 'Electric',
-    baseStats: { HP: 77, Attack: 73, Defense: 59, Instinct: 77, Speed: 94 },
+    baseStats: { HP: 38, Attack: 36, Defense: 29, Instinct: 38, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Thunder', 'QuickAttack'],
@@ -2342,7 +2342,7 @@ const POKEMON = {
   Sewaddle: {
     name: 'Sewaddle',
     primaryType: 'Grass',
-    baseStats: { HP: 77, Attack: 73, Defense: 73, Instinct: 73, Speed: 84 },
+    baseStats: { HP: 38, Attack: 36, Defense: 36, Instinct: 36, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'QuickAttack'],
@@ -2351,7 +2351,7 @@ const POKEMON = {
   Cottonee: {
     name: 'Cottonee',
     primaryType: 'Grass',
-    baseStats: { HP: 77, Attack: 59, Defense: 77, Instinct: 85, Speed: 82 },
+    baseStats: { HP: 38, Attack: 29, Defense: 38, Instinct: 42, Speed: 41 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'QuickAttack'],
@@ -2360,7 +2360,7 @@ const POKEMON = {
   Petilil: {
     name: 'Petilil',
     primaryType: 'Grass',
-    baseStats: { HP: 79, Attack: 65, Defense: 65, Instinct: 87, Speed: 84 },
+    baseStats: { HP: 39, Attack: 32, Defense: 32, Instinct: 43, Speed: 42 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'QuickAttack'],
@@ -2371,7 +2371,7 @@ const POKEMON = {
   Misdreavus: {
     name: 'Misdreavus',
     primaryType: 'Psychic',
-    baseStats: { HP: 81, Attack: 75, Defense: 75, Instinct: 95, Speed: 94 },
+    baseStats: { HP: 40, Attack: 37, Defense: 37, Instinct: 47, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'S', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -2380,7 +2380,7 @@ const POKEMON = {
   Girafarig: {
     name: 'Girafarig',
     primaryType: 'Psychic',
-    baseStats: { HP: 83, Attack: 85, Defense: 69, Instinct: 95, Speed: 88 },
+    baseStats: { HP: 41, Attack: 42, Defense: 34, Instinct: 47, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Confusion', 'QuickAttack'],
@@ -2389,7 +2389,7 @@ const POKEMON = {
   Dunsparce: {
     name: 'Dunsparce',
     primaryType: 'Fighting',
-    baseStats: { HP: 105, Attack: 79, Defense: 79, Instinct: 75, Speed: 62 },
+    baseStats: { HP: 52, Attack: 39, Defense: 39, Instinct: 37, Speed: 31 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'Harden', 'Swift'],
@@ -2398,7 +2398,7 @@ const POKEMON = {
   Qwilfish: {
     name: 'Qwilfish',
     primaryType: 'Water',
-    baseStats: { HP: 83, Attack: 95, Defense: 85, Instinct: 69, Speed: 88 },
+    baseStats: { HP: 41, Attack: 47, Defense: 42, Instinct: 34, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'AquaJet', 'PsyBeam'],
@@ -2407,7 +2407,7 @@ const POKEMON = {
   Shuckle: {
     name: 'Shuckle',
     primaryType: 'Fighting',
-    baseStats: { HP: 65, Attack: 35, Defense: 170, Instinct: 35, Speed: 15 },
+    baseStats: { HP: 32, Attack: 17, Defense: 85, Instinct: 17, Speed: 7 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'S', Nuker: 'F', Debuffer: 'A', Chipper: 'F', MadLad: 'C' },
     defaultAbilities: ['Headbutt', 'SwordsDance', 'Swift'],
@@ -2416,7 +2416,7 @@ const POKEMON = {
   Corsola: {
     name: 'Corsola',
     primaryType: 'Water',
-    baseStats: { HP: 89, Attack: 69, Defense: 95, Instinct: 85, Speed: 62 },
+    baseStats: { HP: 44, Attack: 34, Defense: 47, Instinct: 42, Speed: 31 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'Harden', 'QuickAttack'],
@@ -2425,7 +2425,7 @@ const POKEMON = {
   Mantine: {
     name: 'Mantine',
     primaryType: 'Water',
-    baseStats: { HP: 89, Attack: 55, Defense: 79, Instinct: 115, Speed: 82 },
+    baseStats: { HP: 44, Attack: 27, Defense: 39, Instinct: 57, Speed: 41 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'C', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['WaterGun', 'Growl', 'QuickAttack'],
@@ -2443,7 +2443,7 @@ const POKEMON = {
   Poochyena: {
     name: 'Poochyena',
     primaryType: 'Psychic',
-    baseStats: { HP: 77, Attack: 79, Defense: 59, Instinct: 73, Speed: 92 },
+    baseStats: { HP: 38, Attack: 39, Defense: 29, Instinct: 36, Speed: 46 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['QuickAttack', 'HyperBeam', 'PsyBeam'],
@@ -2452,7 +2452,7 @@ const POKEMON = {
   Wingull: {
     name: 'Wingull',
     primaryType: 'Water',
-    baseStats: { HP: 77, Attack: 67, Defense: 57, Instinct: 79, Speed: 100 },
+    baseStats: { HP: 38, Attack: 33, Defense: 28, Instinct: 39, Speed: 50 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'HydroPump', 'QuickAttack'],
@@ -2461,7 +2461,7 @@ const POKEMON = {
   Surskit: {
     name: 'Surskit',
     primaryType: 'Water',
-    baseStats: { HP: 77, Attack: 65, Defense: 59, Instinct: 87, Speed: 92 },
+    baseStats: { HP: 38, Attack: 32, Defense: 29, Instinct: 43, Speed: 46 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'HydroPump', 'QuickAttack'],
@@ -2470,7 +2470,7 @@ const POKEMON = {
   Electrike: {
     name: 'Electrike',
     primaryType: 'Electric',
-    baseStats: { HP: 77, Attack: 73, Defense: 59, Instinct: 85, Speed: 86 },
+    baseStats: { HP: 38, Attack: 36, Defense: 29, Instinct: 42, Speed: 43 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Thunder', 'QuickAttack'],
@@ -2479,7 +2479,7 @@ const POKEMON = {
   Roselia: {
     name: 'Roselia',
     primaryType: 'Grass',
-    baseStats: { HP: 81, Attack: 75, Defense: 63, Instinct: 105, Speed: 86 },
+    baseStats: { HP: 40, Attack: 37, Defense: 31, Instinct: 52, Speed: 43 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'BulletSeed', 'PsyBeam'],
@@ -2488,7 +2488,7 @@ const POKEMON = {
   Wailmer: {
     name: 'Wailmer',
     primaryType: 'Water',
-    baseStats: { HP: 115, Attack: 79, Defense: 59, Instinct: 79, Speed: 68 },
+    baseStats: { HP: 57, Attack: 39, Defense: 29, Instinct: 39, Speed: 34 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -2497,7 +2497,7 @@ const POKEMON = {
   Torkoal: {
     name: 'Torkoal',
     primaryType: 'Fire',
-    baseStats: { HP: 89, Attack: 89, Defense: 130, Instinct: 95, Speed: 37 },
+    baseStats: { HP: 44, Attack: 44, Defense: 65, Instinct: 47, Speed: 18 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2506,7 +2506,7 @@ const POKEMON = {
   Cacnea: {
     name: 'Cacnea',
     primaryType: 'Grass',
-    baseStats: { HP: 81, Attack: 95, Defense: 75, Instinct: 75, Speed: 74 },
+    baseStats: { HP: 40, Attack: 47, Defense: 37, Instinct: 37, Speed: 37 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2515,7 +2515,7 @@ const POKEMON = {
   Seviper: {
     name: 'Seviper',
     primaryType: 'Psychic',
-    baseStats: { HP: 89, Attack: 105, Defense: 75, Instinct: 95, Speed: 86 },
+    baseStats: { HP: 44, Attack: 52, Defense: 37, Instinct: 47, Speed: 43 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2524,7 +2524,7 @@ const POKEMON = {
   Zangoose: {
     name: 'Zangoose',
     primaryType: 'Fighting',
-    baseStats: { HP: 89, Attack: 115, Defense: 69, Instinct: 75, Speed: 102 },
+    baseStats: { HP: 44, Attack: 57, Defense: 34, Instinct: 37, Speed: 51 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2533,7 +2533,7 @@ const POKEMON = {
   Tropius: {
     name: 'Tropius',
     primaryType: 'Grass',
-    baseStats: { HP: 109, Attack: 75, Defense: 91, Instinct: 79, Speed: 66 },
+    baseStats: { HP: 54, Attack: 37, Defense: 45, Instinct: 39, Speed: 33 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2542,7 +2542,7 @@ const POKEMON = {
   Chimecho: {
     name: 'Chimecho',
     primaryType: 'Psychic',
-    baseStats: { HP: 89, Attack: 69, Defense: 85, Instinct: 105, Speed: 82 },
+    baseStats: { HP: 44, Attack: 34, Defense: 42, Instinct: 52, Speed: 41 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'C', Debuffer: 'A', Chipper: 'B', MadLad: 'D' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2551,7 +2551,7 @@ const POKEMON = {
   Absol: {
     name: 'Absol',
     primaryType: 'Psychic',
-    baseStats: { HP: 89, Attack: 115, Defense: 65, Instinct: 85, Speed: 96 },
+    baseStats: { HP: 44, Attack: 57, Defense: 32, Instinct: 42, Speed: 48 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2560,7 +2560,7 @@ const POKEMON = {
   Snover: {
     name: 'Snover',
     primaryType: 'Grass',
-    baseStats: { HP: 85, Attack: 79, Defense: 69, Instinct: 79, Speed: 68 },
+    baseStats: { HP: 42, Attack: 39, Defense: 34, Instinct: 39, Speed: 34 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2578,7 +2578,7 @@ const POKEMON = {
   Hippopotas: {
     name: 'Hippopotas',
     primaryType: 'Fighting',
-    baseStats: { HP: 91, Attack: 79, Defense: 85, Instinct: 65, Speed: 60 },
+    baseStats: { HP: 45, Attack: 39, Defense: 42, Instinct: 32, Speed: 30 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Tackle'],
@@ -2587,7 +2587,7 @@ const POKEMON = {
   Carnivine: {
     name: 'Carnivine',
     primaryType: 'Grass',
-    baseStats: { HP: 89, Attack: 95, Defense: 79, Instinct: 89, Speed: 68 },
+    baseStats: { HP: 44, Attack: 47, Defense: 39, Instinct: 44, Speed: 34 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2596,7 +2596,7 @@ const POKEMON = {
   Mantyke: {
     name: 'Mantyke',
     primaryType: 'Water',
-    baseStats: { HP: 79, Attack: 55, Defense: 69, Instinct: 105, Speed: 72 },
+    baseStats: { HP: 39, Attack: 27, Defense: 34, Instinct: 52, Speed: 36 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -2605,7 +2605,7 @@ const POKEMON = {
   Sawk: {
     name: 'Sawk',
     primaryType: 'Fighting',
-    baseStats: { HP: 85, Attack: 115, Defense: 85, Instinct: 65, Speed: 90 },
+    baseStats: { HP: 42, Attack: 57, Defense: 42, Instinct: 32, Speed: 45 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'S' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['LowKick', 'QuickAttack'],
@@ -2614,7 +2614,7 @@ const POKEMON = {
   Throh: {
     name: 'Throh',
     primaryType: 'Fighting',
-    baseStats: { HP: 115, Attack: 105, Defense: 95, Instinct: 55, Speed: 70 },
+    baseStats: { HP: 57, Attack: 52, Defense: 47, Instinct: 27, Speed: 35 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'S' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['LowKick', 'Tackle'],
@@ -2623,7 +2623,7 @@ const POKEMON = {
   Basculin: {
     name: 'Basculin',
     primaryType: 'Water',
-    baseStats: { HP: 85, Attack: 95, Defense: 75, Instinct: 85, Speed: 100 },
+    baseStats: { HP: 42, Attack: 47, Defense: 37, Instinct: 42, Speed: 50 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'QuickAttack'],
@@ -2632,7 +2632,7 @@ const POKEMON = {
   Darumaka: {
     name: 'Darumaka',
     primaryType: 'Fire',
-    baseStats: { HP: 79, Attack: 95, Defense: 59, Instinct: 59, Speed: 88 },
+    baseStats: { HP: 39, Attack: 47, Defense: 29, Instinct: 29, Speed: 44 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2641,7 +2641,7 @@ const POKEMON = {
   Maractus: {
     name: 'Maractus',
     primaryType: 'Grass',
-    baseStats: { HP: 85, Attack: 95, Defense: 77, Instinct: 105, Speed: 78 },
+    baseStats: { HP: 42, Attack: 47, Defense: 38, Instinct: 52, Speed: 39 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2650,7 +2650,7 @@ const POKEMON = {
   Druddigon: {
     name: 'Druddigon',
     primaryType: 'Fire',
-    baseStats: { HP: 91, Attack: 115, Defense: 95, Instinct: 75, Speed: 64 },
+    baseStats: { HP: 45, Attack: 57, Defense: 47, Instinct: 37, Speed: 32 },
     typeAptitudes: { Red: 'A', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2659,7 +2659,7 @@ const POKEMON = {
   Pawniard: {
     name: 'Pawniard',
     primaryType: 'Fighting',
-    baseStats: { HP: 77, Attack: 95, Defense: 85, Instinct: 65, Speed: 78 },
+    baseStats: { HP: 38, Attack: 47, Defense: 42, Instinct: 32, Speed: 39 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2668,7 +2668,7 @@ const POKEMON = {
   Rufflet: {
     name: 'Rufflet',
     primaryType: 'Fighting',
-    baseStats: { HP: 85, Attack: 91, Defense: 75, Instinct: 65, Speed: 84 },
+    baseStats: { HP: 42, Attack: 45, Defense: 37, Instinct: 32, Speed: 42 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2677,7 +2677,7 @@ const POKEMON = {
   Vullaby: {
     name: 'Vullaby',
     primaryType: 'Psychic',
-    baseStats: { HP: 85, Attack: 69, Defense: 95, Instinct: 65, Speed: 86 },
+    baseStats: { HP: 42, Attack: 34, Defense: 47, Instinct: 32, Speed: 43 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2686,7 +2686,7 @@ const POKEMON = {
   Heatmor: {
     name: 'Heatmor',
     primaryType: 'Fire',
-    baseStats: { HP: 91, Attack: 105, Defense: 75, Instinct: 105, Speed: 74 },
+    baseStats: { HP: 45, Attack: 52, Defense: 37, Instinct: 52, Speed: 37 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2695,7 +2695,7 @@ const POKEMON = {
   Durant: {
     name: 'Durant',
     primaryType: 'Fighting',
-    baseStats: { HP: 77, Attack: 109, Defense: 115, Instinct: 55, Speed: 94 },
+    baseStats: { HP: 38, Attack: 54, Defense: 57, Instinct: 27, Speed: 47 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2713,7 +2713,7 @@ const POKEMON = {
   Espurr: {
     name: 'Espurr',
     primaryType: 'Psychic',
-    baseStats: { HP: 79, Attack: 69, Defense: 59, Instinct: 91, Speed: 82 },
+    baseStats: { HP: 39, Attack: 34, Defense: 29, Instinct: 45, Speed: 41 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2722,7 +2722,7 @@ const POKEMON = {
   Spritzee: {
     name: 'Spritzee',
     primaryType: 'Psychic',
-    baseStats: { HP: 85, Attack: 59, Defense: 75, Instinct: 91, Speed: 70 },
+    baseStats: { HP: 42, Attack: 29, Defense: 37, Instinct: 45, Speed: 35 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Tackle'],
@@ -2731,7 +2731,7 @@ const POKEMON = {
   Swirlix: {
     name: 'Swirlix',
     primaryType: 'Psychic',
-    baseStats: { HP: 79, Attack: 75, Defense: 75, Instinct: 75, Speed: 76 },
+    baseStats: { HP: 39, Attack: 37, Defense: 37, Instinct: 37, Speed: 38 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Tackle'],
@@ -2740,7 +2740,7 @@ const POKEMON = {
   Bergmite: {
     name: 'Bergmite',
     primaryType: 'Water',
-    baseStats: { HP: 83, Attack: 77, Defense: 95, Instinct: 59, Speed: 66 },
+    baseStats: { HP: 41, Attack: 38, Defense: 47, Instinct: 29, Speed: 33 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -2749,7 +2749,7 @@ const POKEMON = {
   Phantump: {
     name: 'Phantump',
     primaryType: 'Grass',
-    baseStats: { HP: 79, Attack: 83, Defense: 85, Instinct: 69, Speed: 64 },
+    baseStats: { HP: 39, Attack: 41, Defense: 42, Instinct: 34, Speed: 32 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2758,7 +2758,7 @@ const POKEMON = {
   Pumpkaboo: {
     name: 'Pumpkaboo',
     primaryType: 'Grass',
-    baseStats: { HP: 81, Attack: 79, Defense: 85, Instinct: 69, Speed: 66 },
+    baseStats: { HP: 40, Attack: 39, Defense: 42, Instinct: 34, Speed: 33 },
     typeAptitudes: { Red: 'D', Blue: 'C', Green: 'A', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2767,7 +2767,7 @@ const POKEMON = {
   Dedenne: {
     name: 'Dedenne',
     primaryType: 'Electric',
-    baseStats: { HP: 83, Attack: 67, Defense: 67, Instinct: 91, Speed: 92 },
+    baseStats: { HP: 41, Attack: 33, Defense: 33, Instinct: 45, Speed: 46 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'B', Debuffer: 'D', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
@@ -2776,7 +2776,7 @@ const POKEMON = {
   Carbink: {
     name: 'Carbink',
     primaryType: 'Fighting',
-    baseStats: { HP: 81, Attack: 55, Defense: 135, Instinct: 95, Speed: 54 },
+    baseStats: { HP: 40, Attack: 27, Defense: 67, Instinct: 47, Speed: 27 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'F', Debuffer: 'A', Chipper: 'E', MadLad: 'D' },
     defaultAbilities: ['Tackle'],
@@ -2788,7 +2788,7 @@ const POKEMON = {
   HoOh: {
     name: 'Ho-Oh',
     primaryType: 'Fire',
-    baseStats: { HP: 120, Attack: 105, Defense: 80, Instinct: 90, Speed: 70 },
+    baseStats: { HP: 60, Attack: 52, Defense: 40, Instinct: 45, Speed: 35 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2797,7 +2797,7 @@ const POKEMON = {
   Latias: {
     name: 'Latias',
     primaryType: 'Psychic',
-    baseStats: { HP: 95, Attack: 85, Defense: 90, Instinct: 115, Speed: 100 },
+    baseStats: { HP: 47, Attack: 42, Defense: 45, Instinct: 57, Speed: 50 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'B', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2806,7 +2806,7 @@ const POKEMON = {
   Latios: {
     name: 'Latios',
     primaryType: 'Psychic',
-    baseStats: { HP: 95, Attack: 100, Defense: 85, Instinct: 115, Speed: 100 },
+    baseStats: { HP: 47, Attack: 50, Defense: 42, Instinct: 57, Speed: 50 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2815,7 +2815,7 @@ const POKEMON = {
   Jirachi: {
     name: 'Jirachi',
     primaryType: 'Psychic',
-    baseStats: { HP: 105, Attack: 95, Defense: 95, Instinct: 95, Speed: 95 },
+    baseStats: { HP: 52, Attack: 47, Defense: 47, Instinct: 47, Speed: 47 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'B', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2824,7 +2824,7 @@ const POKEMON = {
   Deoxys: {
     name: 'Deoxys',
     primaryType: 'Psychic',
-    baseStats: { HP: 85, Attack: 135, Defense: 55, Instinct: 135, Speed: 130 },
+    baseStats: { HP: 42, Attack: 67, Defense: 27, Instinct: 67, Speed: 65 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'S', Debuffer: 'D', Chipper: 'A', MadLad: 'A' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2833,7 +2833,7 @@ const POKEMON = {
   Uxie: {
     name: 'Uxie',
     primaryType: 'Psychic',
-    baseStats: { HP: 95, Attack: 85, Defense: 105, Instinct: 105, Speed: 85 },
+    baseStats: { HP: 47, Attack: 42, Defense: 52, Instinct: 52, Speed: 42 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'C', Debuffer: 'A', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2842,7 +2842,7 @@ const POKEMON = {
   Mesprit: {
     name: 'Mesprit',
     primaryType: 'Psychic',
-    baseStats: { HP: 95, Attack: 95, Defense: 95, Instinct: 95, Speed: 95 },
+    baseStats: { HP: 47, Attack: 47, Defense: 47, Instinct: 47, Speed: 47 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'B', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2851,7 +2851,7 @@ const POKEMON = {
   Azelf: {
     name: 'Azelf',
     primaryType: 'Psychic',
-    baseStats: { HP: 85, Attack: 105, Defense: 85, Instinct: 105, Speed: 105 },
+    baseStats: { HP: 42, Attack: 52, Defense: 42, Instinct: 52, Speed: 52 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2860,7 +2860,7 @@ const POKEMON = {
   Heatran: {
     name: 'Heatran',
     primaryType: 'Fire',
-    baseStats: { HP: 105, Attack: 95, Defense: 110, Instinct: 115, Speed: 77 },
+    baseStats: { HP: 52, Attack: 47, Defense: 55, Instinct: 57, Speed: 38 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'A', Purple: 'A', Yellow: 'A', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'B', Debuffer: 'B', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2869,7 +2869,7 @@ const POKEMON = {
   Regigigas: {
     name: 'Regigigas',
     primaryType: 'Normal',
-    baseStats: { HP: 115, Attack: 140, Defense: 110, Instinct: 95, Speed: 90 },
+    baseStats: { HP: 57, Attack: 70, Defense: 55, Instinct: 47, Speed: 45 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'A', Yellow: 'A', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2878,7 +2878,7 @@ const POKEMON = {
   Cresselia: {
     name: 'Cresselia',
     primaryType: 'Psychic',
-    baseStats: { HP: 120, Attack: 75, Defense: 115, Instinct: 120, Speed: 85 },
+    baseStats: { HP: 60, Attack: 37, Defense: 57, Instinct: 60, Speed: 42 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'A', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2887,7 +2887,7 @@ const POKEMON = {
   Darkrai: {
     name: 'Darkrai',
     primaryType: 'Psychic',
-    baseStats: { HP: 90, Attack: 100, Defense: 75, Instinct: 120, Speed: 125 },
+    baseStats: { HP: 45, Attack: 50, Defense: 37, Instinct: 60, Speed: 62 },
     typeAptitudes: { Red: 'B', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'B', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'A', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -2896,7 +2896,7 @@ const POKEMON = {
   Shaymin: {
     name: 'Shaymin',
     primaryType: 'Grass',
-    baseStats: { HP: 105, Attack: 95, Defense: 95, Instinct: 95, Speed: 95 },
+    baseStats: { HP: 52, Attack: 47, Defense: 47, Instinct: 47, Speed: 47 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'S', Purple: 'A', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'B', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2905,7 +2905,7 @@ const POKEMON = {
   Arceus: {
     name: 'Arceus',
     primaryType: 'Normal',
-    baseStats: { HP: 120, Attack: 120, Defense: 120, Instinct: 120, Speed: 120 },
+    baseStats: { HP: 60, Attack: 60, Defense: 60, Instinct: 60, Speed: 60 },
     typeAptitudes: { Red: 'S', Blue: 'S', Green: 'S', Purple: 'S', Yellow: 'S', Orange: 'S' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'A', Debuffer: 'A', Chipper: 'A', MadLad: 'A' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
@@ -2914,7 +2914,7 @@ const POKEMON = {
   Victini: {
     name: 'Victini',
     primaryType: 'Fire',
-    baseStats: { HP: 105, Attack: 100, Defense: 100, Instinct: 100, Speed: 100 },
+    baseStats: { HP: 52, Attack: 50, Defense: 50, Instinct: 50, Speed: 50 },
     typeAptitudes: { Red: 'S', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'B', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2923,7 +2923,7 @@ const POKEMON = {
   Cobalion: {
     name: 'Cobalion',
     primaryType: 'Fighting',
-    baseStats: { HP: 105, Attack: 95, Defense: 120, Instinct: 85, Speed: 100 },
+    baseStats: { HP: 52, Attack: 47, Defense: 60, Instinct: 42, Speed: 50 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'A', Orange: 'S' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'C', Debuffer: 'B', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['LowKick', 'Tackle'],
@@ -2932,7 +2932,7 @@ const POKEMON = {
   Terrakion: {
     name: 'Terrakion',
     primaryType: 'Fighting',
-    baseStats: { HP: 105, Attack: 120, Defense: 95, Instinct: 85, Speed: 100 },
+    baseStats: { HP: 52, Attack: 60, Defense: 47, Instinct: 42, Speed: 50 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'A', Orange: 'S' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['LowKick', 'Tackle'],
@@ -2941,7 +2941,7 @@ const POKEMON = {
   Virizion: {
     name: 'Virizion',
     primaryType: 'Grass',
-    baseStats: { HP: 105, Attack: 95, Defense: 85, Instinct: 120, Speed: 100 },
+    baseStats: { HP: 52, Attack: 47, Defense: 42, Instinct: 60, Speed: 50 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'S', Purple: 'A', Yellow: 'A', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'A', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2957,7 +2957,7 @@ const LEGENDARY_POKEMON = {
   Moltres: {
     name: 'Moltres',
     primaryType: 'Fire',
-    baseStats: { HP: 110, Attack: 95, Defense: 70, Instinct: 85, Speed: 75 },
+    baseStats: { HP: 55, Attack: 47, Defense: 35, Instinct: 42, Speed: 37 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -2966,7 +2966,7 @@ const LEGENDARY_POKEMON = {
   Articuno: {
     name: 'Articuno',
     primaryType: 'Water',
-    baseStats: { HP: 115, Attack: 75, Defense: 90, Instinct: 90, Speed: 65 },
+    baseStats: { HP: 57, Attack: 37, Defense: 45, Instinct: 45, Speed: 32 },
     typeAptitudes: { Red: 'B', Blue: 'S', Green: 'D', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -2975,7 +2975,7 @@ const LEGENDARY_POKEMON = {
   Celebi: {
     name: 'Celebi',
     primaryType: 'Grass',
-    baseStats: { HP: 120, Attack: 85, Defense: 85, Instinct: 80, Speed: 65 },
+    baseStats: { HP: 60, Attack: 42, Defense: 42, Instinct: 40, Speed: 32 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'S', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -2984,7 +2984,7 @@ const LEGENDARY_POKEMON = {
   Raikou: {
     name: 'Raikou',
     primaryType: 'Electric',
-    baseStats: { HP: 95, Attack: 80, Defense: 65, Instinct: 100, Speed: 95 },
+    baseStats: { HP: 47, Attack: 40, Defense: 32, Instinct: 50, Speed: 47 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'S', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
@@ -2993,7 +2993,7 @@ const LEGENDARY_POKEMON = {
   Gengar: {
     name: 'Gengar',
     primaryType: 'Psychic',
-    baseStats: { HP: 105, Attack: 90, Defense: 75, Instinct: 85, Speed: 80 },
+    baseStats: { HP: 52, Attack: 45, Defense: 37, Instinct: 42, Speed: 40 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'B', Purple: 'S', Yellow: 'D', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -3002,7 +3002,7 @@ const LEGENDARY_POKEMON = {
   Entei: {
     name: 'Entei',
     primaryType: 'Fire',
-    baseStats: { HP: 108, Attack: 98, Defense: 73, Instinct: 83, Speed: 73 },
+    baseStats: { HP: 54, Attack: 49, Defense: 36, Instinct: 41, Speed: 36 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -3011,7 +3011,7 @@ const LEGENDARY_POKEMON = {
   Suicune: {
     name: 'Suicune',
     primaryType: 'Water',
-    baseStats: { HP: 118, Attack: 73, Defense: 93, Instinct: 88, Speed: 63 },
+    baseStats: { HP: 59, Attack: 36, Defense: 46, Instinct: 44, Speed: 31 },
     typeAptitudes: { Red: 'B', Blue: 'S', Green: 'D', Purple: 'A', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -3020,7 +3020,7 @@ const LEGENDARY_POKEMON = {
   Zapdos: {
     name: 'Zapdos',
     primaryType: 'Electric',
-    baseStats: { HP: 100, Attack: 88, Defense: 68, Instinct: 98, Speed: 91 },
+    baseStats: { HP: 50, Attack: 44, Defense: 34, Instinct: 49, Speed: 45 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'S', Orange: 'D' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['ThunderShock', 'Tackle'],
@@ -3029,7 +3029,7 @@ const LEGENDARY_POKEMON = {
   Lugia: {
     name: 'Lugia',
     primaryType: 'Psychic',
-    baseStats: { HP: 125, Attack: 80, Defense: 100, Instinct: 95, Speed: 65 },
+    baseStats: { HP: 62, Attack: 40, Defense: 50, Instinct: 47, Speed: 32 },
     typeAptitudes: { Red: 'A', Blue: 'S', Green: 'B', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -3038,7 +3038,7 @@ const LEGENDARY_POKEMON = {
   HoOh: {
     name: 'Ho-Oh',
     primaryType: 'Fire',
-    baseStats: { HP: 120, Attack: 105, Defense: 80, Instinct: 90, Speed: 70 },
+    baseStats: { HP: 60, Attack: 52, Defense: 40, Instinct: 45, Speed: 35 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -3047,7 +3047,7 @@ const LEGENDARY_POKEMON = {
   Mewtwo: {
     name: 'Mewtwo',
     primaryType: 'Psychic',
-    baseStats: { HP: 110, Attack: 105, Defense: 70, Instinct: 105, Speed: 85 },
+    baseStats: { HP: 55, Attack: 52, Defense: 35, Instinct: 52, Speed: 42 },
     typeAptitudes: { Red: 'B', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'A', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -3056,7 +3056,7 @@ const LEGENDARY_POKEMON = {
   Kyogre: {
     name: 'Kyogre',
     primaryType: 'Water',
-    baseStats: { HP: 122, Attack: 98, Defense: 85, Instinct: 95, Speed: 65 },
+    baseStats: { HP: 61, Attack: 49, Defense: 42, Instinct: 47, Speed: 32 },
     typeAptitudes: { Red: 'C', Blue: 'S', Green: 'D', Purple: 'A', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -3065,7 +3065,7 @@ const LEGENDARY_POKEMON = {
   Groudon: {
     name: 'Groudon',
     primaryType: 'Fire',
-    baseStats: { HP: 118, Attack: 110, Defense: 95, Instinct: 78, Speed: 64 },
+    baseStats: { HP: 59, Attack: 55, Defense: 47, Instinct: 39, Speed: 32 },
     typeAptitudes: { Red: 'S', Blue: 'E', Green: 'A', Purple: 'B', Yellow: 'A', Orange: 'S' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
@@ -3074,7 +3074,7 @@ const LEGENDARY_POKEMON = {
   Rayquaza: {
     name: 'Rayquaza',
     primaryType: 'Grass',
-    baseStats: { HP: 115, Attack: 105, Defense: 75, Instinct: 105, Speed: 85 },
+    baseStats: { HP: 57, Attack: 52, Defense: 37, Instinct: 52, Speed: 42 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'S', Purple: 'A', Yellow: 'S', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'Tackle'],
@@ -3083,7 +3083,7 @@ const LEGENDARY_POKEMON = {
   Dialga: {
     name: 'Dialga',
     primaryType: 'Fighting',
-    baseStats: { HP: 112, Attack: 103, Defense: 88, Instinct: 88, Speed: 74 },
+    baseStats: { HP: 56, Attack: 51, Defense: 44, Instinct: 44, Speed: 37 },
     typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'A', Orange: 'S' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['LowKick', 'Tackle'],
@@ -3092,7 +3092,7 @@ const LEGENDARY_POKEMON = {
   Palkia: {
     name: 'Palkia',
     primaryType: 'Water',
-    baseStats: { HP: 108, Attack: 103, Defense: 78, Instinct: 98, Speed: 78 },
+    baseStats: { HP: 54, Attack: 51, Defense: 39, Instinct: 49, Speed: 39 },
     typeAptitudes: { Red: 'A', Blue: 'S', Green: 'C', Purple: 'S', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'Tackle'],
@@ -3101,7 +3101,7 @@ const LEGENDARY_POKEMON = {
   Giratina: {
     name: 'Giratina',
     primaryType: 'Psychic',
-    baseStats: { HP: 125, Attack: 93, Defense: 93, Instinct: 93, Speed: 71 },
+    baseStats: { HP: 62, Attack: 46, Defense: 46, Instinct: 46, Speed: 35 },
     typeAptitudes: { Red: 'B', Blue: 'A', Green: 'A', Purple: 'S', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsyBeam', 'Tackle'],
@@ -3117,7 +3117,7 @@ const GYM_LEADER_POKEMON = {
   BlaineArcanine: {
     name: 'Arcanine',
     primaryType: 'Fire',
-    baseStats: { HP: 130, Attack: 110, Defense: 85, Instinct: 80, Speed: 95 },
+    baseStats: { HP: 65, Attack: 55, Defense: 42, Instinct: 40, Speed: 47 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Flamethrower', 'FireFang', 'FlareBlitz'],
@@ -3126,7 +3126,7 @@ const GYM_LEADER_POKEMON = {
   MistyStarmie: {
     name: 'Starmie',
     primaryType: 'Water',
-    baseStats: { HP: 115, Attack: 85, Defense: 90, Instinct: 115, Speed: 95 },
+    baseStats: { HP: 57, Attack: 42, Defense: 45, Instinct: 57, Speed: 47 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'A', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Surf', 'Psychic', 'IceBeam'],
@@ -3135,7 +3135,7 @@ const GYM_LEADER_POKEMON = {
   ErikaVileplume: {
     name: 'Vileplume',
     primaryType: 'Grass',
-    baseStats: { HP: 125, Attack: 90, Defense: 95, Instinct: 100, Speed: 65 },
+    baseStats: { HP: 62, Attack: 45, Defense: 47, Instinct: 50, Speed: 32 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'A', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['GigaDrain', 'SludgeBomb', 'SolarBeam'],
@@ -3144,7 +3144,7 @@ const GYM_LEADER_POKEMON = {
   SurgeRaichu: {
     name: 'Raichu',
     primaryType: 'Electric',
-    baseStats: { HP: 110, Attack: 95, Defense: 70, Instinct: 95, Speed: 120 },
+    baseStats: { HP: 55, Attack: 47, Defense: 35, Instinct: 47, Speed: 60 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'B', Purple: 'C', Yellow: 'S', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Thunderbolt', 'Thunder', 'VoltSwitch'],
@@ -3153,7 +3153,7 @@ const GYM_LEADER_POKEMON = {
   AgathaNidoking: {
     name: 'Nidoking',
     primaryType: 'Fighting',
-    baseStats: { HP: 125, Attack: 110, Defense: 85, Instinct: 85, Speed: 90 },
+    baseStats: { HP: 62, Attack: 55, Defense: 42, Instinct: 42, Speed: 45 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'B', Purple: 'A', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['Earthquake', 'SludgeBomb', 'IceBeam'],
@@ -3162,7 +3162,7 @@ const GYM_LEADER_POKEMON = {
   GiovanniRapidash: {
     name: 'Rapidash',
     primaryType: 'Fire',
-    baseStats: { HP: 115, Attack: 105, Defense: 75, Instinct: 85, Speed: 115 },
+    baseStats: { HP: 57, Attack: 52, Defense: 37, Instinct: 42, Speed: 57 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'B', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['FlareBlitz', 'Flamethrower', 'IronTail'],
@@ -3171,7 +3171,7 @@ const GYM_LEADER_POKEMON = {
   WallaceLapras: {
     name: 'Lapras',
     primaryType: 'Water',
-    baseStats: { HP: 150, Attack: 90, Defense: 95, Instinct: 100, Speed: 65 },
+    baseStats: { HP: 75, Attack: 45, Defense: 47, Instinct: 50, Speed: 32 },
     typeAptitudes: { Red: 'C', Blue: 'S', Green: 'D', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['HydroPump', 'IceBeam', 'Blizzard'],
@@ -3180,7 +3180,7 @@ const GYM_LEADER_POKEMON = {
   WattsonElectabuzz: {
     name: 'Electabuzz',
     primaryType: 'Electric',
-    baseStats: { HP: 115, Attack: 93, Defense: 67, Instinct: 95, Speed: 115 },
+    baseStats: { HP: 57, Attack: 46, Defense: 33, Instinct: 47, Speed: 57 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'B', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Thunderbolt', 'ThunderShock', 'WildCharge'],
@@ -3189,7 +3189,7 @@ const GYM_LEADER_POKEMON = {
   WillWeezing: {
     name: 'Weezing',
     primaryType: 'Psychic',
-    baseStats: { HP: 115, Attack: 95, Defense: 135, Instinct: 85, Speed: 65 },
+    baseStats: { HP: 57, Attack: 47, Defense: 67, Instinct: 42, Speed: 32 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['SludgeBomb', 'ShadowBall', 'DarkPulse'],
@@ -3198,7 +3198,7 @@ const GYM_LEADER_POKEMON = {
   FlanneryMagmar: {
     name: 'Magmar',
     primaryType: 'Fire',
-    baseStats: { HP: 115, Attack: 105, Defense: 67, Instinct: 105, Speed: 103 },
+    baseStats: { HP: 57, Attack: 52, Defense: 33, Instinct: 52, Speed: 51 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Flamethrower', 'LavaPlume', 'FireBlast'],
@@ -3207,7 +3207,7 @@ const GYM_LEADER_POKEMON = {
   SabrinaArbok: {
     name: 'Arbok',
     primaryType: 'Psychic',
-    baseStats: { HP: 110, Attack: 100, Defense: 79, Instinct: 79, Speed: 85 },
+    baseStats: { HP: 55, Attack: 50, Defense: 39, Instinct: 39, Speed: 42 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['SludgeBomb', 'DarkPulse', 'Psychic'],
@@ -3216,7 +3216,7 @@ const GYM_LEADER_POKEMON = {
   JuanVaporeon: {
     name: 'Vaporeon',
     primaryType: 'Water',
-    baseStats: { HP: 150, Attack: 75, Defense: 70, Instinct: 115, Speed: 75 },
+    baseStats: { HP: 75, Attack: 37, Defense: 35, Instinct: 57, Speed: 37 },
     typeAptitudes: { Red: 'C', Blue: 'S', Green: 'D', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['HydroPump', 'Surf', 'IceBeam'],
@@ -3225,7 +3225,7 @@ const GYM_LEADER_POKEMON = {
   WinonaExeggutor: {
     name: 'Exeggutor',
     primaryType: 'Grass',
-    baseStats: { HP: 135, Attack: 100, Defense: 90, Instinct: 135, Speed: 55 },
+    baseStats: { HP: 67, Attack: 50, Defense: 45, Instinct: 67, Speed: 27 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'A', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['SolarBeam', 'Psychic', 'GigaDrain'],
@@ -3237,7 +3237,7 @@ const GYM_LEADER_POKEMON = {
   WhitneyMiltank: {
     name: 'Miltank',
     primaryType: 'Normal',
-    baseStats: { HP: 140, Attack: 90, Defense: 115, Instinct: 65, Speed: 85 },
+    baseStats: { HP: 70, Attack: 45, Defense: 57, Instinct: 32, Speed: 42 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'B' },
     defaultAbilities: ['BodySlam', 'IronHead', 'Earthquake'],
@@ -3246,7 +3246,7 @@ const GYM_LEADER_POKEMON = {
   ChuckPoliwrath: {
     name: 'Poliwrath',
     primaryType: 'Fighting',
-    baseStats: { HP: 130, Attack: 105, Defense: 100, Instinct: 80, Speed: 80 },
+    baseStats: { HP: 65, Attack: 52, Defense: 50, Instinct: 40, Speed: 40 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['CloseCombat', 'Surf', 'IceBeam'],
@@ -3255,7 +3255,7 @@ const GYM_LEADER_POKEMON = {
   PryceDelibird: {
     name: 'Piloswine',
     primaryType: 'Water',
-    baseStats: { HP: 140, Attack: 105, Defense: 95, Instinct: 70, Speed: 65 },
+    baseStats: { HP: 70, Attack: 52, Defense: 47, Instinct: 35, Speed: 32 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'C', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Blizzard', 'Earthquake', 'IceBeam'],
@@ -3268,7 +3268,7 @@ const GYM_LEADER_POKEMON = {
   BrockOnix: {
     name: 'Golem',
     primaryType: 'Fighting',
-    baseStats: { HP: 125, Attack: 115, Defense: 140, Instinct: 60, Speed: 55 },
+    baseStats: { HP: 62, Attack: 57, Defense: 70, Instinct: 30, Speed: 27 },
     typeAptitudes: { Red: 'B', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'C', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Earthquake', 'StoneEdge', 'RockSlide'],
@@ -3277,7 +3277,7 @@ const GYM_LEADER_POKEMON = {
   KogaMuk: {
     name: 'Muk',
     primaryType: 'Psychic',
-    baseStats: { HP: 145, Attack: 115, Defense: 90, Instinct: 75, Speed: 65 },
+    baseStats: { HP: 72, Attack: 57, Defense: 45, Instinct: 37, Speed: 32 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'B', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'A', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['SludgeBomb', 'DarkPulse', 'ShadowBall'],
@@ -3286,7 +3286,7 @@ const GYM_LEADER_POKEMON = {
   JasmineSteelix: {
     name: 'Steelix',
     primaryType: 'Fighting',
-    baseStats: { HP: 120, Attack: 95, Defense: 200, Instinct: 70, Speed: 40 },
+    baseStats: { HP: 60, Attack: 47, Defense: 100, Instinct: 35, Speed: 20 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'B', Orange: 'B' },
     strategyAptitudes: { Scaler: 'S', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'D' },
     defaultAbilities: ['IronTail', 'Earthquake', 'StoneEdge'],
@@ -3295,7 +3295,7 @@ const GYM_LEADER_POKEMON = {
   KarenUmbreon: {
     name: 'Umbreon',
     primaryType: 'Psychic',
-    baseStats: { HP: 145, Attack: 75, Defense: 130, Instinct: 115, Speed: 75 },
+    baseStats: { HP: 72, Attack: 37, Defense: 65, Instinct: 57, Speed: 37 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'S', Yellow: 'C', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'A', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['DarkPulse', 'ShadowBall', 'Psychic'],
@@ -3304,7 +3304,7 @@ const GYM_LEADER_POKEMON = {
   MiloEldegoss: {
     name: 'Eldegoss',
     primaryType: 'Grass',
-    baseStats: { HP: 115, Attack: 65, Defense: 100, Instinct: 105, Speed: 80 },
+    baseStats: { HP: 57, Attack: 32, Defense: 50, Instinct: 52, Speed: 40 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'A', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['GigaDrain', 'LeafStorm', 'SolarBeam'],
@@ -3313,7 +3313,7 @@ const GYM_LEADER_POKEMON = {
   KabuCentiskorch: {
     name: 'Centiskorch',
     primaryType: 'Fire',
-    baseStats: { HP: 140, Attack: 125, Defense: 80, Instinct: 75, Speed: 75 },
+    baseStats: { HP: 70, Attack: 62, Defense: 40, Instinct: 37, Speed: 37 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['FlareBlitz', 'FireBlast', 'Crunch'],
@@ -3322,7 +3322,7 @@ const GYM_LEADER_POKEMON = {
   MelonyLapras: {
     name: 'Froslass',
     primaryType: 'Water',
-    baseStats: { HP: 100, Attack: 90, Defense: 80, Instinct: 110, Speed: 110 },
+    baseStats: { HP: 50, Attack: 45, Defense: 40, Instinct: 55, Speed: 55 },
     typeAptitudes: { Red: 'D', Blue: 'B', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'A', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Blizzard', 'ShadowBall', 'IceBeam'],
@@ -3331,7 +3331,7 @@ const GYM_LEADER_POKEMON = {
   GordieCoalossal: {
     name: 'Coalossal',
     primaryType: 'Fire',
-    baseStats: { HP: 150, Attack: 95, Defense: 140, Instinct: 65, Speed: 40 },
+    baseStats: { HP: 75, Attack: 47, Defense: 70, Instinct: 32, Speed: 20 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'S', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'D' },
     defaultAbilities: ['FlareBlitz', 'StoneEdge', 'Earthquake'],
@@ -3340,7 +3340,7 @@ const GYM_LEADER_POKEMON = {
   KlaraSlowbro: {
     name: 'Slowbro',
     primaryType: 'Psychic',
-    baseStats: { HP: 135, Attack: 85, Defense: 130, Instinct: 105, Speed: 40 },
+    baseStats: { HP: 67, Attack: 42, Defense: 65, Instinct: 52, Speed: 20 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'A', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'C', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Psychic', 'Surf', 'SludgeBomb'],
@@ -3349,7 +3349,7 @@ const GYM_LEADER_POKEMON = {
   AverySlowking: {
     name: 'Slowking',
     primaryType: 'Psychic',
-    baseStats: { HP: 135, Attack: 85, Defense: 95, Instinct: 130, Speed: 40 },
+    baseStats: { HP: 67, Attack: 42, Defense: 47, Instinct: 65, Speed: 20 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'S', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'A', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['PsychicBlast', 'Surf', 'ShadowBall'],
@@ -3358,7 +3358,7 @@ const GYM_LEADER_POKEMON = {
   IonoBellibolt: {
     name: 'Bellibolt',
     primaryType: 'Electric',
-    baseStats: { HP: 160, Attack: 85, Defense: 100, Instinct: 105, Speed: 45 },
+    baseStats: { HP: 80, Attack: 42, Defense: 50, Instinct: 52, Speed: 22 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'C', Yellow: 'S', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'C', Debuffer: 'B', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Thunder', 'Thunderbolt', 'Surf'],
@@ -3367,7 +3367,7 @@ const GYM_LEADER_POKEMON = {
   GrushaAltaria: {
     name: 'Altaria',
     primaryType: 'Grass',
-    baseStats: { HP: 115, Attack: 80, Defense: 105, Instinct: 105, Speed: 85 },
+    baseStats: { HP: 57, Attack: 40, Defense: 52, Instinct: 52, Speed: 42 },
     typeAptitudes: { Red: 'B', Blue: 'B', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'C', Debuffer: 'B', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['DragonPulse', 'Moonblast', 'IceBeam'],
@@ -3380,7 +3380,7 @@ const GYM_LEADER_POKEMON = {
   MortyGengar: {
     name: 'Gengar',
     primaryType: 'Psychic',
-    baseStats: { HP: 110, Attack: 130, Defense: 70, Instinct: 140, Speed: 120 },
+    baseStats: { HP: 55, Attack: 65, Defense: 35, Instinct: 70, Speed: 60 },
     typeAptitudes: { Red: 'B', Blue: 'B', Green: 'C', Purple: 'S', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'A', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['ShadowBall', 'Psychic', 'DarkPulse'],
@@ -3389,7 +3389,7 @@ const GYM_LEADER_POKEMON = {
   IrisHaxorus: {
     name: 'Haxorus',
     primaryType: 'Fighting',
-    baseStats: { HP: 120, Attack: 155, Defense: 100, Instinct: 65, Speed: 105 },
+    baseStats: { HP: 60, Attack: 77, Defense: 50, Instinct: 32, Speed: 52 },
     typeAptitudes: { Red: 'B', Blue: 'B', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'S', Debuffer: 'D', Chipper: 'B', MadLad: 'A' },
     defaultAbilities: ['DragonClaw', 'Earthquake', 'IronHead'],
@@ -3398,7 +3398,7 @@ const GYM_LEADER_POKEMON = {
   BlueBlastoise: {
     name: 'Blastoise',
     primaryType: 'Water',
-    baseStats: { HP: 129, Attack: 93, Defense: 120, Instinct: 95, Speed: 88 },
+    baseStats: { HP: 64, Attack: 46, Defense: 60, Instinct: 47, Speed: 44 },
     typeAptitudes: { Red: 'C', Blue: 'S', Green: 'D', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'B', Debuffer: 'C', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['HydroPump', 'IceBeam', 'DragonPulse'],
@@ -3407,7 +3407,7 @@ const GYM_LEADER_POKEMON = {
   MaxieCamerupt: {
     name: 'Camerupt',
     primaryType: 'Fire',
-    baseStats: { HP: 130, Attack: 115, Defense: 90, Instinct: 115, Speed: 45 },
+    baseStats: { HP: 65, Attack: 57, Defense: 45, Instinct: 57, Speed: 22 },
     typeAptitudes: { Red: 'A', Blue: 'D', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Eruption', 'Earthquake', 'LavaPlume'],
@@ -3416,7 +3416,7 @@ const GYM_LEADER_POKEMON = {
   ArchieSharpedo: {
     name: 'Sharpedo',
     primaryType: 'Water',
-    baseStats: { HP: 100, Attack: 140, Defense: 55, Instinct: 105, Speed: 105 },
+    baseStats: { HP: 50, Attack: 70, Defense: 27, Instinct: 52, Speed: 52 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'S', Debuffer: 'C', Chipper: 'A', MadLad: 'A' },
     defaultAbilities: ['HydroPump', 'Crunch', 'IceBeam'],
@@ -3425,7 +3425,7 @@ const GYM_LEADER_POKEMON = {
   RaihanDuraludon: {
     name: 'Duraludon',
     primaryType: 'Electric',
-    baseStats: { HP: 100, Attack: 105, Defense: 125, Instinct: 135, Speed: 85 },
+    baseStats: { HP: 50, Attack: 52, Defense: 62, Instinct: 67, Speed: 42 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['DragonPulse', 'Thunderbolt', 'IronHead'],
@@ -3434,7 +3434,7 @@ const GYM_LEADER_POKEMON = {
   MarnieGrimmsnarl: {
     name: 'Grimmsnarl',
     primaryType: 'Psychic',
-    baseStats: { HP: 135, Attack: 130, Defense: 75, Instinct: 90, Speed: 70 },
+    baseStats: { HP: 67, Attack: 65, Defense: 37, Instinct: 45, Speed: 35 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'D' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'B', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['DarkPulse', 'PlayRough', 'ShadowBall'],
@@ -3443,7 +3443,7 @@ const GYM_LEADER_POKEMON = {
   NessaDrednaw: {
     name: 'Drednaw',
     primaryType: 'Water',
-    baseStats: { HP: 130, Attack: 125, Defense: 110, Instinct: 70, Speed: 80 },
+    baseStats: { HP: 65, Attack: 62, Defense: 55, Instinct: 35, Speed: 40 },
     typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['HydroPump', 'StoneEdge', 'Crunch'],
@@ -3452,7 +3452,7 @@ const GYM_LEADER_POKEMON = {
   BeaSirfetchd: {
     name: 'Sirfetchd',
     primaryType: 'Fighting',
-    baseStats: { HP: 112, Attack: 145, Defense: 105, Instinct: 68, Speed: 75 },
+    baseStats: { HP: 56, Attack: 72, Defense: 52, Instinct: 34, Speed: 37 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'B', Purple: 'D', Yellow: 'C', Orange: 'S' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'S', Debuffer: 'C', Chipper: 'B', MadLad: 'A' },
     defaultAbilities: ['CloseCombat', 'LeafBlade', 'BraveBird'],
@@ -3461,7 +3461,7 @@ const GYM_LEADER_POKEMON = {
   OpalAlcremie: {
     name: 'Alcremie',
     primaryType: 'Psychic',
-    baseStats: { HP: 115, Attack: 70, Defense: 85, Instinct: 130, Speed: 75 },
+    baseStats: { HP: 57, Attack: 35, Defense: 42, Instinct: 65, Speed: 37 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'C', Debuffer: 'B', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Moonblast', 'DazzlingGleam', 'Psychic'],
@@ -3470,7 +3470,7 @@ const GYM_LEADER_POKEMON = {
   PiersObstagoon: {
     name: 'Obstagoon',
     primaryType: 'Psychic',
-    baseStats: { HP: 128, Attack: 110, Defense: 105, Instinct: 70, Speed: 102 },
+    baseStats: { HP: 64, Attack: 55, Defense: 52, Instinct: 35, Speed: 51 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'D' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'B', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['DarkPulse', 'CloseCombat', 'ShadowBall'],
@@ -3479,7 +3479,7 @@ const GYM_LEADER_POKEMON = {
   RikaClodsire: {
     name: 'Clodsire',
     primaryType: 'Fighting',
-    baseStats: { HP: 175, Attack: 85, Defense: 105, Instinct: 75, Speed: 30 },
+    baseStats: { HP: 87, Attack: 42, Defense: 52, Instinct: 37, Speed: 15 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'B', Yellow: 'D', Orange: 'B' },
     strategyAptitudes: { Scaler: 'S', Nuker: 'D', Debuffer: 'A', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Earthquake', 'SludgeBomb', 'Surf'],
@@ -3488,7 +3488,7 @@ const GYM_LEADER_POKEMON = {
   PoppyTinkaton: {
     name: 'Tinkaton',
     primaryType: 'Psychic',
-    baseStats: { HP: 110, Attack: 85, Defense: 90, Instinct: 100, Speed: 104 },
+    baseStats: { HP: 55, Attack: 42, Defense: 45, Instinct: 50, Speed: 52 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'B', Orange: 'D' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['PlayRough', 'IronHead', 'StoneEdge'],
@@ -3501,7 +3501,7 @@ const GYM_LEADER_POKEMON = {
   CynthiaGarchomp: {
     name: 'Garchomp',
     primaryType: 'Fighting',
-    baseStats: { HP: 148, Attack: 140, Defense: 105, Instinct: 90, Speed: 112 },
+    baseStats: { HP: 74, Attack: 70, Defense: 52, Instinct: 45, Speed: 56 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'A', MadLad: 'A' },
     defaultAbilities: ['Earthquake', 'DragonClaw', 'StoneEdge'],
@@ -3510,7 +3510,7 @@ const GYM_LEADER_POKEMON = {
   RedCharizard: {
     name: 'Charizard',
     primaryType: 'Fire',
-    baseStats: { HP: 128, Attack: 94, Defense: 88, Instinct: 115, Speed: 120 },
+    baseStats: { HP: 64, Attack: 47, Defense: 44, Instinct: 57, Speed: 60 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['FlareBlitz', 'AirSlash', 'DragonPulse'],
@@ -3519,7 +3519,7 @@ const GYM_LEADER_POKEMON = {
   StevenMetagross: {
     name: 'Metagross',
     primaryType: 'Psychic',
-    baseStats: { HP: 130, Attack: 145, Defense: 140, Instinct: 100, Speed: 80 },
+    baseStats: { HP: 65, Attack: 72, Defense: 70, Instinct: 50, Speed: 40 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'B', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['IronHead', 'Psychic', 'Earthquake'],
@@ -3528,7 +3528,7 @@ const GYM_LEADER_POKEMON = {
   NReshiram: {
     name: 'Reshiram',
     primaryType: 'Fire',
-    baseStats: { HP: 140, Attack: 135, Defense: 105, Instinct: 145, Speed: 100 },
+    baseStats: { HP: 70, Attack: 67, Defense: 52, Instinct: 72, Speed: 50 },
     typeAptitudes: { Red: 'S', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'S', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['BlueFlare', 'DragonPulse', 'AncientPower'],
@@ -3537,7 +3537,7 @@ const GYM_LEADER_POKEMON = {
   ProfessorOakDragonite: {
     name: 'Dragonite',
     primaryType: 'Fighting',
-    baseStats: { HP: 141, Attack: 144, Defense: 105, Instinct: 110, Speed: 90 },
+    baseStats: { HP: 70, Attack: 72, Defense: 52, Instinct: 55, Speed: 45 },
     typeAptitudes: { Red: 'B', Blue: 'B', Green: 'B', Purple: 'C', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['DragonClaw', 'ExtremeSpeed', 'Earthquake'],
@@ -3546,7 +3546,7 @@ const GYM_LEADER_POKEMON = {
   DianthaDiancie: {
     name: 'Gardevoir',
     primaryType: 'Psychic',
-    baseStats: { HP: 118, Attack: 75, Defense: 75, Instinct: 145, Speed: 90 },
+    baseStats: { HP: 59, Attack: 37, Defense: 37, Instinct: 72, Speed: 45 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'S', Yellow: 'C', Orange: 'D' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'B', Chipper: 'A', MadLad: 'C' },
     defaultAbilities: ['Psychic', 'Moonblast', 'ShadowBall'],
@@ -3555,7 +3555,7 @@ const GYM_LEADER_POKEMON = {
   LeonCharizardGmax: {
     name: 'Charizard',
     primaryType: 'Fire',
-    baseStats: { HP: 138, Attack: 104, Defense: 98, Instinct: 125, Speed: 110 },
+    baseStats: { HP: 69, Attack: 52, Defense: 49, Instinct: 62, Speed: 55 },
     typeAptitudes: { Red: 'S', Blue: 'D', Green: 'B', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'S', Debuffer: 'C', Chipper: 'B', MadLad: 'A' },
     defaultAbilities: ['BlastBurn', 'AirSlash', 'DragonPulse'],
@@ -3564,7 +3564,7 @@ const GYM_LEADER_POKEMON = {
   SeleneLunala: {
     name: 'Lunala',
     primaryType: 'Psychic',
-    baseStats: { HP: 147, Attack: 123, Defense: 99, Instinct: 147, Speed: 107 },
+    baseStats: { HP: 73, Attack: 61, Defense: 49, Instinct: 73, Speed: 53 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'S', Yellow: 'C', Orange: 'D' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'B', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['PsychicBlast', 'ShadowBall', 'Moonblast'],
@@ -3573,7 +3573,7 @@ const GYM_LEADER_POKEMON = {
   GloriaZacian: {
     name: 'Zacian',
     primaryType: 'Psychic',
-    baseStats: { HP: 142, Attack: 150, Defense: 125, Instinct: 90, Speed: 148 },
+    baseStats: { HP: 71, Attack: 75, Defense: 62, Instinct: 45, Speed: 74 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'S', Debuffer: 'C', Chipper: 'A', MadLad: 'A' },
     defaultAbilities: ['IronHead', 'PlayRough', 'CloseCombat'],
@@ -3582,7 +3582,7 @@ const GYM_LEADER_POKEMON = {
   NemonaKoraidon: {
     name: 'Koraidon',
     primaryType: 'Fighting',
-    baseStats: { HP: 140, Attack: 155, Defense: 100, Instinct: 95, Speed: 155 },
+    baseStats: { HP: 70, Attack: 77, Defense: 50, Instinct: 47, Speed: 77 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'C', Orange: 'S' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'S', Debuffer: 'C', Chipper: 'A', MadLad: 'S' },
     defaultAbilities: ['CloseCombat', 'DragonClaw', 'FlareBlitz'],
@@ -3591,7 +3591,7 @@ const GYM_LEADER_POKEMON = {
   MustardUrshifu: {
     name: 'Urshifu',
     primaryType: 'Fighting',
-    baseStats: { HP: 140, Attack: 140, Defense: 105, Instinct: 75, Speed: 107 },
+    baseStats: { HP: 70, Attack: 70, Defense: 52, Instinct: 37, Speed: 53 },
     typeAptitudes: { Red: 'C', Blue: 'B', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'S' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'S', Debuffer: 'C', Chipper: 'B', MadLad: 'A' },
     defaultAbilities: ['CloseCombat', 'DarkPulse', 'Surf'],
@@ -3600,7 +3600,7 @@ const GYM_LEADER_POKEMON = {
   VictorCalyrex: {
     name: 'Calyrex',
     primaryType: 'Psychic',
-    baseStats: { HP: 140, Attack: 90, Defense: 90, Instinct: 155, Speed: 100 },
+    baseStats: { HP: 70, Attack: 45, Defense: 45, Instinct: 77, Speed: 50 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'B', Purple: 'S', Yellow: 'C', Orange: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'A', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Psychic', 'GigaDrain', 'ShadowBall'],
@@ -3609,7 +3609,7 @@ const GYM_LEADER_POKEMON = {
   ArvenMabosstiff: {
     name: 'Mabosstiff',
     primaryType: 'Psychic',
-    baseStats: { HP: 150, Attack: 130, Defense: 95, Instinct: 70, Speed: 75 },
+    baseStats: { HP: 75, Attack: 65, Defense: 47, Instinct: 35, Speed: 37 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['DarkPulse', 'Crunch', 'PlayRough'],
@@ -3618,7 +3618,7 @@ const GYM_LEADER_POKEMON = {
   PennySylveon: {
     name: 'Sylveon',
     primaryType: 'Psychic',
-    baseStats: { HP: 135, Attack: 75, Defense: 75, Instinct: 140, Speed: 70 },
+    baseStats: { HP: 67, Attack: 37, Defense: 37, Instinct: 70, Speed: 35 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'B', Yellow: 'C', Orange: 'D' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'B', Debuffer: 'B', Chipper: 'A', MadLad: 'C' },
     defaultAbilities: ['Moonblast', 'Psychic', 'ShadowBall'],
@@ -3627,7 +3627,7 @@ const GYM_LEADER_POKEMON = {
   SoniaBoltund: {
     name: 'Boltund',
     primaryType: 'Electric',
-    baseStats: { HP: 109, Attack: 100, Defense: 70, Instinct: 85, Speed: 131 },
+    baseStats: { HP: 54, Attack: 50, Defense: 35, Instinct: 42, Speed: 65 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['WildCharge', 'Thunderbolt', 'PlayRough'],
@@ -3636,7 +3636,7 @@ const GYM_LEADER_POKEMON = {
   HopZamazenta: {
     name: 'Zamazenta',
     primaryType: 'Fighting',
-    baseStats: { HP: 142, Attack: 140, Defense: 150, Instinct: 90, Speed: 138 },
+    baseStats: { HP: 71, Attack: 70, Defense: 75, Instinct: 45, Speed: 69 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['CloseCombat', 'IronHead', 'PlayRough'],
@@ -3645,7 +3645,7 @@ const GYM_LEADER_POKEMON = {
   GeetaKingambit: {
     name: 'Kingambit',
     primaryType: 'Psychic',
-    baseStats: { HP: 140, Attack: 150, Defense: 130, Instinct: 75, Speed: 50 },
+    baseStats: { HP: 70, Attack: 75, Defense: 65, Instinct: 37, Speed: 25 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'A', Yellow: 'B', Orange: 'C' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'S', Debuffer: 'C', Chipper: 'C', MadLad: 'B' },
     defaultAbilities: ['IronHead', 'DarkPulse', 'CloseCombat'],
@@ -3654,7 +3654,7 @@ const GYM_LEADER_POKEMON = {
   KieranTerapagos: {
     name: 'Terapagos',
     primaryType: 'Psychic',
-    baseStats: { HP: 150, Attack: 100, Defense: 130, Instinct: 120, Speed: 80 },
+    baseStats: { HP: 75, Attack: 50, Defense: 65, Instinct: 60, Speed: 40 },
     typeAptitudes: { Red: 'B', Blue: 'B', Green: 'B', Purple: 'B', Yellow: 'B', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'B', Debuffer: 'B', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Psychic', 'EarthPower', 'IceBeam'],
@@ -3663,7 +3663,7 @@ const GYM_LEADER_POKEMON = {
   CarmineOgerpon: {
     name: 'Ogerpon',
     primaryType: 'Grass',
-    baseStats: { HP: 120, Attack: 140, Defense: 100, Instinct: 70, Speed: 130 },
+    baseStats: { HP: 60, Attack: 70, Defense: 50, Instinct: 35, Speed: 65 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'S', Purple: 'C', Yellow: 'C', Orange: 'B' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'A', MadLad: 'A' },
     defaultAbilities: ['LeafBlade', 'PlayRough', 'CloseCombat'],
@@ -3672,7 +3672,7 @@ const GYM_LEADER_POKEMON = {
   DraytonArchaludon: {
     name: 'Archaludon',
     primaryType: 'Electric',
-    baseStats: { HP: 120, Attack: 105, Defense: 145, Instinct: 135, Speed: 85 },
+    baseStats: { HP: 60, Attack: 52, Defense: 72, Instinct: 67, Speed: 42 },
     typeAptitudes: { Red: 'B', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'A', Orange: 'B' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Thunderbolt', 'DragonPulse', 'IronHead'],
@@ -3681,7 +3681,7 @@ const GYM_LEADER_POKEMON = {
   LaceyExcadrill: {
     name: 'Excadrill',
     primaryType: 'Fighting',
-    baseStats: { HP: 130, Attack: 145, Defense: 70, Instinct: 55, Speed: 108 },
+    baseStats: { HP: 65, Attack: 72, Defense: 35, Instinct: 27, Speed: 54 },
     typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'C', Yellow: 'B', Orange: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'A' },
     defaultAbilities: ['Earthquake', 'IronHead', 'RockSlide'],
@@ -3700,7 +3700,7 @@ const ELITE_FOUR = [
     pokemon: {
       name: 'Cloyster',
       primaryType: 'Water',
-      baseStats: { HP: 120, Attack: 100, Defense: 180, Instinct: 90, Speed: 70 },
+      baseStats: { HP: 60, Attack: 50, Defense: 90, Instinct: 45, Speed: 35 },
       typeAptitudes: { Red: 'C', Blue: 'A', Green: 'D', Purple: 'B', Yellow: 'C', Orange: 'C' },
       strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
       defaultAbilities: ['HydroPump', 'Blizzard', 'IceBeam'],
@@ -3713,7 +3713,7 @@ const ELITE_FOUR = [
     pokemon: {
       name: 'Machamp',
       primaryType: 'Fighting',
-      baseStats: { HP: 140, Attack: 145, Defense: 95, Instinct: 75, Speed: 65 },
+      baseStats: { HP: 70, Attack: 72, Defense: 47, Instinct: 37, Speed: 32 },
       typeAptitudes: { Red: 'C', Blue: 'C', Green: 'C', Purple: 'D', Yellow: 'C', Orange: 'S' },
       strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
       defaultAbilities: ['CloseCombat', 'Earthquake', 'StoneEdge'],
@@ -3726,7 +3726,7 @@ const ELITE_FOUR = [
     pokemon: {
       name: 'Gengar',
       primaryType: 'Psychic',
-      baseStats: { HP: 110, Attack: 140, Defense: 70, Instinct: 145, Speed: 130 },
+      baseStats: { HP: 55, Attack: 70, Defense: 35, Instinct: 72, Speed: 65 },
       typeAptitudes: { Red: 'B', Blue: 'B', Green: 'C', Purple: 'S', Yellow: 'D', Orange: 'B' },
       strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
       defaultAbilities: ['ShadowBall', 'PsychicBlast', 'DarkPulse'],
@@ -3739,7 +3739,7 @@ const ELITE_FOUR = [
     pokemon: {
       name: 'Dragonite',
       primaryType: 'Fighting',
-      baseStats: { HP: 145, Attack: 145, Defense: 100, Instinct: 110, Speed: 90 },
+      baseStats: { HP: 72, Attack: 72, Defense: 50, Instinct: 55, Speed: 45 },
       typeAptitudes: { Red: 'A', Blue: 'A', Green: 'A', Purple: 'B', Yellow: 'A', Orange: 'S' },
       strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
       defaultAbilities: ['DragonClaw', 'HyperBeam', 'Earthquake'],
@@ -3773,7 +3773,7 @@ const SUPPORT_CARDS = {
     trainer: 'Cynthia',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 0, Attack: 20, Defense: 0, Instinct: 45, Speed: 10 },
+    baseStats: { HP: 0, Attack: 10, Defense: 0, Instinct: 22, Speed: 5 },
     trainingBonus: { typeMatch: 14, otherStats: 2, maxFriendshipTypeMatch: 36 },
     initialFriendship: 10,
     appearanceRate: 0.38,
@@ -3787,7 +3787,7 @@ const SUPPORT_CARDS = {
     trainer: 'Red',
     rarity: 'Legendary',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 80, Defense: 0, Instinct: 10, Speed: 20 },
+    baseStats: { HP: 0, Attack: 40, Defense: 0, Instinct: 5, Speed: 10 },
     trainingBonus: { typeMatch: 15, otherStats: 1, maxFriendshipTypeMatch: 41 },
     initialFriendship: 0,
     appearanceRate: 0.28,
@@ -3801,7 +3801,7 @@ const SUPPORT_CARDS = {
     trainer: 'Steven',
     rarity: 'Legendary',
     supportType: 'Defense',
-    baseStats: { HP: 30, Attack: 0, Defense: 60, Instinct: 10, Speed: 0 },
+    baseStats: { HP: 15, Attack: 0, Defense: 30, Instinct: 5, Speed: 0 },
     trainingBonus: { typeMatch: 7, otherStats: 4, maxFriendshipTypeMatch: 20 },
     initialFriendship: 40,
     appearanceRate: 0.52,
@@ -3815,7 +3815,7 @@ const SUPPORT_CARDS = {
     trainer: 'N',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 0, Attack: 15, Defense: 0, Instinct: 65, Speed: 15 },
+    baseStats: { HP: 0, Attack: 7, Defense: 0, Instinct: 32, Speed: 7 },
     trainingBonus: { typeMatch: 6, otherStats: 4, maxFriendshipTypeMatch: 17 },
     initialFriendship: 60,
     appearanceRate: 0.45,
@@ -3829,7 +3829,7 @@ const SUPPORT_CARDS = {
     trainer: 'Professor Oak',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 20, Attack: 15, Defense: 15, Instinct: 35, Speed: 15 },
+    baseStats: { HP: 10, Attack: 7, Defense: 7, Instinct: 17, Speed: 7 },
     trainingBonus: { typeMatch: 5, otherStats: 5, maxFriendshipTypeMatch: 15 },
     initialFriendship: 55,
     appearanceRate: 0.58,
@@ -3843,7 +3843,7 @@ const SUPPORT_CARDS = {
     trainer: 'Diantha',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 10, Attack: 0, Defense: 15, Instinct: 40, Speed: 5 },
+    baseStats: { HP: 5, Attack: 0, Defense: 7, Instinct: 20, Speed: 2 },
     trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 21 },
     initialFriendship: 25,
     appearanceRate: 0.42,
@@ -3857,7 +3857,7 @@ const SUPPORT_CARDS = {
     trainer: 'Leon',
     rarity: 'Legendary',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 70, Defense: 0, Instinct: 10, Speed: 25 },
+    baseStats: { HP: 0, Attack: 35, Defense: 0, Instinct: 5, Speed: 12 },
     trainingBonus: { typeMatch: 14, otherStats: 2, maxFriendshipTypeMatch: 36 },
     initialFriendship: 15,
     appearanceRate: 0.40,
@@ -3871,7 +3871,7 @@ const SUPPORT_CARDS = {
     trainer: 'Selene',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 15, Attack: 0, Defense: 10, Instinct: 60, Speed: 15 },
+    baseStats: { HP: 7, Attack: 0, Defense: 5, Instinct: 30, Speed: 7 },
     trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 21 },
     initialFriendship: 30,
     appearanceRate: 0.45,
@@ -3885,7 +3885,7 @@ const SUPPORT_CARDS = {
     trainer: 'Gloria',
     rarity: 'Legendary',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 75, Defense: 10, Instinct: 5, Speed: 20 },
+    baseStats: { HP: 0, Attack: 37, Defense: 5, Instinct: 2, Speed: 10 },
     trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 23 },
     initialFriendship: 25,
     appearanceRate: 0.42,
@@ -3899,7 +3899,7 @@ const SUPPORT_CARDS = {
     trainer: 'Nemona',
     rarity: 'Legendary',
     supportType: 'Speed',
-    baseStats: { HP: 10, Attack: 25, Defense: 0, Instinct: 10, Speed: 55 },
+    baseStats: { HP: 5, Attack: 12, Defense: 0, Instinct: 5, Speed: 27 },
     trainingBonus: { typeMatch: 7, otherStats: 4, maxFriendshipTypeMatch: 20 },
     initialFriendship: 60,
     appearanceRate: 0.55,
@@ -3913,7 +3913,7 @@ const SUPPORT_CARDS = {
     trainer: 'Mustard',
     rarity: 'Legendary',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 75, Defense: 10, Instinct: 5, Speed: 15 },
+    baseStats: { HP: 0, Attack: 37, Defense: 5, Instinct: 2, Speed: 7 },
     trainingBonus: { typeMatch: 15, otherStats: 1, maxFriendshipTypeMatch: 39 },
     initialFriendship: 5,
     appearanceRate: 0.30,
@@ -3927,7 +3927,7 @@ const SUPPORT_CARDS = {
     trainer: 'Victor',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 10, Attack: 10, Defense: 0, Instinct: 40, Speed: 10 },
+    baseStats: { HP: 5, Attack: 5, Defense: 0, Instinct: 20, Speed: 5 },
     trainingBonus: { typeMatch: 7, otherStats: 4, maxFriendshipTypeMatch: 18 },
     initialFriendship: 35,
     appearanceRate: 0.48,
@@ -3941,7 +3941,7 @@ const SUPPORT_CARDS = {
     trainer: 'Arven',
     rarity: 'Legendary',
     supportType: 'HP',
-    baseStats: { HP: 55, Attack: 20, Defense: 15, Instinct: 0, Speed: 5 },
+    baseStats: { HP: 27, Attack: 10, Defense: 7, Instinct: 0, Speed: 2 },
     trainingBonus: { typeMatch: 6, otherStats: 4, maxFriendshipTypeMatch: 17 },
     initialFriendship: 50,
     appearanceRate: 0.55,
@@ -3955,7 +3955,7 @@ const SUPPORT_CARDS = {
     trainer: 'Penny',
     rarity: 'Legendary',
     supportType: 'Defense',
-    baseStats: { HP: 30, Attack: 0, Defense: 50, Instinct: 20, Speed: 0 },
+    baseStats: { HP: 15, Attack: 0, Defense: 25, Instinct: 10, Speed: 0 },
     trainingBonus: { typeMatch: 7, otherStats: 4, maxFriendshipTypeMatch: 20 },
     initialFriendship: 20,
     appearanceRate: 0.38,
@@ -3969,7 +3969,7 @@ const SUPPORT_CARDS = {
     trainer: 'Sonia',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 15, Attack: 10, Defense: 10, Instinct: 50, Speed: 15 },
+    baseStats: { HP: 7, Attack: 5, Defense: 5, Instinct: 25, Speed: 7 },
     trainingBonus: { typeMatch: 6, otherStats: 5, maxFriendshipTypeMatch: 17 },
     initialFriendship: 65,
     appearanceRate: 0.60,
@@ -3983,7 +3983,7 @@ const SUPPORT_CARDS = {
     trainer: 'Hop',
     rarity: 'Legendary',
     supportType: 'HP',
-    baseStats: { HP: 60, Attack: 10, Defense: 20, Instinct: 5, Speed: 10 },
+    baseStats: { HP: 30, Attack: 5, Defense: 10, Instinct: 2, Speed: 5 },
     trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 21 },
     initialFriendship: 55,
     appearanceRate: 0.52,
@@ -3997,7 +3997,7 @@ const SUPPORT_CARDS = {
     trainer: 'Geeta',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 10, Attack: 15, Defense: 10, Instinct: 40, Speed: 0 },
+    baseStats: { HP: 5, Attack: 7, Defense: 5, Instinct: 20, Speed: 0 },
     trainingBonus: { typeMatch: 14, otherStats: 2, maxFriendshipTypeMatch: 35 },
     initialFriendship: 10,
     appearanceRate: 0.35,
@@ -4011,7 +4011,7 @@ const SUPPORT_CARDS = {
     trainer: 'Kieran',
     rarity: 'Legendary',
     supportType: 'Instinct',
-    baseStats: { HP: 20, Attack: 0, Defense: 10, Instinct: 35, Speed: 5 },
+    baseStats: { HP: 10, Attack: 0, Defense: 5, Instinct: 17, Speed: 2 },
     trainingBonus: { typeMatch: 7, otherStats: 4, maxFriendshipTypeMatch: 18 },
     initialFriendship: 15,
     appearanceRate: 0.38,
@@ -4025,7 +4025,7 @@ const SUPPORT_CARDS = {
     trainer: 'Carmine',
     rarity: 'Legendary',
     supportType: 'Speed',
-    baseStats: { HP: 10, Attack: 25, Defense: 5, Instinct: 5, Speed: 55 },
+    baseStats: { HP: 5, Attack: 12, Defense: 2, Instinct: 2, Speed: 27 },
     trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 21 },
     initialFriendship: 20,
     appearanceRate: 0.42,
@@ -4039,7 +4039,7 @@ const SUPPORT_CARDS = {
     trainer: 'Drayton',
     rarity: 'Legendary',
     supportType: 'Defense',
-    baseStats: { HP: 20, Attack: 15, Defense: 55, Instinct: 10, Speed: 0 },
+    baseStats: { HP: 10, Attack: 7, Defense: 27, Instinct: 5, Speed: 0 },
     trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 21 },
     initialFriendship: 40,
     appearanceRate: 0.48,
@@ -4053,7 +4053,7 @@ const SUPPORT_CARDS = {
     trainer: 'Lacey',
     rarity: 'Legendary',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 25, Defense: 5, Instinct: 10, Speed: 55 },
+    baseStats: { HP: 0, Attack: 12, Defense: 2, Instinct: 5, Speed: 27 },
     trainingBonus: { typeMatch: 8, otherStats: 3, maxFriendshipTypeMatch: 23 },
     initialFriendship: 35,
     appearanceRate: 0.45,
@@ -4073,7 +4073,7 @@ const SUPPORT_CARDS = {
     trainer: 'Lance',
     rarity: 'Rare',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 55, Defense: 0, Instinct: 10, Speed: 15 },
+    baseStats: { HP: 0, Attack: 27, Defense: 0, Instinct: 5, Speed: 7 },
     trainingBonus: { typeMatch: 11, otherStats: 2, maxFriendshipTypeMatch: 30 },
     initialFriendship: 15,
     appearanceRate: 0.35,
@@ -4087,7 +4087,7 @@ const SUPPORT_CARDS = {
     trainer: 'Sabrina',
     rarity: 'Rare',
     supportType: 'Instinct',
-    baseStats: { HP: 0, Attack: 0, Defense: 0, Instinct: 55, Speed: 20 },
+    baseStats: { HP: 0, Attack: 0, Defense: 0, Instinct: 27, Speed: 10 },
     trainingBonus: { typeMatch: 11, otherStats: 2, maxFriendshipTypeMatch: 27 },
     initialFriendship: 10,
     appearanceRate: 0.32,
@@ -4101,7 +4101,7 @@ const SUPPORT_CARDS = {
     trainer: 'Morty',
     rarity: 'Rare',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 10, Defense: 0, Instinct: 15, Speed: 45 },
+    baseStats: { HP: 0, Attack: 5, Defense: 0, Instinct: 7, Speed: 22 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 14 },
     initialFriendship: 35,
     appearanceRate: 0.55,
@@ -4115,7 +4115,7 @@ const SUPPORT_CARDS = {
     trainer: 'Wallace',
     rarity: 'Rare',
     supportType: 'HP',
-    baseStats: { HP: 50, Attack: 0, Defense: 15, Instinct: 5, Speed: 0 },
+    baseStats: { HP: 25, Attack: 0, Defense: 7, Instinct: 2, Speed: 0 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 15 },
     initialFriendship: 45,
     appearanceRate: 0.48,
@@ -4129,7 +4129,7 @@ const SUPPORT_CARDS = {
     trainer: 'Iris',
     rarity: 'Rare',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 50, Defense: 0, Instinct: 5, Speed: 15 },
+    baseStats: { HP: 0, Attack: 25, Defense: 0, Instinct: 2, Speed: 7 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 14 },
     initialFriendship: 50,
     appearanceRate: 0.60,
@@ -4143,7 +4143,7 @@ const SUPPORT_CARDS = {
     trainer: 'Blue',
     rarity: 'Rare',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 10, Defense: 5, Instinct: 10, Speed: 45 },
+    baseStats: { HP: 0, Attack: 5, Defense: 2, Instinct: 5, Speed: 22 },
     trainingBonus: { typeMatch: 4, otherStats: 3, maxFriendshipTypeMatch: 12 },
     initialFriendship: 25,
     appearanceRate: 0.50,
@@ -4157,7 +4157,7 @@ const SUPPORT_CARDS = {
     trainer: 'Giovanni',
     rarity: 'Rare',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 15, Defense: 0, Instinct: 10, Speed: 45 },
+    baseStats: { HP: 0, Attack: 7, Defense: 0, Instinct: 5, Speed: 22 },
     trainingBonus: { typeMatch: 12, otherStats: 1, maxFriendshipTypeMatch: 32 },
     initialFriendship: 0,
     appearanceRate: 0.30,
@@ -4171,7 +4171,7 @@ const SUPPORT_CARDS = {
     trainer: 'Maxie',
     rarity: 'Rare',
     supportType: 'Defense',
-    baseStats: { HP: 15, Attack: 15, Defense: 40, Instinct: 0, Speed: 0 },
+    baseStats: { HP: 7, Attack: 7, Defense: 20, Instinct: 0, Speed: 0 },
     trainingBonus: { typeMatch: 6, otherStats: 2, maxFriendshipTypeMatch: 17 },
     initialFriendship: 20,
     appearanceRate: 0.42,
@@ -4185,7 +4185,7 @@ const SUPPORT_CARDS = {
     trainer: 'Archie',
     rarity: 'Rare',
     supportType: 'HP',
-    baseStats: { HP: 55, Attack: 0, Defense: 10, Instinct: 5, Speed: 0 },
+    baseStats: { HP: 27, Attack: 0, Defense: 5, Instinct: 2, Speed: 0 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 14 },
     initialFriendship: 40,
     appearanceRate: 0.45,
@@ -4199,7 +4199,7 @@ const SUPPORT_CARDS = {
     trainer: 'Raihan',
     rarity: 'Rare',
     supportType: 'Defense',
-    baseStats: { HP: 10, Attack: 15, Defense: 40, Instinct: 5, Speed: 5 },
+    baseStats: { HP: 5, Attack: 7, Defense: 20, Instinct: 2, Speed: 2 },
     trainingBonus: { typeMatch: 6, otherStats: 3, maxFriendshipTypeMatch: 17 },
     initialFriendship: 30,
     appearanceRate: 0.45,
@@ -4213,7 +4213,7 @@ const SUPPORT_CARDS = {
     trainer: 'Marnie',
     rarity: 'Rare',
     supportType: 'Attack',
-    baseStats: { HP: 10, Attack: 45, Defense: 15, Instinct: 5, Speed: 5 },
+    baseStats: { HP: 5, Attack: 22, Defense: 7, Instinct: 2, Speed: 2 },
     trainingBonus: { typeMatch: 6, otherStats: 3, maxFriendshipTypeMatch: 15 },
     initialFriendship: 25,
     appearanceRate: 0.42,
@@ -4227,7 +4227,7 @@ const SUPPORT_CARDS = {
     trainer: 'Nessa',
     rarity: 'Rare',
     supportType: 'HP',
-    baseStats: { HP: 45, Attack: 15, Defense: 10, Instinct: 0, Speed: 5 },
+    baseStats: { HP: 22, Attack: 7, Defense: 5, Instinct: 0, Speed: 2 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 14 },
     initialFriendship: 35,
     appearanceRate: 0.48,
@@ -4241,7 +4241,7 @@ const SUPPORT_CARDS = {
     trainer: 'Bea',
     rarity: 'Rare',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 55, Defense: 10, Instinct: 0, Speed: 10 },
+    baseStats: { HP: 0, Attack: 27, Defense: 5, Instinct: 0, Speed: 5 },
     trainingBonus: { typeMatch: 11, otherStats: 2, maxFriendshipTypeMatch: 27 },
     initialFriendship: 10,
     appearanceRate: 0.35,
@@ -4255,7 +4255,7 @@ const SUPPORT_CARDS = {
     trainer: 'Opal',
     rarity: 'Rare',
     supportType: 'HP',
-    baseStats: { HP: 45, Attack: 0, Defense: 15, Instinct: 15, Speed: 0 },
+    baseStats: { HP: 22, Attack: 0, Defense: 7, Instinct: 7, Speed: 0 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 14 },
     initialFriendship: 45,
     appearanceRate: 0.52,
@@ -4269,7 +4269,7 @@ const SUPPORT_CARDS = {
     trainer: 'Piers',
     rarity: 'Rare',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 20, Defense: 0, Instinct: 5, Speed: 45 },
+    baseStats: { HP: 0, Attack: 10, Defense: 0, Instinct: 2, Speed: 22 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 14 },
     initialFriendship: 20,
     appearanceRate: 0.40,
@@ -4283,7 +4283,7 @@ const SUPPORT_CARDS = {
     trainer: 'Rika',
     rarity: 'Rare',
     supportType: 'HP',
-    baseStats: { HP: 50, Attack: 10, Defense: 10, Instinct: 5, Speed: 0 },
+    baseStats: { HP: 25, Attack: 5, Defense: 5, Instinct: 2, Speed: 0 },
     trainingBonus: { typeMatch: 5, otherStats: 3, maxFriendshipTypeMatch: 14 },
     initialFriendship: 40,
     appearanceRate: 0.50,
@@ -4297,7 +4297,7 @@ const SUPPORT_CARDS = {
     trainer: 'Poppy',
     rarity: 'Rare',
     supportType: 'Defense',
-    baseStats: { HP: 10, Attack: 20, Defense: 35, Instinct: 5, Speed: 5 },
+    baseStats: { HP: 5, Attack: 10, Defense: 17, Instinct: 2, Speed: 2 },
     trainingBonus: { typeMatch: 6, otherStats: 2, maxFriendshipTypeMatch: 15 },
     initialFriendship: 55,
     appearanceRate: 0.55,
@@ -4317,7 +4317,7 @@ const SUPPORT_CARDS = {
     trainer: 'Misty',
     rarity: 'Uncommon',
     supportType: 'HP',
-    baseStats: { HP: 35, Attack: 0, Defense: 10, Instinct: 5, Speed: 5 },
+    baseStats: { HP: 17, Attack: 0, Defense: 5, Instinct: 2, Speed: 2 },
     trainingBonus: { typeMatch: 8, otherStats: 2, maxFriendshipTypeMatch: 21 },
     initialFriendship: 30,
     appearanceRate: 0.48,
@@ -4331,7 +4331,7 @@ const SUPPORT_CARDS = {
     trainer: 'Brock',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    baseStats: { HP: 10, Attack: 0, Defense: 35, Instinct: 0, Speed: 0 },
+    baseStats: { HP: 5, Attack: 0, Defense: 17, Instinct: 0, Speed: 0 },
     trainingBonus: { typeMatch: 4, otherStats: 3, maxFriendshipTypeMatch: 11 },
     initialFriendship: 45,
     appearanceRate: 0.55,
@@ -4345,7 +4345,7 @@ const SUPPORT_CARDS = {
     trainer: 'Erika',
     rarity: 'Uncommon',
     supportType: 'HP',
-    baseStats: { HP: 35, Attack: 0, Defense: 10, Instinct: 0, Speed: 0 },
+    baseStats: { HP: 17, Attack: 0, Defense: 5, Instinct: 0, Speed: 0 },
     trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 12 },
     initialFriendship: 40,
     appearanceRate: 0.52,
@@ -4359,7 +4359,7 @@ const SUPPORT_CARDS = {
     trainer: 'Blaine',
     rarity: 'Uncommon',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 40, Defense: 0, Instinct: 5, Speed: 5 },
+    baseStats: { HP: 0, Attack: 20, Defense: 0, Instinct: 2, Speed: 2 },
     trainingBonus: { typeMatch: 9, otherStats: 2, maxFriendshipTypeMatch: 23 },
     initialFriendship: 15,
     appearanceRate: 0.30,
@@ -4373,7 +4373,7 @@ const SUPPORT_CARDS = {
     trainer: 'Koga',
     rarity: 'Uncommon',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 5, Defense: 10, Instinct: 5, Speed: 30 },
+    baseStats: { HP: 0, Attack: 2, Defense: 5, Instinct: 2, Speed: 15 },
     trainingBonus: { typeMatch: 8, otherStats: 2, maxFriendshipTypeMatch: 21 },
     initialFriendship: 10,
     appearanceRate: 0.35,
@@ -4387,7 +4387,7 @@ const SUPPORT_CARDS = {
     trainer: 'Jasmine',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    baseStats: { HP: 10, Attack: 0, Defense: 35, Instinct: 0, Speed: 0 },
+    baseStats: { HP: 5, Attack: 0, Defense: 17, Instinct: 0, Speed: 0 },
     trainingBonus: { typeMatch: 8, otherStats: 2, maxFriendshipTypeMatch: 21 },
     initialFriendship: 30,
     appearanceRate: 0.40,
@@ -4401,7 +4401,7 @@ const SUPPORT_CARDS = {
     trainer: 'Winona',
     rarity: 'Uncommon',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 5, Defense: 15, Instinct: 0, Speed: 30 },
+    baseStats: { HP: 0, Attack: 2, Defense: 7, Instinct: 0, Speed: 15 },
     trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 11 },
     initialFriendship: 35,
     appearanceRate: 0.58,
@@ -4415,7 +4415,7 @@ const SUPPORT_CARDS = {
     trainer: 'Karen',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    baseStats: { HP: 10, Attack: 0, Defense: 30, Instinct: 10, Speed: 0 },
+    baseStats: { HP: 5, Attack: 0, Defense: 15, Instinct: 5, Speed: 0 },
     trainingBonus: { typeMatch: 9, otherStats: 2, maxFriendshipTypeMatch: 23 },
     initialFriendship: 5,
     appearanceRate: 0.25,
@@ -4429,7 +4429,7 @@ const SUPPORT_CARDS = {
     trainer: 'Agatha',
     rarity: 'Uncommon',
     supportType: 'Instinct',
-    baseStats: { HP: 0, Attack: 10, Defense: 0, Instinct: 35, Speed: 5 },
+    baseStats: { HP: 0, Attack: 5, Defense: 0, Instinct: 17, Speed: 2 },
     trainingBonus: { typeMatch: 8, otherStats: 2, maxFriendshipTypeMatch: 21 },
     initialFriendship: 20,
     appearanceRate: 0.32,
@@ -4443,7 +4443,7 @@ const SUPPORT_CARDS = {
     trainer: 'Milo',
     rarity: 'Uncommon',
     supportType: 'HP',
-    baseStats: { HP: 35, Attack: 0, Defense: 10, Instinct: 5, Speed: 0 },
+    baseStats: { HP: 17, Attack: 0, Defense: 5, Instinct: 2, Speed: 0 },
     trainingBonus: { typeMatch: 4, otherStats: 3, maxFriendshipTypeMatch: 11 },
     initialFriendship: 50,
     appearanceRate: 0.58,
@@ -4457,7 +4457,7 @@ const SUPPORT_CARDS = {
     trainer: 'Kabu',
     rarity: 'Uncommon',
     supportType: 'Attack',
-    baseStats: { HP: 5, Attack: 38, Defense: 5, Instinct: 0, Speed: 5 },
+    baseStats: { HP: 2, Attack: 19, Defense: 2, Instinct: 0, Speed: 2 },
     trainingBonus: { typeMatch: 8, otherStats: 2, maxFriendshipTypeMatch: 21 },
     initialFriendship: 15,
     appearanceRate: 0.38,
@@ -4471,7 +4471,7 @@ const SUPPORT_CARDS = {
     trainer: 'Melony',
     rarity: 'Uncommon',
     supportType: 'HP',
-    baseStats: { HP: 40, Attack: 0, Defense: 10, Instinct: 5, Speed: 0 },
+    baseStats: { HP: 20, Attack: 0, Defense: 5, Instinct: 2, Speed: 0 },
     trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 12 },
     initialFriendship: 45,
     appearanceRate: 0.52,
@@ -4485,7 +4485,7 @@ const SUPPORT_CARDS = {
     trainer: 'Gordie',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    baseStats: { HP: 10, Attack: 5, Defense: 35, Instinct: 0, Speed: 0 },
+    baseStats: { HP: 5, Attack: 2, Defense: 17, Instinct: 0, Speed: 0 },
     trainingBonus: { typeMatch: 5, otherStats: 2, maxFriendshipTypeMatch: 12 },
     initialFriendship: 25,
     appearanceRate: 0.42,
@@ -4499,7 +4499,7 @@ const SUPPORT_CARDS = {
     trainer: 'Klara',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    baseStats: { HP: 15, Attack: 0, Defense: 30, Instinct: 5, Speed: 0 },
+    baseStats: { HP: 7, Attack: 0, Defense: 15, Instinct: 2, Speed: 0 },
     trainingBonus: { typeMatch: 5, otherStats: 2, maxFriendshipTypeMatch: 12 },
     initialFriendship: 20,
     appearanceRate: 0.40,
@@ -4513,7 +4513,7 @@ const SUPPORT_CARDS = {
     trainer: 'Avery',
     rarity: 'Uncommon',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 10, Defense: 5, Instinct: 10, Speed: 30 },
+    baseStats: { HP: 0, Attack: 5, Defense: 2, Instinct: 5, Speed: 15 },
     trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 11 },
     initialFriendship: 15,
     appearanceRate: 0.45,
@@ -4527,7 +4527,7 @@ const SUPPORT_CARDS = {
     trainer: 'Iono',
     rarity: 'Uncommon',
     supportType: 'Speed',
-    baseStats: { HP: 0, Attack: 15, Defense: 0, Instinct: 10, Speed: 30 },
+    baseStats: { HP: 0, Attack: 7, Defense: 0, Instinct: 5, Speed: 15 },
     trainingBonus: { typeMatch: 8, otherStats: 2, maxFriendshipTypeMatch: 21 },
     initialFriendship: 60,
     appearanceRate: 0.60,
@@ -4541,7 +4541,7 @@ const SUPPORT_CARDS = {
     trainer: 'Grusha',
     rarity: 'Uncommon',
     supportType: 'Defense',
-    baseStats: { HP: 10, Attack: 0, Defense: 30, Instinct: 10, Speed: 5 },
+    baseStats: { HP: 5, Attack: 0, Defense: 15, Instinct: 5, Speed: 2 },
     trainingBonus: { typeMatch: 4, otherStats: 3, maxFriendshipTypeMatch: 11 },
     initialFriendship: 30,
     appearanceRate: 0.48,
@@ -4561,7 +4561,7 @@ const SUPPORT_CARDS = {
     trainer: 'Whitney',
     rarity: 'Common',
     supportType: 'HP',
-    baseStats: { HP: 25, Attack: 0, Defense: 5, Instinct: 0, Speed: 0 },
+    baseStats: { HP: 12, Attack: 0, Defense: 2, Instinct: 0, Speed: 0 },
     trainingBonus: { typeMatch: 3, otherStats: 2, maxFriendshipTypeMatch: 9 },
     initialFriendship: 50,
     appearanceRate: 0.62,
@@ -4575,7 +4575,7 @@ const SUPPORT_CARDS = {
     trainer: 'Chuck',
     rarity: 'Common',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 30, Defense: 0, Instinct: 0, Speed: 5 },
+    baseStats: { HP: 0, Attack: 15, Defense: 0, Instinct: 0, Speed: 2 },
     trainingBonus: { typeMatch: 8, otherStats: 1, maxFriendshipTypeMatch: 18 },
     initialFriendship: 5,
     appearanceRate: 0.35,
@@ -4589,7 +4589,7 @@ const SUPPORT_CARDS = {
     trainer: 'Pryce',
     rarity: 'Common',
     supportType: 'Defense',
-    baseStats: { HP: 20, Attack: 0, Defense: 5, Instinct: 5, Speed: 0 },
+    baseStats: { HP: 10, Attack: 0, Defense: 2, Instinct: 2, Speed: 0 },
     trainingBonus: { typeMatch: 3, otherStats: 2, maxFriendshipTypeMatch: 9 },
     initialFriendship: 45,
     appearanceRate: 0.55,
@@ -4603,7 +4603,7 @@ const SUPPORT_CARDS = {
     trainer: 'Wattson',
     rarity: 'Common',
     supportType: 'Instinct',
-    baseStats: { HP: 0, Attack: 0, Defense: 5, Instinct: 25, Speed: 5 },
+    baseStats: { HP: 0, Attack: 0, Defense: 2, Instinct: 12, Speed: 2 },
     trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 11 },
     initialFriendship: 35,
     appearanceRate: 0.48,
@@ -4617,7 +4617,7 @@ const SUPPORT_CARDS = {
     trainer: 'Flannery',
     rarity: 'Common',
     supportType: 'Attack',
-    baseStats: { HP: 0, Attack: 5, Defense: 0, Instinct: 20, Speed: 0 },
+    baseStats: { HP: 0, Attack: 2, Defense: 0, Instinct: 10, Speed: 0 },
     trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 11 },
     initialFriendship: 15,
     appearanceRate: 0.40,

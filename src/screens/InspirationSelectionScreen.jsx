@@ -260,20 +260,33 @@ const InspirationSelectionScreen = () => {
                 {generatePokemonSprite(selectedPokemon, selectedPokemon)}
               </div>
 
-              {/* Pokemon Name and Strategy */}
+              {/* Pokemon Name and Type */}
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-pocket-text mb-2">{selectedPokemon}</h2>
 
-                {/* Strategy Badge */}
+                {/* Type Badge */}
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 bg-red-500 text-white text-sm font-bold rounded">
-                    ⚔ {modifiedData.strategyAptitudes && Object.entries(modifiedData.strategyAptitudes).reduce((best, [strat, grade]) => {
-                      const gradeRank = { 'S': 6, 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, 'F': 0 };
-                      const currentRank = gradeRank[grade] || 0;
-                      const bestRank = gradeRank[best.grade] || 0;
-                      return currentRank > bestRank ? { strat, grade } : best;
-                    }, { strat: 'Chipper', grade: 'F' }).strat}
-                  </span>
+                  {(() => {
+                    const pokemonData = POKEMON[selectedPokemon];
+                    const primaryType = pokemonData?.type;
+                    const typeColorMap = {
+                      Red: 'Fire',
+                      Blue: 'Water',
+                      Green: 'Grass',
+                      Purple: 'Psychic',
+                      Yellow: 'Electric',
+                      Orange: 'Fighting'
+                    };
+                    const typeName = typeColorMap[primaryType] || primaryType;
+                    const typeGrade = modifiedData.typeAptitudes?.[primaryType] || 'F';
+
+                    return (
+                      <span className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-pocket-text text-sm font-bold rounded">
+                        <TypeIcon type={typeName} size={16} />
+                        <span style={{ color: getAptitudeColor(typeGrade) }}>{typeGrade}</span>
+                      </span>
+                    );
+                  })()}
                 </div>
 
                 {/* Stats Row */}

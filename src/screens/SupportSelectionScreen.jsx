@@ -423,7 +423,7 @@ const SupportSelectionScreen = () => {
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-10 bg-white shadow-card rounded-2xl mb-4 max-w-lg mx-auto"
+        className="sticky top-0 z-10 bg-white shadow-card rounded-2xl mb-4 max-w-4xl mx-auto"
       >
         <div className="flex items-center justify-between px-4 py-3">
           <button
@@ -445,7 +445,7 @@ const SupportSelectionScreen = () => {
         </div>
       </motion.header>
 
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Pokemon Info Card - Career Screen Style */}
         {selectedPokemon && (() => {
           const pokemonData = POKEMON[selectedPokemon];
@@ -537,15 +537,32 @@ const SupportSelectionScreen = () => {
                   <PokemonSprite pokemonName={selectedPokemon} />
                 </div>
 
-                {/* Pokemon Name and Strategy */}
+                {/* Pokemon Name and Type */}
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold text-pocket-text mb-2">{selectedPokemon}</h2>
 
-                  {/* Strategy Badge */}
+                  {/* Type Badge */}
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="px-3 py-1 bg-red-500 text-white text-sm font-bold rounded">
-                      ⚔ {bestStrategy.strat}
-                    </span>
+                    {(() => {
+                      const primaryType = pokemonData.type;
+                      const typeColorMap = {
+                        Red: 'Fire',
+                        Blue: 'Water',
+                        Green: 'Grass',
+                        Purple: 'Psychic',
+                        Yellow: 'Electric',
+                        Orange: 'Fighting'
+                      };
+                      const typeName = typeColorMap[primaryType] || primaryType;
+                      const typeGrade = typeAptitudes?.[primaryType] || 'F';
+
+                      return (
+                        <span className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-pocket-text text-sm font-bold rounded">
+                          <TypeIcon type={typeName} size={16} />
+                          <span style={{ color: getAptitudeColor(typeGrade) }}>{typeGrade}</span>
+                        </span>
+                      );
+                    })()}
                   </div>
 
                   {/* Stats Row */}
