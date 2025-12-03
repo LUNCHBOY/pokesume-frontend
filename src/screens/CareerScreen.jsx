@@ -2562,6 +2562,16 @@ const CareerScreen = () => {
                     const levelBonus = trainingLevel * (GAME_CONFIG.TRAINING.LEVEL_BONUS_MULTIPLIER || 0.10);
                     statGain = Math.floor(statGain * (1 + levelBonus));
 
+                    // Apply limit break bonus from support cards (+5% per limit break level)
+                    let totalLimitBreakBonus = 0;
+                    option.supports.forEach(supportName => {
+                      const lbLevel = careerData.supportLimitBreaks?.[supportName] || 0;
+                      totalLimitBreakBonus += lbLevel * 0.05; // 5% per level per support
+                    });
+                    if (totalLimitBreakBonus > 0) {
+                      statGain = Math.floor(statGain * (1 + totalLimitBreakBonus));
+                    }
+
                     // Get training progress
                     const trainingProgress = careerData.trainingProgress?.[stat] || 0;
 

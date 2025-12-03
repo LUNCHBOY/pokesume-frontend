@@ -4613,7 +4613,7 @@ const SUPPORT_CARDS = {
     rarity: 'Common',
     supportType: 'Instinct',
     baseStats: { HP: 0, Attack: 0, Defense: 5, Instinct: 25, Speed: 5 },
-    trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 11 },
+    trainingBonus: { typeMatch: 4, otherStats: 2, maxFriendshipTypeMatch: 12 },
     initialFriendship: 35,
     appearanceRate: 0.48,
     typeMatchPreference: 0.25,

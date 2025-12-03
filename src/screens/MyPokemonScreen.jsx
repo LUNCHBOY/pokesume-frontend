@@ -20,7 +20,7 @@ import {
   StatIcon
 } from '../utils/gameUtils';
 import { TypeBadge, TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
-import { POKEMON } from '../shared/gameData';
+import { POKEMON, LEGENDARY_POKEMON } from '../shared/gameData';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
 const containerVariants = {
@@ -103,8 +103,8 @@ const MyPokemonScreen = () => {
     switch (pokemonSortBy) {
       case 'type':
         return sorted.sort((a, b) => {
-          const typeA = POKEMON[a]?.primaryType || 'Normal';
-          const typeB = POKEMON[b]?.primaryType || 'Normal';
+          const typeA = (POKEMON[a] || LEGENDARY_POKEMON[a])?.primaryType || 'Normal';
+          const typeB = (POKEMON[b] || LEGENDARY_POKEMON[b])?.primaryType || 'Normal';
           return typeA.localeCompare(typeB);
         });
       case 'rarity':
@@ -126,7 +126,7 @@ const MyPokemonScreen = () => {
   // Filter inventory by type
   const filteredInventory = pokemonFilterType === 'all'
     ? pokemonInventory
-    : pokemonInventory.filter(name => POKEMON[name]?.primaryType === pokemonFilterType);
+    : pokemonInventory.filter(name => (POKEMON[name] || LEGENDARY_POKEMON[name])?.primaryType === pokemonFilterType);
 
   const sortedInventory = sortPokemon(filteredInventory);
 
@@ -247,7 +247,7 @@ const MyPokemonScreen = () => {
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
         >
           {sortedInventory.map((pokemonName, idx) => {
-            const pokemon = POKEMON[pokemonName];
+            const pokemon = POKEMON[pokemonName] || LEGENDARY_POKEMON[pokemonName];
             const limitBreakLevel = getPokemonLimitBreak(pokemonName);
             if (!pokemon) {
               return (
@@ -353,7 +353,7 @@ const MyPokemonScreen = () => {
 
       {/* Pokemon Detail Modal (Long Press) */}
       <AnimatePresence>
-        {detailPokemon && POKEMON[detailPokemon] && (
+        {detailPokemon && (POKEMON[detailPokemon] || LEGENDARY_POKEMON[detailPokemon]) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -377,7 +377,7 @@ const MyPokemonScreen = () => {
               </button>
 
               {(() => {
-                const pokemon = POKEMON[detailPokemon];
+                const pokemon = POKEMON[detailPokemon] || LEGENDARY_POKEMON[detailPokemon];
                 const rarity = getPokemonRarity(detailPokemon);
                 const limitBreakLevel = getPokemonLimitBreak(detailPokemon);
                 const statTotal = Object.values(pokemon.baseStats).reduce((a, b) => a + b, 0);

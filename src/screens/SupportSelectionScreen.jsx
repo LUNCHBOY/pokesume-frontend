@@ -545,7 +545,7 @@ const SupportSelectionScreen = () => {
                   <div className="flex items-center gap-2 mb-3">
                     {(() => {
                       const pokemonData = POKEMON[selectedPokemon];
-                      const primaryType = pokemonData?.type;
+                      const primaryType = pokemonData?.primaryType;
                       const typeColorMap = {
                         Red: 'Fire',
                         Blue: 'Water',
