@@ -528,7 +528,13 @@ const InspirationSelectionScreen = () => {
                       );
                       const isSameSpecies = selectedPokemon && trained.name === selectedPokemon;
                       const isInEvolutionChain = selectedPokemon && !isSameSpecies && areInSameEvolutionChain(selectedPokemon, trained.name);
-                      const isDisabled = isSameSpecies || isInEvolutionChain || isAlreadySelected;
+                      
+                      // Check if this Pokemon is in the same evolution chain as the OTHER inspiration slot
+                      const otherSlotIndex = selectedSlotIndex === 0 ? 1 : 0;
+                      const otherInspiration = selectedInspirations[otherSlotIndex];
+                      const isInOtherInspirationChain = otherInspiration && areInSameEvolutionChain(otherInspiration.name, trained.name);
+                      
+                      const isDisabled = isSameSpecies || isInEvolutionChain || isAlreadySelected || isInOtherInspirationChain;
 
                       const totalStars = trained.inspirations
                         ? (trained.inspirations.stat?.stars || 0) + (trained.inspirations.aptitude?.stars || 0) + (trained.inspirations.strategy?.stars || 0)
@@ -568,6 +574,12 @@ const InspirationSelectionScreen = () => {
                           {isAlreadySelected && (
                             <div className="text-[10px] font-bold text-pocket-blue text-center mt-1">
                               Already selected
+                            </div>
+                          )}
+
+                          {isInOtherInspirationChain && !isAlreadySelected && (
+                            <div className="text-[10px] font-bold text-pocket-red text-center mt-1">
+                              Same line as other inspiration
                             </div>
                           )}
 
