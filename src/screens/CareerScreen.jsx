@@ -79,9 +79,10 @@ const calculateDifficultyMultiplier = (turn) => {
     return 1.0 * enemyStatMult;
   }
 
-  // Quadratic scaling from turn 12 to 59
+  // Mixed scaling from turn 12 to 59 - matches backend formula
+  // More linear curve for stronger mid-game challenge
   const progress = (turn - 12) / 48;
-  const baseMultiplier = 1.0 + (1.56 * progress * progress) + (1.5 * progress);
+  const baseMultiplier = 1.0 + (0.36 * progress * progress) + (2.7 * progress);
   return baseMultiplier * enemyStatMult;
 };
 
