@@ -122,10 +122,10 @@ const getMoveDescription = (move) => {
     switch (effect.type) {
       // Status effects
       case 'burn':
-        parts.push(`burns for ${effect.damage || 3} dmg/tick`);
+        parts.push(`burns for ${effect.damage || 3}% max HP/tick`);
         break;
       case 'poison':
-        parts.push('poisons target');
+        parts.push(`poisons for ${effect.damage || 4} dmg/tick`);
         break;
       case 'badly_poison':
         parts.push('badly poisons target');

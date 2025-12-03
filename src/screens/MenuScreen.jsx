@@ -127,7 +127,7 @@ const StarterCard = ({ pokemon, name, onSelect }) => {
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onSelect}
-      className="pokemon-card"
+      className="pokemon-card w-full"
     >
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
