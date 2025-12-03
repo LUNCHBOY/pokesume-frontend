@@ -46,13 +46,14 @@ import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 // HELPER FUNCTIONS
 // ============================================================================
 
-// Elite Four base multipliers - ENEMY_STAT_MULTIPLIER (0.8) is applied separately
-// Cascades from quadratic curve endpoint, capping at 3.75x effective for Lance
+// Elite Four base multipliers - With ENEMY_STAT_MULTIPLIER at 1.0 and updated base stats (400 total)
+// Elite Four now use calculateBaseStats which gives them 400 total base stats
+// Cascades smoothly from turn 59 (3.99x) to Lance at S+ grade (2150 stats)
 const ELITE_FOUR_BASE_MULTIPLIERS = {
-  0: 4.06,  // Lorelei (turn 60) - 3.25x effective
-  1: 4.25,  // Bruno (turn 61) - 3.40x effective
-  2: 4.44,  // Agatha (turn 62) - 3.55x effective
-  3: 4.69   // Lance (turn 63) - 3.75x effective (Champion cap)
+  0: 4.50,  // Lorelei (turn 60) - 1800 stats (B+ to A range)
+  1: 4.875, // Bruno (turn 61) - 1950 stats (A to S range)
+  2: 5.125, // Agatha (turn 62) - 2050 stats (S range)
+  3: 5.375  // Lance (turn 63) - 2150 stats (S+ grade, Champion)
 };
 
 /**
@@ -74,15 +75,13 @@ const calculateDifficultyMultiplier = (turn) => {
     }
   }
 
-  // No scaling before turn 12
-  if (turn < 12) {
-    return 1.0 * enemyStatMult;
-  }
-
-  // Mixed scaling from turn 12 to 59 - matches backend formula
-  // More linear curve for stronger mid-game challenge
-  const progress = (turn - 12) / 48;
-  const baseMultiplier = 1.0 + (0.36 * progress * progress) + (2.7 * progress);
+  // Scale from turn 1 to turn 59 with TRUE ACCELERATION (percentage increase grows over time)
+  // Progress from 0 to 1 over 59 turns
+  const progress = (turn - 1) / 59;
+  // Quartic curve: 1.0 + 1.7p⁴ + 0.4p³ + 0.3p² + 0.6p
+  // Percentage increase grows from ~5% to ~24% over time
+  // Peaks at ~3.85x at turn 59, then smooth transition to Elite Four at 4.5x (Lorelei)
+  const baseMultiplier = 1.0 + (1.7 * Math.pow(progress, 4)) + (0.4 * Math.pow(progress, 3)) + (0.3 * progress * progress) + (0.6 * progress);
   return baseMultiplier * enemyStatMult;
 };
 

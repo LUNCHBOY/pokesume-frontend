@@ -149,13 +149,14 @@ export const getEvolutionFormForGrade = (pokemonName, stats) => {
   }
 
   // Grade thresholds for evolution (matching EVOLUTION_CONFIG in gameData.js)
-  // Stage 1 requires grade C or higher
-  // Stage 2 requires grade A or higher
-  const baseGrade = grade.replace('+', ''); // Normalize grade (remove + suffix)
-  const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S', 'UU'];
-  const gradeIndex = gradeOrder.indexOf(baseGrade);
-  const cIndex = gradeOrder.indexOf('C');  // Index 3
-  const aIndex = gradeOrder.indexOf('A');  // Index 5
+  // Stage 1 requires grade C or higher (C, C+, B, B+, A, A+, S, S+, UU, UU+)
+  // Stage 2 requires grade A or higher (A, A+, S, S+, UU, UU+)
+
+  // Full grade order with + variants for proper >= comparison
+  const gradeOrder = ['F', 'F+', 'E', 'E+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'UU', 'UU+'];
+  const gradeIndex = gradeOrder.indexOf(grade);
+  const cIndex = gradeOrder.indexOf('C');  // Index 6
+  const aIndex = gradeOrder.indexOf('A');  // Index 10
 
   // Determine which evolution form is appropriate
   if (chainData.stages === 2) {
@@ -164,7 +165,7 @@ export const getEvolutionFormForGrade = (pokemonName, stats) => {
       // Grade A or higher: fully evolved (stage2)
       return chainData.stage2;
     } else if (gradeIndex >= cIndex) {
-      // Grade C to B: middle evolution (stage1)
+      // Grade C or higher (but below A): middle evolution (stage1)
       return chainData.stage1;
     } else {
       // Below grade C: base form
