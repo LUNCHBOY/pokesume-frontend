@@ -46,14 +46,14 @@ import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 // HELPER FUNCTIONS
 // ============================================================================
 
-// Elite Four base multipliers - With ENEMY_STAT_MULTIPLIER at 1.0 and updated base stats (400 total)
-// Elite Four now use calculateBaseStats which gives them 400 total base stats
-// Cascades smoothly from turn 59 (3.99x) to Lance at S+ grade (2150 stats)
+// Elite Four base multipliers - Adjusted for actual base stat totals
+// Lorelei (Cloyster): 560 base, Bruno (Machamp): 520 base, Agatha (Gengar): 595 base, Lance (Dragonite): 590 base
+// Target grades: A (1750), A+ (1925), S (2100), S+ (2275)
 const ELITE_FOUR_BASE_MULTIPLIERS = {
-  0: 4.688,  // Lorelei (turn 60) - 1875 stats (A grade)
-  1: 5.000,  // Bruno (turn 61) - 2000 stats (A+ grade)
-  2: 5.250,  // Agatha (turn 62) - 2100 stats (S grade, low)
-  3: 5.500   // Lance (turn 63) - 2200 stats (S grade, Champion)
+  0: 3.125,  // Lorelei (turn 60) - 1750 stats (A grade)
+  1: 3.702,  // Bruno (turn 61) - 1925 stats (A+ grade)
+  2: 3.529,  // Agatha (turn 62) - 2100 stats (S grade)
+  3: 3.856   // Lance (turn 63) - 2275 stats (S+ grade, Champion)
 };
 
 /**
@@ -668,7 +668,11 @@ const CareerScreen = () => {
         ...careerData,
         pokemon: {
           ...evolutionData,
-          learnableAbilities: newLearnableAbilities
+          learnableAbilities: newLearnableAbilities,
+          strategy: careerData.pokemon.strategy, // Preserve player's selected strategy
+          strategyGrade: careerData.pokemon.strategyGrade, // Preserve strategy grade
+          typeAptitudes: careerData.pokemon.typeAptitudes, // Preserve player's aptitudes (may have been upgraded via inspirations)
+          strategyAptitudes: careerData.pokemon.strategyAptitudes // Preserve strategy aptitudes
         },
         currentStats: newStats,
         evolutionStage: toStage,
