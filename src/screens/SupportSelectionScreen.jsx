@@ -544,7 +544,8 @@ const SupportSelectionScreen = () => {
                   {/* Type Badge */}
                   <div className="flex items-center gap-2 mb-3">
                     {(() => {
-                      const primaryType = pokemonData.type;
+                      const pokemonData = POKEMON[selectedPokemon];
+                      const primaryType = pokemonData?.type;
                       const typeColorMap = {
                         Red: 'Fire',
                         Blue: 'Water',
