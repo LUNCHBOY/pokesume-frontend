@@ -1,4 +1,4 @@
-/**
+﻿/**
  * CareerEndScreen Component
  *
  * Displayed when the player completes all 60 turns.
@@ -37,7 +37,7 @@ const CareerEndScreen = () => {
   // Get the most recent trained pokemon (just added)
   const completedPokemon = trainedPokemon[trainedPokemon.length - 1];
 
-  const typeMap = { Red: 'Fire', Blue: 'Water', Green: 'Grass', Yellow: 'Electric', Purple: 'Psychic', Orange: 'Fighting' };
+  const typeMap = { Fire: 'Fire', Water: 'Water', Grass: 'Grass', Electric: 'Electric', Psychic: 'Psychic', Fighting: 'Fighting' };
 
   const handleReturn = () => {
     setGameState('menu');

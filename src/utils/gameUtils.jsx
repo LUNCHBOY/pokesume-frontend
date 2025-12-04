@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Game Utility Functions
  *
  * Collection of helper functions for Pokemon stats, colors, sprites, and grading.
@@ -14,12 +14,12 @@ import { EVOLUTION_CHAINS, GACHA_RARITY, normalizeSupportName } from '../shared/
 
 export const getTypeColor = (type) => {
   const colors = {
-    Red: '#dc2626',
-    Blue: '#2563eb',
-    Green: '#16a34a',
-    Purple: '#9333ea',
-    Yellow: '#ca8a04',
-    Orange: '#f97316',
+    Fire: '#dc2626',
+    Water: '#2563eb',
+    Grass: '#16a34a',
+    Psychic: '#9333ea',
+    Electric: '#ca8a04',
+    Fighting: '#f97316',
     Colorless: '#6b7280',
     Fire: '#dc2626',
     Water: '#2563eb',
@@ -69,6 +69,39 @@ export const getRarityColor = (rarity) => {
     Legendary: '#eab308'
   };
   return colors[rarity] || '#6b7280';
+};
+
+// ============================================================================
+// LIMIT BREAK UTILITIES
+// ============================================================================
+
+/**
+ * Calculates the stat bonus multiplier from limit break level
+ * Each limit break level adds 5% to base stats
+ * @param limitBreakLevel - The limit break level (0-4)
+ * @returns Multiplier (1.0, 1.05, 1.10, 1.15, 1.20)
+ */
+export const getLimitBreakMultiplier = (limitBreakLevel) => {
+  return 1 + (Math.min(4, Math.max(0, limitBreakLevel || 0)) * 0.05);
+};
+
+/**
+ * Applies limit break bonus to Pokemon base stats
+ * @param baseStats - The base stats object {HP, Attack, Defense, Instinct, Speed}
+ * @param limitBreakLevel - The limit break level (0-4)
+ * @returns New stats object with limit break bonus applied (rounded)
+ */
+export const applyLimitBreakToStats = (baseStats, limitBreakLevel) => {
+  if (!baseStats || !limitBreakLevel) return baseStats;
+
+  const multiplier = getLimitBreakMultiplier(limitBreakLevel);
+  const boostedStats = {};
+
+  for (const [stat, value] of Object.entries(baseStats)) {
+    boostedStats[stat] = Math.round(value * multiplier);
+  }
+
+  return boostedStats;
 };
 
 // ============================================================================

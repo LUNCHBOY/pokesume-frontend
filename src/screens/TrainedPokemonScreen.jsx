@@ -18,6 +18,7 @@ import {
 } from '../utils/gameUtils';
 import { TypeBadge, TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
 import { MOVES } from '../shared/gameData';
+import StatRadarChart from '../components/StatRadarChart';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -234,7 +235,9 @@ const TrainedPokemonScreen = () => {
           animate="visible"
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
         >
-          {sortedTrainedPokemon.map((trained, idx) => (
+          {sortedTrainedPokemon.map((trained, idx) => {
+            const statTotal = getStatTotal(trained.stats);
+            return (
             <motion.div
               key={trained.id || idx}
               variants={itemVariants}
@@ -253,12 +256,15 @@ const TrainedPokemonScreen = () => {
               <div className="flex justify-center my-1">
                 <TypeBadge type={trained.type} size={14} />
               </div>
-              <div className="flex justify-center mb-2">
+              <div className="flex items-center justify-center gap-1 mb-2">
                 <span
                   className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
                   style={{ backgroundColor: getGradeColor(trained.grade) }}
                 >
                   {trained.grade || '?'}
+                </span>
+                <span className="text-[10px] text-gray-500">
+                  {statTotal}
                 </span>
               </div>
               {/* Gyms Defeated & Date */}
@@ -332,7 +338,8 @@ const TrainedPokemonScreen = () => {
                 </div>
               )}
             </motion.div>
-          ))}
+          );
+          })}
         </motion.div>
 
         {/* Empty State */}
@@ -486,20 +493,7 @@ const TrainedPokemonScreen = () => {
                     {pokemon.stats && (
                       <div className="bg-pocket-bg rounded-xl p-3 mb-3">
                         <h4 className="font-bold text-pocket-text text-sm mb-2">Stats</h4>
-                        <div className="space-y-1.5 text-xs">
-                          {Object.entries(pokemon.stats).map(([stat, value]) => (
-                            <div key={stat} className="flex items-center gap-2">
-                              <span className="text-pocket-text-light w-16">{stat}</span>
-                              <div className="flex-1 bg-gray-200 rounded-full h-2">
-                                <div
-                                  className="h-2 rounded-full bg-pocket-blue"
-                                  style={{ width: `${Math.min(100, (value / 500) * 100)}%` }}
-                                />
-                              </div>
-                              <span className="font-bold text-pocket-text w-10 text-right">{value}</span>
-                            </div>
-                          ))}
-                        </div>
+                        <StatRadarChart stats={pokemon.stats} size={160} color="#3B82F6" />
                       </div>
                     )}
 

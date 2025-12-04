@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 
 const gameDataPath = path.join(__dirname, 'src', 'shared', 'gameData.js');
@@ -7,7 +7,7 @@ let gameDataContent = fs.readFileSync(gameDataPath, 'utf8');
 // Cards that need adjustment (>10% from tier average)
 const rebalanceChanges = {
   // LEGENDARY TIER (target: 149, tolerance 10% = 134-164)
-  Red: {
+  Fire: {
     // Currently 169.4 -> Target ~160 (reduce by ~9)
     // He's rare with high type pref, so reduce base stats by 7
     baseStats: { from: { HP: 0, Attack: 70, Defense: 0, Instinct: 10, Speed: 15 }, to: { HP: 0, Attack: 65, Defense: 0, Instinct: 10, Speed: 13 } }
@@ -44,7 +44,7 @@ const rebalanceChanges = {
     baseStats: { from: { HP: 0, Attack: 0, Defense: 0, Instinct: 60, Speed: 20 }, to: { HP: 0, Attack: 0, Defense: 0, Instinct: 58, Speed: 18 } },
     training: { from: { typeMatch: 6, otherStats: 3, maxFriendshipTypeMatch: 15 }, to: { typeMatch: 6, otherStats: 3, maxFriendshipTypeMatch: 14 } }
   },
-  Blue: {
+  Water: {
     // Currently 93.8 -> Target ~100 (increase by ~6)
     // Increase base stats by 4, training by 2
     baseStats: { from: { HP: 15, Attack: 17, Defense: 17, Instinct: 15, Speed: 6 }, to: { HP: 18, Attack: 18, Defense: 18, Instinct: 15, Speed: 7 } },
@@ -93,10 +93,10 @@ Object.entries(rebalanceChanges).forEach(([cardName, changes]) => {
 
     if (gameDataContent.includes(fromStr)) {
       gameDataContent = gameDataContent.replace(fromStr, toStr);
-      console.log(`✓ Updated ${cardName} base stats`);
+      console.log(`âœ“ Updated ${cardName} base stats`);
       changesApplied++;
     } else {
-      console.log(`✗ Could not find ${cardName} base stats pattern`);
+      console.log(`âœ— Could not find ${cardName} base stats pattern`);
     }
   }
 
@@ -108,10 +108,10 @@ Object.entries(rebalanceChanges).forEach(([cardName, changes]) => {
 
     if (gameDataContent.includes(fromStr)) {
       gameDataContent = gameDataContent.replace(fromStr, toStr);
-      console.log(`✓ Updated ${cardName} training bonuses`);
+      console.log(`âœ“ Updated ${cardName} training bonuses`);
       changesApplied++;
     } else {
-      console.log(`✗ Could not find ${cardName} training pattern`);
+      console.log(`âœ— Could not find ${cardName} training pattern`);
     }
   }
 });
@@ -119,5 +119,5 @@ Object.entries(rebalanceChanges).forEach(([cardName, changes]) => {
 // Write updated content
 fs.writeFileSync(gameDataPath, gameDataContent, 'utf8');
 
-console.log(`\n✓ Applied ${changesApplied} changes to gameData.js`);
+console.log(`\nâœ“ Applied ${changesApplied} changes to gameData.js`);
 console.log('\nRun analyze-support-comprehensive.js again to verify the new balance.');

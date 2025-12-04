@@ -23,6 +23,7 @@ import {
 } from '../utils/gameUtils';
 import { TypeBadge, TypeIcon } from '../components/TypeIcon';
 import { MOVES } from '../shared/gameData';
+import StatRadarChart from '../components/StatRadarChart';
 import { apiEnterTournament, apiGetTournamentDetails, apiGetTournamentBracket } from '../services/apiService';
 import ProfileIcon from '../components/ProfileIcon';
 import UserProfileModal from '../components/UserProfileModal';
@@ -772,20 +773,7 @@ const TournamentDetailsScreen = () => {
                     {pokemon.stats && (
                       <div className="bg-pocket-bg rounded-xl p-3 mb-3">
                         <h4 className="font-bold text-pocket-text text-sm mb-2">Stats</h4>
-                        <div className="space-y-1.5 text-xs">
-                          {Object.entries(pokemon.stats).map(([stat, value]) => (
-                            <div key={stat} className="flex items-center gap-2">
-                              <span className="text-pocket-text-light w-16">{stat}</span>
-                              <div className="flex-1 bg-gray-200 rounded-full h-2">
-                                <div
-                                  className="h-2 rounded-full bg-pocket-blue"
-                                  style={{ width: `${Math.min(100, (value / 500) * 100)}%` }}
-                                />
-                              </div>
-                              <span className="font-bold text-pocket-text w-10 text-right">{value}</span>
-                            </div>
-                          ))}
-                        </div>
+                        <StatRadarChart stats={pokemon.stats} size={160} color="#3B82F6" />
                       </div>
                     )}
 

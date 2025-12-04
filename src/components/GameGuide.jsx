@@ -76,11 +76,12 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
             battling gym leaders and ultimately the Elite Four.
           </p>
           <div className="space-y-1 text-pocket-text-light">
-            <p>• Collect Pokemon and Support Cards through the Gacha system</p>
-            <p>• Train your Pokemon's stats over 60 turns</p>
+            <p>• Collect Pokemon and Support Cards through Gacha</p>
+            <p>• Train stats over 60 turns with Support Card bonuses</p>
             <p>• Battle Gym Leaders at turns 12, 24, 36, and 48</p>
             <p>• Face the Elite Four gauntlet at turns 60-63</p>
-            <p>• Previously trained Pokemon provide Inspiration bonuses</p>
+            <p>• Hall of Fame Pokemon provide Inspiration bonuses</p>
+            <p>• Compete in PvP and Tournaments with trained Pokemon</p>
           </div>
         </div>
       </GuideSection>
@@ -116,7 +117,7 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
           <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
             <p><strong>Damage:</strong> Base × (ATK/DEF) × Aptitude × Type × Crit</p>
             <p><strong>Crit Chance:</strong> 5% + (Instinct / 800)</p>
-            <p><strong>Dodge Chance:</strong> 1% + (Instinct / 2400) [while resting]</p>
+            <p><strong>Dodge Chance:</strong> 1% + (Instinct / 2786) [while resting]</p>
             <p><strong>Stamina Regen:</strong> 1 + (Speed / 15) per tick</p>
           </div>
         </SubSection>
@@ -127,12 +128,12 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
         <SubSection title="Type Matchups">
           <p className="mb-2">Super effective attacks deal <strong className="text-pocket-green">+25% damage</strong>. Resisted attacks deal <strong className="text-pocket-red">-25% damage</strong>.</p>
           <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
-            <p><strong className="text-orange-500">Fire (Red)</strong> → strong vs Grass, weak vs Water</p>
-            <p><strong className="text-blue-500">Water (Blue)</strong> → strong vs Fire, weak vs Grass</p>
-            <p><strong className="text-green-500">Grass (Green)</strong> → strong vs Water, weak vs Fire</p>
-            <p><strong className="text-yellow-500">Electric (Yellow)</strong> → strong vs Water, weak vs Grass</p>
-            <p><strong className="text-purple-500">Psychic (Purple)</strong> → strong vs Fighting, weak vs Psychic</p>
-            <p><strong className="text-orange-600">Fighting (Orange)</strong> → strong vs Electric, weak vs Psychic</p>
+            <p><strong className="text-orange-500">Fire</strong> → strong vs Grass, weak vs Water</p>
+            <p><strong className="text-blue-500">Water</strong> → strong vs Fire, weak vs Grass</p>
+            <p><strong className="text-green-500">Grass</strong> → strong vs Water, weak vs Fire</p>
+            <p><strong className="text-yellow-500">Electric</strong> → strong vs Psychic, weak vs Psychic</p>
+            <p><strong className="text-purple-500">Psychic</strong> → strong vs Fighting, weak vs Psychic</p>
+            <p><strong className="text-orange-600">Fighting</strong> → strong vs Electric, weak vs Psychic</p>
           </div>
         </SubSection>
 
@@ -257,9 +258,9 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
 
         <SubSection title="Wild Battles">
           <div className="space-y-1">
-            <p><strong className="text-green-500">Victory:</strong> +5 all stats, +10 Skill Points</p>
+            <p><strong className="text-green-500">Victory:</strong> +15 to one random stat, +20 Skill Points</p>
             <p><strong className="text-orange-500">Cost:</strong> -25 energy</p>
-            <p><strong className="text-red-500">At 0 energy:</strong> 50% chance to lose 10 all stats on loss</p>
+            <p>Wild battles are optional but great for skill points</p>
           </div>
         </SubSection>
 
@@ -365,11 +366,10 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
         </SubSection>
 
         <SubSection title="Earning Primos">
-          <div className="space-y-1">
-            <p>• Completing career runs</p>
-            <p>• Defeating gym leaders</p>
-            <p>• Tournament victories</p>
-            <p>• Daily rewards</p>
+          <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
+            <p><strong>Career:</strong> 100 per Gym/Elite Four victory, 200 Champion bonus</p>
+            <p><strong>PvP:</strong> 100 per ranked match (win or loss)</p>
+            <p><strong>Tournaments:</strong> 10K (1st), 5K (2nd), 1K (3rd/4th), 100 (participation)</p>
           </div>
         </SubSection>
       </GuideSection>
@@ -377,7 +377,7 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
       {/* Tournaments */}
       <GuideSection title="Tournaments" icon={Medal} iconColor="text-indigo-500">
         <SubSection title="Overview">
-          <p>Compete with your trained Pokemon against other players' teams in bracket-style tournaments.</p>
+          <p>Compete with trained Pokemon against other players in bracket-style tournaments. New tournaments start every 12 hours.</p>
         </SubSection>
 
         <SubSection title="Entry Requirements">
@@ -390,18 +390,34 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
 
         <SubSection title="Gym-Themed Tournaments">
           <div className="bg-pocket-bg rounded p-2 text-xs space-y-1">
-            <p>Some tournaments feature gym leader themes that provide bonuses:</p>
-            <p>• Pokemon matching the gym's type get <strong className="text-green-500">stat bonuses</strong></p>
-            <p>• Themed tournaments encourage type-diverse rosters</p>
-            <p>• Check tournament details for active bonuses</p>
+            <p>Tournaments feature gym leader themes:</p>
+            <p>• Pokemon matching the gym's type get stat bonuses</p>
+            <p>• Train diverse types for better tournament coverage</p>
           </div>
         </SubSection>
 
         <SubSection title="Rewards">
+          <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
+            <p><strong className="text-amber-500">1st Place:</strong> 10,000 Primos + Badge</p>
+            <p><strong className="text-gray-400">2nd Place:</strong> 5,000 Primos</p>
+            <p><strong className="text-orange-600">3rd/4th:</strong> 1,000 Primos</p>
+            <p><strong className="text-pocket-text-light">Participation:</strong> 100 Primos</p>
+          </div>
+        </SubSection>
+      </GuideSection>
+
+      {/* PvP */}
+      <GuideSection title="PvP Battles" icon={Swords} iconColor="text-red-600">
+        <SubSection title="Overview">
+          <p>Battle other players' trained Pokemon in real-time matchmaking. Uses your Hall of Fame Pokemon.</p>
+        </SubSection>
+
+        <SubSection title="How It Works">
           <div className="space-y-1">
-            <p>• Primos based on placement</p>
-            <p>• Tournament trophies</p>
-            <p>• Leaderboard ranking</p>
+            <p>• Select a trained Pokemon from your Hall of Fame</p>
+            <p>• Matchmaking finds an opponent near your rating</p>
+            <p>• Both players earn <strong className="text-amber-500">100 Primos</strong> per match</p>
+            <p>• Rating changes based on win/loss</p>
           </div>
         </SubSection>
       </GuideSection>
@@ -411,17 +427,18 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
         <SubSection title="How Evolution Works">
           <div className="space-y-1">
             <p>• Some Pokemon can evolve during career runs</p>
-            <p>• Evolution triggers when stat thresholds are met</p>
-            <p>• <strong className="text-green-500">+10% to all stats</strong> upon evolving</p>
-            <p>• May unlock new learnable abilities</p>
+            <p>• Evolution triggers when reaching grade thresholds</p>
+            <p>• <strong className="text-green-500">Stage 1→2:</strong> Reach C grade (5% stat boost)</p>
+            <p>• <strong className="text-green-500">Stage 2→3:</strong> Reach A grade (5% stat boost)</p>
+            <p>• Single-stage evolutions give 10% boost</p>
           </div>
         </SubSection>
 
-        <SubSection title="Evolution Stages">
+        <SubSection title="Evolution Benefits">
           <div className="space-y-1">
-            <p>• Stage 1 → Stage 2: Early-mid career</p>
-            <p>• Stage 2 → Stage 3: Mid-late career</p>
-            <p>• Not all Pokemon have evolutions</p>
+            <p>• Base Pokemon (no evolution) have 1.5x base stats</p>
+            <p>• 1-stage evolution Pokemon have 1.25x base stats</p>
+            <p>• 2-stage Pokemon start weaker but can reach full power</p>
           </div>
         </SubSection>
       </GuideSection>
@@ -430,48 +447,47 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
       <GuideSection title="Tips & Strategies" icon={Brain} iconColor="text-teal-500">
         <SubSection title="Early Game (Turns 1-12)">
           <div className="space-y-1">
-            <p>• Focus on 2-3 key stats initially (Attack + HP/Defense)</p>
+            <p>• Focus on 2-3 key stats (Attack + HP or Defense)</p>
             <p>• Don't let energy drop below 20 - rest proactively</p>
-            <p>• Prioritize supports matching your main training stats</p>
-            <p>• Win wild battles for +5 all stats and skill points</p>
+            <p>• Match supports to your main training stats</p>
+            <p>• Wild battles give +15 to random stat and +20 skill points</p>
           </div>
         </SubSection>
 
         <SubSection title="Mid Game (Turns 13-48)">
           <div className="space-y-1">
-            <p>• Learn abilities that match your best type aptitudes</p>
-            <p>• Use move hints to save Skill Points (up to 60% discount)</p>
-            <p>• Get supports to 100 friendship for major stat bonuses</p>
-            <p>• Collect Pokeclocks for emergency turn extensions</p>
+            <p>• Learn abilities matching your best type aptitudes</p>
+            <p>• Use move hints to save Skill Points (up to 60% off)</p>
+            <p>• Get supports to 100 friendship for major bonuses</p>
+            <p>• Collect Pokeclocks for gym battle retries</p>
           </div>
         </SubSection>
 
         <SubSection title="Late Game (Turns 49-63)">
           <div className="space-y-1">
-            <p>• Prepare for Elite Four gauntlet (4 consecutive battles)</p>
-            <p>• Ensure type coverage in abilities for different matchups</p>
-            <p>• HP and Defense help survive the longer Elite Four fights</p>
-            <p>• Use remaining Pokeclocks before Elite Four if needed</p>
+            <p>• Prepare for Elite Four (4 consecutive battles)</p>
+            <p>• Ensure type coverage for different matchups</p>
+            <p>• HP/Defense help survive longer Elite Four fights</p>
+            <p>• Gym victories give +10 all stats, Elite Four +20</p>
           </div>
         </SubSection>
 
         <SubSection title="Strategy Tips">
           <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
-            <p><strong>Nuker Pokemon:</strong> Front-load damage, great for quick wins</p>
-            <p><strong>Scaler Pokemon:</strong> Better sustained DPS, good for longer fights</p>
-            <p><strong>Chipper Pokemon:</strong> Rapid attacks, excellent stamina efficiency</p>
-            <p><strong>High Instinct:</strong> More crits (5% + Inst/800) and dodges while resting</p>
-            <p><strong>High Speed:</strong> Faster stamina regen = more ability usage</p>
+            <p><strong>Nuker:</strong> Front-load damage, great for quick wins</p>
+            <p><strong>Scaler:</strong> Buff first, sustained DPS for longer fights</p>
+            <p><strong>Chipper:</strong> Rapid attacks, excellent stamina efficiency</p>
+            <p><strong>Limit Break:</strong> +5% stats per level (max +20%)</p>
             <p><strong>Type Advantage:</strong> +25% damage when super effective</p>
           </div>
         </SubSection>
 
         <SubSection title="Hall of Fame Tips">
           <div className="bg-pocket-bg rounded p-2 space-y-1 text-xs">
-            <p>• Train diverse Pokemon types for better Inspiration coverage</p>
-            <p>• Gym defeats (0-7) are tracked for each Pokemon</p>
-            <p>• Stronger Hall of Fame Pokemon = better Inspiration bonuses</p>
-            <p>• Tournament eligibility requires Hall of Fame entries</p>
+            <p>• Train diverse types for Inspiration and Tournament coverage</p>
+            <p>• Gyms defeated (0-7) tracked per Pokemon</p>
+            <p>• Stronger Pokemon = better Inspiration bonuses</p>
+            <p>• Hall of Fame needed for PvP and Tournaments</p>
           </div>
         </SubSection>
       </GuideSection>

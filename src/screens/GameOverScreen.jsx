@@ -1,4 +1,4 @@
-/**
+﻿/**
  * GameOverScreen Component
  *
  * Displayed when the player is defeated by a gym leader.
@@ -125,7 +125,7 @@ const GameOverScreen = () => {
   const { setGameState, setSelectedPokemon, setSelectedSupports, completedCareerData, setCompletedCareerData } = useGame();
   const { loadTrainedPokemon } = useInventory();
 
-  const typeMap = { Red: 'Fire', Blue: 'Water', Green: 'Grass', Yellow: 'Electric', Purple: 'Psychic', Orange: 'Fighting' };
+  const typeMap = { Fire: 'Fire', Water: 'Water', Grass: 'Grass', Electric: 'Electric', Psychic: 'Psychic', Fighting: 'Fighting' };
 
   // Use inspirations from completedCareerData (generated in BattleScreen before career completion)
   // Fall back to generating locally if not available

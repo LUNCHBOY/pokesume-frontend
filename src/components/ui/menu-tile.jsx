@@ -12,8 +12,8 @@ const MenuTile = React.forwardRef(
         whileHover={{ scale: disabled ? 1 : 1.02, y: disabled ? 0 : -2 }}
         whileTap={{ scale: disabled ? 1 : 0.98 }}
         className={cn(
-          "relative flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-white",
-          "w-full aspect-square",
+          "relative flex flex-col items-center justify-center gap-1 p-4 rounded-2xl bg-white",
+          "w-full aspect-square overflow-hidden",
           "shadow-card",
           "transition-all duration-200",
           "hover:shadow-card-hover",
@@ -25,29 +25,30 @@ const MenuTile = React.forwardRef(
       >
         {/* Icon container - cleaner circular style */}
         <div
-          className="w-12 h-12 rounded-full flex items-center justify-center"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0"
           style={{
             backgroundColor: `${iconColor}18`,
           }}
         >
           {typeof Icon === 'string' ? (
-            <img src={Icon} alt="" className="w-6 h-6 object-contain" />
+            <img src={Icon} alt="" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
           ) : Icon ? (
-            <Icon size={24} style={{ color: iconColor }} strokeWidth={2} />
+            <Icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: iconColor }} strokeWidth={2} />
           ) : null}
         </div>
 
         {/* Label */}
-        <span className="text-pocket-text font-semibold text-sm text-center leading-tight">
+        <span className="text-pocket-text font-semibold text-xs sm:text-sm text-center leading-tight flex-shrink-0">
           {label}
         </span>
 
-        {/* Count (replaces badge) */}
-        {count !== undefined && (
-          <span className="text-pocket-text-light font-medium text-[10px]">
-            {count} {count === 1 ? 'item' : 'items'}
-          </span>
-        )}
+        {/* Count (replaces badge) - always reserve space */}
+        <span className={cn(
+          "font-medium text-[10px] flex-shrink-0",
+          count !== undefined ? "text-pocket-text-light" : "invisible"
+        )}>
+          {count !== undefined ? `${count} ${count === 1 ? 'item' : 'items'}` : '\u00A0'}
+        </span>
       </motion.button>
     );
   }
