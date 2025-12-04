@@ -37,7 +37,8 @@ import {
   EVOLUTION_CHAINS,
   EVOLUTION_CONFIG,
   ELITE_FOUR,
-  normalizeSupportName
+  normalizeSupportName,
+  getSupportAtLimitBreak
 } from '../shared/gameData';
 import { getSupportImageWithConfig, getGymLeaderImage } from '../constants/trainerImages';
 import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
@@ -477,11 +478,15 @@ const checkAndApplyInspiration = (turn, selectedInspirations, currentStats, curr
 /**
  * Get support card attributes using the card's actual trainingBonus values
  * Must match backend career.js getSupportCardAttributes
+ * @param {string} supportKey - Support card name
+ * @param {number} limitBreakLevel - Limit break level (0-4), defaults to 4 (max)
  */
-const getSupportCardAttributes = (supportKey) => {
+const getSupportCardAttributes = (supportKey, limitBreakLevel = 4) => {
   // Normalize legacy support names to new format
   const normalizedKey = normalizeSupportName(supportKey);
-  const card = SUPPORT_CARDS[normalizedKey];
+
+  // Get the limit break adjusted card
+  const card = getSupportAtLimitBreak(normalizedKey, limitBreakLevel);
   if (!card) return null;
 
   // Extract training bonuses from card's trainingBonus object
@@ -1831,7 +1836,7 @@ const CareerScreen = () => {
               animate={{ opacity: 1, scale: 1 }}
               className={`rounded-2xl p-4 shadow-card ${
                 careerData.pendingEvent.type === 'hangout'
-                  ? 'rainbow-sheen'
+                  ? 'rainbow-sheen text-center'
                   : 'bg-white border-l-4 border-amber-500'
               }`}
             >
@@ -2551,7 +2556,9 @@ const CareerScreen = () => {
                     let statGain = GAME_CONFIG.TRAINING.BASE_STAT_GAINS[stat];
                     let energyRegenBonus = 0; // Bonus energy for Speed training from support cards
                     option.supports.forEach(supportName => {
-                      const support = getSupportCardAttributes(supportName);
+                      // Get limit break level for this support
+                      const lbLevel = careerData.supportLimitBreaks?.[supportName] || 0;
+                      const support = getSupportCardAttributes(supportName, lbLevel);
                       if (!support) return;
 
                       const initialFriendship = support?.initialFriendship || 0;
@@ -2565,12 +2572,9 @@ const CareerScreen = () => {
                         statGain += support.generalBonusTraining;
                       }
 
-                      // Collect energy regen bonus for Speed training
-                      if (stat === 'Speed') {
-                        const supportCard = SUPPORT_CARDS[normalizeSupportName(supportName)];
-                        if (supportCard?.specialEffect?.energyRegenBonus) {
-                          energyRegenBonus += supportCard.specialEffect.energyRegenBonus;
-                        }
+                      // Collect energy regen bonus for Speed training (use LB-adjusted card)
+                      if (stat === 'Speed' && support.specialEffect?.energyRegenBonus) {
+                        energyRegenBonus += support.specialEffect.energyRegenBonus;
                       }
                     });
 
@@ -2578,16 +2582,6 @@ const CareerScreen = () => {
                     const trainingLevel = careerData.trainingLevels?.[stat] || 0;
                     const levelBonus = trainingLevel * (GAME_CONFIG.TRAINING.LEVEL_BONUS_MULTIPLIER || 0.10);
                     statGain = Math.floor(statGain * (1 + levelBonus));
-
-                    // Apply limit break bonus from support cards (+5% per limit break level)
-                    let totalLimitBreakBonus = 0;
-                    option.supports.forEach(supportName => {
-                      const lbLevel = careerData.supportLimitBreaks?.[supportName] || 0;
-                      totalLimitBreakBonus += lbLevel * 0.05; // 5% per level per support
-                    });
-                    if (totalLimitBreakBonus > 0) {
-                      statGain = Math.floor(statGain * (1 + totalLimitBreakBonus));
-                    }
 
                     // Get training progress
                     const trainingProgress = careerData.trainingProgress?.[stat] || 0;
