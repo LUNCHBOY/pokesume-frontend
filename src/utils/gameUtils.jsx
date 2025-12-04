@@ -111,22 +111,22 @@ export const applyLimitBreakToStats = (baseStats, limitBreakLevel) => {
 export const getPokemonGrade = (stats) => {
   const totalStats = Object.values(stats).reduce((sum, val) => sum + val, 0);
 
-  // Each grade is 175 stat points apart, starting from F at <400
-  if (totalStats >= 2625) return 'UU+';
-  if (totalStats >= 2450) return 'UU';
-  if (totalStats >= 2275) return 'S+';
-  if (totalStats >= 2100) return 'S';
-  if (totalStats >= 1925) return 'A+';
-  if (totalStats >= 1750) return 'A';
-  if (totalStats >= 1575) return 'B+';
-  if (totalStats >= 1400) return 'B';
-  if (totalStats >= 1225) return 'C+';
-  if (totalStats >= 1050) return 'C';
-  if (totalStats >= 875) return 'D+';
-  if (totalStats >= 700) return 'D';
-  if (totalStats >= 575) return 'E+';
+  // Each grade is 200 stat points apart, starting from F at <400
+  if (totalStats >= 3000) return 'UU+';
+  if (totalStats >= 2800) return 'UU';
+  if (totalStats >= 2600) return 'S+';
+  if (totalStats >= 2400) return 'S';
+  if (totalStats >= 2200) return 'A+';
+  if (totalStats >= 2000) return 'A';
+  if (totalStats >= 1800) return 'B+';
+  if (totalStats >= 1600) return 'B';
+  if (totalStats >= 1400) return 'C+';
+  if (totalStats >= 1200) return 'C';
+  if (totalStats >= 1000) return 'D+';
+  if (totalStats >= 800) return 'D';
+  if (totalStats >= 600) return 'E+';
   if (totalStats >= 400) return 'E';
-  if (totalStats >= 225) return 'F+';
+  if (totalStats >= 200) return 'F+';
   return 'F';
 };
 
