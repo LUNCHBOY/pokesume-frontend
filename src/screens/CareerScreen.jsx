@@ -1970,7 +1970,7 @@ const CareerScreen = () => {
 
                 {careerData.pendingEvent.type === 'hangout' && careerData.pendingEvent.supportName && careerData.pendingEvent.effect && (
                   <div className="space-y-3">
-                    <div className="rainbow-sheen p-3 rounded">
+                    <div className="rainbow-sheen p-3 rounded text-center">
                       <div className="font-bold text-gray-800 mb-2 text-lg">Special Hangout with {SUPPORT_CARDS[normalizeSupportName(careerData.pendingEvent.supportName)]?.name || careerData.pendingEvent.supportName}!</div>
                       <div className="font-semibold text-gray-700 mb-1">{careerData.pendingEvent.name}</div>
                       <div className="text-sm text-gray-600 mb-3">
