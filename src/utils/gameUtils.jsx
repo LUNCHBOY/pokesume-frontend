@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Heart, Shield, Sparkles, Swords, Wind } from 'lucide-react';
-import { EVOLUTION_CHAINS, GACHA_RARITY, normalizeSupportName } from '../shared/gameData';
+import { EVOLUTION_CHAINS, GACHA_RARITY, normalizeSupportName, getSupportAtLimitBreak } from '../shared/gameData';
 
 // ============================================================================
 // COLOR UTILITIES
@@ -594,9 +594,8 @@ export const getSupportCardAttributes = (supportKey, SUPPORT_CARDS, limitBreakLe
   const card = SUPPORT_CARDS[normalizedKey];
   if (!card) return null;
 
-  // Get limit break adjusted card if available
-  const { getSupportAtLimitBreak } = require('../shared/gameData');
-  const lbCard = getSupportAtLimitBreak ? getSupportAtLimitBreak(normalizedKey, limitBreakLevel) : card;
+  // Get limit break adjusted card
+  const lbCard = getSupportAtLimitBreak(normalizedKey, limitBreakLevel);
   const effectiveCard = lbCard || card;
 
   // New structure uses:
