@@ -17,6 +17,30 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BACKEND_DIR = path.resolve(__dirname, '../../../pokesume backend/pokesume-backend/shared/gamedata');
 const FRONTEND_DIR = path.resolve(__dirname, '../src/shared/gamedata');
 
+// Check if backend is accessible (won't exist during Vercel builds)
+const backendExists = fs.existsSync(BACKEND_DIR);
+if (!backendExists) {
+  console.log('Backend gamedata not found (expected during Vercel builds).');
+  console.log('Using existing frontend gamedata files.');
+  // Ensure gameData.js re-export file exists
+  const mainFilePath = path.resolve(__dirname, '../src/shared/gameData.js');
+  if (!fs.existsSync(mainFilePath)) {
+    const mainFileContent = `/**
+ * GAME DATA
+ *
+ * This file re-exports all game data from the split modules in ./gamedata/
+ * Synced from backend by scripts/sync-gamedata.js
+ */
+
+export * from './gamedata/index';
+`;
+    fs.writeFileSync(mainFilePath, mainFileContent, 'utf8');
+    console.log('Created: src/shared/gameData.js');
+  }
+  console.log('Done!');
+  process.exit(0);
+}
+
 // Files to sync and their exports
 const FILES = {
   'config.js': ['ICONS', 'EVOLUTION_CONFIG', 'EVOLUTION_CHAINS', 'GAME_CONFIG', 'calculateBaseStats'],
