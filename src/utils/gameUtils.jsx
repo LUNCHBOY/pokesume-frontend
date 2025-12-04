@@ -461,6 +461,44 @@ export const checkAndApplyInspiration = (turn, selectedInspirations, currentStat
 
 const spriteCache = {};
 
+// Pokemon that require specific form names for PokeAPI
+// Format: 'GameName': 'pokeapi-name'
+const POKEAPI_NAME_OVERRIDES = {
+  // Size forms - default to average/normal
+  'Pumpkaboo': 'pumpkaboo-average',
+  'Gourgeist': 'gourgeist-average',
+  // Gender forms - default to male
+  'Meowstic': 'meowstic-male',
+  'Indeedee': 'indeedee-male',
+  // Battle forms - default to standard
+  'Aegislash': 'aegislash-shield',
+  'Mimikyu': 'mimikyu-disguised',
+  'Morpeko': 'morpeko-full-belly',
+  'Wishiwashi': 'wishiwashi-solo',
+  'Minior': 'minior-red-meteor',
+  'Eiscue': 'eiscue-ice',
+  // Regional forms
+  'Basculin': 'basculin-red-striped',
+  // Misc forms
+  'Lycanroc': 'lycanroc-midday',
+  'Oricorio': 'oricorio-baile',
+  'Wormadam': 'wormadam-plant',
+  'Darmanitan': 'darmanitan-standard',
+  'Toxtricity': 'toxtricity-amped',
+  'Urshifu': 'urshifu-single-strike',
+  'Zygarde': 'zygarde-50',
+  'Shaymin': 'shaymin-land',
+  'Giratina': 'giratina-altered',
+  'Deoxys': 'deoxys-normal',
+  'Hoopa': 'hoopa-confined',
+  'Keldeo': 'keldeo-ordinary',
+  'Meloetta': 'meloetta-aria',
+  'Tornadus': 'tornadus-incarnate',
+  'Thundurus': 'thundurus-incarnate',
+  'Landorus': 'landorus-incarnate',
+  'Enamorus': 'enamorus-incarnate',
+};
+
 export const PokemonSprite = ({ type, pokemonName, size = 64 }) => {
   const [spriteUrl, setSpriteUrl] = React.useState(spriteCache[pokemonName] || null);
 
@@ -477,7 +515,10 @@ export const PokemonSprite = ({ type, pokemonName, size = 64 }) => {
       return;
     }
 
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
+    // Use override name if this Pokemon has form variants in PokeAPI
+    const apiName = POKEAPI_NAME_OVERRIDES[pokemonName] || pokemonName.toLowerCase();
+
+    fetch(`https://pokeapi.co/api/v2/pokemon/${apiName}`)
       .then(res => res.json())
       .then(data => {
         // Use Black & White animated sprites, fallback to static front_default

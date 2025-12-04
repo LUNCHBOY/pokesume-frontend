@@ -292,27 +292,27 @@ const getMoveDescription = (move) => {
 
       // Weather effects
       case 'weather_sand':
-        parts.push('summons sandstorm');
+        parts.push('sandstorm (chip damage)');
         break;
       case 'weather_rain':
-        parts.push('summons rain');
+        parts.push('rain (+50% Water)');
         break;
       case 'weather_sun':
-        parts.push('intensifies sunlight');
+        parts.push('sun (+50% Fire)');
         break;
       case 'weather_hail':
-        parts.push('summons hail');
+        parts.push('hail (chip damage)');
         break;
 
       // Terrain effects
       case 'terrain_psychic':
-        parts.push('sets psychic terrain');
+        parts.push('psychic terrain (+50% Psychic)');
         break;
       case 'terrain_electric':
-        parts.push('sets electric terrain');
+        parts.push('electric terrain (+50% Electric)');
         break;
       case 'terrain_grassy':
-        parts.push('sets grassy terrain');
+        parts.push('grassy terrain (+50% Grass)');
         break;
 
       // Unique/special effects
@@ -1829,7 +1829,11 @@ const CareerScreen = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-2xl p-4 shadow-card border-l-4 border-amber-500"
+              className={`bg-white rounded-2xl p-4 shadow-card ${
+                careerData.pendingEvent.type === 'hangout'
+                  ? 'rainbow-border'
+                  : 'border-l-4 border-amber-500'
+              }`}
             >
               <h3 className="text-lg font-bold mb-2 text-pocket-text">{careerData.pendingEvent.name}</h3>
               <p className="text-pocket-text-light mb-4 text-sm">{careerData.pendingEvent.description}</p>
@@ -2189,8 +2193,13 @@ const CareerScreen = () => {
                             {move.effect.type === 'heal_self' && `Heal ${Math.round((move.effect.healPercent || 0.5) * 100)}%`}
                             {move.effect.type === 'badly_poison' && `Bad Poison`}
                             {move.effect.type === 'regen' && `Regen`}
-                            {move.effect.type?.startsWith('weather_') && `Weather`}
-                            {move.effect.type?.startsWith('terrain_') && `Terrain`}
+                            {move.effect.type === 'weather_rain' && `Rain: +50% Water`}
+                            {move.effect.type === 'weather_sun' && `Sun: +50% Fire`}
+                            {move.effect.type === 'weather_sand' && `Sandstorm: Chip DMG`}
+                            {move.effect.type === 'weather_hail' && `Hail: Chip DMG`}
+                            {move.effect.type === 'terrain_electric' && `Terrain: +50% Electric`}
+                            {move.effect.type === 'terrain_grassy' && `Terrain: +50% Grass`}
+                            {move.effect.type === 'terrain_psychic' && `Terrain: +50% Psychic`}
                           </div>
                         )}
                       </div>
@@ -2431,8 +2440,13 @@ const CareerScreen = () => {
                                 {move.effect.type === 'debuff_attack_self' && `Self -Atk`}
                                 {move.effect.type === 'heal_self' && `Heal ${Math.round((move.effect.healPercent || 0.5) * 100)}%`}
                                 {move.effect.type === 'badly_poison' && `Bad Poison`}
-                                {move.effect.type?.startsWith('weather_') && `Weather`}
-                                {move.effect.type?.startsWith('terrain_') && `Terrain`}
+                                {move.effect.type === 'weather_rain' && `Rain: +50% Water`}
+                                {move.effect.type === 'weather_sun' && `Sun: +50% Fire`}
+                                {move.effect.type === 'weather_sand' && `Sandstorm: Chip DMG`}
+                                {move.effect.type === 'weather_hail' && `Hail: Chip DMG`}
+                                {move.effect.type === 'terrain_electric' && `Terrain: +50% Electric`}
+                                {move.effect.type === 'terrain_grassy' && `Terrain: +50% Grass`}
+                                {move.effect.type === 'terrain_psychic' && `Terrain: +50% Psychic`}
                                 {move.effect.type === 'buff_crit' && `+Crit Rate`}
                               </div>
                             )}
