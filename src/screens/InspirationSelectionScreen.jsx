@@ -269,20 +269,11 @@ const InspirationSelectionScreen = () => {
                   {(() => {
                     const pokemonData = POKEMON[selectedPokemon];
                     const primaryType = pokemonData?.primaryType;
-                    const typeColorMap = {
-                      Red: 'Fire',
-                      Blue: 'Water',
-                      Green: 'Grass',
-                      Purple: 'Psychic',
-                      Yellow: 'Electric',
-                      Orange: 'Fighting'
-                    };
-                    const typeName = typeColorMap[primaryType] || primaryType;
                     const typeGrade = modifiedData.typeAptitudes?.[primaryType] || 'F';
 
                     return (
                       <span className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-pocket-text text-sm font-bold rounded">
-                        <TypeIcon type={typeName} size={16} />
+                        <TypeIcon type={primaryType} size={16} />
                         <span style={{ color: getAptitudeColor(typeGrade) }}>{typeGrade}</span>
                       </span>
                     );
@@ -308,20 +299,12 @@ const InspirationSelectionScreen = () => {
 
                 {/* Type Aptitudes */}
                 <div className="flex flex-wrap gap-2 mb-2 text-xs">
-                  {Object.entries(modifiedData.typeAptitudes).map(([color, grade]) => {
-                    const hasUpgrade = modifiedData.aptitudeUpgrades[color];
-                    const typeMap = {
-                      Red: 'Fire',
-                      Blue: 'Water',
-                      Green: 'Grass',
-                      Purple: 'Psychic',
-                      Yellow: 'Electric',
-                      Orange: 'Fighting'
-                    };
-                    const type = typeMap[color];
+                  {['Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Fighting'].map((type) => {
+                    const grade = modifiedData.typeAptitudes[type] || 'F';
+                    const hasUpgrade = modifiedData.aptitudeUpgrades[type];
 
                     return (
-                      <span key={color} className={`inline-flex items-center gap-0.5 ${hasUpgrade ? 'text-orange-500' : ''}`}>
+                      <span key={type} className={`inline-flex items-center gap-0.5 ${hasUpgrade ? 'text-orange-500' : ''}`}>
                         <TypeIcon type={type} size={14} />
                         <span style={{ color: hasUpgrade ? '#f97316' : getAptitudeColor(grade), fontWeight: 'bold' }}>{grade}</span>
                       </span>
