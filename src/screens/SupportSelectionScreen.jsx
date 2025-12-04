@@ -415,7 +415,8 @@ const SupportSelectionScreen = () => {
 
   const currentDeck = decks[currentDeckIndex];
   const filledSlots = currentDeck.filter(s => s !== null).length;
-  const detailSupportData = detailSupport ? getSupportCardAttributes(detailSupport, SUPPORT_CARDS) : null;
+  const detailLB = detailSupport ? getSupportLimitBreak(detailSupport) : 0;
+  const detailSupportData = detailSupport ? getSupportCardAttributes(detailSupport, SUPPORT_CARDS, detailLB) : null;
 
   return (
     <div className="min-h-screen bg-pocket-bg p-4">
@@ -984,6 +985,21 @@ const SupportSelectionScreen = () => {
                   <div className="flex justify-between">
                     <span className="text-pocket-text-light">Max Friend</span>
                     <span className="text-pocket-green font-bold">+{detailSupportData.friendshipBonusTraining}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Appearance Stats */}
+              <div className="bg-pocket-bg rounded-lg p-3 mb-3">
+                <p className="font-bold text-type-psychic text-xs mb-2">Appearance</p>
+                <div className="grid grid-cols-2 gap-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Appear Rate</span>
+                    <span className="text-pocket-blue font-bold">{Math.round(detailSupportData.appearanceChance * 100)}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-pocket-text-light">Type Pref</span>
+                    <span className="text-pocket-blue font-bold">{Math.round(detailSupportData.typeAppearancePriority * 100)}%</span>
                   </div>
                 </div>
               </div>

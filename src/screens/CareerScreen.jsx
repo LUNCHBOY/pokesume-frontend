@@ -1829,10 +1829,10 @@ const CareerScreen = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className={`bg-white rounded-2xl p-4 shadow-card ${
+              className={`rounded-2xl p-4 shadow-card ${
                 careerData.pendingEvent.type === 'hangout'
-                  ? 'rainbow-border'
-                  : 'border-l-4 border-amber-500'
+                  ? 'rainbow-sheen'
+                  : 'bg-white border-l-4 border-amber-500'
               }`}
             >
               <h3 className="text-lg font-bold mb-2 text-pocket-text">{careerData.pendingEvent.name}</h3>
@@ -1970,8 +1970,8 @@ const CareerScreen = () => {
 
                 {careerData.pendingEvent.type === 'hangout' && careerData.pendingEvent.supportName && careerData.pendingEvent.effect && (
                   <div className="space-y-3">
-                    <div className="bg-blue-50 p-3 rounded border-2 border-blue-500">
-                      <div className="font-bold text-blue-700 mb-2 text-lg">Special Hangout with {SUPPORT_CARDS[normalizeSupportName(careerData.pendingEvent.supportName)]?.name || careerData.pendingEvent.supportName}!</div>
+                    <div className="rainbow-sheen p-3 rounded">
+                      <div className="font-bold text-gray-800 mb-2 text-lg">Special Hangout with {SUPPORT_CARDS[normalizeSupportName(careerData.pendingEvent.supportName)]?.name || careerData.pendingEvent.supportName}!</div>
                       <div className="font-semibold text-gray-700 mb-1">{careerData.pendingEvent.name}</div>
                       <div className="text-sm text-gray-600 mb-3">
                         {careerData.pendingEvent.description}

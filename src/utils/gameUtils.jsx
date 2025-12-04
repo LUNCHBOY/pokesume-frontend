@@ -588,11 +588,16 @@ export const StatIcon = ({ stat, size = 16 }) => {
 // SUPPORT CARD UTILITIES
 // ============================================================================
 
-export const getSupportCardAttributes = (supportKey, SUPPORT_CARDS) => {
+export const getSupportCardAttributes = (supportKey, SUPPORT_CARDS, limitBreakLevel = 4) => {
   // Normalize legacy support names to new format
   const normalizedKey = normalizeSupportName(supportKey);
   const card = SUPPORT_CARDS[normalizedKey];
   if (!card) return null;
+
+  // Get limit break adjusted card if available
+  const { getSupportAtLimitBreak } = require('../shared/gameData');
+  const lbCard = getSupportAtLimitBreak ? getSupportAtLimitBreak(normalizedKey, limitBreakLevel) : card;
+  const effectiveCard = lbCard || card;
 
   // New structure uses:
   // - baseStats: { HP, Attack, Defense, Instinct, Speed }
@@ -605,30 +610,30 @@ export const getSupportCardAttributes = (supportKey, SUPPORT_CARDS) => {
 
   // Return complete attributes with backwards-compatible field names
   return {
-    ...card,
+    ...effectiveCard,
     // Base stat bonuses (direct stat additions when support is equipped)
-    baseStatIncrease: card.baseStats || { HP: 0, Attack: 0, Defense: 0, Instinct: 0, Speed: 0 },
+    baseStatIncrease: effectiveCard.baseStats || { HP: 0, Attack: 0, Defense: 0, Instinct: 0, Speed: 0 },
     // Training bonuses
-    typeBonusTraining: card.trainingBonus?.typeMatch || 4,
-    generalBonusTraining: card.trainingBonus?.otherStats || 2,
-    friendshipBonusTraining: card.trainingBonus?.maxFriendshipTypeMatch || 8,
+    typeBonusTraining: effectiveCard.trainingBonus?.typeMatch || 4,
+    generalBonusTraining: effectiveCard.trainingBonus?.otherStats || 2,
+    friendshipBonusTraining: effectiveCard.trainingBonus?.maxFriendshipTypeMatch || 8,
     // Friendship
-    initialFriendship: card.initialFriendship ?? 30,
+    initialFriendship: effectiveCard.initialFriendship ?? 30,
     // Appearance
-    appearanceChance: card.appearanceRate || 0.40,
-    typeAppearancePriority: card.typeMatchPreference || 0.65,
+    appearanceChance: effectiveCard.appearanceRate || 0.40,
+    typeAppearancePriority: effectiveCard.typeMatchPreference || 0.65,
     // Move hints
-    moveHints: card.moveHints || ['BodySlam', 'HyperBeam'],
+    moveHints: effectiveCard.moveHints || ['BodySlam', 'HyperBeam'],
     // Effect - convert new specialEffect to old effect format for compatibility
-    effect: card.specialEffect ? {
-      type: card.specialEffect.statGainMultiplier ? 'training_boost' :
-            card.specialEffect.maxEnergyBonus ? 'energy_boost' :
-            card.specialEffect.skillPointMultiplier ? 'experience_boost' : 'special',
-      description: card.description || '',
-      ...card.specialEffect
-    } : { type: 'none', description: card.description || '' },
+    effect: effectiveCard.specialEffect ? {
+      type: effectiveCard.specialEffect.statGainMultiplier ? 'training_boost' :
+            effectiveCard.specialEffect.maxEnergyBonus ? 'energy_boost' :
+            effectiveCard.specialEffect.skillPointMultiplier ? 'experience_boost' : 'special',
+      description: effectiveCard.description || '',
+      ...effectiveCard.specialEffect
+    } : { type: 'none', description: effectiveCard.description || '' },
     // Type compatibility
-    type: card.supportType || 'HP'
+    type: effectiveCard.supportType || 'HP'
   };
 };
 

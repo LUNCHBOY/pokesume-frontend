@@ -203,8 +203,8 @@ const MySupportScreen = () => {
     }
   };
 
-  const selectedSupportData = selectedSupport ? getSupportCardAttributes(selectedSupport, SUPPORT_CARDS) : null;
   const currentLimitBreak = selectedSupport ? getSupportLimitBreak(selectedSupport) : 0;
+  const selectedSupportData = selectedSupport ? getSupportCardAttributes(selectedSupport, SUPPORT_CARDS, currentLimitBreak) : null;
   const canLimitBreak = currentLimitBreak < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
 
   // For detail modal: get support data at CURRENT limit break level (not max)
