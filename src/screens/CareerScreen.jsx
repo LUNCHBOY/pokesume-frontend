@@ -1034,7 +1034,7 @@ const CareerScreen = () => {
       }
     }
 
-    // Speed training has 50% lower fail rate than other trainings
+    // Speed training has lower fail rate (displayed as estimate - backend uses shifted threshold)
     if (statType === 'Speed') {
       baseFailureChance *= 0.5;
     }

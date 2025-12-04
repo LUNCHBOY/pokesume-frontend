@@ -436,9 +436,9 @@ const GameGuide = ({ isModal = false, onClose, showHeader = true }) => {
 
         <SubSection title="Evolution Benefits">
           <div className="space-y-1">
-            <p>• Base Pokemon (no evolution) have 1.5x base stats</p>
-            <p>• 1-stage evolution Pokemon have 1.25x base stats</p>
-            <p>• 2-stage Pokemon start weaker but can reach full power</p>
+            <p>• No-evolution Pokemon have 1.3x base stats</p>
+            <p>• 1-stage evolution Pokemon have 1.15x base stats</p>
+            <p>• 2-stage Pokemon start weaker but can evolve twice</p>
           </div>
         </SubSection>
       </GuideSection>
