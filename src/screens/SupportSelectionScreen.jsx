@@ -21,7 +21,7 @@ import {
   StatIcon,
   getAptitudeColor
 } from '../utils/gameUtils';
-import { TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
+import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, POKEMON, MOVES } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
@@ -538,14 +538,8 @@ const SupportSelectionScreen = () => {
                     {(() => {
                       const pokemonData = POKEMON[selectedPokemon];
                       const primaryType = pokemonData?.primaryType;
-                      const typeGrade = typeAptitudes?.[primaryType] || 'F';
 
-                      return (
-                        <span className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-pocket-text text-sm font-bold rounded">
-                          <TypeIcon type={primaryType} size={16} />
-                          <span style={{ color: getAptitudeColor(typeGrade) }}>{typeGrade}</span>
-                        </span>
-                      );
+                      return <TypeBadge type={primaryType} size={14} />;
                     })()}
                   </div>
 

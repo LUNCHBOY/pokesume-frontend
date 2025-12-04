@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
 import { generatePokemonSprite, StatIcon, getAptitudeColor } from '../utils/gameUtils';
-import { TypeIcon } from '../components/TypeIcon';
+import { TypeIcon, TypeBadge } from '../components/TypeIcon';
 import { EVOLUTION_CHAINS, POKEMON } from '../shared/gameData';
 
 // Helper function to get all Pokemon in the same evolution chain
@@ -269,14 +269,8 @@ const InspirationSelectionScreen = () => {
                   {(() => {
                     const pokemonData = POKEMON[selectedPokemon];
                     const primaryType = pokemonData?.primaryType;
-                    const typeGrade = modifiedData.typeAptitudes?.[primaryType] || 'F';
 
-                    return (
-                      <span className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-pocket-text text-sm font-bold rounded">
-                        <TypeIcon type={primaryType} size={16} />
-                        <span style={{ color: getAptitudeColor(typeGrade) }}>{typeGrade}</span>
-                      </span>
-                    );
+                    return <TypeBadge type={primaryType} size={14} />;
                   })()}
                 </div>
 
