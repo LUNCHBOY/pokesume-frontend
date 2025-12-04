@@ -304,6 +304,20 @@ const TournamentsScreen = () => {
                     </div>
                   )}
 
+                  {/* Battle condition preview */}
+                  {tournament.gymBadge?.condition && (
+                    <div className="bg-purple-50 rounded-xl p-2 mb-3 text-xs">
+                      <div className="flex items-center gap-1 mb-1">
+                        <span className="font-bold text-purple-700">
+                          ⚡ {tournament.gymBadge.condition.name}
+                        </span>
+                      </div>
+                      <p className="text-purple-600 text-[10px] leading-snug line-clamp-2">
+                        {tournament.gymBadge.condition.description}
+                      </p>
+                    </div>
+                  )}
+
                   <div className="bg-pocket-bg rounded-xl p-3 space-y-2 text-sm mb-4">
                     <div className="flex items-center justify-between">
                       <span className="text-pocket-text-light flex items-center gap-1">

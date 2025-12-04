@@ -1,4 +1,4 @@
-﻿/**
+/**
  * VictoryScreen Component
  *
  * Displayed when the player defeats all 5 gym leaders and the Elite Four.

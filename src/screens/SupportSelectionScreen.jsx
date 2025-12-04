@@ -502,14 +502,6 @@ const SupportSelectionScreen = () => {
             }
           });
 
-          // Get best strategy
-          const bestStrategy = Object.entries(strategyAptitudes).reduce((best, [strat, grade]) => {
-            const gradeRank = { 'S': 6, 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, 'F': 0 };
-            const currentRank = gradeRank[grade] || 0;
-            const bestRank = gradeRank[best.grade] || 0;
-            return currentRank > bestRank ? { strat, grade } : best;
-          }, { strat: 'Chipper', grade: 'F' });
-
           // Pokemon sprite component
           const PokemonSprite = ({ pokemonName }) => {
             const [spriteUrl, setSpriteUrl] = React.useState(null);

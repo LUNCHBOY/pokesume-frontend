@@ -1,4 +1,4 @@
-﻿/**
+/**
  * GameOverScreen Component
  *
  * Displayed when the player is defeated by a gym leader.

@@ -17,9 +17,59 @@ import {
   getSupportCardAttributes
 } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
-import { SUPPORT_CARDS, MOVES } from '../shared/gameData';
+import { SUPPORT_CARDS, MOVES, getSupportAtLimitBreak, SUPPORT_LIMIT_BREAK_PROGRESSIONS, normalizeSupportName } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
+
+/**
+ * Computes what changes at a specific limit break level for a support
+ * @param supportName - The support card name
+ * @param currentLB - Current limit break level (0-3, since we're looking at next)
+ * @returns Object describing what changes, or null if no progression data
+ */
+const getNextLimitBreakChanges = (supportName, currentLB) => {
+  const normalizedName = normalizeSupportName(supportName);
+  const progression = SUPPORT_LIMIT_BREAK_PROGRESSIONS[normalizedName];
+  if (!progression || currentLB >= 4) return null;
+
+  const currentData = progression.progression[currentLB];
+  const nextData = progression.progression[currentLB + 1];
+  if (!currentData || !nextData) return null;
+
+  const changes = [];
+
+  // Check each attribute for changes
+  if (nextData.baseStats !== currentData.baseStats) {
+    const percent = Math.round((nextData.baseStats - currentData.baseStats) * 100);
+    changes.push({ attr: 'Base Stats', change: `+${percent}%`, value: `${Math.round(nextData.baseStats * 100)}%` });
+  }
+  if (nextData.trainingBonus !== currentData.trainingBonus) {
+    const percent = Math.round((nextData.trainingBonus - currentData.trainingBonus) * 100);
+    changes.push({ attr: 'Training Bonus', change: `+${percent}%`, value: `${Math.round(nextData.trainingBonus * 100)}%` });
+  }
+  if (nextData.appearanceRate !== currentData.appearanceRate) {
+    const percent = Math.round((nextData.appearanceRate - currentData.appearanceRate) * 100);
+    changes.push({ attr: 'Appearance Rate', change: `+${percent}%`, value: `${Math.round(nextData.appearanceRate * 100)}%` });
+  }
+  if (nextData.typeMatchPreference !== currentData.typeMatchPreference) {
+    const percent = Math.round((nextData.typeMatchPreference - currentData.typeMatchPreference) * 100);
+    changes.push({ attr: 'Type Preference', change: `+${percent}%`, value: `${Math.round(nextData.typeMatchPreference * 100)}%` });
+  }
+  if (nextData.initialFriendship !== currentData.initialFriendship) {
+    const diff = nextData.initialFriendship - currentData.initialFriendship;
+    changes.push({ attr: 'Initial Friendship', change: `+${diff}`, value: nextData.initialFriendship });
+  }
+  if (nextData.specialEffect !== currentData.specialEffect) {
+    const percent = Math.round((nextData.specialEffect - currentData.specialEffect) * 100);
+    if (currentData.specialEffect === 0) {
+      changes.push({ attr: 'Special Effect', change: 'UNLOCKED', value: `${Math.round(nextData.specialEffect * 100)}%` });
+    } else {
+      changes.push({ attr: 'Special Effect', change: `+${percent}%`, value: `${Math.round(nextData.specialEffect * 100)}%` });
+    }
+  }
+
+  return changes.length > 0 ? changes : null;
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -154,9 +204,23 @@ const MySupportScreen = () => {
   };
 
   const selectedSupportData = selectedSupport ? getSupportCardAttributes(selectedSupport, SUPPORT_CARDS) : null;
-  const detailSupportData = detailSupport ? getSupportCardAttributes(detailSupport, SUPPORT_CARDS) : null;
   const currentLimitBreak = selectedSupport ? getSupportLimitBreak(selectedSupport) : 0;
   const canLimitBreak = currentLimitBreak < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
+
+  // For detail modal: get support data at CURRENT limit break level (not max)
+  const detailLimitBreakLevel = detailSupport ? getSupportLimitBreak(detailSupport) : 0;
+  const detailSupportAtCurrentLB = detailSupport ? getSupportAtLimitBreak(detailSupport, detailLimitBreakLevel) : null;
+  // Convert to display format with computed fields
+  const detailSupportData = detailSupportAtCurrentLB ? {
+    ...detailSupportAtCurrentLB,
+    baseStatIncrease: detailSupportAtCurrentLB.baseStats || { HP: 0, Attack: 0, Defense: 0, Instinct: 0, Speed: 0 },
+    typeBonusTraining: detailSupportAtCurrentLB.trainingBonus?.typeMatch || 4,
+    generalBonusTraining: detailSupportAtCurrentLB.trainingBonus?.otherStats || 2,
+    friendshipBonusTraining: detailSupportAtCurrentLB.trainingBonus?.maxFriendshipTypeMatch || 8,
+    appearanceChance: detailSupportAtCurrentLB.appearanceRate || 0.40,
+    typeAppearancePriority: detailSupportAtCurrentLB.typeMatchPreference || 0.65,
+    moveHints: detailSupportAtCurrentLB.moveHints || [],
+  } : null;
 
   // Get type color for focus
   const getFocusColor = (supportType) => {
@@ -408,11 +472,6 @@ const MySupportScreen = () => {
                 <p className="text-sm text-pocket-text-light">
                   Limit Break Level: {currentLimitBreak} / {MAX_LIMIT_BREAK}
                 </p>
-                {currentLimitBreak > 0 && (
-                  <p className="text-sm text-pocket-green font-semibold">
-                    +{currentLimitBreak * 5}% Training Bonuses
-                  </p>
-                )}
               </div>
 
               {/* Support details */}
@@ -426,52 +485,67 @@ const MySupportScreen = () => {
               </div>
 
               {/* Limit Break Action */}
-              {currentLimitBreak < MAX_LIMIT_BREAK ? (
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-pocket-text">Limit Break Cost:</span>
-                    <div className="flex items-center gap-1">
-                      <Diamond size={14} className="text-purple-500" />
-                      <span className="font-bold text-purple-600">{SHARD_COST_PER_LIMIT_BREAK}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-pocket-text-light">Your Shards:</span>
-                    <div className="flex items-center gap-1">
-                      <Diamond size={14} className="text-purple-500" />
-                      <span className={`font-bold ${limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}`}>
-                        {limitBreakShards}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-xs text-pocket-text-light text-center mb-3">
-                    Next level: +{(currentLimitBreak + 1) * 5}% Training Bonuses
-                  </p>
-                  <button
-                    onClick={handleLimitBreak}
-                    disabled={!canLimitBreak || isLimitBreaking}
-                    className={`w-full py-3 rounded-xl font-bold transition-all ${
-                      canLimitBreak && !isLimitBreaking
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    }`}
-                  >
-                    {isLimitBreaking ? 'Limit Breaking...' : 'Limit Break'}
-                  </button>
-                  {limitBreakShards < SHARD_COST_PER_LIMIT_BREAK && (
-                    <p className="text-xs text-pocket-red text-center mt-2">
-                      Not enough shards
+              {(() => {
+                const nextLBChanges = getNextLimitBreakChanges(selectedSupport, currentLimitBreak);
+                return currentLimitBreak < MAX_LIMIT_BREAK ? (
+                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-4">
+                    <p className="text-sm font-bold text-purple-700 text-center mb-2">
+                      LB{currentLimitBreak} → LB{currentLimitBreak + 1}
                     </p>
-                  )}
-                </div>
-              ) : (
-                <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-4 mb-4 text-center">
-                  <p className="font-bold text-amber-600">Maximum Limit Break Reached!</p>
-                  <p className="text-sm text-pocket-text-light mt-1">
-                    This support is at full power (+20% Training Bonuses)
-                  </p>
-                </div>
-              )}
+                    {/* Next LB Changes */}
+                    {nextLBChanges && nextLBChanges.length > 0 ? (
+                      <div className="bg-white bg-opacity-60 rounded-lg p-2 mb-3">
+                        <p className="text-xs font-semibold text-purple-600 mb-1">Next Level Unlocks:</p>
+                        {nextLBChanges.map((change, idx) => (
+                          <div key={idx} className="flex justify-between text-xs">
+                            <span className="text-pocket-text-light">{change.attr}</span>
+                            <span className={`font-bold ${change.change === 'UNLOCKED' ? 'text-amber-500' : 'text-pocket-green'}`}>
+                              {change.change}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-pocket-text-light text-center mb-2">
+                        Standard progression bonus
+                      </p>
+                    )}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-semibold text-pocket-text">Cost:</span>
+                      <div className="flex items-center gap-1">
+                        <Diamond size={14} className="text-purple-500" />
+                        <span className="font-bold text-purple-600">{SHARD_COST_PER_LIMIT_BREAK}</span>
+                        <span className="text-pocket-text-light text-xs">
+                          (You have: <span className={limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}>{limitBreakShards}</span>)
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleLimitBreak}
+                      disabled={!canLimitBreak || isLimitBreaking}
+                      className={`w-full py-3 rounded-xl font-bold transition-all ${
+                        canLimitBreak && !isLimitBreaking
+                          ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+                          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      }`}
+                    >
+                      {isLimitBreaking ? 'Limit Breaking...' : 'Limit Break'}
+                    </button>
+                    {limitBreakShards < SHARD_COST_PER_LIMIT_BREAK && (
+                      <p className="text-xs text-pocket-red text-center mt-2">
+                        Not enough shards
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-4 mb-4 text-center">
+                    <p className="font-bold text-amber-600">Maximum Limit Break Reached!</p>
+                    <p className="text-sm text-pocket-text-light mt-1">
+                      Full power unlocked
+                    </p>
+                  </div>
+                );
+              })()}
 
               {/* Close button */}
               <button
@@ -684,28 +758,41 @@ const MySupportScreen = () => {
                 const detailLimitBreak = getSupportLimitBreak(detailSupport);
                 const detailSupportId = getSupportId(detailSupport);
                 const detailCanLimitBreak = detailLimitBreak < MAX_LIMIT_BREAK && limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK;
+                const nextLBChanges = getNextLimitBreakChanges(detailSupport, detailLimitBreak);
 
                 return detailLimitBreak < MAX_LIMIT_BREAK ? (
                   <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-3">
+                    <p className="text-sm font-bold text-purple-700 text-center mb-2">
+                      LB{detailLimitBreak} → LB{detailLimitBreak + 1}
+                    </p>
+                    {/* Next LB Changes */}
+                    {nextLBChanges && nextLBChanges.length > 0 ? (
+                      <div className="bg-white bg-opacity-60 rounded-lg p-2 mb-3">
+                        <p className="text-xs font-semibold text-purple-600 mb-1">Next Level Unlocks:</p>
+                        {nextLBChanges.map((change, idx) => (
+                          <div key={idx} className="flex justify-between text-xs">
+                            <span className="text-pocket-text-light">{change.attr}</span>
+                            <span className={`font-bold ${change.change === 'UNLOCKED' ? 'text-amber-500' : 'text-pocket-green'}`}>
+                              {change.change}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-pocket-text-light text-center mb-2">
+                        Standard progression bonus
+                      </p>
+                    )}
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-semibold text-pocket-text">Limit Break Cost:</span>
+                      <span className="text-sm font-semibold text-pocket-text">Cost:</span>
                       <div className="flex items-center gap-1">
                         <Diamond size={14} className="text-purple-500" />
                         <span className="font-bold text-purple-600">{SHARD_COST_PER_LIMIT_BREAK}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-pocket-text-light">Your Shards:</span>
-                      <div className="flex items-center gap-1">
-                        <Diamond size={14} className="text-purple-500" />
-                        <span className={`font-bold ${limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}`}>
-                          {limitBreakShards}
+                        <span className="text-pocket-text-light text-xs">
+                          (You have: <span className={limitBreakShards >= SHARD_COST_PER_LIMIT_BREAK ? 'text-pocket-green' : 'text-pocket-red'}>{limitBreakShards}</span>)
                         </span>
                       </div>
                     </div>
-                    <p className="text-xs text-pocket-text-light text-center mb-2">
-                      Current: +{detailLimitBreak * 5}% → Next: +{(detailLimitBreak + 1) * 5}% Training Bonuses
-                    </p>
                     <button
                       onClick={async () => {
                         if (!detailSupportId || !detailCanLimitBreak) return;
@@ -732,7 +819,7 @@ const MySupportScreen = () => {
                   <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl p-3 mb-3 text-center">
                     <p className="font-bold text-amber-600 text-sm">Maximum Limit Break Reached!</p>
                     <p className="text-xs text-pocket-text-light mt-1">
-                      +20% Training Bonuses
+                      Full power unlocked
                     </p>
                   </div>
                 );

@@ -1096,12 +1096,12 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP typeMatchPreference (0.25→0.45) - Fighting mastery revealed
     // LB2: BIG JUMP baseStats (0.50→0.80) - Former champion power
     // LB3: BIG JUMP specialEffect (0.30→1.00) - Training multiplier mastered
-    // LB4: BIG JUMP trainingBonus (0.70→1.00) - Full Dojo Master wisdom
+    // LB4: BIG JUMP trainingBonus (0.55→1.00) - Full Dojo Master wisdom
     progression: [
-      { baseStats: 0.50, trainingBonus: 0.55, appearanceRate: 0.22, typeMatchPreference: 0.25, initialFriendship: 3, specialEffect: 0.30 },
-      { baseStats: 0.50, trainingBonus: 0.58, appearanceRate: 0.24, typeMatchPreference: 0.45, initialFriendship: 4, specialEffect: 0.30 },
-      { baseStats: 0.80, trainingBonus: 0.62, appearanceRate: 0.26, typeMatchPreference: 0.45, initialFriendship: 4, specialEffect: 0.35 },
-      { baseStats: 0.85, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.45, initialFriendship: 5, specialEffect: 1.00 },
+      { baseStats: 0.50, trainingBonus: 0.55, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 5, specialEffect: 0.30 },
+      { baseStats: 0.50, trainingBonus: 0.55, appearanceRate: 0.30, typeMatchPreference: 0.45, initialFriendship: 5, specialEffect: 0.30 },
+      { baseStats: 0.80, trainingBonus: 0.55, appearanceRate: 0.30, typeMatchPreference: 0.45, initialFriendship: 5, specialEffect: 0.30 },
+      { baseStats: 0.80, trainingBonus: 0.55, appearanceRate: 0.30, typeMatchPreference: 0.45, initialFriendship: 5, specialEffect: 1.00 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.30, typeMatchPreference: 0.45, initialFriendship: 5, specialEffect: 1.00 }
     ]
   },
@@ -1111,12 +1111,12 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP appearanceRate (0.40→0.55) - Always bringing sandwiches
     // LB2: BIG JUMP initialFriendship (35→50) - Deep bond formed
     // LB3: BIG JUMP specialEffect (0.40→1.00) - HP regen mastered
-    // LB4: BIG JUMP baseStats (0.70→1.00) - Full potential unlocked
+    // LB4: BIG JUMP baseStats (0.50→1.00) - Full potential unlocked
     progression: [
-      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.40, typeMatchPreference: 0.14, initialFriendship: 35, specialEffect: 0.40 },
-      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.55, typeMatchPreference: 0.16, initialFriendship: 38, specialEffect: 0.40 },
-      { baseStats: 0.60, trainingBonus: 0.70, appearanceRate: 0.55, typeMatchPreference: 0.17, initialFriendship: 50, specialEffect: 0.45 },
-      { baseStats: 0.70, trainingBonus: 0.80, appearanceRate: 0.55, typeMatchPreference: 0.18, initialFriendship: 50, specialEffect: 1.00 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.40, typeMatchPreference: 0.20, initialFriendship: 35, specialEffect: 0.40 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 35, specialEffect: 0.40 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 50, specialEffect: 0.40 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 50, specialEffect: 1.00 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 50, specialEffect: 1.00 }
     ]
   },
@@ -1126,12 +1126,12 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP typeMatchPreference (0.12→0.25) - Type analysis unlocked
     // LB2: BIG JUMP appearanceRate (0.25→0.38) - Opens up more
     // LB3: BIG JUMP specialEffect (0.25→1.00) - Full skill bonus active
-    // LB4: BIG JUMP baseStats (0.65→1.00) - Hidden potential revealed
+    // LB4: BIG JUMP baseStats (0.45→1.00) - Hidden potential revealed
     progression: [
-      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.25, typeMatchPreference: 0.12, initialFriendship: 14, specialEffect: 0.25 },
-      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.26, typeMatchPreference: 0.25, initialFriendship: 16, specialEffect: 0.25 },
-      { baseStats: 0.55, trainingBonus: 0.68, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 17, specialEffect: 0.30 },
-      { baseStats: 0.65, trainingBonus: 0.78, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 19, specialEffect: 1.00 },
+      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.25, typeMatchPreference: 0.12, initialFriendship: 20, specialEffect: 0.25 },
+      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.25, typeMatchPreference: 0.25, initialFriendship: 20, specialEffect: 0.25 },
+      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 20, specialEffect: 0.25 },
+      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 20, specialEffect: 1.00 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 20, specialEffect: 1.00 }
     ]
   },
@@ -1141,12 +1141,12 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP appearanceRate (0.38→0.52) - Always ready to train
     // LB2: BIG JUMP initialFriendship (40→55) - True best friend
     // LB3: BIG JUMP specialEffect (0.35→1.00) - Energy bonus mastered
-    // LB4: BIG JUMP baseStats (0.70→1.00) - Full rival potential
+    // LB4: BIG JUMP baseStats (0.50→1.00) - Full rival potential
     progression: [
-      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.14, initialFriendship: 40, specialEffect: 0.35 },
-      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.52, typeMatchPreference: 0.16, initialFriendship: 42, specialEffect: 0.35 },
-      { baseStats: 0.60, trainingBonus: 0.70, appearanceRate: 0.52, typeMatchPreference: 0.17, initialFriendship: 55, specialEffect: 0.40 },
-      { baseStats: 0.70, trainingBonus: 0.80, appearanceRate: 0.52, typeMatchPreference: 0.18, initialFriendship: 55, specialEffect: 1.00 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.20, initialFriendship: 40, specialEffect: 0.35 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.52, typeMatchPreference: 0.20, initialFriendship: 40, specialEffect: 0.35 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.52, typeMatchPreference: 0.20, initialFriendship: 55, specialEffect: 0.35 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.52, typeMatchPreference: 0.20, initialFriendship: 55, specialEffect: 1.00 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.52, typeMatchPreference: 0.20, initialFriendship: 55, specialEffect: 1.00 }
     ]
   },
@@ -1155,13 +1155,13 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB0: Tsundere - low friendship, no special effect, high type focus
     // LB1: UNLOCK specialEffect (0→0.60) - Training boost activates
     // LB2: BIG JUMP typeMatchPreference (0.20→0.45) - Type mastery revealed
-    // LB3: BIG JUMP baseStats (0.55→0.85) - True power shown
-    // LB4: BIG JUMP appearanceRate (0.30→0.40) - Finally warms up
+    // LB3: BIG JUMP baseStats (0.50→0.85) - True power shown
+    // LB4: BIG JUMP appearanceRate (0.28→0.40) - Finally warms up
     progression: [
-      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.28, typeMatchPreference: 0.20, initialFriendship: 10, specialEffect: 0 },
-      { baseStats: 0.52, trainingBonus: 0.65, appearanceRate: 0.29, typeMatchPreference: 0.22, initialFriendship: 11, specialEffect: 0.60 },
-      { baseStats: 0.55, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.45, initialFriendship: 12, specialEffect: 0.70 },
-      { baseStats: 0.85, trainingBonus: 0.80, appearanceRate: 0.30, typeMatchPreference: 0.45, initialFriendship: 14, specialEffect: 0.85 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.28, typeMatchPreference: 0.20, initialFriendship: 15, specialEffect: 0 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.28, typeMatchPreference: 0.20, initialFriendship: 15, specialEffect: 0.60 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.28, typeMatchPreference: 0.45, initialFriendship: 15, specialEffect: 0.60 },
+      { baseStats: 0.85, trainingBonus: 0.60, appearanceRate: 0.28, typeMatchPreference: 0.45, initialFriendship: 15, specialEffect: 0.60 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.40, typeMatchPreference: 0.45, initialFriendship: 15, specialEffect: 1.00 }
     ]
   },
@@ -1171,12 +1171,12 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP initialFriendship (28→45) - Surprisingly warm
     // LB2: BIG JUMP appearanceRate (0.38→0.50) - Shows up more
     // LB3: BIG JUMP specialEffect (0.30→1.00) - Fail reduction mastered
-    // LB4: BIG JUMP baseStats (0.65→1.00) - Hidden power unleashed
+    // LB4: BIG JUMP baseStats (0.50→1.00) - Hidden power unleashed
     progression: [
-      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.14, initialFriendship: 28, specialEffect: 0.30 },
-      { baseStats: 0.52, trainingBonus: 0.65, appearanceRate: 0.40, typeMatchPreference: 0.16, initialFriendship: 45, specialEffect: 0.30 },
-      { baseStats: 0.55, trainingBonus: 0.70, appearanceRate: 0.50, typeMatchPreference: 0.17, initialFriendship: 45, specialEffect: 0.35 },
-      { baseStats: 0.65, trainingBonus: 0.80, appearanceRate: 0.50, typeMatchPreference: 0.18, initialFriendship: 45, specialEffect: 1.00 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.20, initialFriendship: 28, specialEffect: 0.30 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.20, initialFriendship: 45, specialEffect: 0.30 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.50, typeMatchPreference: 0.20, initialFriendship: 45, specialEffect: 0.30 },
+      { baseStats: 0.50, trainingBonus: 0.60, appearanceRate: 0.50, typeMatchPreference: 0.20, initialFriendship: 45, specialEffect: 1.00 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.50, typeMatchPreference: 0.20, initialFriendship: 45, specialEffect: 1.00 }
     ]
   },
@@ -1186,12 +1186,12 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP typeMatchPreference (0.12→0.25) - Fairy type mastery
     // LB2: BIG JUMP initialFriendship (30→45) - Fans adore her
     // LB3: BIG JUMP specialEffect (0.35→1.00) - Friendship bonus mastered
-    // LB4: BIG JUMP appearanceRate (0.42→0.52) - Star presence
+    // LB4: BIG JUMP appearanceRate (0.40→0.52) - Star presence
     progression: [
       { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.40, typeMatchPreference: 0.12, initialFriendship: 30, specialEffect: 0.35 },
-      { baseStats: 0.60, trainingBonus: 0.65, appearanceRate: 0.41, typeMatchPreference: 0.25, initialFriendship: 32, specialEffect: 0.35 },
-      { baseStats: 0.70, trainingBonus: 0.72, appearanceRate: 0.42, typeMatchPreference: 0.25, initialFriendship: 45, specialEffect: 0.40 },
-      { baseStats: 0.80, trainingBonus: 0.82, appearanceRate: 0.42, typeMatchPreference: 0.25, initialFriendship: 45, specialEffect: 1.00 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.40, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.35 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.40, typeMatchPreference: 0.25, initialFriendship: 45, specialEffect: 0.35 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.40, typeMatchPreference: 0.25, initialFriendship: 45, specialEffect: 1.00 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.52, typeMatchPreference: 0.25, initialFriendship: 45, specialEffect: 1.00 }
     ]
   },
@@ -1200,13 +1200,13 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB0: Dark Elite - cold, low friendship, no special effect
     // LB1: UNLOCK specialEffect (0→0.50) - Instinct boost activates
     // LB2: BIG JUMP typeMatchPreference (0.12→0.25) - Dark mastery
-    // LB3: BIG JUMP baseStats (0.55→0.85) - Elite Four power
-    // LB4: BIG JUMP trainingBonus (0.70→1.00) - Full dark wisdom
+    // LB3: BIG JUMP baseStats (0.45→0.85) - Elite Four power
+    // LB4: BIG JUMP trainingBonus (0.55→1.00) - Full dark wisdom
     progression: [
-      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.25, typeMatchPreference: 0.12, initialFriendship: 7, specialEffect: 0 },
-      { baseStats: 0.50, trainingBonus: 0.58, appearanceRate: 0.27, typeMatchPreference: 0.14, initialFriendship: 8, specialEffect: 0.50 },
-      { baseStats: 0.55, trainingBonus: 0.62, appearanceRate: 0.29, typeMatchPreference: 0.25, initialFriendship: 9, specialEffect: 0.60 },
-      { baseStats: 0.85, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 9, specialEffect: 0.80 },
+      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.32, typeMatchPreference: 0.12, initialFriendship: 10, specialEffect: 0 },
+      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.32, typeMatchPreference: 0.12, initialFriendship: 10, specialEffect: 0.50 },
+      { baseStats: 0.45, trainingBonus: 0.55, appearanceRate: 0.32, typeMatchPreference: 0.25, initialFriendship: 10, specialEffect: 0.50 },
+      { baseStats: 0.85, trainingBonus: 0.55, appearanceRate: 0.32, typeMatchPreference: 0.25, initialFriendship: 10, specialEffect: 0.50 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.32, typeMatchPreference: 0.25, initialFriendship: 10, specialEffect: 1.00 }
     ]
   },
@@ -1216,12 +1216,12 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP typeMatchPreference (0.15→0.30) - Fairy wisdom
     // LB2: BIG JUMP initialFriendship (25→40) - Passes her quiz
     // LB3: UNLOCK specialEffect (0→0.70) - Instinct bonus activates
-    // LB4: BIG JUMP appearanceRate (0.42→0.52) - Full pink presence
+    // LB4: BIG JUMP appearanceRate (0.38→0.52) - Full pink presence
     progression: [
       { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.15, initialFriendship: 25, specialEffect: 0 },
-      { baseStats: 0.60, trainingBonus: 0.68, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 28, specialEffect: 0 },
-      { baseStats: 0.70, trainingBonus: 0.75, appearanceRate: 0.42, typeMatchPreference: 0.30, initialFriendship: 40, specialEffect: 0 },
-      { baseStats: 0.80, trainingBonus: 0.85, appearanceRate: 0.42, typeMatchPreference: 0.30, initialFriendship: 40, specialEffect: 0.70 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.30, initialFriendship: 25, specialEffect: 0 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.30, initialFriendship: 40, specialEffect: 0 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.30, initialFriendship: 40, specialEffect: 0.70 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.52, typeMatchPreference: 0.30, initialFriendship: 40, specialEffect: 1.00 }
     ]
   },
@@ -1231,22 +1231,27 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB1: BIG JUMP appearanceRate (0.35→0.50) - Always around
     // LB2: BIG JUMP initialFriendship (15→35) - Warms up to you
     // LB3: BIG JUMP specialEffect (0.30→1.00) - Fail reduction mastered
-    // LB4: BIG JUMP typeMatchPreference (0.15→0.25) - Ground mastery
+    // LB4: BIG JUMP typeMatchPreference (0.12→0.25) - Ground mastery
     progression: [
       { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.35, typeMatchPreference: 0.12, initialFriendship: 15, specialEffect: 0.30 },
-      { baseStats: 0.60, trainingBonus: 0.65, appearanceRate: 0.50, typeMatchPreference: 0.13, initialFriendship: 18, specialEffect: 0.30 },
-      { baseStats: 0.70, trainingBonus: 0.72, appearanceRate: 0.50, typeMatchPreference: 0.14, initialFriendship: 35, specialEffect: 0.35 },
-      { baseStats: 0.80, trainingBonus: 0.82, appearanceRate: 0.50, typeMatchPreference: 0.15, initialFriendship: 35, specialEffect: 1.00 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.50, typeMatchPreference: 0.12, initialFriendship: 15, specialEffect: 0.30 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.50, typeMatchPreference: 0.12, initialFriendship: 35, specialEffect: 0.30 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.50, typeMatchPreference: 0.12, initialFriendship: 35, specialEffect: 1.00 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.50, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 1.00 }
     ]
   },
 
   Avery: {
+    // LB0: Haughty psychic - low friendship, no special effect
+    // LB1: BIG JUMP typeMatchPreference (0.22→0.40) - Psychic mastery
+    // LB2: UNLOCK specialEffect (0→0.60) - Instinct bonus activates
+    // LB3: BIG JUMP initialFriendship (5→15) - Finally respects you
+    // LB4: BIG JUMP baseStats (0.45→1.00) - Full psychic power
     progression: [
-      { baseStats: 0.45, trainingBonus: 0.50, appearanceRate: 0.28, typeMatchPreference: 0.22, initialFriendship: 5, specialEffect: 0 },
-      { baseStats: 0.60, trainingBonus: 0.65, appearanceRate: 0.33, typeMatchPreference: 0.28, initialFriendship: 8, specialEffect: 0 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.36, typeMatchPreference: 0.32, initialFriendship: 10, specialEffect: 0.40 },
-      { baseStats: 0.88, trainingBonus: 0.90, appearanceRate: 0.40, typeMatchPreference: 0.36, initialFriendship: 13, specialEffect: 0.70 },
+      { baseStats: 0.45, trainingBonus: 0.50, appearanceRate: 0.42, typeMatchPreference: 0.22, initialFriendship: 5, specialEffect: 0 },
+      { baseStats: 0.45, trainingBonus: 0.50, appearanceRate: 0.42, typeMatchPreference: 0.40, initialFriendship: 5, specialEffect: 0 },
+      { baseStats: 0.45, trainingBonus: 0.50, appearanceRate: 0.42, typeMatchPreference: 0.40, initialFriendship: 5, specialEffect: 0.60 },
+      { baseStats: 0.45, trainingBonus: 0.50, appearanceRate: 0.42, typeMatchPreference: 0.40, initialFriendship: 15, specialEffect: 0.60 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.42, typeMatchPreference: 0.40, initialFriendship: 15, specialEffect: 1.00 }
     ]
   },
@@ -1367,10 +1372,10 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB3: BIG JUMP baseStats (0.55→0.88) - Full volcanic power erupts
     // LB4: BIG JUMP specialEffect (0.60→1.00) - Groudon's blessing complete
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.58, appearanceRate: 0.26, typeMatchPreference: 0.25, initialFriendship: 5, specialEffect: 0 },
-      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 8, specialEffect: 0.60 },
-      { baseStats: 0.55, trainingBonus: 0.72, appearanceRate: 0.33, typeMatchPreference: 0.48, initialFriendship: 10, specialEffect: 0.60 },
-      { baseStats: 0.88, trainingBonus: 0.85, appearanceRate: 0.35, typeMatchPreference: 0.48, initialFriendship: 12, specialEffect: 0.60 },
+      { baseStats: 0.55, trainingBonus: 0.58, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 15, specialEffect: 0 },
+      { baseStats: 0.55, trainingBonus: 0.58, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 15, specialEffect: 0.60 },
+      { baseStats: 0.55, trainingBonus: 0.58, appearanceRate: 0.38, typeMatchPreference: 0.48, initialFriendship: 15, specialEffect: 0.60 },
+      { baseStats: 0.88, trainingBonus: 0.58, appearanceRate: 0.38, typeMatchPreference: 0.48, initialFriendship: 15, specialEffect: 0.60 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.38, typeMatchPreference: 0.48, initialFriendship: 15, specialEffect: 1.00 }
     ]
   },
@@ -1382,10 +1387,10 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB3: BIG JUMP baseStats (0.55→0.90) - Full sea captain power
     // LB4: BIG JUMP specialEffect (0.45→1.00) - Kyogre's blessing complete
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.32, typeMatchPreference: 0.28, initialFriendship: 20, specialEffect: 0.45 },
-      { baseStats: 0.55, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.32, initialFriendship: 38, specialEffect: 0.45 },
-      { baseStats: 0.55, trainingBonus: 0.80, appearanceRate: 0.48, typeMatchPreference: 0.35, initialFriendship: 38, specialEffect: 0.45 },
-      { baseStats: 0.90, trainingBonus: 0.90, appearanceRate: 0.48, typeMatchPreference: 0.38, initialFriendship: 38, specialEffect: 0.45 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.32, typeMatchPreference: 0.40, initialFriendship: 20, specialEffect: 0.45 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.32, typeMatchPreference: 0.40, initialFriendship: 38, specialEffect: 0.45 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.48, typeMatchPreference: 0.40, initialFriendship: 38, specialEffect: 0.45 },
+      { baseStats: 0.90, trainingBonus: 0.60, appearanceRate: 0.48, typeMatchPreference: 0.40, initialFriendship: 38, specialEffect: 0.45 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.48, typeMatchPreference: 0.40, initialFriendship: 38, specialEffect: 1.00 }
     ]
   },
@@ -1397,10 +1402,10 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB3: BIG JUMP specialEffect (0.35→0.85) - Weather control intensifies
     // LB4: BIG JUMP baseStats (0.55→1.00) - Full rival power unleashed
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.32, typeMatchPreference: 0.18, initialFriendship: 28, specialEffect: 0.35 },
-      { baseStats: 0.55, trainingBonus: 0.75, appearanceRate: 0.48, typeMatchPreference: 0.18, initialFriendship: 32, specialEffect: 0.35 },
-      { baseStats: 0.55, trainingBonus: 0.85, appearanceRate: 0.48, typeMatchPreference: 0.36, initialFriendship: 35, specialEffect: 0.35 },
-      { baseStats: 0.55, trainingBonus: 0.92, appearanceRate: 0.48, typeMatchPreference: 0.36, initialFriendship: 38, specialEffect: 0.85 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.32, typeMatchPreference: 0.18, initialFriendship: 40, specialEffect: 0.35 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.48, typeMatchPreference: 0.18, initialFriendship: 40, specialEffect: 0.35 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.48, typeMatchPreference: 0.36, initialFriendship: 40, specialEffect: 0.35 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.48, typeMatchPreference: 0.36, initialFriendship: 40, specialEffect: 0.85 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.48, typeMatchPreference: 0.36, initialFriendship: 40, specialEffect: 1.00 }
     ]
   },
@@ -1412,10 +1417,10 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB3: BIG JUMP specialEffect (0.30→0.85) - Team Yell's full support
     // LB4: BIG JUMP baseStats (0.55→1.00) - Spikemuth champion power
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.32, typeMatchPreference: 0.20, initialFriendship: 10, specialEffect: 0.30 },
-      { baseStats: 0.55, trainingBonus: 0.75, appearanceRate: 0.36, typeMatchPreference: 0.20, initialFriendship: 25, specialEffect: 0.30 },
-      { baseStats: 0.55, trainingBonus: 0.85, appearanceRate: 0.40, typeMatchPreference: 0.38, initialFriendship: 25, specialEffect: 0.30 },
-      { baseStats: 0.55, trainingBonus: 0.92, appearanceRate: 0.43, typeMatchPreference: 0.38, initialFriendship: 25, specialEffect: 0.85 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.45, typeMatchPreference: 0.20, initialFriendship: 10, specialEffect: 0.30 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.45, typeMatchPreference: 0.20, initialFriendship: 25, specialEffect: 0.30 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.45, typeMatchPreference: 0.38, initialFriendship: 25, specialEffect: 0.30 },
+      { baseStats: 0.55, trainingBonus: 0.65, appearanceRate: 0.45, typeMatchPreference: 0.38, initialFriendship: 25, specialEffect: 0.85 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.45, typeMatchPreference: 0.38, initialFriendship: 25, specialEffect: 1.00 }
     ]
   },
@@ -1428,9 +1433,9 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
     // LB4: BIG JUMP specialEffect (0.45→1.00) - Full tidal wave power
     progression: [
       { baseStats: 0.60, trainingBonus: 0.65, appearanceRate: 0.35, typeMatchPreference: 0.20, initialFriendship: 20, specialEffect: 0.45 },
-      { baseStats: 0.70, trainingBonus: 0.75, appearanceRate: 0.50, typeMatchPreference: 0.20, initialFriendship: 20, specialEffect: 0.45 },
-      { baseStats: 0.80, trainingBonus: 0.85, appearanceRate: 0.50, typeMatchPreference: 0.20, initialFriendship: 35, specialEffect: 0.45 },
-      { baseStats: 0.90, trainingBonus: 0.92, appearanceRate: 0.50, typeMatchPreference: 0.35, initialFriendship: 35, specialEffect: 0.45 },
+      { baseStats: 0.60, trainingBonus: 0.65, appearanceRate: 0.50, typeMatchPreference: 0.20, initialFriendship: 20, specialEffect: 0.45 },
+      { baseStats: 0.60, trainingBonus: 0.65, appearanceRate: 0.50, typeMatchPreference: 0.20, initialFriendship: 35, specialEffect: 0.45 },
+      { baseStats: 0.60, trainingBonus: 0.65, appearanceRate: 0.50, typeMatchPreference: 0.35, initialFriendship: 35, specialEffect: 0.45 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.50, typeMatchPreference: 0.35, initialFriendship: 35, specialEffect: 1.00 }
     ]
   },
@@ -1451,41 +1456,61 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
   },
 
   Piers: {
+    // LB0: Punk rocker gym leader - cool, laid back, Dark-type specialist
+    // LB1: BIG JUMP typeMatchPreference (0.25→0.40) - Dark-type mastery
+    // LB2: BIG JUMP appearanceRate (0.30→0.46) - Shows up for his fans
+    // LB3: BIG JUMP specialEffect (0.50→0.90) - Rock star energy boost
+    // LB4: BIG JUMP baseStats (0.55→1.00) - Full Spikemuth power
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 18, specialEffect: 0.50 },
-      { baseStats: 0.68, trainingBonus: 0.72, appearanceRate: 0.35, typeMatchPreference: 0.30, initialFriendship: 22, specialEffect: 0.65 },
-      { baseStats: 0.80, trainingBonus: 0.84, appearanceRate: 0.40, typeMatchPreference: 0.34, initialFriendship: 26, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.44, typeMatchPreference: 0.38, initialFriendship: 28, specialEffect: 0.90 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.50 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.30, typeMatchPreference: 0.40, initialFriendship: 30, specialEffect: 0.50 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.46, typeMatchPreference: 0.40, initialFriendship: 30, specialEffect: 0.50 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.46, typeMatchPreference: 0.40, initialFriendship: 30, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.46, typeMatchPreference: 0.40, initialFriendship: 30, specialEffect: 1.00 }
     ]
   },
 
   Victor: {
+    // LB0: Shield protagonist - balanced, friendly, fail reduction
+    // LB1: BIG JUMP initialFriendship (18→30) - Instant buddy
+    // LB2: BIG JUMP appearanceRate (0.30→0.42) - Reliable presence
+    // LB3: BIG JUMP specialEffect (0.40→0.90) - Shield protection mastered
+    // LB4: BIG JUMP baseStats (0.55→1.00) - Full Shield Champion power
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.30, typeMatchPreference: 0.15, initialFriendship: 18, specialEffect: 0.40 },
-      { baseStats: 0.68, trainingBonus: 0.72, appearanceRate: 0.34, typeMatchPreference: 0.18, initialFriendship: 22, specialEffect: 0.55 },
-      { baseStats: 0.80, trainingBonus: 0.84, appearanceRate: 0.37, typeMatchPreference: 0.21, initialFriendship: 25, specialEffect: 0.70 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.40, typeMatchPreference: 0.23, initialFriendship: 28, specialEffect: 0.85 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 18, specialEffect: 0.40 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.40 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.42, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.40 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.42, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.42, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 1.00 }
     ]
   },
 
   Sonia: {
+    // LB0: Friendly researcher - high friendship, skill bonus
+    // LB1: BIG JUMP appearanceRate (0.38→0.52) - Always available to help
+    // LB2: BIG JUMP initialFriendship (35→50) - Research buddies forever
+    // LB3: BIG JUMP specialEffect (0.40→0.90) - Research skill bonus mastered
+    // LB4: BIG JUMP trainingBonus (0.60→1.00) - Full Professor wisdom
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.05, initialFriendship: 35, specialEffect: 0.40 },
-      { baseStats: 0.68, trainingBonus: 0.72, appearanceRate: 0.42, typeMatchPreference: 0.06, initialFriendship: 40, specialEffect: 0.55 },
-      { baseStats: 0.80, trainingBonus: 0.84, appearanceRate: 0.46, typeMatchPreference: 0.07, initialFriendship: 44, specialEffect: 0.70 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.50, typeMatchPreference: 0.09, initialFriendship: 47, specialEffect: 0.85 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.38, typeMatchPreference: 0.10, initialFriendship: 35, specialEffect: 0.40 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.52, typeMatchPreference: 0.10, initialFriendship: 35, specialEffect: 0.40 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.52, typeMatchPreference: 0.10, initialFriendship: 50, specialEffect: 0.40 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.52, typeMatchPreference: 0.10, initialFriendship: 50, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.52, typeMatchPreference: 0.10, initialFriendship: 50, specialEffect: 1.00 }
     ]
   },
 
   Poppy: {
+    // LB0: Adorable Elite - very high friendship, Steel specialist
+    // LB1: BIG JUMP appearanceRate (0.42→0.55) - Always wants to play
+    // LB2: BIG JUMP initialFriendship (40→55) - Becomes your biggest fan
+    // LB3: BIG JUMP specialEffect (0.50→0.95) - Elite training mastered
+    // LB4: BIG JUMP baseStats (0.55→1.00) - Full Elite Four power
     progression: [
-      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.42, typeMatchPreference: 0.12, initialFriendship: 40, specialEffect: 0.50 },
-      { baseStats: 0.68, trainingBonus: 0.72, appearanceRate: 0.46, typeMatchPreference: 0.15, initialFriendship: 45, specialEffect: 0.65 },
-      { baseStats: 0.80, trainingBonus: 0.84, appearanceRate: 0.50, typeMatchPreference: 0.17, initialFriendship: 48, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.53, typeMatchPreference: 0.19, initialFriendship: 52, specialEffect: 0.90 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.42, typeMatchPreference: 0.20, initialFriendship: 40, specialEffect: 0.50 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 40, specialEffect: 0.50 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 55, specialEffect: 0.50 },
+      { baseStats: 0.55, trainingBonus: 0.60, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 55, specialEffect: 0.95 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 55, specialEffect: 1.00 }
     ]
   },
@@ -1495,171 +1520,256 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
   // ============================================================================
 
   Misty: {
+    // LB0: Fiery Water gym leader - decent friendship, type focus
+    // LB1: BIG JUMP typeMatchPreference (0.18→0.25) - Water mastery
+    // LB2: BIG JUMP appearanceRate (0.38→0.48) - Shows up more
+    // LB3: BIG JUMP specialEffect (0.50→0.90) - Instinct mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full gym leader power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.38, typeMatchPreference: 0.18, initialFriendship: 20, specialEffect: 0.50 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.42, typeMatchPreference: 0.20, initialFriendship: 23, specialEffect: 0.65 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.44, typeMatchPreference: 0.22, initialFriendship: 26, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.46, typeMatchPreference: 0.24, initialFriendship: 28, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.38, typeMatchPreference: 0.18, initialFriendship: 30, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.38, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 1.00 }
     ]
   },
 
   Brock: {
+    // LB0: Reliable Rock leader - high friendship, full special effect
+    // LB1: BIG JUMP appearanceRate (0.45→0.55) - Reliably there
+    // LB2: BIG JUMP initialFriendship (32→45) - Instant best friend
+    // LB3: BIG JUMP trainingBonus (0.70→0.95) - Breeder's wisdom
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full gym leader power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.45, typeMatchPreference: 0.03, initialFriendship: 32, specialEffect: 1 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.48, typeMatchPreference: 0.04, initialFriendship: 36, specialEffect: 1 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.50, typeMatchPreference: 0.04, initialFriendship: 40, specialEffect: 1 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.52, typeMatchPreference: 0.05, initialFriendship: 43, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.45, typeMatchPreference: 0.05, initialFriendship: 32, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.55, typeMatchPreference: 0.05, initialFriendship: 32, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.55, typeMatchPreference: 0.05, initialFriendship: 45, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.95, appearanceRate: 0.55, typeMatchPreference: 0.05, initialFriendship: 45, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.55, typeMatchPreference: 0.05, initialFriendship: 45, specialEffect: 1 }
     ]
   },
 
   Erika: {
+    // LB0: Elegant Grass leader - gentle, graceful
+    // LB1: BIG JUMP typeMatchPreference (0.22→0.30) - Grass mastery
+    // LB2: BIG JUMP appearanceRate (0.40→0.52) - Graceful presence
+    // LB3: BIG JUMP specialEffect (0.50→0.90) - Training mastered
+    // LB4: BIG JUMP initialFriendship (28→40) - Deep bond formed
     progression: [
       { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.40, typeMatchPreference: 0.22, initialFriendship: 28, specialEffect: 0.50 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.44, typeMatchPreference: 0.25, initialFriendship: 32, specialEffect: 0.65 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.47, typeMatchPreference: 0.27, initialFriendship: 35, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.50, typeMatchPreference: 0.29, initialFriendship: 38, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 28, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.52, typeMatchPreference: 0.30, initialFriendship: 28, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.52, typeMatchPreference: 0.30, initialFriendship: 28, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.52, typeMatchPreference: 0.30, initialFriendship: 40, specialEffect: 1.00 }
     ]
   },
 
   Blaine: {
+    // LB0: Quiz master Fire leader - reclusive, full effect
+    // LB1: BIG JUMP appearanceRate (0.22→0.30) - Emerges from volcano
+    // LB2: BIG JUMP trainingBonus (0.70→0.95) - Quiz wisdom unlocked
+    // LB3: BIG JUMP typeMatchPreference (0.06→0.10) - Fire mastery
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full volcanic power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.22, typeMatchPreference: 0.06, initialFriendship: 10, specialEffect: 1 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.25, typeMatchPreference: 0.07, initialFriendship: 12, specialEffect: 1 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.27, typeMatchPreference: 0.08, initialFriendship: 13, specialEffect: 1 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.29, typeMatchPreference: 0.09, initialFriendship: 14, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.22, typeMatchPreference: 0.06, initialFriendship: 15, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.06, initialFriendship: 15, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.95, appearanceRate: 0.30, typeMatchPreference: 0.06, initialFriendship: 15, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.95, appearanceRate: 0.30, typeMatchPreference: 0.10, initialFriendship: 15, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.30, typeMatchPreference: 0.10, initialFriendship: 15, specialEffect: 1 }
     ]
   },
 
   Koga: {
+    // LB0: Ninja master - distant, Poison specialist
+    // LB1: BIG JUMP typeMatchPreference (0.25→0.35) - Poison mastery
+    // LB2: BIG JUMP appearanceRate (0.25→0.35) - Shadow step presence
+    // LB3: BIG JUMP specialEffect (0.50→0.90) - Instinct mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full ninja power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.25, typeMatchPreference: 0.25, initialFriendship: 6, specialEffect: 0.50 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.28, typeMatchPreference: 0.28, initialFriendship: 7, specialEffect: 0.65 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.31, typeMatchPreference: 0.31, initialFriendship: 8, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.33, typeMatchPreference: 0.33, initialFriendship: 9, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.25, typeMatchPreference: 0.25, initialFriendship: 10, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.25, typeMatchPreference: 0.35, initialFriendship: 10, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.35, typeMatchPreference: 0.35, initialFriendship: 10, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.35, typeMatchPreference: 0.35, initialFriendship: 10, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.35, typeMatchPreference: 0.35, initialFriendship: 10, specialEffect: 1.00 }
     ]
   },
 
   Jasmine: {
+    // LB0: Shy Steel leader - timid, caring, full effect
+    // LB1: BIG JUMP typeMatchPreference (0.22→0.30) - Steel mastery
+    // LB2: BIG JUMP appearanceRate (0.30→0.40) - Opens up more
+    // LB3: BIG JUMP initialFriendship (20→30) - Deep bond formed
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full gym leader power
     progression: [
       { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.22, initialFriendship: 20, specialEffect: 1 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.33, typeMatchPreference: 0.25, initialFriendship: 23, specialEffect: 1 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.36, typeMatchPreference: 0.27, initialFriendship: 26, specialEffect: 1 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.38, typeMatchPreference: 0.29, initialFriendship: 28, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.30, initialFriendship: 20, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 20, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 30, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 30, specialEffect: 1 }
     ]
   },
 
   Winona: {
+    // LB0: Graceful Flying leader - high appearance, elegant
+    // LB1: BIG JUMP appearanceRate (0.48→0.58) - Soaring presence
+    // LB2: BIG JUMP typeMatchPreference (0.14→0.20) - Flying mastery
+    // LB3: BIG JUMP specialEffect (0.55→0.95) - Sky training mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full aerial power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.48, typeMatchPreference: 0.14, initialFriendship: 25, specialEffect: 0.55 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.51, typeMatchPreference: 0.16, initialFriendship: 28, specialEffect: 0.68 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.54, typeMatchPreference: 0.17, initialFriendship: 31, specialEffect: 0.80 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.56, typeMatchPreference: 0.19, initialFriendship: 33, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.48, typeMatchPreference: 0.14, initialFriendship: 35, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.58, typeMatchPreference: 0.14, initialFriendship: 35, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.58, typeMatchPreference: 0.20, initialFriendship: 35, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.58, typeMatchPreference: 0.20, initialFriendship: 35, specialEffect: 0.95 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.58, typeMatchPreference: 0.20, initialFriendship: 35, specialEffect: 1.00 }
     ]
   },
 
   Agatha: {
+    // LB0: Old Elite Ghost master - reclusive, full effect
+    // LB1: BIG JUMP typeMatchPreference (0.30→0.40) - Ghost mastery
+    // LB2: BIG JUMP appearanceRate (0.24→0.32) - Emerges from shadows
+    // LB3: BIG JUMP trainingBonus (0.70→0.95) - Elite wisdom
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full Elite Four power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.24, typeMatchPreference: 0.30, initialFriendship: 14, specialEffect: 1 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.26, typeMatchPreference: 0.33, initialFriendship: 16, specialEffect: 1 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.28, typeMatchPreference: 0.36, initialFriendship: 17, specialEffect: 1 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.30, typeMatchPreference: 0.38, initialFriendship: 19, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.24, typeMatchPreference: 0.30, initialFriendship: 20, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.24, typeMatchPreference: 0.40, initialFriendship: 20, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.40, initialFriendship: 20, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.95, appearanceRate: 0.32, typeMatchPreference: 0.40, initialFriendship: 20, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.32, typeMatchPreference: 0.40, initialFriendship: 20, specialEffect: 1 }
     ]
   },
 
   Milo: {
+    // LB0: Friendly farmer Grass leader - very high friendship
+    // LB1: BIG JUMP appearanceRate (0.45→0.55) - Always there to help
+    // LB2: BIG JUMP initialFriendship (40→52) - Instant farmhand buddy
+    // LB3: BIG JUMP specialEffect (0.55→0.95) - Farm training mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full farmer strength
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.45, typeMatchPreference: 0.15, initialFriendship: 40, specialEffect: 0.55 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.48, typeMatchPreference: 0.18, initialFriendship: 44, specialEffect: 0.68 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.51, typeMatchPreference: 0.20, initialFriendship: 47, specialEffect: 0.80 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.54, typeMatchPreference: 0.23, initialFriendship: 50, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.45, typeMatchPreference: 0.25, initialFriendship: 40, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.55, typeMatchPreference: 0.25, initialFriendship: 40, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.55, typeMatchPreference: 0.25, initialFriendship: 52, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.55, typeMatchPreference: 0.25, initialFriendship: 52, specialEffect: 0.95 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.55, typeMatchPreference: 0.25, initialFriendship: 52, specialEffect: 1.00 }
     ]
   },
 
   Kabu: {
+    // LB0: Disciplined Fire leader - tough, strict, Fire specialist
+    // LB1: BIG JUMP typeMatchPreference (0.30→0.45) - Fire mastery
+    // LB2: BIG JUMP appearanceRate (0.28→0.40) - More accessible
+    // LB3: BIG JUMP specialEffect (0.50→0.90) - Instinct mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full veteran power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.30, initialFriendship: 10, specialEffect: 0.50 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.32, typeMatchPreference: 0.35, initialFriendship: 13, specialEffect: 0.65 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.35, typeMatchPreference: 0.38, initialFriendship: 15, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.38, typeMatchPreference: 0.42, initialFriendship: 17, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.30, initialFriendship: 18, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.45, initialFriendship: 18, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.40, typeMatchPreference: 0.45, initialFriendship: 18, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.40, typeMatchPreference: 0.45, initialFriendship: 18, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.40, typeMatchPreference: 0.45, initialFriendship: 18, specialEffect: 1.00 }
     ]
   },
 
   Melony: {
+    // LB0: Motherly Ice leader - warm personality, caring
+    // LB1: BIG JUMP appearanceRate (0.42→0.54) - Always there for you
+    // LB2: BIG JUMP initialFriendship (35→48) - Instant mom energy
+    // LB3: BIG JUMP specialEffect (0.55→0.95) - Training mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full Ice power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.42, typeMatchPreference: 0.15, initialFriendship: 35, specialEffect: 0.55 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.46, typeMatchPreference: 0.18, initialFriendship: 39, specialEffect: 0.68 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.49, typeMatchPreference: 0.20, initialFriendship: 42, specialEffect: 0.80 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.52, typeMatchPreference: 0.23, initialFriendship: 45, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.42, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.54, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.54, typeMatchPreference: 0.25, initialFriendship: 48, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.54, typeMatchPreference: 0.25, initialFriendship: 48, specialEffect: 0.95 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.54, typeMatchPreference: 0.25, initialFriendship: 48, specialEffect: 1.00 }
     ]
   },
 
   Gordie: {
+    // LB0: Cool Rock leader - trendy, confident
+    // LB1: BIG JUMP typeMatchPreference (0.22→0.35) - Rock mastery
+    // LB2: BIG JUMP appearanceRate (0.32→0.45) - More approachable
+    // LB3: BIG JUMP specialEffect (0.55→0.95) - Training mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full Rock power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.22, initialFriendship: 18, specialEffect: 0.55 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.36, typeMatchPreference: 0.26, initialFriendship: 22, specialEffect: 0.68 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.40, typeMatchPreference: 0.29, initialFriendship: 25, specialEffect: 0.80 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.43, typeMatchPreference: 0.32, initialFriendship: 28, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.22, initialFriendship: 30, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.35, initialFriendship: 30, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.45, typeMatchPreference: 0.35, initialFriendship: 30, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.45, typeMatchPreference: 0.35, initialFriendship: 30, specialEffect: 0.95 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.45, typeMatchPreference: 0.35, initialFriendship: 30, specialEffect: 1.00 }
     ]
   },
 
   Geeta: {
+    // LB0: Overworked Champion - distant, full effect
+    // LB1: BIG JUMP typeMatchPreference (0.22→0.30) - Type versatility
+    // LB2: BIG JUMP appearanceRate (0.30→0.40) - Makes time for you
+    // LB3: BIG JUMP trainingBonus (0.70→0.95) - Champion wisdom
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full Champion power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.22, initialFriendship: 10, specialEffect: 1 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.33, typeMatchPreference: 0.25, initialFriendship: 12, specialEffect: 1 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.36, typeMatchPreference: 0.27, initialFriendship: 13, specialEffect: 1 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.38, typeMatchPreference: 0.29, initialFriendship: 14, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.22, initialFriendship: 15, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.30, typeMatchPreference: 0.30, initialFriendship: 15, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 15, specialEffect: 1 },
+      { baseStats: 0.65, trainingBonus: 0.95, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 15, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.40, typeMatchPreference: 0.30, initialFriendship: 15, specialEffect: 1 }
     ]
   },
 
   Kieran: {
+    // LB0: Shy rival - grows through competition
+    // LB1: BIG JUMP typeMatchPreference (0.24→0.40) - Type mastery emerges
+    // LB2: BIG JUMP initialFriendship (20→38) - True bond formed
+    // LB3: BIG JUMP specialEffect (0.50→0.90) - Instinct mastered
+    // LB4: BIG JUMP appearanceRate (0.28→0.42) - Confident presence
     progression: [
       { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.24, initialFriendship: 20, specialEffect: 0.50 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.32, typeMatchPreference: 0.28, initialFriendship: 25, specialEffect: 0.65 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.36, typeMatchPreference: 0.32, initialFriendship: 30, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.40, typeMatchPreference: 0.36, initialFriendship: 34, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.40, initialFriendship: 20, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.40, initialFriendship: 38, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.28, typeMatchPreference: 0.40, initialFriendship: 38, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.42, typeMatchPreference: 0.40, initialFriendship: 38, specialEffect: 1.00 }
     ]
   },
 
   Grusha: {
+    // LB0: Cool Ice leader - reserved snowboarder
+    // LB1: BIG JUMP appearanceRate (0.38→0.48) - Warms up to you
+    // LB2: BIG JUMP typeMatchPreference (0.18→0.25) - Ice mastery
+    // LB3: BIG JUMP specialEffect (0.55→0.95) - Training mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full snowboarder power
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.38, typeMatchPreference: 0.18, initialFriendship: 22, specialEffect: 0.55 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.41, typeMatchPreference: 0.20, initialFriendship: 25, specialEffect: 0.68 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.44, typeMatchPreference: 0.22, initialFriendship: 27, specialEffect: 0.80 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.46, typeMatchPreference: 0.24, initialFriendship: 29, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.38, typeMatchPreference: 0.18, initialFriendship: 30, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.48, typeMatchPreference: 0.18, initialFriendship: 30, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 0.95 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 30, specialEffect: 1.00 }
     ]
   },
 
   Iono: {
+    // LB0: Streamer Electric leader - high appearance, popular
+    // LB1: BIG JUMP appearanceRate (0.50→0.60) - Always streaming
+    // LB2: BIG JUMP initialFriendship (35→48) - Instant chat member
+    // LB3: BIG JUMP specialEffect (0.55→0.95) - Training mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full streamer energy
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.50, typeMatchPreference: 0.15, initialFriendship: 35, specialEffect: 0.55 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.53, typeMatchPreference: 0.18, initialFriendship: 40, specialEffect: 0.68 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.55, typeMatchPreference: 0.20, initialFriendship: 43, specialEffect: 0.80 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.58, typeMatchPreference: 0.23, initialFriendship: 46, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.50, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.60, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.60, typeMatchPreference: 0.25, initialFriendship: 48, specialEffect: 0.55 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.60, typeMatchPreference: 0.25, initialFriendship: 48, specialEffect: 0.95 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.60, typeMatchPreference: 0.25, initialFriendship: 48, specialEffect: 1.00 }
     ]
   },
 
   Klara: {
+    // LB0: Scheming Poison trainee - ambitious, competitive
+    // LB1: BIG JUMP typeMatchPreference (0.22→0.35) - Poison mastery
+    // LB2: BIG JUMP appearanceRate (0.32→0.44) - Shows up more
+    // LB3: BIG JUMP specialEffect (0.50→0.90) - Instinct mastered
+    // LB4: BIG JUMP baseStats (0.65→1.00) - Full dojo potential
     progression: [
-      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.22, initialFriendship: 15, specialEffect: 0.50 },
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.36, typeMatchPreference: 0.26, initialFriendship: 18, specialEffect: 0.65 },
-      { baseStats: 0.84, trainingBonus: 0.86, appearanceRate: 0.39, typeMatchPreference: 0.29, initialFriendship: 21, specialEffect: 0.78 },
-      { baseStats: 0.92, trainingBonus: 0.94, appearanceRate: 0.42, typeMatchPreference: 0.32, initialFriendship: 23, specialEffect: 0.90 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.22, initialFriendship: 25, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.32, typeMatchPreference: 0.35, initialFriendship: 25, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.44, typeMatchPreference: 0.35, initialFriendship: 25, specialEffect: 0.50 },
+      { baseStats: 0.65, trainingBonus: 0.70, appearanceRate: 0.44, typeMatchPreference: 0.35, initialFriendship: 25, specialEffect: 0.90 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.44, typeMatchPreference: 0.35, initialFriendship: 25, specialEffect: 1.00 }
     ]
   },
@@ -1669,51 +1779,76 @@ export const SUPPORT_LIMIT_BREAK_PROGRESSIONS = {
   // ============================================================================
 
   Whitney: {
+    // LB0: Goldenrod's Normal gym leader - high friendship, HP support, no special effect
+    // LB1: BIG JUMP trainingBonus (0.80→1.00) - Training mastery unlocked
+    // LB2: BIG JUMP appearanceRate (0.55→0.62) - Always available
+    // LB3: BIG JUMP initialFriendship (40→50) - Instant max friendship
+    // LB4: BIG JUMP baseStats (0.80→1.00) - Full gym leader power
     progression: [
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.55, typeMatchPreference: 0.10, initialFriendship: 40, specialEffect: 1 },
-      { baseStats: 0.82, trainingBonus: 0.85, appearanceRate: 0.57, typeMatchPreference: 0.12, initialFriendship: 43, specialEffect: 1 },
-      { baseStats: 0.88, trainingBonus: 0.90, appearanceRate: 0.59, typeMatchPreference: 0.13, initialFriendship: 46, specialEffect: 1 },
-      { baseStats: 0.94, trainingBonus: 0.96, appearanceRate: 0.61, typeMatchPreference: 0.14, initialFriendship: 48, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.55, typeMatchPreference: 0.15, initialFriendship: 40, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 1.00, appearanceRate: 0.55, typeMatchPreference: 0.15, initialFriendship: 40, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 1.00, appearanceRate: 0.62, typeMatchPreference: 0.15, initialFriendship: 40, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 1.00, appearanceRate: 0.62, typeMatchPreference: 0.15, initialFriendship: 50, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.62, typeMatchPreference: 0.15, initialFriendship: 50, specialEffect: 1 }
     ]
   },
 
   Chuck: {
+    // LB0: Cianwood's Fighting gym leader - low friendship, Attack support, strong type focus
+    // LB1: BIG JUMP typeMatchPreference (0.22→0.30) - Fighting mastery
+    // LB2: BIG JUMP trainingBonus (0.80→1.00) - Training intensity peaks
+    // LB3: BIG JUMP appearanceRate (0.28→0.35) - More available for training
+    // LB4: BIG JUMP baseStats (0.80→1.00) - Full gym leader power
     progression: [
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.28, typeMatchPreference: 0.22, initialFriendship: 3, specialEffect: 1 },
-      { baseStats: 0.82, trainingBonus: 0.85, appearanceRate: 0.30, typeMatchPreference: 0.25, initialFriendship: 4, specialEffect: 1 },
-      { baseStats: 0.88, trainingBonus: 0.90, appearanceRate: 0.32, typeMatchPreference: 0.27, initialFriendship: 4, specialEffect: 1 },
-      { baseStats: 0.94, trainingBonus: 0.96, appearanceRate: 0.34, typeMatchPreference: 0.29, initialFriendship: 5, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.28, typeMatchPreference: 0.22, initialFriendship: 5, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.28, typeMatchPreference: 0.30, initialFriendship: 5, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 1.00, appearanceRate: 0.28, typeMatchPreference: 0.30, initialFriendship: 5, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 1.00, appearanceRate: 0.35, typeMatchPreference: 0.30, initialFriendship: 5, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.35, typeMatchPreference: 0.30, initialFriendship: 5, specialEffect: 1 }
     ]
   },
 
   Pryce: {
+    // LB0: Mahogany's Ice gym leader - Defense support, recovery special (maxEnergyBonus, restBonus)
+    // LB1: BIG JUMP specialEffect (0.50→0.80) - Recovery power surge
+    // LB2: BIG JUMP appearanceRate (0.45→0.55) - More available
+    // LB3: BIG JUMP initialFriendship (35→45) - Deep bond formed
+    // LB4: BIG JUMP baseStats (0.80→1.00) + specialEffect max - Full elder wisdom
     progression: [
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.47, typeMatchPreference: 0.06, initialFriendship: 35, specialEffect: 0.60 },
-      { baseStats: 0.82, trainingBonus: 0.85, appearanceRate: 0.49, typeMatchPreference: 0.07, initialFriendship: 38, specialEffect: 0.72 },
-      { baseStats: 0.88, trainingBonus: 0.90, appearanceRate: 0.51, typeMatchPreference: 0.08, initialFriendship: 40, specialEffect: 0.82 },
-      { baseStats: 0.94, trainingBonus: 0.96, appearanceRate: 0.53, typeMatchPreference: 0.09, initialFriendship: 43, specialEffect: 0.92 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.45, typeMatchPreference: 0.10, initialFriendship: 35, specialEffect: 0.50 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.45, typeMatchPreference: 0.10, initialFriendship: 35, specialEffect: 0.80 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.55, typeMatchPreference: 0.10, initialFriendship: 35, specialEffect: 0.80 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.55, typeMatchPreference: 0.10, initialFriendship: 45, specialEffect: 0.80 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.55, typeMatchPreference: 0.10, initialFriendship: 45, specialEffect: 1.00 }
     ]
   },
 
   Wattson: {
+    // LB0: Mauville's Electric gym leader - Instinct support, jovial old man, no special effect
+    // LB1: BIG JUMP typeMatchPreference (0.18→0.25) - Electric mastery
+    // LB2: BIG JUMP trainingBonus (0.80→1.00) - Training expertise
+    // LB3: BIG JUMP appearanceRate (0.40→0.48) - Always around laughing
+    // LB4: BIG JUMP baseStats (0.80→1.00) - Full gym leader power
     progression: [
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.40, typeMatchPreference: 0.18, initialFriendship: 28, specialEffect: 1 },
-      { baseStats: 0.82, trainingBonus: 0.85, appearanceRate: 0.42, typeMatchPreference: 0.20, initialFriendship: 30, specialEffect: 1 },
-      { baseStats: 0.88, trainingBonus: 0.90, appearanceRate: 0.44, typeMatchPreference: 0.22, initialFriendship: 32, specialEffect: 1 },
-      { baseStats: 0.94, trainingBonus: 0.96, appearanceRate: 0.46, typeMatchPreference: 0.24, initialFriendship: 34, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.40, typeMatchPreference: 0.18, initialFriendship: 35, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.40, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 1.00, appearanceRate: 0.40, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 1 },
+      { baseStats: 0.80, trainingBonus: 1.00, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 1 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.48, typeMatchPreference: 0.25, initialFriendship: 35, specialEffect: 1 }
     ]
   },
 
   Flannery: {
+    // LB0: Lavaridge's Fire gym leader - Attack support, special (statGainMultiplier, failRateReduction)
+    // LB1: BIG JUMP specialEffect (0.50→0.80) - Fiery growth intensifies
+    // LB2: BIG JUMP typeMatchPreference (0.26→0.35) - Fire mastery
+    // LB3: BIG JUMP appearanceRate (0.32→0.40) - More available
+    // LB4: BIG JUMP baseStats (0.80→1.00) + specialEffect max - Full fiery power
     progression: [
-      { baseStats: 0.75, trainingBonus: 0.78, appearanceRate: 0.32, typeMatchPreference: 0.26, initialFriendship: 10, specialEffect: 0.60 },
-      { baseStats: 0.82, trainingBonus: 0.85, appearanceRate: 0.34, typeMatchPreference: 0.28, initialFriendship: 12, specialEffect: 0.72 },
-      { baseStats: 0.88, trainingBonus: 0.90, appearanceRate: 0.36, typeMatchPreference: 0.30, initialFriendship: 13, specialEffect: 0.82 },
-      { baseStats: 0.94, trainingBonus: 0.96, appearanceRate: 0.38, typeMatchPreference: 0.33, initialFriendship: 14, specialEffect: 0.92 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.32, typeMatchPreference: 0.26, initialFriendship: 15, specialEffect: 0.50 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.32, typeMatchPreference: 0.26, initialFriendship: 15, specialEffect: 0.80 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.32, typeMatchPreference: 0.35, initialFriendship: 15, specialEffect: 0.80 },
+      { baseStats: 0.80, trainingBonus: 0.80, appearanceRate: 0.40, typeMatchPreference: 0.35, initialFriendship: 15, specialEffect: 0.80 },
       { baseStats: 1.00, trainingBonus: 1.00, appearanceRate: 0.40, typeMatchPreference: 0.35, initialFriendship: 15, specialEffect: 1.00 }
     ]
   }

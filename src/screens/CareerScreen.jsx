@@ -84,7 +84,8 @@ const calculateDifficultyMultiplier = (turn) => {
   return baseMultiplier * enemyStatMult;
 };
 
-// Alias for backwards compatibility
+// Alias for backwards compatibility (exported for other modules)
+// eslint-disable-next-line no-unused-vars
 const calculateGymLeaderMultiplier = calculateDifficultyMultiplier;
 
 /**
@@ -1635,32 +1636,34 @@ const CareerScreen = () => {
                     )}
                   </div>
                   {/* Type Aptitudes - Show all 6 types */}
+                  {careerData.pokemon.typeAptitudes && (
                   <div className="flex text-[10px] sm:text-xs mt-1 flex-wrap gap-x-2 gap-y-0.5">
                     <span className="inline-flex items-center gap-0.5">
                       <TypeIcon type="Fire" size={12} />
-                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Red), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Red}</span>
+                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Fire), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Fire || '?'}</span>
                     </span>
                     <span className="inline-flex items-center gap-0.5">
                       <TypeIcon type="Water" size={12} />
-                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Blue), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Blue}</span>
+                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Water), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Water || '?'}</span>
                     </span>
                     <span className="inline-flex items-center gap-0.5">
                       <TypeIcon type="Grass" size={12} />
-                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Green), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Green}</span>
+                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Grass), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Grass || '?'}</span>
                     </span>
                     <span className="inline-flex items-center gap-0.5">
                       <TypeIcon type="Psychic" size={12} />
-                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Purple), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Purple}</span>
+                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Psychic), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Psychic || '?'}</span>
                     </span>
                     <span className="inline-flex items-center gap-0.5">
                       <TypeIcon type="Electric" size={12} />
-                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Yellow), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Yellow}</span>
+                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Electric), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Electric || '?'}</span>
                     </span>
                     <span className="inline-flex items-center gap-0.5">
                       <TypeIcon type="Fighting" size={12} />
-                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Orange), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Orange}</span>
+                      <span style={{ color: getAptitudeColor(careerData.pokemon.typeAptitudes.Fighting), fontWeight: 'bold' }}>{careerData.pokemon.typeAptitudes.Fighting || '?'}</span>
                     </span>
                   </div>
+                  )}
                   {/* Stats Grid */}
                   <div className="grid grid-cols-5 gap-x-1 sm:gap-x-2 text-xs mt-1">
                     <div className="flex items-center gap-0.5 sm:gap-1">

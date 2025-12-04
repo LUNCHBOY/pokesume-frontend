@@ -1,4 +1,4 @@
-﻿/**
+/**
  * CareerEndScreen Component
  *
  * Displayed when the player completes all 60 turns.

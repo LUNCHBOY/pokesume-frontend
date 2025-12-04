@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Game Utility Functions
  *
  * Collection of helper functions for Pokemon stats, colors, sprites, and grading.
@@ -21,12 +21,6 @@ export const getTypeColor = (type) => {
     Electric: '#ca8a04',
     Fighting: '#f97316',
     Colorless: '#6b7280',
-    Fire: '#dc2626',
-    Water: '#2563eb',
-    Grass: '#16a34a',
-    Psychic: '#9333ea',
-    Electric: '#ca8a04',
-    Fighting: '#f97316',
     Normal: '#6b7280'
   };
   return colors[type] || '#6b7280';

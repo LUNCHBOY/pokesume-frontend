@@ -6,9 +6,9 @@
  * Supports Google SSO authentication.
  */
 
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { User, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, X, AlertTriangle } from 'lucide-react';
 
 // Google Client ID - should match the one in backend .env
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -100,6 +100,8 @@ const AuthModal = ({
   ICONS,
   isMandatory = false
 }) => {
+  const [showBetaWarning, setShowBetaWarning] = useState(true);
+
   if (!showAuth && !isMandatory) return null;
 
   const handleGoogleSuccess = async (credential) => {
@@ -251,6 +253,43 @@ const AuthModal = ({
           </button>
         </div>
       </motion.div>
+
+      {/* Beta Warning Modal */}
+      <AnimatePresence>
+        {showBetaWarning && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60] p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl"
+            >
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
+                  <AlertTriangle size={32} className="text-amber-500" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-pocket-text text-center mb-3">
+                Beta Experience
+              </h3>
+              <p className="text-pocket-text-light text-center mb-6">
+                This is a beta experience. We're wiping account progress regularly.
+              </p>
+              <button
+                onClick={() => setShowBetaWarning(false)}
+                className="pocket-btn-primary w-full py-3"
+              >
+                I Understand
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

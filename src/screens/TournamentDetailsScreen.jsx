@@ -10,7 +10,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { ArrowLeft, Trophy, Clock, Users, CheckCircle, Search, Filter, X, Star } from 'lucide-react';
+import { ArrowLeft, Trophy, Clock, Users, CheckCircle, Search, Filter, X, Star, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -349,6 +349,31 @@ const TournamentDetailsScreen = () => {
               </p>
             </div>
           </div>
+
+          {/* Gym Badge / Battle Condition */}
+          {(selectedTournament?.gymBadge || tournamentDetails?.tournament?.gymBadge) && (
+            <div className="mt-4 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                  <Zap size={16} className="text-purple-600" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-purple-700 text-sm">
+                    {(selectedTournament?.gymBadge || tournamentDetails?.tournament?.gymBadge)?.condition?.name}
+                  </h4>
+                  <p className="text-purple-600 text-[10px]">
+                    {(selectedTournament?.gymBadge || tournamentDetails?.tournament?.gymBadge)?.leader}'s {(selectedTournament?.gymBadge || tournamentDetails?.tournament?.gymBadge)?.gym}
+                  </p>
+                </div>
+                <div className="ml-auto">
+                  <TypeBadge type={(selectedTournament?.gymBadge || tournamentDetails?.tournament?.gymBadge)?.type} size={14} />
+                </div>
+              </div>
+              <p className="text-purple-700 text-xs leading-relaxed">
+                {(selectedTournament?.gymBadge || tournamentDetails?.tournament?.gymBadge)?.condition?.description}
+              </p>
+            </div>
+          )}
 
           {/* Tournament Progress Message */}
           {(selectedTournament?.status === 'registration' || selectedTournament?.status === 'upcoming') && (
