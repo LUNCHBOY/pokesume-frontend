@@ -581,8 +581,11 @@ const CareerScreen = () => {
 
     // Check for stage 1 evolution (at C grade or higher)
     if (currentStage === 0 && evolutionChain.stage1 && gradeIndex >= cGradeIndex) {
-      console.log('[checkForEvolution] Triggering stage 1 evolution to:', evolutionChain.stage1);
-      return { toName: evolutionChain.stage1, toStage: 1 };
+      // Handle array of evolution options (e.g., Eevee) - randomly select one
+      const stage1Options = Array.isArray(evolutionChain.stage1) ? evolutionChain.stage1 : [evolutionChain.stage1];
+      const selectedEvolution = stage1Options[Math.floor(Math.random() * stage1Options.length)];
+      console.log('[checkForEvolution] Triggering stage 1 evolution to:', selectedEvolution, '(from options:', stage1Options, ')');
+      return { toName: selectedEvolution, toStage: 1 };
     }
 
     // Check for stage 2 evolution (at A grade or higher)
@@ -670,6 +673,19 @@ const CareerScreen = () => {
         newLearnableAbilities.push(signatureMove);
       }
 
+      // For Eevee evolutions, boost the evolution's type aptitude by +2 grades (S max)
+      let updatedTypeAptitudes = { ...careerData.pokemon.typeAptitudes };
+      if (baseName === 'Eevee' && evolutionData.primaryType) {
+        const gradeOrder = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+        const evolutionType = evolutionData.primaryType;
+        const currentGrade = updatedTypeAptitudes[evolutionType] || 'C';
+        const currentIndex = gradeOrder.indexOf(currentGrade);
+        // Boost by 2 grades, cap at S (index 6)
+        const newIndex = Math.min(currentIndex + 2, 6);
+        updatedTypeAptitudes[evolutionType] = gradeOrder[newIndex];
+        console.log(`[Evolution] Boosting ${evolutionType} aptitude from ${currentGrade} to ${gradeOrder[newIndex]} for Eevee evolution`);
+      }
+
       evolvedCareerState = {
         ...careerData,
         pokemon: {
@@ -677,7 +693,7 @@ const CareerScreen = () => {
           learnableAbilities: newLearnableAbilities,
           strategy: careerData.pokemon.strategy, // Preserve player's selected strategy
           strategyGrade: careerData.pokemon.strategyGrade, // Preserve strategy grade
-          typeAptitudes: careerData.pokemon.typeAptitudes, // Preserve player's aptitudes (may have been upgraded via inspirations)
+          typeAptitudes: updatedTypeAptitudes, // Apply boosted aptitude for Eevee evolutions
           strategyAptitudes: careerData.pokemon.strategyAptitudes // Preserve strategy aptitudes
         },
         currentStats: newStats,
