@@ -2283,11 +2283,5 @@ const SUPPORT_GACHA_RARITY = {
   }
 };
 
-module.exports = {
-  SUPPORT_CARDS,
-  LEGACY_SUPPORT_NAME_MAP,
-  SUPPORT_LIMIT_BREAK_PROGRESSIONS,
-  normalizeSupportName,
-  getSupportAtLimitBreak,
-  SUPPORT_GACHA_RARITY
-};
+export { SUPPORT_CARDS, LEGACY_SUPPORT_NAME_MAP, SUPPORT_LIMIT_BREAK_PROGRESSIONS, normalizeSupportName, getSupportAtLimitBreak, SUPPORT_GACHA_RARITY };
+

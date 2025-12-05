@@ -1075,7 +1075,5 @@ const HANGOUT_EVENTS = {
   }
 };
 
-module.exports = {
-  RANDOM_EVENTS,
-  HANGOUT_EVENTS
-};
+export { RANDOM_EVENTS, HANGOUT_EVENTS };
+
