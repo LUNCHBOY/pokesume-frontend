@@ -670,9 +670,20 @@ const SupportSelectionScreen = () => {
                         />
                       )}
 
-                      {/* Stat type icon */}
-                      <div className="absolute top-1 left-1 w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
-                        <StatIcon stat={support.supportType} size={10} />
+                      {/* Stat type icon & Move type icon */}
+                      <div className="absolute top-1 left-1 flex items-center gap-0.5">
+                        <div className="w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
+                          <StatIcon stat={support.supportType} size={10} />
+                        </div>
+                        {(() => {
+                          const dominantType = getDominantMoveType(support.moveHints, MOVES);
+                          if (!dominantType) return null;
+                          return (
+                            <div className="w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
+                              <TypeIcon type={dominantType} size={10} />
+                            </div>
+                          );
+                        })()}
                       </div>
 
                       {/* Limit Break indicator */}
@@ -859,27 +870,12 @@ const SupportSelectionScreen = () => {
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-1.5">
                           <p className="text-white text-[9px] font-bold truncate">{support.name}</p>
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1">
-                              <span
-                                className="text-[8px] font-bold"
-                                style={{ color: getFocusColor(support.supportType) }}
-                              >
-                                {support.supportType}
-                              </span>
-                              {(() => {
-                                const dominantType = getDominantMoveType(support.moveHints, MOVES);
-                                if (!dominantType) return null;
-                                const typeColor = TYPE_COLORS[dominantType] || '#A8A878';
-                                return (
-                                  <span
-                                    className="px-1 py-0 rounded text-[7px] font-bold text-white"
-                                    style={{ backgroundColor: typeColor }}
-                                  >
-                                    {dominantType}
-                                  </span>
-                                );
-                              })()}
-                            </div>
+                            <span
+                              className="text-[8px] font-bold"
+                              style={{ color: getFocusColor(support.supportType) }}
+                            >
+                              {support.supportType}
+                            </span>
                             <LimitBreakDiamonds level={limitBreakLevel} size={5} />
                           </div>
                         </div>
@@ -891,9 +887,20 @@ const SupportSelectionScreen = () => {
                           </div>
                         )}
 
-                        {/* Stat type icon */}
-                        <div className="absolute top-1 left-1 w-5 h-5 bg-white/80 rounded-full flex items-center justify-center">
-                          <StatIcon stat={support.supportType} size={12} />
+                        {/* Stat type icon & Move type icon */}
+                        <div className="absolute top-1 left-1 flex items-center gap-0.5">
+                          <div className="w-5 h-5 bg-white/80 rounded-full flex items-center justify-center">
+                            <StatIcon stat={support.supportType} size={12} />
+                          </div>
+                          {(() => {
+                            const dominantType = getDominantMoveType(support.moveHints, MOVES);
+                            if (!dominantType) return null;
+                            return (
+                              <div className="w-5 h-5 bg-white/80 rounded-full flex items-center justify-center">
+                                <TypeIcon type={dominantType} size={12} />
+                              </div>
+                            );
+                          })()}
                         </div>
                       </motion.div>
                     );
