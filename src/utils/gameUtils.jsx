@@ -588,6 +588,37 @@ export const StatIcon = ({ stat, size = 16 }) => {
 // SUPPORT CARD UTILITIES
 // ============================================================================
 
+/**
+ * Returns the dominant move type from a support card's moveHints
+ * @param moveHints - Array of move names
+ * @param MOVES - The MOVES object containing move definitions
+ * @returns The most common move type, or null if no moves
+ */
+export const getDominantMoveType = (moveHints, MOVES) => {
+  if (!moveHints || moveHints.length === 0 || !MOVES) return null;
+
+  // Count occurrences of each type
+  const typeCounts = {};
+  for (const move of moveHints) {
+    const moveData = MOVES[move];
+    if (moveData?.type) {
+      typeCounts[moveData.type] = (typeCounts[moveData.type] || 0) + 1;
+    }
+  }
+
+  // Find the type with highest count
+  let dominantType = null;
+  let maxCount = 0;
+  for (const [type, count] of Object.entries(typeCounts)) {
+    if (count > maxCount) {
+      maxCount = count;
+      dominantType = type;
+    }
+  }
+
+  return dominantType;
+};
+
 export const getSupportCardAttributes = (supportKey, SUPPORT_CARDS, limitBreakLevel = 4) => {
   // Normalize legacy support names to new format
   const normalizedKey = normalizeSupportName(supportKey);

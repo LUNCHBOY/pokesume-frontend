@@ -19,7 +19,8 @@ import {
   getRarityColor,
   getSupportCardAttributes,
   StatIcon,
-  getAptitudeColor
+  getAptitudeColor,
+  getDominantMoveType
 } from '../utils/gameUtils';
 import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, POKEMON, MOVES } from '../shared/gameData';
@@ -858,12 +859,27 @@ const SupportSelectionScreen = () => {
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-1.5">
                           <p className="text-white text-[9px] font-bold truncate">{support.name}</p>
                           <div className="flex items-center justify-between">
-                            <span
-                              className="text-[8px] font-bold"
-                              style={{ color: getFocusColor(support.supportType) }}
-                            >
-                              {support.supportType}
-                            </span>
+                            <div className="flex items-center gap-1">
+                              <span
+                                className="text-[8px] font-bold"
+                                style={{ color: getFocusColor(support.supportType) }}
+                              >
+                                {support.supportType}
+                              </span>
+                              {(() => {
+                                const dominantType = getDominantMoveType(support.moveHints, MOVES);
+                                if (!dominantType) return null;
+                                const typeColor = TYPE_COLORS[dominantType] || '#A8A878';
+                                return (
+                                  <span
+                                    className="px-1 py-0 rounded text-[7px] font-bold text-white"
+                                    style={{ backgroundColor: typeColor }}
+                                  >
+                                    {dominantType}
+                                  </span>
+                                );
+                              })()}
+                            </div>
                             <LimitBreakDiamonds level={limitBreakLevel} size={5} />
                           </div>
                         </div>
@@ -934,14 +950,29 @@ const SupportSelectionScreen = () => {
                 <div className="flex justify-center mt-2">
                   <LimitBreakDiamonds level={getSupportLimitBreak(detailSupport)} size={14} />
                 </div>
-                {detailSupportData.supportType && (
-                  <p
-                    className="text-sm font-bold mt-2"
-                    style={{ color: getFocusColor(detailSupportData.supportType) }}
-                  >
-                    Focus: {detailSupportData.supportType}
-                  </p>
-                )}
+                <div className="flex items-center justify-center gap-3 mt-2">
+                  {detailSupportData.supportType && (
+                    <span
+                      className="text-sm font-bold"
+                      style={{ color: getFocusColor(detailSupportData.supportType) }}
+                    >
+                      Focus: {detailSupportData.supportType}
+                    </span>
+                  )}
+                  {(() => {
+                    const dominantType = getDominantMoveType(detailSupportData.moveHints, MOVES);
+                    if (!dominantType) return null;
+                    const typeColor = TYPE_COLORS[dominantType] || '#A8A878';
+                    return (
+                      <span
+                        className="px-2 py-0.5 rounded text-xs font-bold text-white"
+                        style={{ backgroundColor: typeColor }}
+                      >
+                        {dominantType} Moves
+                      </span>
+                    );
+                  })()}
+                </div>
               </div>
 
               {/* Description */}

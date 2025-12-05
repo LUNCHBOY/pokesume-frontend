@@ -79,6 +79,17 @@ export const TRAINER_FACE_CONFIG = {
   'Pryce': { scale: 2.4, offsetY: -10, offsetX: 0 },
   'Wattson': { scale: 2.4, offsetY: -10, offsetX: 0 },
   'Flannery': { scale: 2.2, offsetY: -14, offsetX: 0 },
+  // Move Type Distribution supports (new)
+  'Crasher Wake': { scale: 2.2, offsetY: -10, offsetX: 0 },
+  'Elesa': { scale: 2.2, offsetY: -14, offsetX: 0 },
+  'Volkner': { scale: 2.2, offsetY: -12, offsetX: 0 },
+  'Gardenia': { scale: 2.2, offsetY: -14, offsetX: 0 },
+  'Juan': { scale: 2.4, offsetY: -12, offsetX: 0 },
+  'Clemont': { scale: 2.2, offsetY: -14, offsetX: 0 },
+  'Cress': { scale: 2.2, offsetY: -14, offsetX: 0 },
+  'Ramos': { scale: 2.4, offsetY: -10, offsetX: 0 },
+  'Marlon': { scale: 2.2, offsetY: -10, offsetX: 0 },
+  'Cilan': { scale: 2.2, offsetY: -14, offsetX: 0 },
 };
 
 // Gym Leader Images
@@ -170,6 +181,17 @@ export const SUPPORT_TRAINER_IMAGES = {
   'Pryce': '/images/trainers/supports/pryce.png',
   'Wattson': '/images/trainers/supports/wattson.png',
   'Flannery': '/images/trainers/supports/flannery.png',
+  // Move Type Distribution supports (new)
+  'Crasher Wake': '/images/trainers/supports/crasher_wake.png',
+  'Elesa': '/images/trainers/supports/elesa.png',
+  'Volkner': '/images/trainers/supports/volkner.png',
+  'Gardenia': '/images/trainers/supports/gardenia.png',
+  'Juan': '/images/trainers/supports/juan.png',
+  'Clemont': '/images/trainers/supports/clemont.png',
+  'Cress': '/images/trainers/supports/cress.png',
+  'Ramos': '/images/trainers/supports/ramos.png',
+  'Marlon': '/images/trainers/supports/marlon.png',
+  'Cilan': '/images/trainers/supports/cilan.png',
 };
 
 // Helper function to get gym leader image with fallback

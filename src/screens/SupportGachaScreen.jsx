@@ -11,7 +11,7 @@ import { Sparkles, ArrowLeft, Gift, Star, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../contexts/GameContext';
 import { useInventory } from '../contexts/InventoryContext';
-import { getRarityColor } from '../utils/gameUtils';
+import { getRarityColor, getDominantMoveType } from '../utils/gameUtils';
 import { TYPE_COLORS } from '../components/TypeIcon';
 import { SUPPORT_CARDS, SUPPORT_GACHA_RARITY, MOVES } from '../shared/gameData';
 import { getSupportImageFromCardName } from '../constants/trainerImages';
@@ -394,6 +394,38 @@ const SupportGachaScreen = () => {
                     <LimitBreakDiamonds level={getSupportLimitBreak(rollResult.support)} size={14} />
                   </div>
 
+                  {/* Focus Type & Move Type */}
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    {SUPPORT_CARDS[rollResult.support].supportType && (
+                      <span
+                        className="text-sm font-bold"
+                        style={{
+                          color: TYPE_COLORS[
+                            SUPPORT_CARDS[rollResult.support].supportType === 'Attack' ? 'Fire' :
+                            SUPPORT_CARDS[rollResult.support].supportType === 'Defense' ? 'Water' :
+                            SUPPORT_CARDS[rollResult.support].supportType === 'HP' ? 'Grass' :
+                            SUPPORT_CARDS[rollResult.support].supportType === 'Instinct' ? 'Psychic' : 'Electric'
+                          ]
+                        }}
+                      >
+                        Focus: {SUPPORT_CARDS[rollResult.support].supportType}
+                      </span>
+                    )}
+                    {(() => {
+                      const dominantType = getDominantMoveType(SUPPORT_CARDS[rollResult.support].moveHints, MOVES);
+                      if (!dominantType) return null;
+                      const typeColor = TYPE_COLORS[dominantType] || '#A8A878';
+                      return (
+                        <span
+                          className="px-2 py-0.5 rounded text-xs font-bold text-white"
+                          style={{ backgroundColor: typeColor }}
+                        >
+                          {dominantType} Moves
+                        </span>
+                      );
+                    })()}
+                  </div>
+
                   <p className="text-xs text-pocket-text-light italic mb-3">
                     {SUPPORT_CARDS[rollResult.support].description || SUPPORT_CARDS[rollResult.support].effect?.description}
                   </p>
@@ -559,22 +591,37 @@ const SupportGachaScreen = () => {
                       )}
                     </div>
 
-                    {/* Focus Type */}
-                    {support.supportType && (
-                      <p
-                        className="text-sm font-bold mb-3 text-center"
-                        style={{
-                          color: TYPE_COLORS[
-                            support.supportType === 'Attack' ? 'Fire' :
-                            support.supportType === 'Defense' ? 'Water' :
-                            support.supportType === 'HP' ? 'Grass' :
-                            support.supportType === 'Instinct' ? 'Psychic' : 'Electric'
-                          ]
-                        }}
-                      >
-                        Focus: {support.supportType}
-                      </p>
-                    )}
+                    {/* Focus Type & Move Type */}
+                    <div className="flex items-center justify-center gap-3 mb-3">
+                      {support.supportType && (
+                        <span
+                          className="text-sm font-bold"
+                          style={{
+                            color: TYPE_COLORS[
+                              support.supportType === 'Attack' ? 'Fire' :
+                              support.supportType === 'Defense' ? 'Water' :
+                              support.supportType === 'HP' ? 'Grass' :
+                              support.supportType === 'Instinct' ? 'Psychic' : 'Electric'
+                            ]
+                          }}
+                        >
+                          Focus: {support.supportType}
+                        </span>
+                      )}
+                      {(() => {
+                        const dominantType = getDominantMoveType(support.moveHints, MOVES);
+                        if (!dominantType) return null;
+                        const typeColor = TYPE_COLORS[dominantType] || '#A8A878';
+                        return (
+                          <span
+                            className="px-2 py-0.5 rounded text-xs font-bold text-white"
+                            style={{ backgroundColor: typeColor }}
+                          >
+                            {dominantType} Moves
+                          </span>
+                        );
+                      })()}
+                    </div>
 
                     {/* Description */}
                     <p className="text-xs text-pocket-text-light italic mb-4 text-center">
