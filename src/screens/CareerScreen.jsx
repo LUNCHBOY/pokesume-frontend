@@ -47,42 +47,20 @@ import { TypeIcon, TypeBadge, TYPE_COLORS } from '../components/TypeIcon';
 // HELPER FUNCTIONS
 // ============================================================================
 
-// Elite Four base multipliers - Adjusted for actual base stat totals
-// Lorelei (Cloyster): 560 base, Bruno (Machamp): 520 base, Agatha (Gengar): 595 base, Lance (Dragonite): 590 base
-// Target grades: A (1750), A+ (1925), S (2100), S+ (2275)
-const ELITE_FOUR_BASE_MULTIPLIERS = {
-  0: 3.125,  // Lorelei (turn 60) - 1750 stats (A grade)
-  1: 3.702,  // Bruno (turn 61) - 1925 stats (A+ grade)
-  2: 3.529,  // Agatha (turn 62) - 2100 stats (S grade)
-  3: 3.856   // Lance (turn 63) - 2275 stats (S+ grade, Champion)
-};
-
 /**
  * Calculate difficulty multiplier based on turn
- * Matches backend: 1.0x until turn 12, then quadratic curve to 3.25x effective at turn 60
- * Elite Four uses fixed multipliers from 3.25x to 3.75x (Lance cap)
- * ENEMY_STAT_MULTIPLIER (0.8) is applied
+ * Piecewise curve hitting exact targets:
+ * Turn 0: 1.0x, Gym 1 (turn 12): 1.2x, Gym 2 (turn 24): 1.8x, Gym 3 (turn 36): 2.4x, Gym 4 (turn 48): 3.0x
+ * Continues at same rate for Elite Four: Turn 60: 3.6x, Turn 63: 3.75x
  */
 const calculateDifficultyMultiplier = (turn) => {
-  const enemyStatMult = GAME_CONFIG.CAREER.ENEMY_STAT_MULTIPLIER || 1.0;
-  const eliteFourStartTurn = GAME_CONFIG.CAREER.ELITE_FOUR_START_TURN || 60;
-
-  // Elite Four uses fixed multipliers
-  if (turn >= eliteFourStartTurn) {
-    const eliteFourIndex = turn - eliteFourStartTurn;
-    if (eliteFourIndex >= 0 && eliteFourIndex < 4) {
-      const baseMult = ELITE_FOUR_BASE_MULTIPLIERS[eliteFourIndex] || 4.25;
-      return baseMult * enemyStatMult;
-    }
+  if (turn <= 12) {
+    // Slower ramp at start: 1.0 to 1.2 over 12 turns
+    return 1.0 + 0.2 * (turn / 12);
+  } else {
+    // After gym 1: constant rate of +0.6 per 12 turns (0.05 per turn)
+    return 1.2 + 0.05 * (turn - 12);
   }
-
-  // Exponential curve: 1.0 + 3.5 * (p^2.5)
-  // Starting from turn 0 with accelerating growth
-  // Naturally reaches 4.5x at turn 59, matching Lorelei's multiplier
-  const progress = turn / 59;
-  const baseMultiplier = 1.0 + 3.5 * Math.pow(progress, 2.5);
-
-  return baseMultiplier * enemyStatMult;
 };
 
 // Alias for backwards compatibility (exported for other modules)
@@ -1919,23 +1897,10 @@ const CareerScreen = () => {
                           const allNonStarterPokemons = Object.values(POKEMON).filter(c => !c.isStarter);
                           const eventPokemon = allNonStarterPokemons[Math.floor(Math.random() * allNonStarterPokemons.length)];
 
-                          // Use same scaling as backend wild pokemon battles
-                          // calculateDifficultyMultiplier formula from career.js
-                          const enemyStatMult = GAME_CONFIG.CAREER.ENEMY_STAT_MULTIPLIER || 0.8;
-                          const turn = careerData.turn;
-                          let baseMult;
-                          if (turn < 12) {
-                            baseMult = 1.0 * enemyStatMult;
-                          } else {
-                            const progress = (turn - 12) / 48;
-                            // More linear curve: stronger mid-game, same start/end
-                            baseMult = (1.0 + (0.36 * progress * progress) + (2.7 * progress)) * enemyStatMult;
-                          }
-                          // Wild pokemon are 25% stronger than gym leaders (wildMult = baseMult * 1.25)
-                          // Event difficulty (1.0-1.25x) represents scaling vs wild baseline
-                          // So event mult = baseMult * 1.25 * difficulty
-                          // But difficulty 1.0 should equal wild (1.25x), difficulty 1.25 should be ~1.56x
-                          // For events to be 1.0-1.25x OF wild: mult = wildMult * difficulty
+                          // Use same scaling as backend - calculateDifficultyMultiplier
+                          const baseMult = calculateDifficultyMultiplier(careerData.turn);
+                          // Wild pokemon are 25% stronger than gym leaders
+                          // Event difficulty (1.0-1.25x) scales on top of wild baseline
                           const wildMult = baseMult * 1.25;
                           const mult = wildMult * careerData.pendingEvent.difficulty;
 
