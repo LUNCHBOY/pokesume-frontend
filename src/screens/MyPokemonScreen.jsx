@@ -20,7 +20,7 @@ import {
   StatIcon
 } from '../utils/gameUtils';
 import { TypeBadge, TypeIcon, TYPE_COLORS } from '../components/TypeIcon';
-import { POKEMON, LEGENDARY_POKEMON } from '../shared/gameData';
+import { POKEMON, LEGENDARY_POKEMON, MOVES } from '../shared/gameData';
 import LimitBreakDiamonds from '../components/LimitBreakDiamonds';
 
 const containerVariants = {
@@ -475,6 +475,76 @@ const MyPokemonScreen = () => {
                                 >
                                   {grade}
                                 </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Learned Moves */}
+                    {pokemon.defaultAbilities && pokemon.defaultAbilities.length > 0 && (
+                      <div className="bg-green-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-green-700 text-sm mb-2">Learned Moves</h4>
+                        <div className="space-y-1.5">
+                          {pokemon.defaultAbilities.map((moveName) => {
+                            const move = MOVES[moveName];
+                            return (
+                              <div
+                                key={moveName}
+                                className="flex items-center justify-between px-2 py-1.5 rounded bg-white"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span className="font-semibold text-sm text-pocket-text">{moveName}</span>
+                                  {move && (
+                                    <span
+                                      className="px-1.5 py-0.5 rounded text-[10px] font-bold text-white"
+                                      style={{ backgroundColor: TYPE_COLORS[move.type] || '#888' }}
+                                    >
+                                      {move.type}
+                                    </span>
+                                  )}
+                                </div>
+                                {move && (
+                                  <span className="text-xs text-pocket-text-light">
+                                    {move.damage} dmg
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Learnable Moves */}
+                    {pokemon.learnableAbilities && pokemon.learnableAbilities.length > 0 && (
+                      <div className="bg-amber-50 rounded-xl p-3 mb-3">
+                        <h4 className="font-bold text-amber-700 text-sm mb-2">Learnable Moves</h4>
+                        <div className="space-y-1.5">
+                          {pokemon.learnableAbilities.map((moveName) => {
+                            const move = MOVES[moveName];
+                            return (
+                              <div
+                                key={moveName}
+                                className="flex items-center justify-between px-2 py-1.5 rounded bg-white"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span className="font-semibold text-sm text-pocket-text">{moveName}</span>
+                                  {move && (
+                                    <span
+                                      className="px-1.5 py-0.5 rounded text-[10px] font-bold text-white"
+                                      style={{ backgroundColor: TYPE_COLORS[move.type] || '#888' }}
+                                    >
+                                      {move.type}
+                                    </span>
+                                  )}
+                                </div>
+                                {move && (
+                                  <span className="text-xs text-pocket-text-light">
+                                    {move.damage} dmg
+                                  </span>
+                                )}
                               </div>
                             );
                           })}
