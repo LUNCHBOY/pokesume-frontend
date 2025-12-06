@@ -33,6 +33,7 @@ import {
   GAME_CONFIG,
   MOVES,
   POKEMON,
+  LEGENDARY_POKEMON,
   SUPPORT_CARDS,
   EVOLUTION_CHAINS,
   EVOLUTION_CONFIG,
@@ -1894,7 +1895,16 @@ const CareerScreen = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => {
-                          const allNonStarterPokemons = Object.values(POKEMON).filter(c => !c.isStarter);
+                          // Filter out starters and legendary Pokemon
+                          // Includes both LEGENDARY_POKEMON and the "Legendary Tier" section of POKEMON
+                          const legendaryNames = new Set([
+                            ...Object.values(LEGENDARY_POKEMON).map(p => p.name),
+                            // Legendary Tier Pokemon in main POKEMON dict
+                            'Ho-Oh', 'Latias', 'Latios', 'Jirachi', 'Deoxys', 'Uxie', 'Mesprit', 'Azelf',
+                            'Heatran', 'Regigigas', 'Cresselia', 'Darkrai', 'Shaymin', 'Arceus', 'Victini',
+                            'Cobalion', 'Terrakion', 'Virizion', 'Mew', 'Mewtwo'
+                          ]);
+                          const allNonStarterPokemons = Object.values(POKEMON).filter(c => !c.isStarter && !legendaryNames.has(c.name));
                           const eventPokemon = allNonStarterPokemons[Math.floor(Math.random() * allNonStarterPokemons.length)];
 
                           // Use same scaling as backend - calculateDifficultyMultiplier

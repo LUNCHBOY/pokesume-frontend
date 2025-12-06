@@ -670,21 +670,25 @@ const SupportSelectionScreen = () => {
                         />
                       )}
 
-                      {/* Stat type icon & Move type icon */}
-                      <div className="absolute top-1 left-1 flex items-center gap-0.5">
+                      {/* Stat type icon */}
+                      <div className="absolute top-1 left-1">
                         <div className="w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
                           <StatIcon stat={support.supportType} size={10} />
                         </div>
-                        {(() => {
-                          const dominantType = getDominantMoveType(support.moveHints, MOVES);
-                          if (!dominantType) return null;
-                          return (
+                      </div>
+
+                      {/* Move type icon - right side */}
+                      {(() => {
+                        const dominantType = getDominantMoveType(support.moveHints, MOVES);
+                        if (!dominantType) return null;
+                        return (
+                          <div className="absolute top-1 right-1">
                             <div className="w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
                               <TypeIcon type={dominantType} size={10} />
                             </div>
-                          );
-                        })()}
-                      </div>
+                          </div>
+                        );
+                      })()}
 
                       {/* Limit Break indicator */}
                       {limitBreakLevel > 0 && (

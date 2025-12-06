@@ -227,7 +227,7 @@ export const GAME_CONFIG = {
     GYM_ABILITY_COUNTS: [3, 4, 4, 5],
     ELITE_FOUR_ABILITY_COUNT: 6,
     // Global multiplier applied to all enemy Pokemon stats (wild, event, gym leaders, Elite Four)
-    ENEMY_STAT_MULTIPLIER: 1.0,
+    ENEMY_STAT_MULTIPLIER: 0.8,
     // Additional difficulty scaling that accelerates over the career (0% at start, this % at Elite Four)
     DIFFICULTY_SCALING_MAX: 0.15
   },
