@@ -3,9 +3,9 @@
  * All Pokemon definitions with stats, types, abilities, etc.
  */
 
-import {  calculateBaseStats  } from './config';
+import { calculateBaseStats } from './config';
 
-export const POKEMON = {
+const POKEMON = {
   // Starter Pokemon (5 total - players can start careers with these)
   Charmander: {
     name: 'Charmander',
@@ -2077,7 +2077,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'D', Water: 'B', Grass: 'A', Psychic: 'C', Electric: 'C', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['VineWhip', 'Tackle'],
-    learnableAbilities: ['RazorLeaf', 'IceBeam', 'BodySlam']
+    learnableAbilities: ['RazorLeaf', 'IceBeam']
   },
   Riolu: {
     name: 'Riolu',
@@ -2104,7 +2104,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'D', Water: 'C', Grass: 'A', Psychic: 'C', Electric: 'C', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'Tackle'],
-    learnableAbilities: ['PowerWhip', 'SolarBeam', 'BodySlam']
+    learnableAbilities: ['PowerWhip', 'SolarBeam']
   },
   Mantyke: {
     name: 'Mantyke',
@@ -2122,7 +2122,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'C', Water: 'C', Grass: 'C', Psychic: 'C', Electric: 'C', Fighting: 'A' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['LowKick', 'QuickAttack'],
-    learnableAbilities: ['BrickBreak', 'CloseCombat', 'BodySlam']
+    learnableAbilities: ['BrickBreak', 'CloseCombat']
   },
   Throh: {
     name: 'Throh',
@@ -2131,7 +2131,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'C', Water: 'C', Grass: 'C', Psychic: 'C', Electric: 'C', Fighting: 'A' },
     strategyAptitudes: { Scaler: 'A', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['LowKick', 'Tackle'],
-    learnableAbilities: ['BrickBreak', 'CloseCombat', 'BodySlam']
+    learnableAbilities: ['BrickBreak', 'CloseCombat']
   },
   Basculin: {
     name: 'Basculin',
@@ -2140,7 +2140,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'C', Water: 'A', Grass: 'D', Psychic: 'C', Electric: 'C', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['WaterGun', 'QuickAttack'],
-    learnableAbilities: ['Surf', 'HydroPump', 'BodySlam']
+    learnableAbilities: ['Surf', 'HydroPump']
   },
   Darumaka: {
     name: 'Darumaka',
@@ -2158,7 +2158,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'D', Water: 'C', Grass: 'A', Psychic: 'C', Electric: 'C', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'B', Debuffer: 'C', Chipper: 'A', MadLad: 'B' },
     defaultAbilities: ['VineWhip', 'Tackle'],
-    learnableAbilities: ['RazorLeaf', 'SolarBeam', 'BodySlam']
+    learnableAbilities: ['RazorLeaf', 'SolarBeam']
   },
   Druddigon: {
     name: 'Druddigon',
@@ -2167,7 +2167,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'A', Water: 'C', Grass: 'C', Psychic: 'C', Electric: 'C', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
-    learnableAbilities: ['Flamethrower', 'FireBlast', 'BodySlam']
+    learnableAbilities: ['Flamethrower', 'FireBlast']
   },
   Pawniard: {
     name: 'Pawniard',
@@ -2194,7 +2194,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'C', Water: 'C', Grass: 'C', Psychic: 'A', Electric: 'D', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'B', Nuker: 'D', Debuffer: 'B', Chipper: 'C', MadLad: 'C' },
     defaultAbilities: ['Tackle', 'QuickAttack'],
-    learnableAbilities: ['BodySlam', 'DarkPulse', 'AirSlash']
+    learnableAbilities: ['DarkPulse', 'AirSlash']
   },
   Heatmor: {
     name: 'Heatmor',
@@ -2203,7 +2203,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'A', Water: 'D', Grass: 'C', Psychic: 'C', Electric: 'C', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'C', Nuker: 'A', Debuffer: 'C', Chipper: 'B', MadLad: 'B' },
     defaultAbilities: ['Ember', 'Tackle'],
-    learnableAbilities: ['Flamethrower', 'FireBlast', 'BodySlam']
+    learnableAbilities: ['Flamethrower', 'FireBlast']
   },
   Durant: {
     name: 'Durant',
@@ -2221,7 +2221,7 @@ export const POKEMON = {
     typeAptitudes: { Fire: 'B', Water: 'C', Grass: 'C', Psychic: 'A', Electric: 'D', Fighting: 'C' },
     strategyAptitudes: { Scaler: 'D', Nuker: 'C', Debuffer: 'D', Chipper: 'B', MadLad: 'C' },
     defaultAbilities: ['Tackle', 'PsyBeam'],
-    learnableAbilities: ['BodySlam', 'DarkPulse', 'Psychic']
+    learnableAbilities: ['DarkPulse', 'Psychic']
   },
   Espurr: {
     name: 'Espurr',
@@ -2463,7 +2463,7 @@ export const POKEMON = {
   }
 };
 
-export const LEGENDARY_POKEMON = {
+const LEGENDARY_POKEMON = {
   Moltres: {
     name: 'Moltres',
     primaryType: 'Fire',
@@ -2619,3 +2619,7 @@ export const LEGENDARY_POKEMON = {
   }
 };
 
+export {
+  POKEMON,
+  LEGENDARY_POKEMON
+};
