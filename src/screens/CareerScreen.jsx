@@ -2544,8 +2544,11 @@ const CareerScreen = () => {
                     // Calculate fail chance based on CURRENT energy and stat type
                     const failChance = calculateFailChance(careerData.energy, stat);
 
-                    let statGain = GAME_CONFIG.TRAINING.BASE_STAT_GAINS[stat];
+                    const baseStatGain = GAME_CONFIG.TRAINING.BASE_STAT_GAINS[stat];
+                    let supportBonusGain = 0;
                     let energyRegenBonus = 0; // Bonus energy for Speed training from support cards
+                    let totalStatGainMultiplier = 1.0;
+
                     option.supports.forEach(supportName => {
                       // Get limit break level for this support
                       const lbLevel = careerData.supportLimitBreaks?.[supportName] || 0;
@@ -2558,21 +2561,28 @@ const CareerScreen = () => {
                       const supportType = support.type || support.supportType;
 
                       if (supportType === stat) {
-                        statGain += isMaxFriendship ? support.friendshipBonusTraining : support.typeBonusTraining;
+                        supportBonusGain += isMaxFriendship ? support.friendshipBonusTraining : support.typeBonusTraining;
                       } else {
-                        statGain += support.generalBonusTraining;
+                        supportBonusGain += support.generalBonusTraining;
                       }
 
                       // Collect energy regen bonus for Speed training (use LB-adjusted card)
                       if (stat === 'Speed' && support.specialEffect?.energyRegenBonus) {
                         energyRegenBonus += support.specialEffect.energyRegenBonus;
                       }
+
+                      // Collect stat gain multiplier from special effects
+                      if (support.specialEffect?.statGainMultiplier) {
+                        totalStatGainMultiplier += (support.specialEffect.statGainMultiplier - 1);
+                      }
                     });
 
-                    // Apply training level bonus
+                    // Apply training level bonus ONLY to base stat gain (matching backend)
                     const trainingLevel = careerData.trainingLevels?.[stat] || 0;
                     const levelBonus = trainingLevel * (GAME_CONFIG.TRAINING.LEVEL_BONUS_MULTIPLIER || 0.10);
-                    statGain = Math.floor(statGain * (1 + levelBonus));
+                    const leveledBaseGain = Math.floor(baseStatGain * (1 + levelBonus));
+                    // Apply stat gain multiplier to everything (leveled base + support bonuses)
+                    const statGain = Math.floor((leveledBaseGain + supportBonusGain) * totalStatGainMultiplier);
 
                     // Get training progress
                     const trainingProgress = careerData.trainingProgress?.[stat] || 0;
